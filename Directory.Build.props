@@ -1,0 +1,17 @@
+<Project>
+    <PropertyGroup>
+        <LangVersion>12</LangVersion>
+        <TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<NoWarn>CS1998,CS8509,CS8524,CA1860</NoWarn>
+        <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+        <RunWorkingDirectory>.</RunWorkingDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    </PropertyGroup>
+</Project>
