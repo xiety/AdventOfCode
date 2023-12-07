@@ -30,4 +30,8 @@ public class AllTests : BaseProblemTest
     [ProblemTest<long>(288, 1084752, 71503, 28228952)]
     public void Problem06(string filename, bool first, long value)
         => Test(2023, 6, new Problem06.Solver(), filename, first, value);
+
+    [ProblemTest<long>(6440, 249204891, 0, 0)]
+    public void Problem07(string filename, bool first, long value)
+        => Test(2023, 7, new Problem07.Solver(), filename, first, value);
 }
