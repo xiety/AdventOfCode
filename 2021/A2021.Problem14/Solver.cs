@@ -1,10 +1,10 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
+
+using Advent.Common;
 
 using Dic = System.Collections.Generic.Dictionary<char, long>;
 using MyFunc = System.Func<(char, char, int), System.Collections.Generic.Dictionary<char, long>>;
-
-using Advent.Common;
-using System.Text;
 
 namespace A2021.Problem14;
 
