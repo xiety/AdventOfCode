@@ -5,7 +5,10 @@ namespace System.Text.RegularExpressions;
 public static class RegexExtensions
 {
     public static List<T> FromFile<T>(this Regex regex, string filename)
-        => File.ReadAllLines(filename).Select(regex.MapTo<T>).ToList();
+        => regex.FromLines<T>(File.ReadAllLines(filename));
+
+    public static List<T> FromLines<T>(this Regex regex, IEnumerable<string> lines)
+        => lines.Select(regex.MapTo<T>).ToList();
 
     //TODO: source generator for constructor
     public static T MapTo<T>(this Match match, string debugText)
