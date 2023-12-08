@@ -81,7 +81,7 @@ public class Solver : IProblemSolver<long, string>
 
     private static bool[,] ParseMap(IEnumerable<string> lines)
     {
-        var items = lines.Select(CompiledRegs.ParseMap).ToList();
+        var items = CompiledRegs.MapRegex().FromLines<MapItem>(lines);
 
         var width = items.Max(a => a.X) + 1;
         var height = items.Max(a => a.Y) + 1;
@@ -94,7 +94,7 @@ public class Solver : IProblemSolver<long, string>
     }
 
     private static FoldItem[] ParseFolds(IEnumerable<string> lines)
-        => lines.Select(CompiledRegs.ParseFold).ToArray();
+        => CompiledRegs.FoldRegex().FromLines<FoldItem>(lines).ToArray();
 }
 
 public record MapItem(int X, int Y);
@@ -103,14 +103,8 @@ public record FoldItem(string Axis, int Num);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(MapItem.X)}>\d+),(?<{nameof(MapItem.Y)}>\d+)$")]
-    private static partial Regex MapRegEx();
-
-    public static MapItem ParseMap(string text)
-        => MapRegEx().MapTo<MapItem>(text);
+    public static partial Regex MapRegex();
 
     [GeneratedRegex(@$"^fold along (?<{nameof(FoldItem.Axis)}>\w)=(?<{nameof(FoldItem.Num)}>\d+)")]
-    private static partial Regex FoldRegEx();
-
-    public static FoldItem ParseFold(string text)
-        => FoldRegEx().MapTo<FoldItem>(text);
+    public static partial Regex FoldRegex();
 }

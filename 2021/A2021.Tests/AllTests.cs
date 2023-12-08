@@ -58,6 +58,10 @@ public class AllTests : BaseProblemTest
     [ProblemTest<long, string>(17, 693, Data.Result13A, Data.Result13B)]
     public void Problem13(string filename, bool first, long valueA, string valueB)
         => Test(2021, 13, new Problem13.Solver(), filename, first, valueA, valueB);
+
+    [ProblemTest<long>(1588, 3118, 2188189693529, 4332887448171)]
+    public void Problem14(string filename, bool first, long value)
+        => Test(2021, 14, new Problem14.Solver(), filename, first, value);
 }
 
 public class Data
