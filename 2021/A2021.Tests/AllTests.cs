@@ -1,0 +1,83 @@
+using Advent.Common;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace A2021.Tests;
+
+[TestClass]
+public class AllTests : BaseProblemTest
+{
+    [ProblemTest<int>(7, 1298, 5, 1248)]
+    public void Problem01(string filename, bool first, int value)
+        => Test(2021, 1, new Problem01.Solver(), filename, first, value);
+
+    [ProblemTest<int>(150, 2322630, 900, 2105273490)]
+    public void Problem02(string filename, bool first, int value)
+        => Test(2021, 2, new Problem02.Solver(), filename, first, value);
+
+    [ProblemTest<int>(198, 3374136, 230, 4432698)]
+    public void Problem03(string filename, bool first, int value)
+        => Test(2021, 3, new Problem03.Solver(), filename, first, value);
+
+    [ProblemTest<int>(4512, 49860, 1924, 24628)]
+    public void Problem04(string filename, bool first, int value)
+        => Test(2021, 4, new Problem04.Solver(), filename, first, value);
+
+    [ProblemTest<int>(5, 6856, 12, 20666)]
+    public void Problem05(string filename, bool first, int value)
+        => Test(2021, 5, new Problem05.Solver(), filename, first, value);
+
+    [ProblemTest<long>(5934, 391888, 26984457539, 1754597645339)]
+    public void Problem06(string filename, bool first, long value)
+        => Test(2021, 6, new Problem06.Solver(), filename, first, value);
+
+    [ProblemTest<long>(37, 340052, 168, 92948968)]
+    public void Problem07(string filename, bool first, long value)
+        => Test(2021, 7, new Problem07.Solver(), filename, first, value);
+
+    [ProblemTest<long>(26, 237, 61229, 1009098)]
+    public void Problem08(string filename, bool first, long value)
+        => Test(2021, 8, new Problem08.Solver(), filename, first, value);
+
+    [ProblemTest<long>(15, 577, 1134, 1069200)]
+    public void Problem09(string filename, bool first, long value)
+        => Test(2021, 9, new Problem09.Solver(), filename, first, value);
+
+    [ProblemTest<long>(26397, 278475, 288957, 3015539998)]
+    public void Problem10(string filename, bool first, long value)
+        => Test(2021, 10, new Problem10.Solver(), filename, first, value);
+
+    [ProblemTest<long>(1656, 1613, 195, 510)]
+    public void Problem11(string filename, bool first, long value)
+        => Test(2021, 11, new Problem11.Solver(), filename, first, value);
+
+    [ProblemTest<long>(226, 5228, 3509, 131228)]
+    public void Problem12(string filename, bool first, long value)
+        => Test(2021, 12, new Problem12.Solver(), filename, first, value);
+
+    [ProblemTest<long, string>(17, 693, Data.Result13A, Data.Result13B)]
+    public void Problem13(string filename, bool first, long valueA, string valueB)
+        => Test(2021, 13, new Problem13.Solver(), filename, first, valueA, valueB);
+}
+
+public class Data
+{
+    public const string Result13A = """
+        #####
+        #   #
+        #   #
+        #   #
+        #####
+             
+             
+        """;
+
+    public const string Result13B = """
+        #  #  ##  #    #### ###   ##  #### #  # 
+        #  # #  # #       # #  # #  #    # #  # 
+        #  # #    #      #  #  # #  #   #  #  # 
+        #  # #    #     #   ###  ####  #   #  # 
+        #  # #  # #    #    # #  #  # #    #  # 
+         ##   ##  #### #### #  # #  # ####  ##  
+        """;
+}
