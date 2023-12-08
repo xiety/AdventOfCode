@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Advent.BaseTests\Advent.BaseTests.csproj" />
+    <ProjectReference Include="..\A2021.Problem01\A2021.Problem01.csproj" />
+    <ProjectReference Include="..\A2021.Problem02\A2021.Problem02.csproj" />
+    <ProjectReference Include="..\A2021.Problem03\A2021.Problem03.csproj" />
+    <ProjectReference Include="..\A2021.Problem04\A2021.Problem04.csproj" />
+    <ProjectReference Include="..\A2021.Problem05\A2021.Problem05.csproj" />
+    <ProjectReference Include="..\A2021.Problem06\A2021.Problem06.csproj" />
+    <ProjectReference Include="..\A2021.Problem07\A2021.Problem07.csproj" />
+    <ProjectReference Include="..\A2021.Problem08\A2021.Problem08.csproj" />
+    <ProjectReference Include="..\A2021.Problem09\A2021.Problem09.csproj" />
+    <ProjectReference Include="..\A2021.Problem10\A2021.Problem10.csproj" />
+    <ProjectReference Include="..\A2021.Problem11\A2021.Problem11.csproj" />
+    <ProjectReference Include="..\A2021.Problem12\A2021.Problem12.csproj" />
+    <ProjectReference Include="..\A2021.Problem13\A2021.Problem13.csproj" />
+  </ItemGroup>
+
+</Project>
