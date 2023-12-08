@@ -217,4 +217,8 @@ public static class EnumerableExtensions
     public static T Mul<T>(this IEnumerable<T> @this)
         where T : INumber<T>
         => @this.Aggregate(T.One, (agg, t) => agg * t);
+
+    public static long MulLong<T>(this IEnumerable<T> @this)
+        where T : INumber<T>
+        => @this.Aggregate(long.CreateChecked(T.One), (agg, t) => agg * long.CreateChecked(t));
 }
