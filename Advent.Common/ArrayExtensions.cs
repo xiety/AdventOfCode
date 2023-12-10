@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using System.Text;
+﻿using System.Text;
 
 namespace System;
 
@@ -174,4 +173,24 @@ public static class ArrayExtensions
 
     public static int GetHeight<T>(this T[,] array)
         => array.GetLength(1);
+
+    public static IEnumerable<Pos> Range<T>(this T[,] array, Pos center)
+        => EnumerableExtensions
+              .Range2d(3, 3)
+              .Select(a => center + a + new Pos(-1, -1))
+              .Where(a => array.IsInBounds(a));
+
+    private static readonly Pos[] offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
+
+    public static IEnumerable<Pos> Offsets<T>(this T[,] array, Pos center)
+        => offsets
+              .Select(a => center + a)
+              .Where(a => array.IsInBounds(a));
+
+    public static void ForEach<T>(this T[,] array, Action<Pos> action)
+    {
+        for (var y = 0; y < array.GetLength(1); ++y)
+            for (var x = 0; x < array.GetLength(0); ++x)
+                action(new(x, y));
+    }
 }

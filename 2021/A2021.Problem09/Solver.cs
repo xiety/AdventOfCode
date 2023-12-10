@@ -4,8 +4,6 @@ namespace A2021.Problem09;
 
 public class Solver : IProblemSolver<long>
 {
-    private static readonly Pos[] offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
-
     public long RunA(string filename)
     {
         var data = MapData.ParseMap(File.ReadAllLines(filename));
@@ -36,9 +34,8 @@ public class Solver : IProblemSolver<long>
 
     private List<(Pos pos, int item)> LowestPoints(int[,] data)
         => data.Enumerate()
-               .Where(tuple => !offsets
-                   .Select(offset => tuple.pos + offset)
-                   .Where(data.IsInBounds)
+               .Where(tuple => !data
+                   .Offsets(tuple.pos)
                    .Any(a => data.Get(a) <= tuple.item))
                .ToList();
 
@@ -50,9 +47,8 @@ public class Solver : IProblemSolver<long>
         do
         {
             nextPositions = nextPositions
-                .SelectMany(nextPosition => offsets
-                    .Select(offset => nextPosition + offset)
-                    .Where(data.IsInBounds)
+                .SelectMany(nextPosition => data
+                    .Offsets(nextPosition)
                     .Where(pos => data.Get(pos) < 9)
                     .Where(pos => !list.Contains(pos)))
                 .ToList();
