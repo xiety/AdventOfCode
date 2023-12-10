@@ -174,7 +174,7 @@ public static class ArrayExtensions
     public static int GetHeight<T>(this T[,] array)
         => array.GetLength(1);
 
-    public static IEnumerable<Pos> Range<T>(this T[,] array, Pos center)
+    public static IEnumerable<Pos> EnumerateNearest<T>(this T[,] array, Pos center)
         => EnumerableExtensions
               .Range2d(3, 3)
               .Select(a => center + a + new Pos(-1, -1))

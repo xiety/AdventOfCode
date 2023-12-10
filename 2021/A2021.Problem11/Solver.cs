@@ -43,7 +43,7 @@ public class Solver : IProblemSolver<long>
 
                 foreach (var highlighted in copy)
                 {
-                    foreach (var offset in data.Range(highlighted))
+                    foreach (var offset in data.EnumerateNearest(highlighted))
                     {
                         ref var r = ref data.GetRef(offset);
 

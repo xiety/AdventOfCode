@@ -12,27 +12,121 @@ public class Solver : IProblemSolver<long>
 
         var foundPath = FoundPath(map);
 
-        map.ForEach(pos =>
-        {
-            if (!foundPath.Contains(pos))
-                map.Set(pos, ' ');
-        });
-
-        var text = map.ToString(Environment.NewLine, "", a => a.ToString());
-
         return foundPath.Length % 2 == 0 ? foundPath.Length / 2 : foundPath.Length / 2 + 1;
     }
 
-    private Pos[] FoundPath(char[,] map)
+    public long RunB(string filename)
+    {
+        var map = MapData.ParseMap(File.ReadAllLines(filename), c => c);
+
+        var foundPath = FoundPath(map);
+
+        var newmap = ArrayEx.CreateAndInitialize(map.GetWidth(), map.GetHeight(), ' ');
+
+        foreach (var step in foundPath)
+            newmap.Set(step.pos, step.value);
+
+        var enlarged = Enlarged(newmap);
+
+        Flood(enlarged, new(0, 0));
+
+        var square = Calc(enlarged);
+
+        return square;
+    }
+
+    private static long Calc(bool[,] enlarged)
+    {
+        var square = 0;
+
+        for (var x = 2; x < enlarged.GetWidth() - 1; x += 3)
+            for (var y = 2; y < enlarged.GetHeight() - 1; y += 3)
+                if (!enlarged.Get(new Pos(x, y)))
+                    square++;
+
+        return square;
+    }
+
+    private static void Flood(bool[,] enlarged, Pos pos)
+    {
+        var floodPoints = new List<Pos>() { pos };
+
+        do
+        {
+            var copy = floodPoints.ToArray();
+            floodPoints.Clear();
+
+            foreach (var p in copy)
+            {
+                foreach (var p2 in enlarged.EnumerateNearest(p))
+                {
+                    if (!enlarged.Get(p2))
+                    {
+                        enlarged.Set(p2, true);
+                        floodPoints.Add(p2);
+                    }
+                }
+            }
+
+            if (floodPoints.Count == 0)
+                break;
+        }
+        while (true);
+    }
+
+    private bool[,] Enlarged(char[,] map)
+    {
+        var large = new bool[map.GetWidth() * 3 + 2, map.GetHeight() * 3 + 2];
+
+        map.ForEach(pos =>
+        {
+            var c = map.Get(pos);
+            var pattern = patterns[c];
+
+            for (var x = 0; x < 3; ++x)
+                for (var y = 0; y < 3; ++y)
+                    if (pattern[y][x] == '#')
+                        large[x + pos.X * 3 + 1, y + pos.Y * 3 + 1] = true;
+        });
+
+        return large;
+    }
+
+    Dictionary<char, string[]> patterns = new()
+    {
+        ['F'] = ["...",
+                 ".##",
+                 ".#."],
+        ['L'] = [".#.",
+                 ".##",
+                 "..."],
+        ['7'] = ["...",
+                 "##.",
+                 ".#."],
+        ['J'] = [".#.",
+                 "##.",
+                 "..."],
+        ['|'] = [".#.",
+                 ".#.",
+                 ".#."],
+        ['-'] = ["...",
+                 "###",
+                 "..."],
+        [' '] = ["...",
+                 "...",
+                 "..."],
+    };
+
+    private (Pos pos, char value)[] FoundPath(char[,] map)
     {
         var startPos = map.EnumeratePositionsOf('S').First();
         var currentChar = map.Get(startPos);
         var nextChar = 'S';
-        var foundPath = Array.Empty<Pos>();
+        var foundPath = Array.Empty<(Pos, char)>();
 
         foreach (var startDir in Enum.GetValues<Dirs>())
         {
-            var path = new List<Pos>();
+            var path = new List<(Pos, char)>();
             var length = 0;
 
             var foundWhole = false;
@@ -50,7 +144,7 @@ public class Solver : IProblemSolver<long>
             if (!IsConnected(startDir, 'S', currentChar))
                 continue;
 
-            path.Add(currentPos);
+            path.Add((currentPos, currentChar));
 
             do
             {
@@ -75,6 +169,13 @@ public class Solver : IProblemSolver<long>
 
                     if (IsConnected(dir, currentChar, nextChar))
                     {
+                        if (nextChar == 'S')
+                        {
+                            Dirs[] check = [startDir, Anti(dir)];
+                            nextChar = info.First(a => a.Value.All(b => check.Contains(b))).Key;
+                            foundWhole = true;
+                        }
+
                         prevDir = dir;
                         currentChar = nextChar;
                         currentPos = nextPos;
@@ -86,15 +187,12 @@ public class Solver : IProblemSolver<long>
                 if (!found)
                     break;
 
-                path.Add(currentPos);
+                path.Add((currentPos, currentChar));
 
                 length++;
 
-                if (nextChar == 'S')
-                {
-                    foundWhole = true;
+                if (foundWhole)
                     break;
-                }
             }
             while (true);
 
@@ -108,7 +206,7 @@ public class Solver : IProblemSolver<long>
         return foundPath;
     }
 
-    private Dirs Anti(Dirs dir)
+    private static Dirs Anti(Dirs dir)
         => dir switch
         {
             Dirs.Top => Dirs.Bottom,
