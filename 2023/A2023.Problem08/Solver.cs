@@ -36,7 +36,7 @@ public class Solver : IProblemSolver<long>
             var step = 0;
             var current_node = start;
             var list = new List<int>();
-            var already = new List<(Node, int)>();
+            var already = new HashSet<(Node, int)>();
 
             do
             {
