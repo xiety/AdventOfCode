@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Calc(filename, (data, step) => data.Enumerate().All(a => a.item == 0)).Item1;
 
-    public (long, long) Calc(string filename, Func<int[,], long, bool> exit)
+    public static (long, long) Calc(string filename, Func<int[,], long, bool> exit)
     {
         var data = MapData.ParseMap(File.ReadAllLines(filename));
 
@@ -43,10 +43,7 @@ public class Solver : IProblemSolver<long>
 
                 foreach (var highlighted in copy)
                 {
-                    foreach (var offset in EnumerableExtensions
-                        .Range2d(3, 3)
-                        .Select(a => highlighted + a + new Pos(-1, -1))
-                        .Where(data.IsInBounds))
+                    foreach (var offset in data.Range(highlighted))
                     {
                         ref var r = ref data.GetRef(offset);
 
