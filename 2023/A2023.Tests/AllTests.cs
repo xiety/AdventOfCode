@@ -43,7 +43,7 @@ public class AllTests : BaseProblemTest
     public void Problem09(string filename, bool first, long value)
         => Test(2023, 9, new Problem09.Solver(), filename, first, value);
 
-    [ProblemTest<long>(8, 7005, 0, 0)]
+    [ProblemTest<long>(8, 7005, 10, 417)]
     public void Problem10(string filename, bool first, long value)
         => Test(2023, 10, new Problem10.Solver(), filename, first, value);
 }

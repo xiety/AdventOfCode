@@ -35,7 +35,7 @@ public abstract class BaseProblemTest
 
     private static string GetPath(int year, int number, string filename, bool first)
     {
-        var folder = @$"..\..\..\..\A{year:0000}.Problem{number:00}\Data\";
+        var folder = GetFolder(year, number);
 
         var fullpath = Path.Combine(folder, filename);
 
@@ -47,6 +47,9 @@ public abstract class BaseProblemTest
 
         return fullpath;
     }
+
+    protected static string GetFolder(int year, int number)
+        => @$"..\..\..\..\A{year:0000}.Problem{number:00}\Data\";
 
     public static string? TrimText(string? text)
         => text
