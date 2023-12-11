@@ -1,6 +1,4 @@
-﻿using System.Xml;
-
-using Advent.Common;
+﻿using Advent.Common;
 
 namespace A2023.Problem10;
 
