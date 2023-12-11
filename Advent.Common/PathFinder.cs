@@ -2,8 +2,6 @@
 
 public class PathFinder
 {
-    private static readonly Pos[] deltas = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
-
     public static Pos[]? Find(int[,] map, Pos start, Pos end)
     {
         var star = CalculateStar(map, start, end);
@@ -23,9 +21,8 @@ public class PathFinder
 
         do
         {
-            currentStep = deltas
-                .Select(a => currentStep - a)
-                .Where(map.IsInBounds)
+            currentStep = map
+                .Offsets(currentStep)
                 .Select(a => new { NewStep = a, Value = star.Get(a) })
                 .Where(a => a.Value != -1)
                 .OrderBy(a => a.Value)
@@ -61,19 +58,25 @@ public class PathFinder
             {
                 var currentDistance = star.Get(currentStep);
 
-                foreach (var newStep in deltas.Select(a => a + currentStep).Where(map.IsInBounds))
+                foreach (var newStep in map.Offsets(currentStep))
                 {
                     var oldStar = star.Get(newStep);
-                    var newStar = currentDistance + map.Get(newStep);
 
-                    if (oldStar == -1 || oldStar > newStar)
+                    var c = map.Get(newStep);
+
+                    if (c != -1)
                     {
-                        star.Set(newStep, newStar);
+                        var newStar = currentDistance + c;
 
-                        if (newStep == end)
-                            return star;
+                        if (oldStar == -1 || oldStar > newStar)
+                        {
+                            star.Set(newStep, newStar);
 
-                        newSteps.Add(newStep);
+                            if (newStep == end)
+                                return star;
+
+                            newSteps.Add(newStep);
+                        }
                     }
                 }
             }
