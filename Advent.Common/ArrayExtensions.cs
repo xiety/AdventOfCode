@@ -61,6 +61,9 @@ public static class ArrayExtensions
         Console.WriteLine();
     }
 
+    public static string ToString<T>(this T[,] array, Func<T, string> format)
+        => array.ToString(Environment.NewLine, "", format);
+
     public static string ToString<T>(this T[,] array, string lineSeparator, string itemSeparator, Func<T, string> format)
     {
         var sb = new StringBuilder();
