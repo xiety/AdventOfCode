@@ -7,91 +7,185 @@ public class Solver : IProblemSolver<long>
     public long RunA(string filename)
     {
         var lines = File.ReadAllLines(filename);
-        return lines.Select(Process).Sum();
+        return lines.AsParallel().Select(RunALine).Sum();
     }
 
-    private long Process(string line)
+    public long RunB(string filename)
+    {
+        var lines = File.ReadAllLines(filename);
+        return lines.AsParallel().Select(RunBLine).Sum();
+    }
+
+    private static long RunALine(string line)
     {
         var n = line.IndexOf(' ');
         var pattern = line[..n].Select(a => a switch { '.' => 0, '#' => 1, '?' => 2 }).ToArray();
         var combos = line[(n + 1)..].Split(',').Select(int.Parse).ToArray();
 
-        return BruteForce(pattern, combos);
+        var calculator = new Calculator();
+        var result = calculator.BruteForce(pattern, combos);
+
+        return result;
     }
 
-    private int BruteForce(int[] pattern, int[] combos)
+    public long RunBLine(string line)
     {
-        Console.WriteLine($"Start {String.Join("", pattern)} {(String.Join(", ", combos))}");
+        var n = line.IndexOf(' ');
+        var pattern = line[..n].Select(a => a switch { '.' => 0, '#' => 1, '?' => 2 }).ToArray();
+        var combos = line[(n + 1)..].Split(',').Select(int.Parse).ToArray();
 
-        var questions = pattern.Count(a => a == 2);
+        pattern = Enumerable.Range(0, 4).Aggregate(pattern.AsEnumerable(), (p, _) => [.. p, 2, .. pattern]).ToArray();
+        combos = Enumerable.Range(0, 4).Aggregate(combos.AsEnumerable(), (p, _) => [.. p, .. combos]).ToArray();
+
+        var calculator = new Calculator();
+        var result = calculator.BruteForce(pattern, combos);
+
+        return result;
+    }
+
+    private Dictionary<string, long> LoadCache()
+    {
+        if (!File.Exists(@"d:\results3.txt"))
+            return [];
+
+        var lines = File.ReadAllLines(@"d:\results3.txt");
+
+        return lines.Select(line =>
+        {
+            var splits = line.Split(';');
+            return (splits[1], long.Parse(splits[2]));
+        })
+        .ToDictionary(a => a.Item1, a => a.Item2);
+    }
+}
+
+public class Calculator
+{
+    public long BruteForce(int[] pattern, int[] combos)
+    {
+        var questions = pattern.FindAllIndexes(2).ToArray();
         var requiredOne = combos.Sum();
         var requiredZero = pattern.Length - requiredOne;
         var quantityOne = pattern.Count(a => a == 1);
         var quantityZero = pattern.Count(a => a == 0);
 
-        var result =  Recurse(0, questions, requiredOne, requiredZero, quantityOne, quantityZero, pattern, combos);
-
-        //Console.WriteLine($"  result: {result}");
-        //Console.WriteLine();
+        var result = Recurse(
+            0, questions.Length, questions, [requiredZero, requiredOne], [quantityZero, quantityOne], pattern, combos, 0, 0, 2);
 
         return result;
     }
 
-    private int Recurse(
-        int depth, int questions, int requiredOne, int requiredZero, int quantityOne, int quantityZero, int[] pattern, int[] combos)
+    private readonly Dictionary<string, long> history = [];
+
+    private long Recurse(
+        int depth, int questionsLength, int[] questions, int[] required, int[] quantity, int[] pattern, int[] combos, int fromCombos, int fromIndex, int parentPredict)
     {
-        //Console.WriteLine($"{depth} {String.Join("", pattern)}");
-
-        var first = Array.IndexOf(pattern, 2);
-
-        if (first >= 0)
+        if (depth < questionsLength)
         {
-            var ret = 0;
+            var key = String.Join("", pattern[fromIndex..]) + $";{fromCombos}";
 
-            if (quantityOne < requiredOne)
+            if (history.TryGetValue(key, out var result))
             {
-                pattern[first] = 1;
-
-                if (Check(pattern, combos))
-                    ret += Recurse(depth + 1, questions, requiredOne, requiredZero, quantityOne + 1, quantityZero, pattern, combos);
+                return result;
             }
-
-            if (quantityZero < requiredZero)
+            else
             {
-                pattern[first] = 0;
+                var index = questions[depth];
 
-                if (Check(pattern, combos))
-                    ret += Recurse(depth + 1, questions, requiredOne, requiredZero, quantityOne, quantityZero + 1, pattern, combos);
+                var ret = 0L;
+
+                for (var g = 0; g <= 1; ++g)
+                {
+                    if (parentPredict != 2 && parentPredict != g)
+                        continue;
+
+                    if (quantity[g] < required[g])
+                    {
+                        pattern[index] = g;
+                        quantity[g]++;
+
+                        var (good, skipCombo, skipIndex, predict) = Check(pattern, combos, fromCombos, fromIndex,
+                                depth + 1 < questionsLength ? depth + 1 : -1);
+
+                        if (good)
+                        {
+                            ret += Recurse(
+                                depth + 1, questionsLength, questions, required, quantity, pattern, combos, skipCombo, skipIndex, predict);
+                        }
+
+                        quantity[g]--;
+                    }
+                }
+
+                pattern[index] = 2;
+
+                history[key] = ret;
+
+                return ret;
             }
-
-            pattern[first] = 2;
-
-            return ret;
         }
         else
         {
-            //Console.WriteLine("  +1");
             return 1;
         }
     }
 
-    private bool Check(int[] pattern, int[] combos)
+    public (bool, int, int, int) Check(int[] pattern, int[] combos, int fromCombos, int fromIndex, int nextQuestion)
     {
-        var parts = new List<int>();
         var start = -1;
+        var partsCombos = fromCombos;
+        var requiredCombos = fromCombos;
+        var lastIndex = fromIndex;
+        var hit = false;
 
-        for (var i = 0; i < pattern.Length + 1; ++i)
+        for (var i = fromIndex; i < pattern.Length + 1; ++i)
         {
             if (i == pattern.Length || pattern[i] is 0 or 2)
             {
+                var lastByUnknown = i < pattern.Length && pattern[i] is 2;
+                var lastByLength = i == pattern.Length;
+
                 if (start is not -1)
                 {
-                    parts.Add(i - start);
+                    var a = i - start;
+
+                    var b = combos[requiredCombos];
+
+                    if (lastByUnknown && a == b)
+                        return (true, partsCombos, lastIndex, 0);
+
+                    if (lastByUnknown && a < b)
+                        return (true, partsCombos, lastIndex, 1);
+
+                    if (lastByLength && a != b)
+                        return (false, 0, 0, 0);
+
+                    if (a != b)
+                        return (false, 0, 0, 0);
+
+                    lastIndex = i + 1;
+
+                    partsCombos++;
+
+                    if (lastByLength && a == b)
+                        return (true, partsCombos, i, 0);
+
+                    if (combos.Length < partsCombos)
+                        return (false, 0, 0, 0);
+
+                    requiredCombos++;
+
+                    hit = true;
                     start = -1;
                 }
+                else
+                {
+                    if (hit)
+                        lastIndex = i;
 
-                if (i < pattern.Length && pattern[i] is 2)
-                    break;
+                    if (lastByLength || lastByUnknown)
+                        return (true, partsCombos, lastIndex, 2);
+                }
             }
             else if (pattern[i] is 1)
             {
@@ -100,61 +194,6 @@ public class Solver : IProblemSolver<long>
             }
         }
 
-        //var result = parts.Zip(combos).All(a => a.First <= a.Second);
-
-        var result = true;
-
-        for (var i = 0; i < Math.Max(parts.Count, combos.Length); ++i)
-        {
-            var a = i < parts.Count ? parts[i] : 0;
-            var b = i < combos.Length ? combos[i] : 0;
-
-            if (a > b)
-            {
-                result = false;
-                break;
-            }
-        }
-
-        return result;
-    }
-
-    private int[] ExpectedPattern(int[] combos, int[] pattern)
-    {
-        var expectedPattern = new int[pattern.Length];
-        var fromX = 0;
-
-        var list = new List<int[]>();
-
-        for (var i = 0; i < combos.Length; ++i)
-        {
-            var line = new int[pattern.Length];
-
-            var toX = pattern.Length - combos[(i + 1)..].Sum(a => a + 1) - 1;
-
-            for (var x = 0; x < pattern.Length; ++x)
-            {
-                if (pattern[x] == 2 && x >= fromX && x <= toX)
-                    line[x] = 1;
-                else
-                    line[x] = pattern[x];
-            }
-
-            fromX += combos[i] + 1;
-
-            list.Add(line);
-        }
-
-        var output = new int[pattern.Length];
-
-        for (var i = 0; i < pattern.Length; ++i)
-        {
-            if (list.All(a => a[i] == 1))
-                output[i] = 1;
-            else if (list.Any(a => a[i] == 1))
-                output[i] = 2;
-        }
-
-        return output;
+        throw new Exception($"{String.Join("", pattern)}, [{String.Join(", ", combos)}], {fromCombos}, {fromIndex}, {nextQuestion}");
     }
 }
