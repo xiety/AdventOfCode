@@ -7,16 +7,55 @@ public class Solver : IProblemSolver<long>
     public long RunA(string filename)
     {
         var map = MapData.ParseMap(File.ReadAllLines(filename), c => c);
+        return Calculate(map, new(-1, 0), new(1, 0));
+    }
+
+    public long RunB(string filename)
+    {
+        var map = MapData.ParseMap(File.ReadAllLines(filename), c => c);
+
+        var max = -1;
+        var value = 0;
+
+        for (var x = 0; x < map.GetWidth(); ++x)
+        {
+            value = Calculate(map, new(x, -1), new(0, 1));
+
+            if (value > max)
+                max = value;
+
+            value = Calculate(map, new(x, map.GetHeight()), new(0, -1));
+
+            if (value > max)
+                max = value;
+        }
+
+        for (var y = 0; y < map.GetHeight(); ++y)
+        {
+            value = Calculate(map, new(-1, y), new(1, 0));
+
+            if (value > max)
+                max = value;
+
+            value = Calculate(map, new(map.GetWidth(), y), new(-1, 0));
+
+            if (value > max)
+                max = value;
+        }
+
+        return max;
+    }
+
+    private int Calculate(char[,] map, Pos startingPos, Pos startingDir)
+    {
         var energy = new int[map.GetWidth(), map.GetHeight()];
-
-        Go(map, energy);
-
+        Go(map, energy, startingPos, startingDir);
         return energy.Enumerate().Count(pair => pair.item > 0);
     }
 
-    private void Go(char[,] map, int[,] energy)
+    private void Go(char[,] map, int[,] energy, Pos startingPos, Pos startingDir)
     {
-        var rays = new List<MutableRay>() { new(new(-1, 0), new(1, 0), []) };
+        var rays = new List<MutableRay>() { new(startingPos, startingDir, []) };
 
         var step = 0;
 
@@ -89,15 +128,15 @@ public class Solver : IProblemSolver<long>
     }
 }
 
-public record class MutableRay
+public class MutableRay
 {
     public Pos Pos { get; set; }
     public Pos Dir { get; set; }
 
     public bool Stopped { get; set; }
 
-    public List<(Pos, Pos)> Path { get; }
+    public HashSet<(Pos, Pos)> Path { get; }
 
-    public MutableRay(Pos pos, Pos dir, List<(Pos, Pos)> path)
+    public MutableRay(Pos pos, Pos dir, HashSet<(Pos, Pos)> path)
         => (Pos, Dir, Path) = (pos, dir, path);
 }
