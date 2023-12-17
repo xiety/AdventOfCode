@@ -42,21 +42,6 @@ public class Solver : IProblemSolver<long>
 
         return result;
     }
-
-    private Dictionary<string, long> LoadCache()
-    {
-        if (!File.Exists(@"d:\results3.txt"))
-            return [];
-
-        var lines = File.ReadAllLines(@"d:\results3.txt");
-
-        return lines.Select(line =>
-        {
-            var splits = line.Split(';');
-            return (splits[1], long.Parse(splits[2]));
-        })
-        .ToDictionary(a => a.Item1, a => a.Item2);
-    }
 }
 
 public class Calculator
