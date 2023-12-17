@@ -221,4 +221,17 @@ public static class EnumerableExtensions
     public static long MulLong<T>(this IEnumerable<T> @this)
         where T : INumber<T>
         => @this.Aggregate(long.CreateChecked(T.One), (agg, t) => agg * long.CreateChecked(t));
+
+    public static IEnumerable<T> Dump<T>(this IEnumerable<T> items)
+    {
+        Console.WriteLine("Begin");
+
+        foreach (var item in items)
+        {
+            Console.WriteLine(item);
+            yield return item;
+        }
+
+        Console.WriteLine();
+    }
 }

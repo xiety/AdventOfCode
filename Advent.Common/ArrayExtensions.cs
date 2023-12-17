@@ -17,6 +17,17 @@ public static class ArrayEx
         return array;
     }
 
+    public static T[,] CreateAndInitialize<T>(int width, int height, Func<int, int, T> func)
+    {
+        var array = new T[width, height];
+
+        for (var y = 0; y < height; ++y)
+            for (var x = 0; x < width; ++x)
+                array[x, y] = func(x, y);
+
+        return array;
+    }
+
     public static T[,,] CreateAndInitialize<T>(int d1, int d2, int d3, T value)
     {
         var array = new T[d1, d2, d3];
@@ -183,10 +194,10 @@ public static class ArrayExtensions
               .Select(a => center + a + new Pos(-1, -1))
               .Where(a => array.IsInBounds(a));
 
-    private static readonly Pos[] offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
+    public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
 
-    public static IEnumerable<Pos> Offsets<T>(this T[,] array, Pos center)
-        => offsets
+    public static IEnumerable<Pos> Offsetted<T>(this T[,] array, Pos center)
+        => Offsets
               .Select(a => center + a)
               .Where(a => array.IsInBounds(a));
 
@@ -196,4 +207,7 @@ public static class ArrayExtensions
             for (var x = 0; x < array.GetLength(0); ++x)
                 action(new(x, y));
     }
+
+    public static Pos Size<T>(this T[,] array)
+        => new(array.GetWidth(), array.GetHeight());
 }

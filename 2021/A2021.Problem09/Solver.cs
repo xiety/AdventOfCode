@@ -35,7 +35,7 @@ public class Solver : IProblemSolver<long>
     private List<(Pos pos, int item)> LowestPoints(int[,] data)
         => data.Enumerate()
                .Where(tuple => !data
-                   .Offsets(tuple.pos)
+                   .Offsetted(tuple.pos)
                    .Any(a => data.Get(a) <= tuple.item))
                .ToList();
 
@@ -48,7 +48,7 @@ public class Solver : IProblemSolver<long>
         {
             nextPositions = nextPositions
                 .SelectMany(nextPosition => data
-                    .Offsets(nextPosition)
+                    .Offsetted(nextPosition)
                     .Where(pos => data.Get(pos) < 9)
                     .Where(pos => !list.Contains(pos)))
                 .ToList();

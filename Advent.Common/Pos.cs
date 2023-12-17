@@ -7,6 +7,9 @@ public readonly record struct Pos(int X, int Y)
 
     public static Pos operator -(Pos a, Pos b)
         => new(a.X - b.X, a.Y - b.Y);
+
+    public static Pos operator -(Pos a)
+        => new(-a.X, -a.Y);
 }
 
 public readonly record struct Pos3(int X, int Y, int Z)

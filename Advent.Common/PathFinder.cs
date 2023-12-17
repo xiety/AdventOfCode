@@ -22,7 +22,7 @@ public class PathFinder
         do
         {
             currentStep = map
-                .Offsets(currentStep)
+                .Offsetted(currentStep)
                 .Select(a => new { NewStep = a, Value = star.Get(a) })
                 .Where(a => a.Value != -1)
                 .OrderBy(a => a.Value)
@@ -58,7 +58,7 @@ public class PathFinder
             {
                 var currentDistance = star.Get(currentStep);
 
-                foreach (var newStep in map.Offsets(currentStep))
+                foreach (var newStep in map.Offsetted(currentStep))
                 {
                     var oldStar = star.Get(newStep);
 
