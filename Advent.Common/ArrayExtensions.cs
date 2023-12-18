@@ -210,4 +210,29 @@ public static class ArrayExtensions
 
     public static Pos Size<T>(this T[,] array)
         => new(array.GetWidth(), array.GetHeight());
+
+    public static void Flood(this bool[,] array, Pos pos)
+    {
+        var floodPoints = new List<Pos>() { pos };
+        var nextPoints = new List<Pos>();
+
+        do
+        {
+            foreach (var p in floodPoints)
+            {
+                foreach (var p2 in array.EnumerateNearest(p))
+                {
+                    if (!array.Get(p2))
+                    {
+                        array.Set(p2, true);
+                        nextPoints.Add(p2);
+                    }
+                }
+            }
+
+            (nextPoints, floodPoints) = (floodPoints, nextPoints);
+            nextPoints.Clear();
+        }
+        while (floodPoints.Count > 0);
+    }
 }
