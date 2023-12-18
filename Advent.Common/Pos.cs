@@ -2,6 +2,8 @@
 
 public readonly record struct Pos(int X, int Y)
 {
+    public static Pos Zero { get; } = new(0, 0);
+
     public static Pos operator +(Pos a, Pos b)
         => new(a.X + b.X, a.Y + b.Y);
 
