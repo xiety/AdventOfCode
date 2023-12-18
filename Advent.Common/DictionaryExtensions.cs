@@ -23,4 +23,16 @@ public static class DictionaryExtensions
     {
         return dic1.Concat(dic2).GroupBy(a => a.Key).ToDictionary(a => a.Key, a => a.Sum(b => b.Value));
     }
+
+    public static T GetOrCreate<TKey, T>(this Dictionary<TKey, T> dic, TKey key, Func<T> create)
+        where TKey : notnull
+    {
+        if (!dic.TryGetValue(key, out var value))
+        {
+            value = create();
+            dic.Add(key, value);
+        }
+
+        return value;
+    }
 }
