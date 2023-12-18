@@ -26,7 +26,7 @@ public class Solver : IProblemSolver<long>
 
         var enlarged = Enlarged(newmap);
 
-        Flood(enlarged, new(0, 0));
+        enlarged.Flood(Pos.Zero);
 
         var square = Calc(enlarged);
 
@@ -43,33 +43,6 @@ public class Solver : IProblemSolver<long>
                     square++;
 
         return square;
-    }
-
-    private static void Flood(bool[,] enlarged, Pos pos)
-    {
-        var floodPoints = new List<Pos>() { pos };
-
-        do
-        {
-            var copy = floodPoints.ToArray();
-            floodPoints.Clear();
-
-            foreach (var p in copy)
-            {
-                foreach (var p2 in enlarged.EnumerateNearest(p))
-                {
-                    if (!enlarged.Get(p2))
-                    {
-                        enlarged.Set(p2, true);
-                        floodPoints.Add(p2);
-                    }
-                }
-            }
-
-            if (floodPoints.Count == 0)
-                break;
-        }
-        while (true);
     }
 
     private bool[,] Enlarged(char[,] map)
