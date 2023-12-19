@@ -41,6 +41,23 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
+    public long RunBAlternative(string filename)
+    {
+        var items = CompiledRegs.Regex().FromFile<Item>(filename);
+
+        var points = items
+            .Select(ParseB)
+            .Select(GetOffset)
+            .Aggregate<Pos, Pos[]>([Pos.Zero], (acc, a) => [.. acc, acc[^1] + a]);
+
+        //Shoelace and Pick
+        return Math.Abs(points.Pairs(true)
+            .Select(a =>
+                (long)a.Item1.X * a.Item2.Y - (long)a.Item1.Y * a.Item2.X
+                + Math.Abs(new Rect(a.Item1, a.Item2).Volume))
+            .Sum()) / 2L + 1L;
+    }
+
     public long RunB(string filename)
     {
         var items = CompiledRegs.Regex().FromFile<Item>(filename);
