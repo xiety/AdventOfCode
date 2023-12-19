@@ -69,3 +69,9 @@ public readonly record struct Rect3(Pos3 From, Pos3 To)
         );
     }
 }
+
+public readonly record struct Rect(Pos From, Pos To)
+{
+    public long Volume
+        => (To.X - From.X + 1L) * (To.Y - From.Y + 1L);
+}
