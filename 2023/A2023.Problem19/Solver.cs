@@ -11,7 +11,7 @@ public class Solver : IProblemSolver<long>
         var chunks = File.ReadAllLines(filename).Split(String.Empty).ToArray();
 
         var workflows = CompiledRegs.Regex1().FromLines<ItemRaw1>(chunks[0].ToArray())
-            .Select(a=> new Item1(a.Name, a.Conditions.Select(b =>CompiledRegs.Regex2().MapTo<Item1Condition>(b)).ToArray(), a.LastCondition))
+            .Select(a => new Item1(a.Name, a.Conditions.Select(b => CompiledRegs.Regex2().MapTo<Item1Condition>(b)).ToArray(), a.LastCondition))
             .ToArray();
 
         var items = CompiledRegs.Regex3().FromLines<Item2>(chunks[1]).ToArray();
@@ -53,6 +53,110 @@ public class Solver : IProblemSolver<long>
         }
 
         return result;
+    }
+
+    private readonly static int num = 4000;
+
+    public long RunB(string filename)
+    {
+        var chunks = File.ReadAllLines(filename).Split(String.Empty).ToArray();
+
+        var workflows = CompiledRegs.Regex1().FromLines<ItemRaw1>(chunks[0].ToArray())
+            .Select(a => new Item1(a.Name, a.Conditions.Select(b => CompiledRegs.Regex2().MapTo<Item1Condition>(b)).ToArray(), a.LastCondition))
+            .ToArray();
+
+        var dic = new Dictionary<string, Range[]>
+        {
+            ["x"] = [1..num],
+            ["m"] = [1..num],
+            ["a"] = [1..num],
+            ["s"] = [1..num],
+        };
+
+        var result = Recurse(workflows, "in", conditionNum: 0, depth: 0, dic);
+
+        return result;
+    }
+
+    private long Recurse(Item1[] workflows, string workflowName, int conditionNum, int depth, Dictionary<string, Range[]> dic)
+    {
+        if (workflowName == "A")
+            return dic.Values.Select(a => a.Sum(b => b.GetOffsetAndLength(num).Length + 1L)).Mul();
+
+        if (workflowName == "R")
+            return 0;
+
+        var workflow = workflows.First(a => a.Name == workflowName);
+
+        if (conditionNum >= workflow.Conditions.Length)
+        {
+            return Recurse(workflows, workflow.LastOutput, 0, depth + 1, dic);
+        }
+        else
+        {
+            var condition = workflow.Conditions[conditionNum];
+
+            var result = 0L;
+
+            var ranges = dic[condition.Variable];
+
+            Range[] left;
+            Range[] right;
+
+            if (condition.Operation == "<")
+                (left, right) = StripRanges(ranges, condition.Number, middleToLeft: false);
+            else
+                (right, left) = StripRanges(ranges, condition.Number, middleToLeft: true);
+
+            var dicLeft = new Dictionary<string, Range[]>(dic) { [condition.Variable] = left };
+
+            result += Recurse(workflows, condition.Output, 0, depth + 1, dicLeft);
+
+            var dicRight = new Dictionary<string, Range[]>(dic) { [condition.Variable] = right };
+
+            result += Recurse(workflows, workflowName, conditionNum + 1, depth + 1, dicRight);
+
+            return result;
+        }
+    }
+
+    private (Range[], Range[]) StripRanges(Range[] ranges, int divider, bool middleToLeft)
+    {
+        var left = new List<Range>();
+        var right = new List<Range>();
+
+        foreach (var range in ranges)
+        {
+            var start = range.Start.GetOffset(num);
+            var end = range.End.GetOffset(num);
+
+            if (middleToLeft)
+            {
+                if (end <= divider)
+                    left.Add(range);
+                else if (start > divider)
+                    right.Add(range);
+                else
+                {
+                    left.Add(start..divider);
+                    right.Add((divider + 1)..end);
+                }
+            }
+            else
+            {
+                if (end < divider)
+                    left.Add(range);
+                else if (start >= divider)
+                    right.Add(range);
+                else
+                {
+                    left.Add(start..(divider - 1));
+                    right.Add(divider..end);
+                }
+            }
+        }
+
+        return (left.ToArray(), right.ToArray());
     }
 }
 
