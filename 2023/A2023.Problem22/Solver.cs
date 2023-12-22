@@ -6,29 +6,12 @@ namespace A2023.Problem22;
 
 public class Solver : IProblemSolver<long>
 {
+    //slow
     public long RunA(string filename)
     {
         var bricks = CompiledRegs.Regex().FromFile<Item>(filename).Select(Brick.FromItem).ToArray();
 
-        do
-        {
-            var fall = false;
-
-            foreach (var brick in bricks)
-            {
-                if (CanFall(bricks, brick))
-                {
-                    brick.From = brick.From with { Z = brick.From.Z - 1 };
-                    brick.To = brick.To with { Z = brick.To.Z - 1 };
-
-                    fall = true;
-                }
-            }
-
-            if (!fall)
-                break;
-        }
-        while (true);
+        FallBricks(bricks);
 
         var count = 0;
 
@@ -54,11 +37,75 @@ public class Solver : IProblemSolver<long>
         return count;
     }
 
+    //slow
+    public long RunB(string filename)
+    {
+        var bricks = CompiledRegs.Regex().FromFile<Item>(filename).Select(Brick.FromItem).ToArray();
+
+        FallBricks(bricks);
+
+        var count = 0;
+        var total_fall = 0;
+
+        foreach (var brick_to_remove in bricks)
+        {
+            var fall = FallBricks(bricks.Where(a => a != brick_to_remove).Select(a => a with { }).ToArray());
+
+            total_fall += fall;
+
+            if (fall == 0)
+                count++;
+        }
+
+        return total_fall;
+    }
+
+    private void Dump(Brick[] bricks, string filename)
+    {
+        var obj = new ObjFile();
+
+        foreach (var brick in bricks)
+            obj.AddCube(
+                new(brick.From.X, brick.From.Z, brick.From.Y),
+                new(brick.To.X + 1, brick.To.Z + 1, brick.To.Y + 1));
+
+        obj.Save(filename);
+    }
+
+    private int FallBricks(Brick[] bricks)
+    {
+        var set = new HashSet<string>();
+
+        do
+        {
+            var fall = false;
+
+            foreach (var brick in bricks)
+            {
+                if (CanFall(bricks, brick))
+                {
+                    brick.From = brick.From with { Z = brick.From.Z - 1 };
+                    brick.To = brick.To with { Z = brick.To.Z - 1 };
+
+                    set.Add(brick.Name);
+
+                    fall = true;
+                }
+            }
+
+            if (!fall)
+                break;
+        }
+        while (true);
+
+        return set.Count;
+    }
+
     private bool CanFall(IEnumerable<Brick> bricks, Brick brick)
     {
-        var zbelow = brick.From.Z - 1;
+        var z_below = brick.From.Z - 1;
 
-        if (zbelow == 0)
+        if (z_below == 0)
             return false;
 
         for (var x = brick.From.X; x <= brick.To.X; ++x)
@@ -67,7 +114,9 @@ public class Solver : IProblemSolver<long>
             {
                 var intersect = bricks
                     .Where(a => a != brick)
-                    .Where(a => a.From.X <= x && a.To.X >= x && a.From.Y <= y && a.To.Y >= y && a.To.Z == zbelow)
+                    .Where(a => a.From.X <= x && a.To.X >= x
+                             && a.From.Y <= y && a.To.Y >= y
+                             && a.To.Z == z_below)
                     .Any();
 
                 if (intersect)
@@ -93,7 +142,7 @@ public record Brick
     public static Brick FromItem(Item item, int index)
         => new()
         {
-            Name = ((char)('A' + index)).ToString(),
+            Name = $"B{index:0000}",
             From = new(item.X1, item.Y1, item.Z1),
             To = new(item.X2, item.Y2, item.Z2)
         };
