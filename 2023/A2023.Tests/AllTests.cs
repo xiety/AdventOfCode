@@ -98,4 +98,8 @@ public class AllTests : BaseProblemTest
     [ProblemTest<long>(94, 2218, 0, 0)]
     public void Problem23(string filename, bool first, long value)
         => Test(2023, 23, new Problem23.Solver(), filename, first, value);
+
+    [ProblemTest<long>(2, 11098, 47, 0)]
+    public void Problem24(string filename, bool first, long value)
+        => Test(2023, 24, new Problem24.Solver(), filename, first, value);
 }
