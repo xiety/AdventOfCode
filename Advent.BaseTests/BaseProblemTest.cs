@@ -58,16 +58,44 @@ public abstract class BaseProblemTest
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class ProblemTestAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR resultB) : TestMethodAttribute, ITestDataSource
+public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
 {
+    private readonly TR sampleA;
+    private readonly TR resultA;
+    private readonly TR sampleB = default!;
+    private readonly TR resultB = default!;
+
+    private bool hasB;
+
+    public ProblemTestAttribute(TR sampleA, TR resultA, TR sampleB, TR resultB)
+    {
+        this.sampleA = sampleA;
+        this.resultA = resultA;
+        this.sampleB = sampleB;
+        this.resultB = resultB;
+        hasB = true;
+    }
+
+    public ProblemTestAttribute(TR sampleA, TR resultA)
+    {
+        this.sampleA = sampleA;
+        this.resultA = resultA;
+        hasB = false;
+    }
+
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
     {
-        return [
-            ["sample.txt", true, sampleA],
-            ["input.txt", true, resultA],
-            ["sample.txt", false, sampleB],
-            ["input.txt", false, resultB],
-        ];
+        var list = new List<object?[]>();
+        list.Add(["sample.txt", true, sampleA]);
+        list.Add(["input.txt", true, resultA]);
+
+        if (hasB)
+        {
+            list.Add(["sample.txt", false, sampleB]);
+            list.Add(["input.txt", false, resultB]);
+        }
+
+        return list;
     }
 
     public string? GetDisplayName(MethodInfo methodInfo, object?[]? data)
