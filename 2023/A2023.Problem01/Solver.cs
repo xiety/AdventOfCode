@@ -55,32 +55,12 @@ public class Solver : IProblemSolver<int>
             ["9"] = 9,
         };
 
-        var min = Int32.MaxValue;
-        var minResult = "";
+        var existing = dic.Where(a => line.Contains(a.Key)).ToArray();
 
-        var max = Int32.MinValue;
-        var maxResult = "";
+        var minResult = existing.Select(a => (Pos: line.IndexOf(a.Key), a.Value)).MinBy(a => a.Pos).Value;
+        var maxResult = existing.Select(a => (Pos: line.LastIndexOf(a.Key), a.Value)).MaxBy(a => a.Pos).Value;
 
-        foreach (var pair in dic)
-        {
-            var n = line.IndexOf(pair.Key);
-
-            if (n > -1 && n < min)
-            {
-                min = n;
-                minResult = pair.Value.ToString();
-            }
-
-            var nl = line.LastIndexOf(pair.Key);
-
-            if (nl > -1 && nl > max)
-            {
-                max = nl;
-                maxResult = pair.Value.ToString();
-            }
-        }
-
-        var result = Int32.Parse(minResult + maxResult);
+        var result = Int32.Parse($"{minResult}{maxResult}");
 
         return result;
     }
