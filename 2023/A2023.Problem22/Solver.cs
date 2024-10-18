@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 using Advent.Common;
 
@@ -6,10 +7,9 @@ namespace A2023.Problem22;
 
 public class Solver : IProblemSolver<long>
 {
-    //slow
     public long RunA(string filename)
     {
-        var bricks = CompiledRegs.Regex().FromFile<Item>(filename).Select(Brick.FromItem).ToArray();
+        var bricks = LoadFile(filename);
 
         FallBricks(bricks);
 
@@ -17,48 +17,50 @@ public class Solver : IProblemSolver<long>
 
         foreach (var brick_to_remove in bricks)
         {
-            var fall = false;
+            var someone_fall = false;
 
             var rest = bricks.Where(a => a != brick_to_remove).ToArray();
 
             foreach (var brick in rest)
             {
-                if (CanFall(rest, brick))
+                var fall = CanFall(rest, brick);
+
+                if (fall > 0)
                 {
-                    fall = true;
+                    someone_fall = true;
                     break;
                 }
             }
 
-            if (!fall)
+            if (!someone_fall)
                 count++;
         }
 
         return count;
     }
 
-    //slow
     public long RunB(string filename)
     {
-        var bricks = CompiledRegs.Regex().FromFile<Item>(filename).Select(Brick.FromItem).ToArray();
+        var bricks = LoadFile(filename);
 
         FallBricks(bricks);
 
-        var count = 0;
         var total_fall = 0;
 
         foreach (var brick_to_remove in bricks)
         {
-            var fall = FallBricks(bricks.Where(a => a != brick_to_remove).Select(a => a with { }).ToArray());
+            var cloned = bricks.Where(a => a != brick_to_remove).Select(a => a.Clone()).ToArray();
+
+            var fall = FallBricks(cloned);
 
             total_fall += fall;
-
-            if (fall == 0)
-                count++;
         }
 
         return total_fall;
     }
+
+    private static Brick[] LoadFile(string filename)
+        => CompiledRegs.Regex().FromFile<Item>(filename).Select(Brick.FromItem).ToArray();
 
     private void Dump(Brick[] bricks, string filename)
     {
@@ -78,22 +80,24 @@ public class Solver : IProblemSolver<long>
 
         do
         {
-            var fall = false;
+            var someone_fall = false;
 
             foreach (var brick in bricks)
             {
-                if (CanFall(bricks, brick))
+                var fall = CanFall(bricks, brick);
+
+                if (fall > 0)
                 {
-                    brick.From = brick.From with { Z = brick.From.Z - 1 };
-                    brick.To = brick.To with { Z = brick.To.Z - 1 };
+                    brick.From = brick.From with { Z = brick.From.Z - fall };
+                    brick.To = brick.To with { Z = brick.To.Z - fall };
 
                     set.Add(brick.Name);
 
-                    fall = true;
+                    someone_fall = true;
                 }
             }
 
-            if (!fall)
+            if (!someone_fall)
                 break;
         }
         while (true);
@@ -101,40 +105,63 @@ public class Solver : IProblemSolver<long>
         return set.Count;
     }
 
-    private bool CanFall(IEnumerable<Brick> bricks, Brick brick)
+    private int CanFall(IEnumerable<Brick> bricks, Brick brick)
     {
-        var z_below = brick.From.Z - 1;
+        if (brick.From.Z == 1)
+            return 0;
 
-        if (z_below == 0)
-            return false;
+        var fall = 0;
 
-        for (var x = brick.From.X; x <= brick.To.X; ++x)
+        for (var z = brick.From.Z - 1; z > 0; --z)
         {
-            for (var y = brick.From.Y; y <= brick.To.Y; ++y)
+            foreach (var another_brick in bricks)
             {
-                var intersect = bricks
-                    .Where(a => a != brick)
-                    .Where(a => a.From.X <= x && a.To.X >= x
-                             && a.From.Y <= y && a.To.Y >= y
-                             && a.To.Z == z_below)
-                    .Any();
-
-                if (intersect)
-                    return false;
+                if (another_brick != brick
+                 && another_brick.To.Z == z
+                 && another_brick.To.X >= brick.From.X
+                 && another_brick.From.X <= brick.To.X
+                 && another_brick.To.Y >= brick.From.Y
+                 && another_brick.From.Y <= brick.To.Y)
+                {
+                    return fall;
+                }
             }
+
+            fall++;
         }
 
-        return true;
+        return fall;
     }
+
+    private static bool IntersectIn2D(Brick a, Brick b)
+        => b.To.X >= a.From.X
+        && b.From.X <= a.To.X
+        && b.To.Y >= a.From.Y
+        && b.From.Y <= a.To.Y;
 }
 
 public record Item(int X1, int Y1, int Z1, int X2, int Y2, int Z2);
 
-public record Brick
+public class Brick
 {
     public required string Name { get; init; }
     public required Pos3 From { get; set; }
     public required Pos3 To { get; set; }
+
+    public Brick()
+    {
+    }
+
+    [SetsRequiredMembers]
+    protected Brick(Brick b)
+    {
+        Name = b.Name;
+        From = b.From;
+        To = b.To;
+    }
+
+    public Brick Clone()
+        => new(this);
 
     public override string ToString()
         => $"{Name} ({From.X},{From.Y},{From.Z}) ({To.X},{To.Y},{To.Z})";
