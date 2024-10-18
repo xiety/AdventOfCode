@@ -6,9 +6,9 @@ public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
     {
-        var lines = File.ReadAllLines(filename).Split(String.Empty).ToArray();
-        var seeds = lines.First().First().Split(' ').Skip(1).Select(long.Parse);
-        var chunks = lines.Skip(1).Select(a => ParseChunk([.. a])).ToArray();
+        var parts = File.ReadAllLines(filename).Split(String.Empty).ToArray();
+        var seeds = parts.First().First().Split(' ').Skip(1).Select(long.Parse);
+        var chunks = parts.Skip(1).Select(ParseChunk).ToArray();
         return seeds.Select(a => RecurseA(chunks, "seed", a)).Min();
     }
 
@@ -32,10 +32,10 @@ public class Solver : IProblemSolver<long>
 
     public long RunB(string filename)
     {
-        var lines = File.ReadAllLines(filename).Split(String.Empty).ToArray();
-        var seeds = lines.First().First().Split(' ').Skip(1).Select(long.Parse)
+        var parts = File.ReadAllLines(filename).Split(String.Empty).ToArray();
+        var seeds = parts.First().First().Split(' ').Skip(1).Select(long.Parse)
             .Pairs(false).Select(a => (a.Item1, a.Item1 + a.Item2 - 1)).ToArray();
-        var chunks = lines.Skip(1).Select(a => ParseChunk([.. a])).ToArray();
+        var chunks = parts.Skip(1).Select(ParseChunk).ToArray();
 
         return seeds.Select(a => RecurseB(chunks, "seed", a.Item1, a.Item2)).Min();
     }
@@ -92,9 +92,9 @@ public class Solver : IProblemSolver<long>
         return pointsInside.Pairs(true).ToArray();
     }
 
-    private Chunk ParseChunk(string[] lines)
+    private Chunk ParseChunk(IEnumerable<string> lines)
     {
-        var first = lines[0];
+        var first = lines.First();
 
         var n1 = first.IndexOf('-');
         var n2 = first.LastIndexOf(' ');

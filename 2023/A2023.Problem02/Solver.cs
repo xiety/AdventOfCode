@@ -45,32 +45,39 @@ public class Solver : IProblemSolver<int>
 
     private Game Parse(Step1 step)
     {
-        var balls = new List<int[]>();
-
-        foreach (var part in step.GameData.Split("; "))
+        IEnumerable<int[]> ParseData()
         {
-            var data = new int[3];
-
-            foreach (var bp in part.Split(", "))
+            foreach (var part in step.GameData.Split("; "))
             {
-                var index = Array.FindIndex(colors, color => bp.EndsWith(" " + color));
-                var n = bp.IndexOf(' ');
-                var num = int.Parse(bp[..n]);
-                data[index] = num;
-            }
+                var data = new int[3];
 
-            balls.Add(data);
+                var parts = CompiledRegs.ColorRegex().FromLines<Step2>(part.Split(", "));
+
+                foreach (var part2 in parts)
+                {
+                    var index = Array.IndexOf(colors, part2.Color);
+                    data[index] = part2.Num;
+                }
+
+                yield return data;
+            }
         }
 
-        return new(step.GameNumber, balls.ToArray());
+        var balls = ParseData();
+
+        return new(step.GameNumber, [.. balls]);
     }
 }
 
 record Step1(int GameNumber, string GameData);
+record Step2(int Num, string Color);
 record Game(int GameNumber, int[][] Balls);
 
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^Game (?<{nameof(Step1.GameNumber)}>\d+): (?<{nameof(Step1.GameData)}>.*)$")]
     public static partial Regex Regex();
+
+    [GeneratedRegex(@$"^(?<{nameof(Step2.Num)}>\d+) (?<{nameof(Step2.Color)}>\w+)$")]
+    public static partial Regex ColorRegex();
 }
