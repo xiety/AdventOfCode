@@ -5,34 +5,27 @@ namespace A2023.Problem17;
 public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
-    {
-        var map = MapData.ParseMap(File.ReadAllLines(filename), c => int.Parse($"{c}"));
-        var result = CalculateDistance(map, new Pos(0, 0), new Pos(map.GetWidth() - 1, map.GetHeight() - 1), 1, 3, false);
-        return result.distance;
-    }
+        => Run(filename, 1, 3);
 
     public long RunB(string filename)
+        => Run(filename, 4, 10);
+
+    private long Run(string filename, int min, int max)
     {
-        var map = MapData.ParseMap(File.ReadAllLines(filename), c => int.Parse($"{c}"));
-        var result = CalculateDistance(map, new Pos(0, 0), new Pos(map.GetWidth() - 1, map.GetHeight() - 1), 4, 10, false);
-        return result.distance;
+        var map = LoadFile(filename);
+        return CalculateDistance(map, Pos.Zero, new Pos(map.GetWidth() - 1, map.GetHeight() - 1), min, max);
     }
 
-    public static (List<Pos> path, int distance) CalculateDistance(int[,] map, Pos start, Pos end, int min, int max, bool collectPath)
+    public static int CalculateDistance(int[,] map, Pos start, Pos end, int min, int max)
     {
-        var step = 0;
-
         var startKey = new StarKey(start, Pos.Zero);
-        var startStar = new StarData(0, 0, [start]);
+        var startStar = new StarData(0, 0);
         var star = new Dictionary<StarKey, List<StarData>> { [startKey] = [startStar] };
 
         var currentSteps = new Dictionary<StarKey, List<StarData>>() { [startKey] = [startStar] };
         var newSteps = new Dictionary<StarKey, List<StarData>>();
 
         var bestEnd = int.MaxValue;
-        var bestPath = new List<Pos>();
-
-        var count = 0;
 
         do
         {
@@ -50,7 +43,9 @@ public class Solver : IProblemSolver<long>
 
                     foreach (var currentStepData in currentStep.Value)
                     {
-                        if (offset != currentStep.Key.Offset && currentStepData.OffsetSteps < min && currentStep.Key.Offset != Pos.Zero)
+                        if (offset != currentStep.Key.Offset
+                         && currentStepData.OffsetSteps < min
+                         && currentStep.Key.Offset != Pos.Zero)
                             continue;
 
                         var c = map.Get(newPos);
@@ -83,42 +78,34 @@ public class Solver : IProblemSolver<long>
                         if (newPos == end)
                         {
                             if (offsetSteps >= min)
-                            {
                                 bestEnd = newValue;
-
-                                if (collectPath)
-                                    bestPath = [.. currentStepData.Path, newPos];
-                            }
-
-                            continue;
                         }
+                        else
+                        {
+                            var newStepsList = newSteps.GetOrCreate(newKey, () => []);
 
-                        var newStepsList = newSteps.GetOrCreate(newKey, () => []);
+                            newStepsList.RemoveAll(a => a.OffsetSteps == offsetSteps && a.Value >= newValue);
 
-                        newStepsList.RemoveAll(a => a.OffsetSteps == offsetSteps && a.Value >= newValue);
+                            var newData = new StarData(offsetSteps, newValue);
 
-                        var path = collectPath ? [.. currentStepData.Path, newPos] : currentStepData.Path;
-
-                        var newData = new StarData(offsetSteps, newValue, path);
-
-                        newStepsList.Add(newData);
-                        starList.Add(newData);
-
-                        count++;
+                            newStepsList.Add(newData);
+                            starList.Add(newData);
+                        }
                     }
                 }
             }
 
             (currentSteps, newSteps) = (newSteps, currentSteps);
             newSteps.Clear();
-
-            step++;
         }
         while (currentSteps.Count > 0);
 
-        return (bestPath, bestEnd);
+        return bestEnd;
     }
+
+    private static int[,] LoadFile(string filename)
+        => MapData.ParseMap(File.ReadAllLines(filename), c => int.Parse($"{c}"));
 }
 
 public record class StarKey(Pos Pos, Pos Offset);
-public record class StarData(int OffsetSteps, int Value, List<Pos> Path);
+public record class StarData(int OffsetSteps, int Value);
