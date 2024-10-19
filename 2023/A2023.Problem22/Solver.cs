@@ -13,30 +13,15 @@ public class Solver : IProblemSolver<long>
 
         FallBricks(bricks);
 
-        var count = 0;
-
-        foreach (var brick_to_remove in bricks)
-        {
-            var someone_fall = false;
-
-            var rest = bricks.Where(a => a != brick_to_remove).ToArray();
-
-            foreach (var brick in rest)
+        return bricks
+            .AsParallel()
+            .Select(brick_to_remove =>
             {
-                var fall = CanFall(rest, brick);
-
-                if (fall > 0)
-                {
-                    someone_fall = true;
-                    break;
-                }
-            }
-
-            if (!someone_fall)
-                count++;
-        }
-
-        return count;
+                var rest = bricks.Where(a => a != brick_to_remove).ToArray();
+                var someone_fall = rest.Any(a => CanFall(rest, a) > 0);
+                return someone_fall ? 0 : 1;
+            })
+            .Sum();
     }
 
     public long RunB(string filename)
@@ -45,19 +30,15 @@ public class Solver : IProblemSolver<long>
 
         FallBricks(bricks);
 
-        var total_fall = 0;
-
-        foreach (var brick_to_remove in bricks)
-        {
-            var cloned = bricks.Where(a => a != brick_to_remove).Select(a => a.Clone()).ToArray();
-
-            var fall = FallBricks(cloned);
-
-            total_fall += fall;
-        }
-
-        return total_fall;
+        return bricks
+            .AsParallel()
+            .Select(brick_to_remove => FallBricks(Cloned(bricks.Where(a => a != brick_to_remove))))
+            .Sum();
     }
+
+    private static T[] Cloned<T>(IEnumerable<T> enumerable)
+        where T : ICloneable
+        => enumerable.Select(a => (T)a.Clone()).ToArray();
 
     private static Brick[] LoadFile(string filename)
         => CompiledRegs.Regex().FromFile<Item>(filename).Select(Brick.FromItem).ToArray();
@@ -107,30 +88,20 @@ public class Solver : IProblemSolver<long>
 
     private int CanFall(IEnumerable<Brick> bricks, Brick brick)
     {
-        if (brick.From.Z == 1)
-            return 0;
-
-        var fall = 0;
-
         for (var z = brick.From.Z - 1; z > 0; --z)
         {
             foreach (var another_brick in bricks)
             {
                 if (another_brick != brick
                  && another_brick.To.Z == z
-                 && another_brick.To.X >= brick.From.X
-                 && another_brick.From.X <= brick.To.X
-                 && another_brick.To.Y >= brick.From.Y
-                 && another_brick.From.Y <= brick.To.Y)
+                 && IntersectIn2D(another_brick, brick))
                 {
-                    return fall;
+                    return brick.From.Z - z - 1;
                 }
             }
-
-            fall++;
         }
 
-        return fall;
+        return brick.From.Z - 1;
     }
 
     private static bool IntersectIn2D(Brick a, Brick b)
@@ -142,7 +113,7 @@ public class Solver : IProblemSolver<long>
 
 public record Item(int X1, int Y1, int Z1, int X2, int Y2, int Z2);
 
-public class Brick
+public class Brick : ICloneable
 {
     public required string Name { get; init; }
     public required Pos3 From { get; set; }
@@ -162,6 +133,9 @@ public class Brick
 
     public Brick Clone()
         => new(this);
+
+    object ICloneable.Clone()
+        => Clone();
 
     public override string ToString()
         => $"{Name} ({From.X},{From.Y},{From.Z}) ({To.X},{To.Y},{To.Z})";
