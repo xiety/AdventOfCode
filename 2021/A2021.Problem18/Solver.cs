@@ -228,7 +228,7 @@ public class Solver : IProblemSolver<long>
                             break;
                     }
 
-                    yield return new TokenValue(Int32.Parse(text[i..j]));
+                    yield return new TokenValue(int.Parse(text[i..j]));
                 }
             }
         }

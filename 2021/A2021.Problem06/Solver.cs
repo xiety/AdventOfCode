@@ -15,7 +15,7 @@ public class Solver : IProblemSolver<long>
         var items = File.ReadAllText(filename)
             .TrimEnd()
             .Split(",")
-            .Select(Int32.Parse);
+            .Select(int.Parse);
 
         const int period = 7;
 

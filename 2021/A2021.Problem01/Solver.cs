@@ -37,6 +37,6 @@ public class Solver : IProblemSolver<int>
     private static List<int> LoadFile(string fileName)
     {
         var lines = File.ReadAllLines(fileName);
-        return lines.Select(Int32.Parse).ToList();
+        return lines.Select(int.Parse).ToList();
     }
 }
