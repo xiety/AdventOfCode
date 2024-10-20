@@ -18,7 +18,7 @@ public class Solver : IProblemSolver<int>
         var a = line.IndexOfAny(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
         var b = line.LastIndexOfAny(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
 
-        return Int32.Parse(line[a].ToString() + line[b].ToString());
+        return int.Parse(line[a].ToString() + line[b].ToString());
     }
 
     public int RunB(string fileName)
@@ -60,7 +60,7 @@ public class Solver : IProblemSolver<int>
         var minResult = existing.Select(a => (Pos: line.IndexOf(a.Key), a.Value)).MinBy(a => a.Pos).Value;
         var maxResult = existing.Select(a => (Pos: line.LastIndexOf(a.Key), a.Value)).MaxBy(a => a.Pos).Value;
 
-        var result = Int32.Parse($"{minResult}{maxResult}");
+        var result = int.Parse($"{minResult}{maxResult}");
 
         return result;
     }
