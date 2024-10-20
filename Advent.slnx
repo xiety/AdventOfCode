@@ -1,0 +1,74 @@
+<Solution>
+  <Folder Name="/2019/">
+    <Project Path="2019\A2019.Tests\A2019.Tests.csproj" />
+  </Folder>
+  <Folder Name="/2019/0/">
+    <Project Path="2019\A2019.Problem01\A2019.Problem01.csproj" />
+  </Folder>
+  <Folder Name="/2021/">
+    <Project Path="2021\A2021.Tests\A2021.Tests.csproj" />
+  </Folder>
+  <Folder Name="/2021/0/">
+    <Project Path="2021\A2021.Problem01\A2021.Problem01.csproj" />
+    <Project Path="2021\A2021.Problem02\A2021.Problem02.csproj" />
+    <Project Path="2021\A2021.Problem03\A2021.Problem03.csproj" />
+    <Project Path="2021\A2021.Problem04\A2021.Problem04.csproj" />
+    <Project Path="2021\A2021.Problem05\A2021.Problem05.csproj" />
+    <Project Path="2021\A2021.Problem06\A2021.Problem06.csproj" />
+    <Project Path="2021\A2021.Problem07\A2021.Problem07.csproj" />
+    <Project Path="2021\A2021.Problem08\A2021.Problem08.csproj" />
+    <Project Path="2021\A2021.Problem09\A2021.Problem09.csproj" />
+    <Project Path="2021\A2021.Problem10\A2021.Problem10.csproj" />
+  </Folder>
+  <Folder Name="/2021/10/">
+    <Project Path="2021\A2021.Problem11\A2021.Problem11.csproj" />
+    <Project Path="2021\A2021.Problem12\A2021.Problem12.csproj" />
+    <Project Path="2021\A2021.Problem13\A2021.Problem13.csproj" />
+    <Project Path="2021\A2021.Problem14\A2021.Problem14.csproj" />
+    <Project Path="2021\A2021.Problem15\A2021.Problem15.csproj" />
+    <Project Path="2021\A2021.Problem16\A2021.Problem16.csproj" />
+    <Project Path="2021\A2021.Problem17\A2021.Problem17.csproj" />
+    <Project Path="2021\A2021.Problem18\A2021.Problem18.csproj" />
+    <Project Path="2021\A2021.Problem19\A2021.Problem19.csproj" />
+  </Folder>
+  <Folder Name="/2023/">
+    <Project Path="2023\A2023.Tests\A2023.Tests.csproj" />
+  </Folder>
+  <Folder Name="/2023/0/">
+    <Project Path="2023\A2023.Problem01\A2023.Problem01.csproj" />
+    <Project Path="2023\A2023.Problem02\A2023.Problem02.csproj" />
+    <Project Path="2023\A2023.Problem03\A2023.Problem03.csproj" />
+    <Project Path="2023\A2023.Problem04\A2023.Problem04.csproj" />
+    <Project Path="2023\A2023.Problem05\A2023.Problem05.csproj" />
+    <Project Path="2023\A2023.Problem06\A2023.Problem06.csproj" />
+    <Project Path="2023\A2023.Problem07\A2023.Problem07.csproj" />
+    <Project Path="2023\A2023.Problem08\A2023.Problem08.csproj" />
+    <Project Path="2023\A2023.Problem09\A2023.Problem09.csproj" />
+    <Project Path="2023\A2023.Problem10\A2023.Problem10.csproj" />
+  </Folder>
+  <Folder Name="/2023/10/">
+    <Project Path="2023\A2023.Problem11\A2023.Problem11.csproj" />
+    <Project Path="2023\A2023.Problem12\A2023.Problem12.csproj" />
+    <Project Path="2023\A2023.Problem13\A2023.Problem13.csproj" />
+    <Project Path="2023\A2023.Problem14\A2023.Problem14.csproj" />
+    <Project Path="2023\A2023.Problem15\A2023.Problem15.csproj" />
+    <Project Path="2023\A2023.Problem16\A2023.Problem16.csproj" />
+    <Project Path="2023\A2023.Problem17\A2023.Problem17.csproj" />
+    <Project Path="2023\A2023.Problem18\A2023.Problem18.csproj" />
+    <Project Path="2023\A2023.Problem19\A2023.Problem19.csproj" />
+    <Project Path="2023\A2023.Problem20\A2023.Problem20.csproj" />
+  </Folder>
+  <Folder Name="/2023/20/">
+    <Project Path="2023\A2023.Problem21\A2023.Problem21.csproj" />
+    <Project Path="2023\A2023.Problem22\A2023.Problem22.csproj" />
+    <Project Path="2023\A2023.Problem23\A2023.Problem23.csproj" />
+    <Project Path="2023\A2023.Problem24\A2023.Problem24.csproj" />
+    <Project Path="2023\A2023.Problem25\A2023.Problem25.csproj" />
+  </Folder>
+  <Project Path="Advent.BaseTests\Advent.BaseTests.csproj" />
+  <Project Path="Advent.Common\Advent.Common.csproj" />
+  <Project Path="ConsoleApp\ConsoleApp.csproj" />
+  <Properties Name="Visual Studio">
+    <Property Name="OpenWith" Value="17" />
+  </Properties>
+</Solution>
