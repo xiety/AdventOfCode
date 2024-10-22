@@ -39,10 +39,10 @@ public abstract class BaseProblemTest
 
         var fullpath = Path.Combine(folder, filename);
 
-        if (filename == "sample.txt")
+        if (!File.Exists(fullpath))
         {
-            if (!File.Exists(fullpath))
-                fullpath = Path.Combine(folder, $"sample{(first ? "A" : "B")}.txt");
+            var name = Path.GetFileNameWithoutExtension(filename);
+            fullpath = Path.Combine(folder, $"{name}{(first ? "A" : "B")}.txt");
         }
 
         return fullpath;
@@ -65,7 +65,7 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
     private readonly TR sampleB = default!;
     private readonly TR resultB = default!;
 
-    private bool hasB;
+    private readonly bool hasB;
 
     public ProblemTestAttribute(TR sampleA, TR resultA, TR sampleB, TR resultB)
     {

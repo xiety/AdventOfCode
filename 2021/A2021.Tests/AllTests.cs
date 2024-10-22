@@ -94,6 +94,10 @@ public class AllTests : BaseProblemTest
     [ProblemTest<long>(590784, 533863, 2758514936282235, 1261885414840992)]
     public void Problem22(string filename, bool first, long value)
         => Test(2021, 22, new Problem22.Solver(), filename, first, value);
+
+    [ProblemTest<long>(12521, 15338, 44169, -1)]
+    public void Problem23(string filename, bool first, long value)
+        => Test(2021, 23, new Problem23.Solver(), filename, first, value);
 }
 
 public class Data

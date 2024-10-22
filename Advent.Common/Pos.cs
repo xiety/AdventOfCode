@@ -58,6 +58,9 @@ public readonly record struct Rect3(Pos3 From, Pos3 To)
     public bool Intersects(Rect3 rect)
         => From <= rect.To && rect.From <= To;
 
+    public bool Intersects(Pos3 pos)
+        => pos >= From && pos <= To;
+
     public Rect3? Intersection(Rect3 rect)
     {
         if (!Intersects(rect))

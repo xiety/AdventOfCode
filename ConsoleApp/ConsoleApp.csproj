@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\2023\A2023.Problem22\A2023.Problem22.csproj" />
+    <ProjectReference Include="..\2021\A2021.Problem22\A2021.Problem22.csproj" />
+    <ProjectReference Include="..\2021\A2021.Problem23\A2021.Problem23.csproj" />
   </ItemGroup>
 
 </Project>
