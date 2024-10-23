@@ -4,15 +4,15 @@ namespace A2021.Problem01;
 
 public class Solver : IProblemSolver<int>
 {
-    public int RunA(string fileName)
-        => Run(fileName, 1);
+    public int RunA(string filename)
+        => Run(filename, 1);
 
-    public int RunB(string fileName)
-        => Run(fileName, 3);
+    public int RunB(string filename)
+        => Run(filename, 3);
 
-    private static int Run(string fileName, int window)
+    private static int Run(string filename, int window)
     {
-        var items = LoadFile(fileName);
+        var items = LoadFile(filename);
 
         var result = 0;
 
@@ -34,9 +34,9 @@ public class Solver : IProblemSolver<int>
         return result;
     }
 
-    private static List<int> LoadFile(string fileName)
+    private static List<int> LoadFile(string filename)
     {
-        var lines = File.ReadAllLines(fileName);
+        var lines = File.ReadAllLines(filename);
         return lines.Select(int.Parse).ToList();
     }
 }

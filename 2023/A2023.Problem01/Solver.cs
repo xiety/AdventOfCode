@@ -4,9 +4,9 @@ namespace A2023.Problem01;
 
 public class Solver : IProblemSolver<int>
 {
-    public int RunA(string fileName)
+    public int RunA(string filename)
     {
-        var lines = File.ReadAllLines(fileName);
+        var lines = File.ReadAllLines(filename);
 
         var result = lines.Select(ProcessA).Sum();
 
@@ -21,9 +21,9 @@ public class Solver : IProblemSolver<int>
         return int.Parse(line[a].ToString() + line[b].ToString());
     }
 
-    public int RunB(string fileName)
+    public int RunB(string filename)
     {
-        var lines = File.ReadAllLines(fileName);
+        var lines = File.ReadAllLines(filename);
 
         var result = lines.Select(ProcessB).Sum();
 
