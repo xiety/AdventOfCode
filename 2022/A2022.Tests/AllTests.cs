@@ -10,4 +10,8 @@ public class AllTests : BaseProblemTest
     [ProblemTest<int>(24000, 71506, 45000, 209603)]
     public void Problem01(string filename, bool first, int value)
         => Test(2022, 1, new Problem01.Solver(), filename, first, value);
+
+    [ProblemTest<int>(15, 12772, 12, 11618)]
+    public void Problem02(string filename, bool first, int value)
+        => Test(2022, 2, new Problem02.Solver(), filename, first, value);
 }
