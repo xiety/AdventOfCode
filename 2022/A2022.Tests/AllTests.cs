@@ -18,4 +18,8 @@ public class AllTests : BaseProblemTest
     [ProblemTest<int>(157, 7863, 70, 2488)]
     public void Problem03(string filename, bool first, int value)
         => Test(2022, 3, new Problem03.Solver(), filename, first, value);
+
+    [ProblemTest<int>(2, 542, 4, 900)]
+    public void Problem04(string filename, bool first, int value)
+        => Test(2022, 4, new Problem04.Solver(), filename, first, value);
 }

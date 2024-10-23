@@ -43,13 +43,7 @@ public class Solver : IProblemSolver<int>
     }
 
     private static List<Item> LoadFile(string filename)
-    {
-        var lines = File.ReadAllLines(filename);
-
-        return lines
-            .Select(CompiledRegs.Regex().MapTo<Item>)
-            .ToList();
-    }
+        => CompiledRegs.Regex().FromFile<Item>(filename);
 }
 
 record Item(string Dir, int Number);
