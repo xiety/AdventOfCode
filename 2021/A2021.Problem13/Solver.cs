@@ -22,9 +22,9 @@ public class Solver : IProblemSolver<long, string>
         var (map, folds) = LoadFile(filename);
 
         var folded = folds.Aggregate(map, Fold);
-        var result = folded.ToString(Environment.NewLine, "", a => a ? "#" : " ");
-
-        return result.TrimEnd(['\r', '\n']);
+        
+        return folded.ToString(Environment.NewLine, "", a => a ? "#" : ".")
+            .TrimEnd();
     }
 
     private static (bool[,], FoldItem[]) LoadFile(string filename)

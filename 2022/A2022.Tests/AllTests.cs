@@ -42,4 +42,29 @@ public class AllTests : BaseProblemTest
     [ProblemTest<long>(13, 6339, 36, 2541)]
     public void Problem09(string filename, bool first, long value)
         => Test(2022, 9, new Problem09.Solver(), filename, first, value);
+
+    [ProblemTest<int, string>(13140, 13820, Data.Result09A, Data.Result09B)]
+    public void Problem10(string filename, bool first, int valueA, string valueB)
+        => Test(2022, 10, new Problem10.Solver(), filename, first, valueA, valueB);
+}
+
+public class Data
+{
+    public const string Result09A = """
+        ##..##..##..##..##..##..##..##..##..##..
+        ###...###...###...###...###...###...###.
+        ####....####....####....####....####....
+        #####.....#####.....#####.....#####.....
+        ######......######......######......####
+        #######.......#######.......#######.....
+        """;
+
+    public const string Result09B = """
+        ####.#..#..##..###..#..#..##..###..#..#.
+        ...#.#.#..#..#.#..#.#.#..#..#.#..#.#.#..
+        ..#..##...#....#..#.##...#....#..#.##...
+        .#...#.#..#.##.###..#.#..#.##.###..#.#..
+        #....#.#..#..#.#.#..#.#..#..#.#.#..#.#..
+        ####.#..#..###.#..#.#..#..###.#..#.#..#.
+        """;
 }
