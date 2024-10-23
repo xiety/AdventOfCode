@@ -45,6 +45,7 @@
     <Project Path="2022\A2022.Problem02\A2022.Problem02.csproj" />
     <Project Path="2022\A2022.Problem03\A2022.Problem03.csproj" />
     <Project Path="2022\A2022.Problem04\A2022.Problem04.csproj" />
+    <Project Path="2022\A2022.Problem05\A2022.Problem05.csproj" />
   </Folder>
   <Folder Name="/2023/">
     <Project Path="2023\A2023.Tests\A2023.Tests.csproj" />
