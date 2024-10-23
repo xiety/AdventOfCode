@@ -26,4 +26,8 @@ public class AllTests : BaseProblemTest
     [ProblemTest<string>("CMZ", "GRTSWNJHH", "MCD", "QLFQDBBHM")]
     public void Problem05(string filename, bool first, string value)
         => Test(2022, 5, new Problem05.Solver(), filename, first, value);
+
+    [ProblemTest<int>(7, 1892, 19, 2313)]
+    public void Problem06(string filename, bool first, int value)
+        => Test(2022, 6, new Problem06.Solver(), filename, first, value);
 }
