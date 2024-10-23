@@ -1,0 +1,13 @@
+using Advent.Common;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace A2022.Tests;
+
+[TestClass]
+public class AllTests : BaseProblemTest
+{
+    [ProblemTest<int>(24000, 71506, 45000, 209603)]
+    public void Problem01(string filename, bool first, int value)
+        => Test(2022, 1, new Problem01.Solver(), filename, first, value);
+}
