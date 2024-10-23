@@ -6,7 +6,7 @@ namespace A2021.Problem02;
 
 public class Solver : IProblemSolver<int>
 {
-    public int RunA(string fileName)
+    public int RunA(string filename)
     {
         static Pos Process(Pos pos, Item item)
             => item.Dir switch
@@ -16,14 +16,14 @@ public class Solver : IProblemSolver<int>
                 "forward" => pos with { X = pos.X + item.Number },
             };
 
-        var items = LoadFile(fileName);
+        var items = LoadFile(filename);
         var pos = items.Aggregate(new Pos(0, 0), Process);
         var result = pos.X * pos.Y;
 
         return result;
     }
 
-    public int RunB(string fileName)
+    public int RunB(string filename)
     {
         static (int, Pos) Process((int Aim, Pos Pos) data, Item item)
             => item.Dir switch
@@ -35,16 +35,16 @@ public class Solver : IProblemSolver<int>
                         data.Pos.Y + item.Number)),
             };
 
-        var items = LoadFile(fileName);
+        var items = LoadFile(filename);
         var (aim, pos) = items.Aggregate((0, new Pos(0, 0)), Process);
         var result = pos.X * pos.Y;
 
         return result;
     }
 
-    private static List<Item> LoadFile(string fileName)
+    private static List<Item> LoadFile(string filename)
     {
-        var lines = File.ReadAllLines(fileName);
+        var lines = File.ReadAllLines(filename);
 
         return lines
             .Select(CompiledRegs.Regex().MapTo<Item>)
