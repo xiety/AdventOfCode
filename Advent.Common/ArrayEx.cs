@@ -34,10 +34,7 @@ public static class ArrayEx
         array.Fill(value);
         return array;
     }
-}
 
-public static class ArrayExtensions
-{
     public static T[] With<T>(this T[] array, int index, T newValue)
     {
         var newArray = array.ToArray();

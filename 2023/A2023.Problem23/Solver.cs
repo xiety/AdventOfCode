@@ -42,7 +42,7 @@ public class LongestPathFinder
                     '<' => [new(-1, 0)],
                     'v' => [new(0, 1)],
                     '^' => [new(0, -1)],
-                    '.' => ArrayExtensions.Offsets,
+                    '.' => ArrayEx.Offsets,
                 };
 
                 var nextSteps = offsets
