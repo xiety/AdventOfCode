@@ -31,7 +31,7 @@ public class Solver : IProblemSolver<long>
         {
             foreach (var currentStep in currentSteps)
             {
-                foreach (var offset in ArrayExtensions.Offsets)
+                foreach (var offset in ArrayEx.Offsets)
                 {
                     if (offset == -currentStep.Key.Offset)
                         continue;
