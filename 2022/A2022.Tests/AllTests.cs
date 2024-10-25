@@ -66,6 +66,10 @@ public class AllTests : BaseProblemTest
     [ProblemTest<long>(26, 5335787, 56000011, 13673971349056)]
     public void Problem15(string filename, bool first, long value)
         => Test(2022, 15, new Problem15.Solver(), filename, first, value);
+
+    [ProblemTest<int>(1651, 1617, 1707, 2171)]
+    public void Problem16(string filename, bool first, int value)
+        => Test(2022, 16, new Problem16.Solver(), filename, first, value);
 }
 
 public class Data
