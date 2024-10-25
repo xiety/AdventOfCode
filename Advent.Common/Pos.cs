@@ -77,4 +77,7 @@ public readonly record struct Rect(Pos From, Pos To)
 {
     public long Volume
         => (To.X - From.X + 1L) * (To.Y - From.Y + 1L);
+
+    public bool Intersects(Pos pos)
+        => From.X <= pos.X && To.X >= pos.X && From.Y <= pos.Y && To.Y >= pos.Y;
 }
