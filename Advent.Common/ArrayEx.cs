@@ -193,9 +193,12 @@ public static class ArrayEx
 
     public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
 
-    public static IEnumerable<Pos> Offsetted<T>(this T[,] array, Pos center)
+    public static IEnumerable<Pos> Offsetted(Pos center)
         => Offsets
-              .Select(a => center + a)
+              .Select(a => center + a);
+
+    public static IEnumerable<Pos> Offsetted<T>(this T[,] array, Pos center)
+        => Offsetted(center)
               .Where(a => array.IsInBounds(a));
 
     public static void ForEach<T>(this T[,] array, Action<Pos> action)
