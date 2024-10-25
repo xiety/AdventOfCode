@@ -50,6 +50,10 @@ public class AllTests : BaseProblemTest
     [ProblemTest<long>(10605, 50616, 2713310158, 11309046332)]
     public void Problem11(string filename, bool first, long value)
         => Test(2022, 11, new Problem11.Solver(), filename, first, value);
+
+    [ProblemTest<int>(31, 456, 29, 454)]
+    public void Problem12(string filename, bool first, int value)
+        => Test(2022, 12, new Problem12.Solver(), filename, first, value);
 }
 
 public class Data
