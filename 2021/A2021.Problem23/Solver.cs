@@ -15,7 +15,7 @@ public class Solver : IProblemSolver<long>
 
     public long RunB(string filename)
     {
-        return 0;
+        throw new NotImplementedException();
     }
 
     private readonly Dictionary<string, int> history = [];

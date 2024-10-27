@@ -17,6 +17,7 @@ public class Solver : IProblemSolver<int>
 
     public int RunB(string filename)
     {
+        throw new NotImplementedException();
         var items = CompiledRegs.Regex().FromFile<Item>(filename).ToArray();
         var graph = Grapher.CreateGraph(items);
         var solver = new Solver2();
