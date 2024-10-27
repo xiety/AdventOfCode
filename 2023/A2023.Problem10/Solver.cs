@@ -217,7 +217,7 @@ public class Solver : IProblemSolver<long>
                     (Dirs.Right, Dirs.Right, Dirs.Left) => true,
                     _ => false,
                 };
-                
+
             return items.Any(r => r);
         }
     }

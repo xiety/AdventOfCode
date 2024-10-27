@@ -63,7 +63,7 @@ public class Solver : IProblemSolver<long>
                     6 => subs[0] < subs[1] ? 1 : 0,
                     7 => subs[0] == subs[1] ? 1 : 0,
                 };
-        };
+        }
 
         throw new ArgumentOutOfRangeException(paramName: nameof(packet));
     }

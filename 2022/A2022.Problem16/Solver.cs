@@ -6,7 +6,6 @@ namespace A2022.Problem16;
 
 public class Solver : IProblemSolver<int>
 {
-
     public int RunA(string filename)
     {
         var items = CompiledRegs.Regex().FromFile<Item>(filename).ToArray();

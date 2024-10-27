@@ -14,7 +14,7 @@ public static class EnumerableExtensions
     //public static IEnumerable<(T, T)> Pairs<T>(this IEnumerable<T> input, bool every)
     //    => input.Zip(input.Skip(1), (a, b) => (first: a, second: b))
     //            .Where((item, index) => every || index % 2 == 0);
-    
+
     public static IEnumerable<(T, T)> Pairs<T>(this T[] input, bool every)
         => input.Zip(input.Skip(1), (a, b) => (first: a, second: b))
             .Where((item, index) => every || index % 2 == 0);

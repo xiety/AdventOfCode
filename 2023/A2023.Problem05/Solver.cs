@@ -21,7 +21,7 @@ public class Solver : IProblemSolver<long>
 
         return seeds.Select(a => RecurseB(chunks, "seed", a.Item1, a.Item2)).Min();
     }
-    
+
     private static long RecurseA(Chunk[] chunks, string from, long fromValue)
     {
         if (from == "location")
@@ -95,7 +95,7 @@ public class Solver : IProblemSolver<long>
     private static Chunk ParseChunk(IEnumerable<string> lines)
     {
         var array = lines.ToArray();
-        
+
         var first = array.First();
 
         var n1 = first.IndexOf('-');

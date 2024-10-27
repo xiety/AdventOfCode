@@ -51,7 +51,7 @@ public class Solver : IProblemSolver<long>
                 }
             }
         }
-        
+
         //.Reverse<(string label, int focal)>()
         return boxes.Select((list, index) =>
             list.Select((b, index2) => (index + 1) * (index2 + 1) * b.focal).Sum()).Sum();

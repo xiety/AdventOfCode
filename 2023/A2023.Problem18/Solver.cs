@@ -52,7 +52,7 @@ public class Solver : IProblemSolver<long>
         return Math.Abs(points.Pairs(true)
             .Select(a =>
                 (long)a.Item1.X * a.Item2.Y - (long)a.Item1.Y * a.Item2.X
-                + Math.Abs(new Rect(a.Item1, a.Item2).Volume))
+              + Math.Abs(new Rect(a.Item1, a.Item2).Volume))
             .Sum()) / 2L + 1L;
     }
 

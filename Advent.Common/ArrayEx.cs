@@ -195,11 +195,11 @@ public static class ArrayEx
 
     public static IEnumerable<Pos> Offsetted(Pos center)
         => Offsets
-              .Select(a => center + a);
+               .Select(a => center + a);
 
     public static IEnumerable<Pos> Offsetted<T>(this T[,] array, Pos center)
         => Offsetted(center)
-              .Where(array.IsInBounds);
+               .Where(array.IsInBounds);
 
     public static void ForEach<T>(this T[,] array, Action<Pos> action)
     {
@@ -223,7 +223,7 @@ public static class ArrayEx
                 from p2 in array.EnumerateNearest(p)
                 where !array.Get(p2)
                 select p2;
-            
+
             foreach (var p2 in items)
             {
                 array.Set(p2, true);

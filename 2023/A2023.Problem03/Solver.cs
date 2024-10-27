@@ -16,12 +16,12 @@ public class Solver : IProblemSolver<int>
         var result = lines.Indexed()
             .SelectMany(a =>
                 CompiledRegs.Regex().Matches(a.item)
-                .Where(m => Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.index - 1, a.index + 2))
-                    .Select(b => (px: b[0], py: b[1]))
-                    .Where(pos => pos.py >= 0 && pos.py < height && pos.px >= 0 && pos.px < width)
-                    .Any(pos => lines[pos.py][pos.px]
-                        is not ('.' or '0' or '1' or '2' or '3' or '4' or '5' or '6' or '7' or '8' or '9')))
-                .Select(m => int.Parse(m.Value))
+                    .Where(m => Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.index - 1, a.index + 2))
+                        .Select(b => (px: b[0], py: b[1]))
+                        .Where(pos => pos.py >= 0 && pos.py < height && pos.px >= 0 && pos.px < width)
+                        .Any(pos => lines[pos.py][pos.px]
+                            is not ('.' or '0' or '1' or '2' or '3' or '4' or '5' or '6' or '7' or '8' or '9')))
+                    .Select(m => int.Parse(m.Value))
             )
             .Sum();
 
@@ -38,12 +38,12 @@ public class Solver : IProblemSolver<int>
         var result = lines.Indexed()
             .SelectMany(a =>
                 CompiledRegs.Regex().Matches(a.item).Cast<Match>()
-                .SelectMany(m =>
-                    Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.index - 1, a.index + 2))
-                    .Select(b => (px: b[0], py: b[1]))
-                    .Where(pos => pos.py >= 0 && pos.py < height && pos.px >= 0 && pos.px < width)
-                    .Where(pos => lines[pos.py][pos.px] is '*')
-                    .Select(pos => (pos, value: int.Parse(m.Value)))))
+                    .SelectMany(m =>
+                        Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.index - 1, a.index + 2))
+                            .Select(b => (px: b[0], py: b[1]))
+                            .Where(pos => pos.py >= 0 && pos.py < height && pos.px >= 0 && pos.px < width)
+                            .Where(pos => lines[pos.py][pos.px] is '*')
+                            .Select(pos => (pos, value: int.Parse(m.Value)))))
             .GroupBy(a => a.pos)
             .Where(a => a.Count() == 2)
             .Select(a => a.Mul(b => b.value))

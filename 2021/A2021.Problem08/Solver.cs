@@ -47,7 +47,7 @@ public class Solver : IProblemSolver<long>
     {
         int[][] enums = [
             [0, 1, 2, 4, 5, 6],
-            [2, 5 ],
+            [2, 5],
             [0, 2, 3, 4, 6],
             [0, 2, 3, 5, 6],
             [1, 2, 3, 5],

@@ -27,7 +27,7 @@ public class Solver : IProblemSolver<long>
         for (var y = 0; y < height; ++y)
             for (var x = 0; x < width; ++x)
                 space[x + offsetX, y + offsetY] = map[x, y];
-        
+
         var tempArray = new int[1];
         var ba = new BitArray(9);
 

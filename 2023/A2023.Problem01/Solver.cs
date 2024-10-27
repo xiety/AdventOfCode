@@ -25,7 +25,7 @@ public class Solver : IProblemSolver<int>
 
         return int.Parse(line[a].ToString() + line[b].ToString());
     }
-    
+
     private static int ProcessB(string line)
     {
         var dic = new Dictionary<string, int>

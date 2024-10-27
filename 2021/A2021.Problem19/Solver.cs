@@ -45,8 +45,8 @@ public class Solver : IProblemSolver<long>
                 var tb = dic[b].Translate;
 
                 var dist = Math.Abs(ta.X - tb.X)
-                    + Math.Abs(ta.Y - tb.Y)
-                    + Math.Abs(ta.Z - tb.Z);
+                            + Math.Abs(ta.Y - tb.Y)
+                            + Math.Abs(ta.Z - tb.Z);
 
                 if (dist > max)
                     max = dist;
@@ -153,7 +153,7 @@ public class Solver : IProblemSolver<long>
                         }
                     }
 
-                labelOut:;
+                labelOut: ;
                 }
             }
         }
@@ -248,6 +248,7 @@ public class Solver : IProblemSolver<long>
 record Scanner(Pos3[] Beams);
 readonly record struct Orientation(Axis Axis, int Direction);
 readonly record struct Transform(Pos3 Translate, AxisConvert Rotate);
+
 readonly record struct AxisConvert(Orientation AxisX, Orientation AxisY, Orientation AxisZ)
 {
     public Orientation Get(Axis axis)

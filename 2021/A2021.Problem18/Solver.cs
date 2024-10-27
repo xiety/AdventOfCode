@@ -197,7 +197,7 @@ public class Solver : IProblemSolver<long>
                     {
                         if (input.Tokens[j] is TokenValue tv)
                         {
-                            input.Tokens[j] =  tv with { Value = tv.Value + rightValue };
+                            input.Tokens[j] = tv with { Value = tv.Value + rightValue };
                             break;
                         }
                     }

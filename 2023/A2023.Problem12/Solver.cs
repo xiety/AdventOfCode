@@ -90,7 +90,7 @@ public class Calculator
                         quantity[g]++;
 
                         var (good, skipCombo, skipIndex, predict) = Check(pattern, combos, fromCombos, fromIndex,
-                                depth + 1 < questionsLength ? depth + 1 : -1);
+                            depth + 1 < questionsLength ? depth + 1 : -1);
 
                         if (good)
                         {
