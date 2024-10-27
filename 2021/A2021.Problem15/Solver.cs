@@ -11,7 +11,7 @@ public class Solver : IProblemSolver<long>
         var path = PathFinder.Find(map, new(0, 0), new(map.GetWidth() - 1, map.GetHeight() - 1));
 
         if (path is null)
-            throw new Exception();
+            throw new();
 
         var result = path.Select(map.Get).Sum();
 
@@ -27,7 +27,7 @@ public class Solver : IProblemSolver<long>
         var path = PathFinder.Find(bigMap, new(0, 0), new(bigMap.GetWidth() - 1, bigMap.GetHeight() - 1));
 
         if (path is null)
-            throw new Exception();
+            throw new();
 
         var result = path.Select(bigMap.Get).Sum();
 

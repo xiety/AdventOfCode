@@ -18,13 +18,14 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static IEnumerable<int> LoadFile(string filename)
+    private static int[] LoadFile(string filename)
         => File.ReadAllText(filename)
                .TrimEnd()
                .Split(",")
-               .Select(int.Parse);
+               .Select(int.Parse)
+               .ToArray();
 
-    private static int Find(IEnumerable<int> items, Func<int, int, int> func)
+    private static int Find(int[] items, Func<int, int, int> func)
         => Enumerable.Range(items.Min(), items.Max() - items.Min() + 1)
                      .Select(best => items.Select(a => func(a, best)).Sum())
                      .Min();
@@ -32,6 +33,6 @@ public class Solver : IProblemSolver<long>
     private static int Dist(int a, int b)
     {
         var n = Math.Abs(b - a);
-        return (n * (n + 1)) / 2;
+        return n * (n + 1) / 2;
     }
 }

@@ -28,6 +28,6 @@ public static class MapData
                 if (lines[y][x] == c)
                     return new(x, y);
 
-        throw new Exception("Not found");
+        throw new("Not found");
     }
 }

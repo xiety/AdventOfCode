@@ -14,7 +14,7 @@ public class Solver : IProblemSolver<long>
 
     private static long Run(string filename, int totalSteps)
     {
-        var (pallete, map) = LoadFile(filename);
+        var (palette, map) = LoadFile(filename);
 
         var width = map.GetWidth();
         var height = map.GetHeight();
@@ -52,7 +52,7 @@ public class Solver : IProblemSolver<long>
                                         || ox == space.GetWidth() - 1
                                         || oy == space.GetHeight() - 1;
 
-                            if (isBorder && pallete[0] && !pallete[^1])
+                            if (isBorder && palette[0] && !palette[^1])
                                 ba[bit] = step % 2 == 1;
                             else
                                 ba[bit] = space[ox, oy];
@@ -64,7 +64,7 @@ public class Solver : IProblemSolver<long>
                     ba.CopyTo(tempArray, 0);
                     var n = tempArray[0];
 
-                    var pn = pallete[n];
+                    var pn = palette[n];
 
                     output[x, y] = pn;
                 }
@@ -82,8 +82,8 @@ public class Solver : IProblemSolver<long>
     private static (bool[], bool[,]) LoadFile(string filename)
     {
         var chunks = File.ReadAllLines(filename).Split(String.Empty).ToArray();
-        var pallete = chunks[0].First().Select(a => a == '#').ToArray();
+        var palette = chunks[0].First().Select(a => a == '#').ToArray();
         var map = MapData.ParseMap(chunks[1].ToArray(), a => a == '#');
-        return (pallete, map);
+        return (palette, map);
     }
 }

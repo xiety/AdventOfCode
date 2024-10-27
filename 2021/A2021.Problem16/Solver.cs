@@ -10,18 +10,14 @@ public class Solver : IProblemSolver<long>
     public long RunA(string filename)
     {
         var packet = LoadFile(filename);
-
         var result = CalcSumRecurse(packet);
-
         return result;
     }
 
     public long RunB(string filename)
     {
         var packet = LoadFile(filename);
-
         var result = CalcExpressionRecurse(packet);
-
         return (long)result;
     }
 

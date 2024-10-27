@@ -10,13 +10,13 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Run(filename, 4, 10);
 
-    private long Run(string filename, int min, int max)
+    static long Run(string filename, int min, int max)
     {
         var map = LoadFile(filename);
         return CalculateDistance(map, Pos.Zero, new Pos(map.GetWidth() - 1, map.GetHeight() - 1), min, max);
     }
 
-    public static int CalculateDistance(int[,] map, Pos start, Pos end, int min, int max)
+    static int CalculateDistance(int[,] map, Pos start, Pos end, int min, int max)
     {
         var startKey = new StarKey(start, Pos.Zero);
         var startStar = new StarData(0, 0);
@@ -107,5 +107,5 @@ public class Solver : IProblemSolver<long>
         => MapData.ParseMap(File.ReadAllLines(filename), c => int.Parse($"{c}"));
 }
 
-public record class StarKey(Pos Pos, Pos Offset);
-public record class StarData(int OffsetSteps, int Value);
+public record StarKey(Pos Pos, Pos Offset);
+public record StarData(int OffsetSteps, int Value);

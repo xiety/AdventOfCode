@@ -35,13 +35,13 @@ public class Solver : IProblemSolver<int>
     }
 }
 
-record class Pair(ItemArray First, ItemArray Second);
+record Pair(ItemArray First, ItemArray Second);
 
-abstract record class Item : IComparable<Item>
+abstract record Item : IComparable<Item>
 {
     public int CompareTo(Item? other)
         => Comparer.Compare(this, other!); //bang
 }
 
-record class ItemValue(int Value) : Item;
-record class ItemArray(Item[] Items) : Item;
+record ItemValue(int Value) : Item;
+record ItemArray(Item[] Items) : Item;

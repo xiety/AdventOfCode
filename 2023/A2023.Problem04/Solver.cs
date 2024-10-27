@@ -9,7 +9,6 @@ public class Solver : IProblemSolver<int>
     public int RunA(string filename)
     {
         var cards = CompiledRegs.Regex().FromFile<Card>(filename);
-
         return cards.Select(CalcPoints).Sum();
     }
 
@@ -26,10 +25,10 @@ public class Solver : IProblemSolver<int>
         return calculates.Select(a => a.Copies).Sum();
     }
 
-    private int CalcWin(Card card)
+    private static int CalcWin(Card card)
         => card.Left.Select(a => card.Right.Contains(a) ? 1 : 0).Sum();
 
-    private int CalcPoints(Card card)
+    private static int CalcPoints(Card card)
     {
         var win = CalcWin(card);
         return win == 0 ? 0 : (int)Math.Pow(2, win - 1);

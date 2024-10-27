@@ -6,7 +6,7 @@ namespace A2021.Problem10;
 
 public class Solver : IProblemSolver<long>
 {
-    private static readonly Dictionary<char, int> dicScores1 = new()
+    private static readonly Dictionary<char, int> DicScores1 = new()
     {
         [')'] = 3,
         [']'] = 57,
@@ -14,7 +14,7 @@ public class Solver : IProblemSolver<long>
         ['>'] = 25137,
     };
 
-    private static readonly Dictionary<char, int> dicScores2 = new()
+    private static readonly Dictionary<char, int> DicScores2 = new()
     {
         ['('] = 1,
         ['['] = 2,
@@ -22,7 +22,7 @@ public class Solver : IProblemSolver<long>
         ['<'] = 4,
     };
 
-    private static readonly Dictionary<char, int> dicCloses = new()
+    private static readonly Dictionary<char, int> DicCloses = new()
     {
         [')'] = '(',
         [']'] = '[',
@@ -42,7 +42,7 @@ public class Solver : IProblemSolver<long>
 
             foreach (var c in line)
             {
-                if (dicCloses.ContainsValue(c))
+                if (DicCloses.ContainsValue(c))
                 {
                     stack.Push(c);
                 }
@@ -50,9 +50,9 @@ public class Solver : IProblemSolver<long>
                 {
                     var open = stack.Pop();
 
-                    if (open != dicCloses[c])
+                    if (open != DicCloses[c])
                     {
-                        score += dicScores1[c];
+                        score += DicScores1[c];
                         break;
                     }
                 }
@@ -76,7 +76,7 @@ public class Solver : IProblemSolver<long>
 
             foreach (var c in line)
             {
-                if (dicCloses.ContainsValue(c))
+                if (DicCloses.ContainsValue(c))
                 {
                     stack.Push(c);
                 }
@@ -84,7 +84,7 @@ public class Solver : IProblemSolver<long>
                 {
                     var open = stack.Pop();
 
-                    if (open != dicCloses[c])
+                    if (open != DicCloses[c])
                     {
                         isError = true;
                         break;
@@ -94,7 +94,7 @@ public class Solver : IProblemSolver<long>
 
             if (!isError)
             {
-                var scoreLine = stack.Aggregate(0L, (acc, item) => acc * 5 + dicScores2[item]);
+                var scoreLine = stack.Aggregate(0L, (acc, item) => acc * 5 + DicScores2[item]);
                 scores.Add(scoreLine);
             }
         }

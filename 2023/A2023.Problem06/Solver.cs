@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<long>
         var times = ParseA(lines[0]);
         var distances = ParseA(lines[1]);
 
-        var result = Enumerable.Zip(times, distances)
+        var result = times.Zip(distances)
             .Select(a => Calculate(a.First, a.Second))
             .Mul();
 
@@ -32,9 +32,9 @@ public class Solver : IProblemSolver<long>
     }
 
     private static int Calculate(long time, long distance)
-        => EnumerableExtensions.LongRange(0, time)
-                .Where(b => ((time - b) * b) > distance)
-                .Count();
+        => EnumerableExtensions
+            .LongRange(0, time)
+            .Count(b => ((time - b) * b) > distance);
 
     private static long ParseB(string line)
         => long.Parse(String.Join("", line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1)));

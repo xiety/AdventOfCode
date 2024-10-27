@@ -37,8 +37,6 @@ public class Solver : IProblemSolver<long>
 
     private int Size(Component[] components, string startName)
     {
-        var step = 0;
-
         var start = components.First(a => a.Name == startName);
 
         HashSet<Component> already = [start];
@@ -47,15 +45,14 @@ public class Solver : IProblemSolver<long>
 
         do
         {
-            foreach (var currentStep in currentSteps)
-            {
-                var nextSteps = currentStep.Connections.Where(a => !already.Contains(a));
+            var items = currentSteps
+                .Select(currentStep => currentStep.Connections.Where(a => !already.Contains(a)))
+                .SelectMany(nextSteps => nextSteps);
 
-                foreach (var newStep in nextSteps)
-                {
-                    already.Add(newStep);
-                    newSteps.Add(newStep);
-                }
+            foreach (var newStep in items)
+            {
+                already.Add(newStep);
+                newSteps.Add(newStep);
             }
 
             if (newSteps.Count == 0)
@@ -63,15 +60,13 @@ public class Solver : IProblemSolver<long>
 
             (currentSteps, newSteps) = (newSteps, currentSteps);
             newSteps.Clear();
-
-            step++;
         }
         while (true);
 
         return already.Count;
     }
 
-    private void Cut(Component[] components, string name1, string name2)
+    static void Cut(Component[] components, string name1, string name2)
     {
         var component1 = components.First(a => a.Name == name1);
         var component2 = components.First(a => a.Name == name2);
@@ -80,26 +75,11 @@ public class Solver : IProblemSolver<long>
         component2.Connections.Remove(component1);
     }
 
-    private void Draw(string filename, Component[] components)
+    static Component[] Create(List<Item> items)
     {
-        var sb = new StringBuilder();
-
-        sb.AppendLine("digraph {");
-
-        foreach (var wire in components.SelectMany(a => a.Connections.Select(b => a.Name.CompareTo(b.Name) < 0 ? (a.Name, b.Name) : (b.Name, a.Name))).Distinct())
-            sb.AppendLine($"  {wire.Item1}->{wire.Item2}");
-
-        sb.AppendLine("}");
-
-        var outputFilename = Path.Combine(Path.GetDirectoryName(filename)!, Path.GetFileNameWithoutExtension(filename) + "-out.txt");
-
-        File.WriteAllText(outputFilename, sb.ToString());
-    }
-
-    private Component[] Create(List<Item> items)
-    {
-        var components = Enumerable
-            .Concat(items.Select(a => a.Name), items.SelectMany(a => a.Outputs))
+        var components = items
+            .Select(a => a.Name)
+            .Concat(items.SelectMany(a => a.Outputs))
             .Distinct()
             .Select(a => new Component { Name = a })
             .ToArray();
@@ -121,13 +101,13 @@ public class Solver : IProblemSolver<long>
     }
 }
 
-public record Item(string Name, string[] Outputs);
+record Item(string Name, string[] Outputs);
 
-public class Component
+class Component
 {
     public required string Name;
 
-    public List<Component> Connections = [];
+    public readonly List<Component> Connections = [];
 }
 
 static partial class CompiledRegs

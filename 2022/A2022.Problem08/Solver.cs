@@ -47,7 +47,7 @@ public class Solver : IProblemSolver<long>
                 .TakeWhile(a => a < tree)
                 .Count() + 1;
         }
-   }
+    }
 
     static bool IsVisibleTreeDirection(int[,] map, Pos treePos, Pos delta)
     {
@@ -55,8 +55,7 @@ public class Solver : IProblemSolver<long>
 
         return !EnumerateDirection(map, treePos, delta)
             .Select(map.Get)
-            .Where(a => a >= tree)
-            .Any();
+            .Any(a => a >= tree);
     }
 
     static IEnumerable<Pos> EnumerateDirection<T>(T[,] array, Pos p, Pos d)

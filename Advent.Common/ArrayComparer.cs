@@ -10,14 +10,6 @@ public class ArrayComparer<T> : IComparer<T[]>
         if (x == null || y == null || x.Length != y.Length)
             return -1;
 
-        for (var i = 0; i < x.Length; ++i)
-        {
-            var r = x[i].CompareTo(y[i]);
-
-            if (r != 0)
-                return r;
-        }
-
-        return 0;
+        return x.Select((t, i) => t.CompareTo(y[i])).FirstOrDefault(r => r != 0);
     }
 }

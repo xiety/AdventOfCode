@@ -12,7 +12,7 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Run(filename).Item2;
 
-    private (long, long) Run(string filename)
+    private static (long, long) Run(string filename)
     {
         var item = CompiledRegs.MapRegex().FromFile<Item>(filename).First();
 
@@ -89,7 +89,7 @@ public class Solver : IProblemSolver<long>
     }
 }
 
-public record Item(int FromX, int FromY, int ToX, int ToY);
+record Item(int FromX, int FromY, int ToX, int ToY);
 
 static partial class CompiledRegs
 {

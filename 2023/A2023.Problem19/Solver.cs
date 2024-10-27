@@ -55,7 +55,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private readonly static int num = 4000;
+    private const int Num = 4000;
 
     public long RunB(string filename)
     {
@@ -67,10 +67,10 @@ public class Solver : IProblemSolver<long>
 
         var dic = new Dictionary<string, Range[]>
         {
-            ["x"] = [1..num],
-            ["m"] = [1..num],
-            ["a"] = [1..num],
-            ["s"] = [1..num],
+            ["x"] = [1..Num],
+            ["m"] = [1..Num],
+            ["a"] = [1..Num],
+            ["s"] = [1..Num],
         };
 
         var result = Recurse(workflows, "in", conditionNum: 0, depth: 0, dic);
@@ -81,7 +81,7 @@ public class Solver : IProblemSolver<long>
     private long Recurse(Item1[] workflows, string workflowName, int conditionNum, int depth, Dictionary<string, Range[]> dic)
     {
         if (workflowName == "A")
-            return dic.Values.Select(a => a.Sum(b => b.GetOffsetAndLength(num).Length + 1L)).Mul();
+            return dic.Values.Select(a => a.Sum(b => b.GetOffsetAndLength(Num).Length + 1L)).Mul();
 
         if (workflowName == "R")
             return 0;
@@ -89,35 +89,31 @@ public class Solver : IProblemSolver<long>
         var workflow = workflows.First(a => a.Name == workflowName);
 
         if (conditionNum >= workflow.Conditions.Length)
-        {
             return Recurse(workflows, workflow.LastOutput, 0, depth + 1, dic);
-        }
+
+        var condition = workflow.Conditions[conditionNum];
+
+        var result = 0L;
+
+        var ranges = dic[condition.Variable];
+
+        Range[] left;
+        Range[] right;
+
+        if (condition.Operation == "<")
+            (left, right) = StripRanges(ranges, condition.Number, middleToLeft: false);
         else
-        {
-            var condition = workflow.Conditions[conditionNum];
+            (right, left) = StripRanges(ranges, condition.Number, middleToLeft: true);
 
-            var result = 0L;
+        var dicLeft = new Dictionary<string, Range[]>(dic) { [condition.Variable] = left };
 
-            var ranges = dic[condition.Variable];
+        result += Recurse(workflows, condition.Output, 0, depth + 1, dicLeft);
 
-            Range[] left;
-            Range[] right;
+        var dicRight = new Dictionary<string, Range[]>(dic) { [condition.Variable] = right };
 
-            if (condition.Operation == "<")
-                (left, right) = StripRanges(ranges, condition.Number, middleToLeft: false);
-            else
-                (right, left) = StripRanges(ranges, condition.Number, middleToLeft: true);
+        result += Recurse(workflows, workflowName, conditionNum + 1, depth + 1, dicRight);
 
-            var dicLeft = new Dictionary<string, Range[]>(dic) { [condition.Variable] = left };
-
-            result += Recurse(workflows, condition.Output, 0, depth + 1, dicLeft);
-
-            var dicRight = new Dictionary<string, Range[]>(dic) { [condition.Variable] = right };
-
-            result += Recurse(workflows, workflowName, conditionNum + 1, depth + 1, dicRight);
-
-            return result;
-        }
+        return result;
     }
 
     private (Range[], Range[]) StripRanges(Range[] ranges, int divider, bool middleToLeft)
@@ -127,8 +123,8 @@ public class Solver : IProblemSolver<long>
 
         foreach (var range in ranges)
         {
-            var start = range.Start.GetOffset(num);
-            var end = range.End.GetOffset(num);
+            var start = range.Start.GetOffset(Num);
+            var end = range.End.GetOffset(Num);
 
             if (middleToLeft)
             {
@@ -167,15 +163,12 @@ record Item2(string[] Variables, int[] Values);
 
 static partial class CompiledRegs
 {
-    //px{a<2006:qkq,m>2090:A,rfg}
     [GeneratedRegex(@$"^(?<{nameof(ItemRaw1.Name)}>\w+)\{{((?<{nameof(ItemRaw1.Conditions)}>\w[\<\>]\d+\:\w+)\,)+(?<{nameof(ItemRaw1.LastCondition)}>\w+)\}}$")]
     public static partial Regex Regex1();
 
-    //a<2006:qkq
     [GeneratedRegex(@$"^(?<{nameof(Item1Condition.Variable)}>\w)(?<{nameof(Item1Condition.Operation)}>[\<\>])(?<{nameof(Item1Condition.Number)}>\d+)\:(?<{nameof(Item1Condition.Output)}>\w+)$")]
     public static partial Regex Regex2();
 
-    //{x=2127,m=1623,a=2188,s=1013}
     [GeneratedRegex(@$"^\{{((?<{nameof(Item2.Variables)}>\w)=(?<{nameof(Item2.Values)}>\d+)\,?)+\}}$")]
     public static partial Regex Regex3();
 }

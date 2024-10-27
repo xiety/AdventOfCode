@@ -12,7 +12,7 @@ public class Solver : IProblemSolver<int>
     public int RunB(string filename)
         => Run(filename, 14);
 
-    private int Run(string filename, int len)
+    private static int Run(string filename, int len)
     {
         var line = File.ReadAllText(filename);
         var result = 0;

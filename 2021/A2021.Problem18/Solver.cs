@@ -25,12 +25,16 @@ public class Solver : IProblemSolver<long>
 
         var lines = items.Select(Parse).ToArray();
 
-        var max = lines.SelectMany(a => lines.Where(b => b != a).Select(b =>
-        {
-            var result = AddNodes(a, b);
-            var tree = ToTree(result.Tokens.ToArray());
-            return Magnitude(tree);
-        })).Max();
+        var max = lines
+            .SelectMany(a => lines
+                .Where(b => b != a)
+                .Select(b =>
+                {
+                    var result = AddNodes(a, b);
+                    var tree = ToTree(result.Tokens.ToArray());
+                    return Magnitude(tree);
+                }))
+            .Max();
 
         return max;
     }
@@ -193,7 +197,7 @@ public class Solver : IProblemSolver<long>
                     {
                         if (input.Tokens[j] is TokenValue tv)
                         {
-                            input.Tokens[j] = tv with { Value = tv.Value + rightValue };
+                            input.Tokens[j] =  tv with { Value = tv.Value + rightValue };
                             break;
                         }
                     }
@@ -208,6 +212,8 @@ public class Solver : IProblemSolver<long>
 
     static Node Parse(string text)
     {
+        return new(Internal().ToList());
+
         IEnumerable<Token> Internal()
         {
             for (var i = 0; i < text.Length; ++i)
@@ -232,8 +238,6 @@ public class Solver : IProblemSolver<long>
                 }
             }
         }
-
-        return new Node(Internal().ToList());
     }
 }
 
@@ -242,7 +246,7 @@ record Node(List<Token> Tokens)
     public override string ToString()
         => Tokens.Select(TokenToString).StringJoin("");
 
-    private string TokenToString(Token t)
+    private static string TokenToString(Token t)
         => t switch
         {
             TokenOpenBranch => "[",

@@ -14,8 +14,6 @@ public class PathFinder
 
     private static Pos[] CalculatePath(int[,] map, int[,] star, Pos start, Pos end)
     {
-        var step = 0;
-
         var path = new List<Pos>() { end };
         var currentStep = end;
 
@@ -33,8 +31,6 @@ public class PathFinder
                 break;
 
             path.Add(currentStep);
-
-            step++;
         }
         while (true);
 
@@ -43,8 +39,6 @@ public class PathFinder
 
     private static int[,]? CalculateStar(int[,] map, Pos start, Pos end)
     {
-        var step = 0;
-
         var star = ArrayEx.CreateAndInitialize(map.GetWidth(), map.GetHeight(), -1);
 
         star.Set(start, 0);
@@ -86,8 +80,6 @@ public class PathFinder
 
             (currentSteps, newSteps) = (newSteps, currentSteps);
             newSteps.Clear();
-
-            step++;
         }
         while (true);
     }

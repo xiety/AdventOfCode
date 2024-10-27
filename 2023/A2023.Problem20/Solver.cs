@@ -6,13 +6,14 @@ namespace A2023.Problem20;
 
 public class Solver : IProblemSolver<long>
 {
-    const string broadcasterName = "broadcaster";
+    const string BroadcasterName = "broadcaster";
 
     public long RunA(string filename)
     {
         var items = CompiledRegs.Regex().FromFile<Item>(filename);
         var graph = Create(items);
-        var total = 1000;
+
+        const int total = 1000;
 
         var dic = new Dictionary<bool, long>() { [false] = 0, [true] = 0 };
         var conjDic = new Dictionary<string, List<long>>();
@@ -60,7 +61,7 @@ public class Solver : IProblemSolver<long>
             if (Process(currentList, newList, dic, conjDic, true, buttonPress))
                 break;
 
-            if (conjDic.Where(a => prev.Contains(a.Key)).Count() == prev.Count
+            if (conjDic.Count(a => prev.Contains(a.Key)) == prev.Count
              && conjDic.Where(a => prev.Contains(a.Key)).All(a => a.Value.Count > 1))
                 break;
         }
@@ -70,14 +71,10 @@ public class Solver : IProblemSolver<long>
             .Select(a => (int)(a.Value[1] - a.Value[0])));
     }
 
-    private RadioConjunction FindConj(Radio parent)
+    static RadioConjunction FindConj(Radio parent)
     {
         var child = parent.Inputs.Select(a => a.From).OfType<RadioConjunction>().FirstOrDefault();
-
-        if (child is not null)
-            return child;
-
-        return parent.Inputs.Select(a => a.From).Select(FindConj).First();
+        return child ?? parent.Inputs.Select(a => a.From).Select(FindConj).First();
     }
 
     private bool Process(List<Radio> currentList, List<Radio> newList, Dictionary<bool, long> dic, Dictionary<string, List<long>> conjDic, bool exit, long buttonPress)
@@ -88,28 +85,27 @@ public class Solver : IProblemSolver<long>
         {
             foreach (var radio in currentList)
             {
-                if (radio is RadioButton button)
+                switch (radio)
                 {
-                    SendSignal(dic, newList, radio, false, exit);
-                }
-                else if (radio is RadioBroadcaster broadcaster)
-                {
-                    SendSignal(dic, newList, radio, false, exit);
-                }
-                else if (radio is RadioFlipflop flipflop)
-                {
-                    Flipflop(newList, dic, flipflop, exit);
-                }
-                else if (radio is RadioConjunction conjunction)
-                {
-                    Conjunction(newList, dic, conjunction, conjDic, exit, buttonPress, step);
-                }
-                else if (radio is RadioDeadend deadend)
-                {
-                    var (connection, pulse) = radio.PulseQueue.Dequeue();
+                    case RadioButton button:
+                    case RadioBroadcaster broadcaster:
+                        SendSignal(dic, newList, radio, false, exit);
+                        break;
+                    case RadioFlipflop flipflop:
+                        Flipflop(newList, dic, flipflop, exit);
+                        break;
+                    case RadioConjunction conjunction:
+                        Conjunction(newList, dic, conjunction, conjDic, exit, buttonPress, step);
+                        break;
 
-                    if (pulse == false && exit)
-                        return true;
+                    case RadioDeadend:
+                        {
+                            var (_, pulse) = radio.PulseQueue.Dequeue();
+
+                            if (pulse == false && exit)
+                                return true;
+                            break;
+                        }
                 }
 
                 step++;
@@ -137,7 +133,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private static readonly Predicate<Connection> check1 = a => a.PulseMemory == true;
+    private static readonly Predicate<Connection> Check1 = a => a.PulseMemory;
 
     private void Conjunction(List<Radio> newList, Dictionary<bool, long> dic, RadioConjunction conjunction, Dictionary<string, List<long>> conjDic, bool exit, long buttonPress, long step)
     {
@@ -145,7 +141,7 @@ public class Solver : IProblemSolver<long>
 
         connection.PulseMemory = pulse;
 
-        var allHigh = Array.TrueForAll(conjunction.Inputs, check1);
+        var allHigh = Array.TrueForAll(conjunction.Inputs, Check1);
         var nextPulse = !allHigh;
 
         if (nextPulse)
@@ -173,7 +169,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private Radio[] Create(List<Item> items)
+    static Radio[] Create(List<Item> items)
     {
         var radios = new List<Radio>();
 
@@ -186,14 +182,14 @@ public class Solver : IProblemSolver<long>
 
             Radio radio;
 
-            if (item.Name == broadcasterName)
+            if (item.Name == BroadcasterName)
                 radio = new RadioBroadcaster { Name = radioName };
             else if (item.Name.StartsWith('%'))
                 radio = new RadioFlipflop { Name = radioName };
             else if (item.Name.StartsWith('&'))
                 radio = new RadioConjunction { Name = radioName };
             else
-                throw new Exception();
+                throw new();
 
             radios.Add(radio);
         }
@@ -203,7 +199,7 @@ public class Solver : IProblemSolver<long>
             var fromName = GetName(item.Name);
             var fromRadio = radios.First(a => a.Name == fromName);
 
-            if (fromName == broadcasterName)
+            if (fromName == BroadcasterName)
             {
                 var connection = new Connection { From = button, To = fromRadio };
                 button.Outputs = [.. button.Outputs, connection];
@@ -232,14 +228,14 @@ public class Solver : IProblemSolver<long>
 
     private static string GetName(string text)
     {
-        if (text == broadcasterName)
+        if (text == BroadcasterName)
             return text;
         else if (text.StartsWith('%'))
             return text[1..];
         else if (text.StartsWith('&'))
             return text[1..];
         else
-            throw new Exception();
+            throw new();
     }
 }
 
@@ -252,7 +248,7 @@ public abstract class Radio
     public Connection[] Inputs = [];
     public Connection[] Outputs = [];
 
-    public Queue<(Connection, bool)> PulseQueue = [];
+    public readonly Queue<(Connection, bool)> PulseQueue = [];
 }
 
 public class RadioButton : Radio
@@ -286,7 +282,6 @@ public class Connection
 
 static partial class CompiledRegs
 {
-    //&bd -> nx, pz, dc, qr, cj, df, tn
     [GeneratedRegex(@$"^(?<{nameof(Item.Name)}>.\w+|broadcaster) \-\> ((?<{nameof(Item.Outputs)}>\w+)(\, )?)+$")]
     public static partial Regex Regex();
 }

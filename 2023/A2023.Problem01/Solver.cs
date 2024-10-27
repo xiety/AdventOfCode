@@ -7,30 +7,26 @@ public class Solver : IProblemSolver<int>
     public int RunA(string filename)
     {
         var lines = File.ReadAllLines(filename);
-
         var result = lines.Select(ProcessA).Sum();
-
         return result;
     }
 
-    private int ProcessA(string line)
+    public int RunB(string filename)
+    {
+        var lines = File.ReadAllLines(filename);
+        var result = lines.Select(ProcessB).Sum();
+        return result;
+    }
+
+    private static int ProcessA(string line)
     {
         var a = line.IndexOfAny(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
         var b = line.LastIndexOfAny(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
 
         return int.Parse(line[a].ToString() + line[b].ToString());
     }
-
-    public int RunB(string filename)
-    {
-        var lines = File.ReadAllLines(filename);
-
-        var result = lines.Select(ProcessB).Sum();
-
-        return result;
-    }
-
-    private int ProcessB(string line)
+    
+    private static int ProcessB(string line)
     {
         var dic = new Dictionary<string, int>
         {
@@ -57,8 +53,8 @@ public class Solver : IProblemSolver<int>
 
         var existing = dic.Where(a => line.Contains(a.Key)).ToArray();
 
-        var minResult = existing.Select(a => (Pos: line.IndexOf(a.Key), a.Value)).MinBy(a => a.Pos).Value;
-        var maxResult = existing.Select(a => (Pos: line.LastIndexOf(a.Key), a.Value)).MaxBy(a => a.Pos).Value;
+        var minResult = existing.Select(a => (Pos: line.IndexOf(a.Key, StringComparison.Ordinal), a.Value)).MinBy(a => a.Pos).Value;
+        var maxResult = existing.Select(a => (Pos: line.LastIndexOf(a.Key, StringComparison.Ordinal), a.Value)).MaxBy(a => a.Pos).Value;
 
         var result = int.Parse($"{minResult}{maxResult}");
 

@@ -12,7 +12,7 @@ public class Solver : IProblemSolver<long, string>
 
         var folded = Fold(map, folds.First());
 
-        var result = folded.Cast<bool>().Count(a => a == true);
+        var result = folded.Cast<bool>().Count(a => a);
 
         return result;
     }

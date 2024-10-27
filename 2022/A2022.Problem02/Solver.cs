@@ -7,7 +7,7 @@ public class Solver : IProblemSolver<int>
     public int RunA(string filename)
     {
         var parsed = LoadFile(filename);
-        var results = parsed.Select(a => prices[a.Item2] + wons[a]);
+        var results = parsed.Select(a => prices[a.Item2] + wins[a]);
         return results.Sum();
     }
 
@@ -26,7 +26,7 @@ public class Solver : IProblemSolver<int>
             .Select(a =>
             {
                 var req = outcome[a.Item2];
-                var our = wons.First(b => b.Key.Item1 == a.Item1 && b.Value == req).Key.Item2;
+                var our = wins.First(b => b.Key.Item1 == a.Item1 && b.Value == req).Key.Item2;
                 return req + prices[our];
             });
 
@@ -40,7 +40,7 @@ public class Solver : IProblemSolver<int>
         return parsed;
     }
 
-    readonly Dictionary<(char, char), int> wons = new()
+    readonly Dictionary<(char, char), int> wins = new()
     {
         [('A', 'Z')] = 0,
         [('B', 'X')] = 0,

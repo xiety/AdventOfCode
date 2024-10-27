@@ -7,7 +7,7 @@ public static class StringExtensions
         if (text.Length <= n)
             return text;
 
-        var ellipsis = "...";
+        const string ellipsis = "...";
 
         text = text[0..(n - ellipsis.Length)];
 

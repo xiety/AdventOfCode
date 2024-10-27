@@ -8,8 +8,9 @@ public class Solver : IProblemSolver<long>
     {
         var players = LoadFile(filename);
 
+        const int target = 1000;
+
         var step = 0;
-        var target = 1000;
         var scores = new int[players.Length];
 
         do
@@ -56,7 +57,7 @@ public class Solver : IProblemSolver<long>
             [9] = 1,
         };
 
-        var target = 21;
+        const int target = 21;
 
         var (win1, win2) = Recurse(0, 0, 0, players[0], players[1], target, dic);
 

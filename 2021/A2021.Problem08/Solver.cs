@@ -7,7 +7,7 @@ public class Solver : IProblemSolver<long>
     public long RunA(string filename)
     {
         var items = LoadFile(filename);
-        var result = items.Sum(a => a.Output.Count(a => a.Length is 2 or 3 or 4 or 7));
+        var result = items.Sum(a => a.Output.Count(b => b.Length is 2 or 3 or 4 or 7));
         return result;
     }
 
@@ -46,16 +46,16 @@ public class Solver : IProblemSolver<long>
     private static int[][] CreateDigits(int[] positions)
     {
         int[][] enums = [
-            [ 0, 1, 2, 4, 5, 6 ],
-            [2, 5],
-            [ 0, 2, 3, 4, 6],
-            [ 0, 2, 3, 5, 6],
-            [ 1, 2, 3, 5],
-            [ 0, 1, 3, 5, 6],
-            [ 0, 1, 3, 4, 5, 6],
-            [ 0, 2, 5],
-            [ 0, 1, 2, 3, 4, 5, 6],
-            [ 0, 1, 2, 3, 5, 6],
+            [0, 1, 2, 4, 5, 6],
+            [2, 5 ],
+            [0, 2, 3, 4, 6],
+            [0, 2, 3, 5, 6],
+            [1, 2, 3, 5],
+            [0, 1, 3, 5, 6],
+            [0, 1, 3, 4, 5, 6],
+            [0, 2, 5],
+            [0, 1, 2, 3, 4, 5, 6],
+            [0, 1, 2, 3, 5, 6],
         ];
 
         return enums.Select(a => a.Select(b => positions[b]).Order().ToArray()).ToArray();
@@ -63,7 +63,7 @@ public class Solver : IProblemSolver<long>
 
     private static int[] Convert(int[][] output, int[][] digits)
         => output.Select(a => new { Index = Array.FindIndex(digits, b => b.SequenceEqual(a.Order().ToArray())), Value = a })
-                 .Select(a => a.Index == -1 ? throw new Exception($"Not found {String.Join(", ", a.Value)} ({a.Value.Length})") : a.Index)
+                 .Select(a => a.Index == -1 ? throw new($"Not found {String.Join(", ", a.Value)} ({a.Value.Length})") : a.Index)
                  .ToArray();
 
     private static int[] FindPositions(Item item)
@@ -80,8 +80,6 @@ public class Solver : IProblemSolver<long>
 
         var one = item.Input.First(a => a.Length == 2);
         var four = item.Input.First(a => a.Length == 4);
-        var seven = item.Input.First(a => a.Length == 3);
-        var eight = item.Input.First(a => a.Length == 7);
 
         var times = item.Input
             .SelectMany(a => a)
@@ -110,4 +108,4 @@ public class Solver : IProblemSolver<long>
     }
 }
 
-public record Item(int[][] Input, int[][] Output);
+record Item(int[][] Input, int[][] Output);

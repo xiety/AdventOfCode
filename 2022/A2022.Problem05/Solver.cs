@@ -14,7 +14,7 @@ public class Solver : IProblemSolver<string>
             for (var p = 0; p < command.Quantity; ++p)
                 crates[command.To].Push(crates[command.From].Pop());
 
-        return ColletcLetters(crates);
+        return CollectLetters(crates);
     }
 
     public string RunB(string filename)
@@ -25,10 +25,10 @@ public class Solver : IProblemSolver<string>
             foreach (var crate in crates[command.From].PopMultiple(command.Quantity).Reverse())
                 crates[command.To].Push(crate);
 
-        return ColletcLetters(crates);
+        return CollectLetters(crates);
     }
 
-    private static string ColletcLetters(Stack<char>[] crates)
+    private static string CollectLetters(Stack<char>[] crates)
         => new(Enumerable.Range(1, crates.Length - 1).Select(a => crates[a].First()).ToArray());
 
     private static (Stack<char>[] crates, IEnumerable<Item> commands) LoadFile(string filename)
@@ -43,7 +43,7 @@ public class Solver : IProblemSolver<string>
 
         for (var i = 0; i < numberOfColumns; ++i)
         {
-            crates[i + 1] = new Stack<char>();
+            crates[i + 1] = new();
 
             for (var j = 0; j < cratesLines.Length - 1; ++j)
             {

@@ -8,6 +8,12 @@ public class Solver : IProblemSolver<int>
 {
     public int RunA(string filename)
     {
+        var items = LoadFile(filename);
+        var pos = items.Aggregate(new Pos(0, 0), Process);
+        var result = pos.X * pos.Y;
+
+        return result;
+
         static Pos Process(Pos pos, Item item)
             => item.Dir switch
             {
@@ -15,16 +21,16 @@ public class Solver : IProblemSolver<int>
                 "down" => pos with { Y = pos.Y + item.Number },
                 "forward" => pos with { X = pos.X + item.Number },
             };
-
-        var items = LoadFile(filename);
-        var pos = items.Aggregate(new Pos(0, 0), Process);
-        var result = pos.X * pos.Y;
-
-        return result;
     }
 
     public int RunB(string filename)
     {
+        var items = LoadFile(filename);
+        var (_, pos) = items.Aggregate((0, new Pos(0, 0)), Process);
+        var result = pos.X * pos.Y;
+
+        return result;
+
         static (int, Pos) Process((int Aim, Pos Pos) data, Item item)
             => item.Dir switch
             {
@@ -34,12 +40,6 @@ public class Solver : IProblemSolver<int>
                     new(data.Pos.X + data.Aim * item.Number,
                         data.Pos.Y + item.Number)),
             };
-
-        var items = LoadFile(filename);
-        var (aim, pos) = items.Aggregate((0, new Pos(0, 0)), Process);
-        var result = pos.X * pos.Y;
-
-        return result;
     }
 
     private static List<Item> LoadFile(string filename)

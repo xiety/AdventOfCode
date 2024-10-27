@@ -23,7 +23,7 @@ public class Solver : IProblemSolver<long>
 
         var history = new Dictionary<string, long>();
 
-        var total = 1_000_000_000L;
+        const long total = 1_000_000_000L;
 
         for (var i = 0L; i < total; ++i)
         {

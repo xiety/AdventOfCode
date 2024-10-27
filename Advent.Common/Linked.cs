@@ -10,11 +10,10 @@ public class Linked<T>(T? value, bool end, Linked<T>? next, int count) : IEnumer
 {
     public T? Value = value;
 
-    private readonly bool end = end;
-    private readonly Linked<T>? next = next;
+    public bool End { get; } = end;
 
-    public bool End => end;
-    public Linked<T>? Next => next;
+    public Linked<T>? Next { get; } = next;
+
     public int Count => count;
 
     public Linked<T> AddBefore(T value)
@@ -24,7 +23,7 @@ public class Linked<T>(T? value, bool end, Linked<T>? next, int count) : IEnumer
     {
         var p = this;
 
-        while (!p.end)
+        while (!p.End)
         {
             if (p.Value!.Equals(search))
                 return true;
@@ -37,10 +36,9 @@ public class Linked<T>(T? value, bool end, Linked<T>? next, int count) : IEnumer
 
     public Linked<T> AddDistinct(T value)
     {
-        if (Contains(value))
-            return this;
-
-        return AddBefore(value);
+        return Contains(value)
+            ? this
+            : AddBefore(value);
     }
 
     public IEnumerator<T> GetEnumerator()
@@ -69,15 +67,15 @@ public class Linked<T>(T? value, bool end, Linked<T>? next, int count) : IEnumer
             {
                 reseted = false;
                 linked = initial;
-                return !linked.end;
+                return !linked.End;
             }
             else
             {
-                if (linked == null || linked.next == null)
+                if (linked?.Next == null)
                     return false; //WHY THIS IS HAPPENING FROM VISUALIZER???
 
-                linked = linked!.next;
-                return !linked!.end;
+                linked = linked!.Next;
+                return !linked!.End;
             }
         }
 

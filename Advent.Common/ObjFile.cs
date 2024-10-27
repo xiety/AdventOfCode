@@ -4,7 +4,7 @@ namespace Advent.Common;
 
 public class ObjFile
 {
-    private static readonly Vector3[] cube_vertices = [
+    private static readonly Vector3[] CubeVertices = [
         new(0, 0, 0), // 0
         new(1, 0, 0), // 1
         new(1, 1, 0), // 2
@@ -12,20 +12,20 @@ public class ObjFile
         new(0, 1, 1), // 4
         new(1, 1, 1), // 5
         new(1, 0, 1), // 6
-        new(0, 0, 1)  // 7
+        new(0, 0, 1),  // 7
     ];
 
-    private static readonly int[,] cube_faces = new int[6, 4] {
+    private static readonly int[,] CubeFaces = new int[6, 4] {
         {0, 1, 2, 3}, // left
         {4, 5, 6, 7}, // right
         {0, 4, 7, 1}, // bottom
         {2, 3, 4, 5}, // top
         {0, 3, 4, 7}, // back
-        {1, 2, 5, 6}  // front
+        {1, 2, 5, 6},  // front
     };
 
-    private readonly List<Vector3> v_list = [];
-    private readonly List<int[]> f_list = [];
+    private readonly List<Vector3> vList = [];
+    private readonly List<int[]> fList = [];
 
     //mutable
     private int offset = 1;
@@ -35,14 +35,10 @@ public class ObjFile
         var size = pos2 - pos1;
 
         for (var i = 0; i < 8; ++i)
-        {
-            v_list.Add((cube_vertices[i] * size) + pos1);
-        }
+            vList.Add((CubeVertices[i] * size) + pos1);
 
         for (var i = 0; i < 6; i++)
-        {
-            f_list.Add([cube_faces[i, 0] + offset, cube_faces[i, 1] + offset, cube_faces[i, 2] + offset, cube_faces[i, 3] + offset]);
-        }
+            fList.Add([CubeFaces[i, 0] + offset, CubeFaces[i, 1] + offset, CubeFaces[i, 2] + offset, CubeFaces[i, 3] + offset]);
 
         offset += 8;
     }
@@ -51,14 +47,10 @@ public class ObjFile
     {
         using var writer = new StreamWriter(filename);
 
-        foreach (var v in v_list)
-        {
+        foreach (var v in vList)
             writer.WriteLine($"v {v[0]} {v[1]} {v[2]}");
-        }
 
-        foreach (var f in f_list)
-        {
+        foreach (var f in fList)
             writer.WriteLine($"f {String.Join(" ", f)}");
-        }
     }
 }

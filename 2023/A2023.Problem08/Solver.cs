@@ -11,15 +11,15 @@ public class Solver : IProblemSolver<long>
         var (path, nodes) = LoadFile(filename);
 
         var step = 0;
-        var current_node = nodes.First(a => a.Name == "AAA");
+        var currentNode = nodes.First(a => a.Name == "AAA");
 
         do
         {
-            var path_index = step % path.Length;
-            current_node = nodes.First(a => a.Name == current_node.Outputs[path[path_index]]);
+            var pathIndex = step % path.Length;
+            currentNode = nodes.First(a => a.Name == currentNode.Outputs[path[pathIndex]]);
             step++;
         }
-        while (current_node.Name != "ZZZ");
+        while (currentNode.Name != "ZZZ");
 
         return step;
     }
@@ -28,29 +28,27 @@ public class Solver : IProblemSolver<long>
     {
         var (path, nodes) = LoadFile(filename);
 
-        var current_nodes = nodes.Where(a => a.Name.EndsWith('A')).ToArray();
+        var currentNodes = nodes.Where(a => a.Name.EndsWith('A')).ToArray();
         var all = new List<List<int>>();
 
-        foreach (var start in current_nodes)
+        foreach (var start in currentNodes)
         {
             var step = 0;
-            var current_node = start;
+            var currentNode = start;
             var list = new List<int>();
             var already = new HashSet<(Node, int)>();
 
             do
             {
-                var path_index = step % path.Length;
+                var pathIndex = step % path.Length;
 
-                if (already.Contains((current_node, path_index)))
+                if (!already.Add((currentNode, pathIndex)))
                     break;
 
-                already.Add((current_node, path_index));
-
-                current_node = nodes.First(b => b.Name == current_node.Outputs[path[path_index]]);
+                currentNode = nodes.First(b => b.Name == currentNode.Outputs[path[pathIndex]]);
                 step++;
 
-                if (current_node.Name.EndsWith('Z'))
+                if (currentNode.Name.EndsWith('Z'))
                     list.Add(step);
             }
             while (true);

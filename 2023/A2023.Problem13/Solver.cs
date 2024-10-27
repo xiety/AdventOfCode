@@ -30,7 +30,7 @@ public class Solver : IProblemSolver<long>
         return r;
     }
 
-    public IEnumerable<int> ProcessVertical(bool[,] map, int min)
+    static IEnumerable<int> ProcessVertical(bool[,] map, int min)
     {
         for (var x = 1; x < map.GetWidth(); ++x)
         {
@@ -64,7 +64,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    public IEnumerable<int> ProcessHorizontal(bool[,] map, int min)
+    static IEnumerable<int> ProcessHorizontal(bool[,] map, int min)
     {
         for (var y = 1; y < map.GetHeight(); ++y)
         {

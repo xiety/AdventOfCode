@@ -44,10 +44,7 @@ public class Solver : IProblemSolver<long>
             .FirstOrNull();
 
         if (result is Pos p)
-        {
-            Console.WriteLine(p);
             return p.X * 4_000_000L + p.Y;
-        }
 
         throw new ArgumentOutOfRangeException();
     }
@@ -72,7 +69,8 @@ public class Item
     public Pos Sensor { get; }
     public Pos Beacon { get; }
     public int BeaconDistance { get; }
-    public Rect Rect { get; }
+
+    private Rect Rect { get; }
 
     public Item(Pos sensor, Pos beacon)
     {

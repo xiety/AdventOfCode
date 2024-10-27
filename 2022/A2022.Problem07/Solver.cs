@@ -8,11 +8,11 @@ public class Solver : IProblemSolver<long>
     {
         var root = LoadFile(filename);
 
-        var flatternDirs = Flattern(root).OfType<FileSystemDir>();
+        var flattenDirs = Flatten(root).OfType<FileSystemDir>();
 
-        var maximumSize = 100000;
+        const int maximumSize = 100000;
 
-        var result = flatternDirs
+        var result = flattenDirs
             .Where(a => a != root)
             .Where(a => a.CalculatedSize < maximumSize)
             .Sum(a => a.CalculatedSize);
@@ -24,15 +24,15 @@ public class Solver : IProblemSolver<long>
     {
         var root = LoadFile(filename);
 
-        var flatternDirs = Flattern(root).OfType<FileSystemDir>();
+        var flattenDirs = Flatten(root).OfType<FileSystemDir>();
 
-        var totalSpace = 70_000_000;
-        var freeSpaceRequired = 30_000_000;
+        const int totalSpace = 70_000_000;
+        const int freeSpaceRequired = 30_000_000;
 
         var currentFreeSpace = totalSpace - root.CalculatedSize;
         var needToFree = freeSpaceRequired - currentFreeSpace;
 
-        var ordered = flatternDirs
+        var ordered = flattenDirs
             .Where(a => a.CalculatedSize >= needToFree)
             .OrderBy(a => a.CalculatedSize)
             .First();
@@ -51,13 +51,13 @@ public class Solver : IProblemSolver<long>
         return root;
     }
 
-    static IEnumerable<FileSystemItem> Flattern(FileSystemDir parent)
+    static IEnumerable<FileSystemItem> Flatten(FileSystemDir parent)
     {
         foreach (var child in parent.Children)
             yield return child;
 
         foreach (var child in parent.Children.OfType<FileSystemDir>())
-            foreach (var item in Flattern(child))
+            foreach (var item in Flatten(child))
                 yield return item;
     }
 
@@ -89,10 +89,7 @@ public class Solver : IProblemSolver<long>
                 }
                 else if (cd.Dir == "..")
                 {
-                    if (currentDir.Parent is null)
-                        throw new Exception("Parent is null");
-
-                    currentDir = currentDir.Parent;
+                    currentDir = currentDir.Parent ?? throw new("Parent is null");
                 }
                 else
                 {
@@ -100,16 +97,13 @@ public class Solver : IProblemSolver<long>
                         .OfType<FileSystemDir>()
                         .FirstOrDefault(a => a.Name == cd.Dir);
 
-                    if (existing is not null)
-                    {
-                        currentDir = existing;
-                    }
-                    else
+                    if (existing is null)
                     {
                         existing = new FileSystemDir(cd.Dir, currentDir);
                         currentDir.Children.Add(existing);
-                        currentDir = existing;
                     }
+
+                    currentDir = existing;
                 }
             }
             else if (command is CommandLs ls)
@@ -157,7 +151,7 @@ public class Solver : IProblemSolver<long>
 
     static CommandLsItem Parse(string line)
     {
-        var dirPrefix = "dir ";
+        const string dirPrefix = "dir ";
 
         if (line.StartsWith(dirPrefix))
             return new CommandLsDir(line[dirPrefix.Length..]);
@@ -168,18 +162,26 @@ public class Solver : IProblemSolver<long>
     }
 }
 
-abstract record Command();
+abstract record Command;
 record CommandCd(string Dir) : Command;
 record CommandLs(CommandLsItem[] Output) : Command;
 abstract record CommandLsItem(string Name);
 record CommandLsFile(string Name, long Size) : CommandLsItem(Name);
 record CommandLsDir(string Name) : CommandLsItem(Name);
 
-record FileSystemItem(string Name);
-record FileSystemFile(string Name, long Size) : FileSystemItem(Name);
+class FileSystemItem(string name)
+{
+    public string Name { get; } = name;
+}
 
-record FileSystemDir(string Name, FileSystemDir? Parent) : FileSystemItem(Name)
+class FileSystemFile(string name, long size) : FileSystemItem(name)
+{
+    public long Size { get; } = size;
+}
+
+class FileSystemDir(string name, FileSystemDir? parent) : FileSystemItem(name)
 {
     public List<FileSystemItem> Children { get; } = [];
     public long CalculatedSize { get; set; }
+    public FileSystemDir? Parent { get; } = parent;
 }

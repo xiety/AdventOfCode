@@ -12,7 +12,17 @@ public class Solver : IProblemSolver<long>
         return seeds.Select(a => RecurseA(chunks, "seed", a)).Min();
     }
 
-    private long RecurseA(Chunk[] chunks, string from, long fromValue)
+    public long RunB(string filename)
+    {
+        var parts = File.ReadAllLines(filename).Split(String.Empty).ToArray();
+        var seeds = parts.First().First().Split(' ').Skip(1).Select(long.Parse).ToArray()
+            .Pairs(false).Select(a => (a.Item1, a.Item1 + a.Item2 - 1)).ToArray();
+        var chunks = parts.Skip(1).Select(ParseChunk).ToArray();
+
+        return seeds.Select(a => RecurseB(chunks, "seed", a.Item1, a.Item2)).Min();
+    }
+    
+    private static long RecurseA(Chunk[] chunks, string from, long fromValue)
     {
         if (from == "location")
             return fromValue;
@@ -28,16 +38,6 @@ public class Solver : IProblemSolver<long>
             result = target.TargetStart + (fromValue - target.SourceStart);
 
         return RecurseA(chunks, chunk.To, result);
-    }
-
-    public long RunB(string filename)
-    {
-        var parts = File.ReadAllLines(filename).Split(String.Empty).ToArray();
-        var seeds = parts.First().First().Split(' ').Skip(1).Select(long.Parse)
-            .Pairs(false).Select(a => (a.Item1, a.Item1 + a.Item2 - 1)).ToArray();
-        var chunks = parts.Skip(1).Select(ParseChunk).ToArray();
-
-        return seeds.Select(a => RecurseB(chunks, "seed", a.Item1, a.Item2)).Min();
     }
 
     private long RecurseB(Chunk[] chunks, string from, long fromStart, long fromEnd)
@@ -78,7 +78,7 @@ public class Solver : IProblemSolver<long>
         return RecurseB(chunks, chunk.To, targetStart, targetEnd);
     }
 
-    private (long, long)[] ToParts(long fromStart, long fromEnd, long[] points)
+    private static (long, long)[] ToParts(long fromStart, long fromEnd, long[] points)
     {
         if (fromStart == fromEnd)
             return [(fromStart, fromEnd)];
@@ -92,9 +92,11 @@ public class Solver : IProblemSolver<long>
         return pointsInside.Pairs(true).ToArray();
     }
 
-    private Chunk ParseChunk(IEnumerable<string> lines)
+    private static Chunk ParseChunk(IEnumerable<string> lines)
     {
-        var first = lines.First();
+        var array = lines.ToArray();
+        
+        var first = array.First();
 
         var n1 = first.IndexOf('-');
         var n2 = first.LastIndexOf(' ');
@@ -102,7 +104,7 @@ public class Solver : IProblemSolver<long>
         var from = first[..n1];
         var to = first[(n1 + 4)..n2];
 
-        var maps = lines.Skip(1).Select(ParseMap).ToArray();
+        var maps = array.Skip(1).Select(ParseMap).ToArray();
 
         return new Chunk(from, to, maps);
     }
@@ -116,4 +118,4 @@ public class Solver : IProblemSolver<long>
 
 record ItemMap(long TargetStart, long SourceStart, long TargetEnd, long SourceEnd);
 record Chunk(string From, string To, ItemMap[] Maps);
-record ResultMap(long Start, long Length, long Value);
+

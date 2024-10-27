@@ -189,7 +189,7 @@ public static class ArrayEx
         => EnumerableExtensions
               .Range2d(3, 3)
               .Select(a => center + a + new Pos(-1, -1))
-              .Where(a => array.IsInBounds(a));
+              .Where(array.IsInBounds);
 
     public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
 
@@ -199,7 +199,7 @@ public static class ArrayEx
 
     public static IEnumerable<Pos> Offsetted<T>(this T[,] array, Pos center)
         => Offsetted(center)
-              .Where(a => array.IsInBounds(a));
+              .Where(array.IsInBounds);
 
     public static void ForEach<T>(this T[,] array, Action<Pos> action)
     {
@@ -218,16 +218,16 @@ public static class ArrayEx
 
         do
         {
-            foreach (var p in floodPoints)
+            var items =
+                from p in floodPoints
+                from p2 in array.EnumerateNearest(p)
+                where !array.Get(p2)
+                select p2;
+            
+            foreach (var p2 in items)
             {
-                foreach (var p2 in array.EnumerateNearest(p))
-                {
-                    if (!array.Get(p2))
-                    {
-                        array.Set(p2, true);
-                        nextPoints.Add(p2);
-                    }
-                }
+                array.Set(p2, true);
+                nextPoints.Add(p2);
             }
 
             (nextPoints, floodPoints) = (floodPoints, nextPoints);

@@ -33,14 +33,13 @@ public class Solver : IProblemSolver<int>
 
     static char FindBadge(string line1, string line2, string line3)
     {
-        foreach (var char1 in line1)
-            foreach (var char2 in line2)
-                if (char1 == char2)
-                    foreach (var char3 in line3)
-                        if (char1 == char2 && char1 == char3)
-                            return char1;
+        var items =
+            from char1 in line1
+            from char2 in line2 where char1 == char2
+            from char3 in line3 where char1 == char2 && char1 == char3
+            select char1;
 
-        throw new NotSupportedException();
+        return items.First();
     }
 
     static char FindType(string line)
@@ -51,12 +50,12 @@ public class Solver : IProblemSolver<int>
         var a = line[..half];
         var b = line[half..];
 
-        foreach (var la in a)
-            foreach (var lb in b)
-                if (la == lb)
-                    return la;
+        var items =
+            from la in a
+            from lb in b where la == lb
+            select la;
 
-        throw new NotSupportedException();
+        return items.First();
     }
 
     static int FindPriority(char type)

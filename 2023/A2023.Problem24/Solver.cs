@@ -10,10 +10,10 @@ public class Solver : IProblemSolver<long>
     {
         var lines = CompiledRegs.Regex().FromFile<Line>(filename).ToArray();
 
-        var is_sample = Path.GetFileName(filename) == "sample.txt";
+        var isSample = Path.GetFileName(filename) == "sample.txt";
 
-        var from = is_sample ? 7 : 200000000000000L;
-        var to = is_sample ? 27 : 400000000000000L;
+        var from = isSample ? 7 : 200000000000000L;
+        var to = isSample ? 27 : 400000000000000L;
 
         var count = 0;
 
@@ -38,7 +38,7 @@ public class Solver : IProblemSolver<long>
         return count;
     }
 
-    private (double X, double Y) Intersect2D(Line line1, Line line2)
+    static (double X, double Y) Intersect2D(Line line1, Line line2)
     {
         var k1 = line1.VY / (double)line1.VX;
         var b1 = -line1.X * k1 + line1.Y;
@@ -53,7 +53,7 @@ public class Solver : IProblemSolver<long>
     }
 }
 
-public record Line(long X, long Y, long Z, long VX, long VY, long VZ);
+record Line(long X, long Y, long Z, long VX, long VY, long VZ);
 
 static partial class CompiledRegs
 {

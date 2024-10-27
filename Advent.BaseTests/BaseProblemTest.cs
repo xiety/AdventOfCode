@@ -6,7 +6,7 @@ namespace Advent.Common;
 
 public abstract class BaseProblemTest
 {
-    protected void Test<TR>(int year, int number, IProblemSolver<TR> solver, string filename, bool first, TR result)
+    protected static void Test<TR>(int year, int number, IProblemSolver<TR> solver, string filename, bool first, TR result)
     {
         var fullpath = GetPath(year, number, filename, first);
 
@@ -17,7 +17,7 @@ public abstract class BaseProblemTest
         Assert.AreEqual(result, actual);
     }
 
-    protected void Test<TRA, TRB>(int year, int number, IProblemSolver<TRA, TRB> solver, string filename, bool first, TRA resultA, TRB resultB)
+    protected static void Test<TRA, TRB>(int year, int number, IProblemSolver<TRA, TRB> solver, string filename, bool first, TRA resultA, TRB resultB)
     {
         var fullpath = GetPath(year, number, filename, first);
 
@@ -65,35 +65,29 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
     private readonly TR sampleB = default!;
     private readonly TR resultB = default!;
 
-    private readonly bool hasB;
-
     public ProblemTestAttribute(TR sampleA, TR resultA, TR sampleB, TR resultB)
     {
         this.sampleA = sampleA;
         this.resultA = resultA;
         this.sampleB = sampleB;
         this.resultB = resultB;
-        hasB = true;
     }
 
     public ProblemTestAttribute(TR sampleA, TR resultA)
     {
         this.sampleA = sampleA;
         this.resultA = resultA;
-        hasB = false;
     }
 
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
     {
-        var list = new List<object?[]>();
-        list.Add(["sample.txt", true, sampleA]);
-        list.Add(["input.txt", true, resultA]);
-
-        if (hasB)
+        var list = new List<object?[]>
         {
-            list.Add(["sample.txt", false, sampleB]);
-            list.Add(["input.txt", false, resultB]);
-        }
+            (["sample.txt", true, sampleA]),
+            (["input.txt", true, resultA]),
+            (["sample.txt", false, sampleB]),
+            (["input.txt", false, resultB])
+        };
 
         return list;
     }

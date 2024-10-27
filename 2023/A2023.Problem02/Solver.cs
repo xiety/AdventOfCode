@@ -6,7 +6,7 @@ namespace A2023.Problem02;
 
 public class Solver : IProblemSolver<int>
 {
-    static readonly string[] colors = ["red", "green", "blue"];
+    static readonly string[] Colors = ["red", "green", "blue"];
 
     public int RunA(string filename)
     {
@@ -29,22 +29,26 @@ public class Solver : IProblemSolver<int>
         var games = LoadFile(filename);
 
         var result = games
-            .Select(g => Enumerable.Range(0, colors.Length)
+            .Select(g => Enumerable.Range(0, Colors.Length)
                 .Select(i => g.Balls.Select(b => b[i]).Max()).Mul())
             .Sum();
 
         return result;
     }
 
-    private Game[] LoadFile(string filename)
+    private static Game[] LoadFile(string filename)
         => CompiledRegs
             .Regex()
             .FromFile<Step1>(filename)
             .Select(Parse)
             .ToArray();
 
-    private Game Parse(Step1 step)
+    private static Game Parse(Step1 step)
     {
+        var balls = ParseData();
+
+        return new(step.GameNumber, [.. balls]);
+
         IEnumerable<int[]> ParseData()
         {
             foreach (var part in step.GameData.Split("; "))
@@ -55,17 +59,13 @@ public class Solver : IProblemSolver<int>
 
                 foreach (var part2 in parts)
                 {
-                    var index = Array.IndexOf(colors, part2.Color);
+                    var index = Array.IndexOf(Colors, part2.Color);
                     data[index] = part2.Num;
                 }
 
                 yield return data;
             }
         }
-
-        var balls = ParseData();
-
-        return new(step.GameNumber, [.. balls]);
     }
 }
 

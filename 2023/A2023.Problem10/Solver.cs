@@ -63,7 +63,7 @@ public class Solver : IProblemSolver<long>
         return large;
     }
 
-    Dictionary<char, string[]> patterns = new()
+    readonly Dictionary<char, string[]> patterns = new()
     {
         ['F'] = ["...",
                  ".##",
@@ -91,14 +91,11 @@ public class Solver : IProblemSolver<long>
     private (Pos pos, char value)[] FoundPath(char[,] map)
     {
         var startPos = map.EnumeratePositionsOf('S').First();
-        var currentChar = map.Get(startPos);
-        var nextChar = 'S';
         var foundPath = Array.Empty<(Pos, char)>();
 
         foreach (var startDir in Enum.GetValues<Dirs>())
         {
             var path = new List<(Pos, char)>();
-            var length = 0;
 
             var foundWhole = false;
             var prevDir = startDir;
@@ -107,7 +104,7 @@ public class Solver : IProblemSolver<long>
             if (!map.IsInBounds(currentPos))
                 continue;
 
-            currentChar = map.Get(currentPos);
+            var currentChar = map.Get(currentPos);
 
             if (currentChar == '.')
                 continue;
@@ -133,7 +130,7 @@ public class Solver : IProblemSolver<long>
                     if (!map.IsInBounds(nextPos))
                         continue;
 
-                    nextChar = map.Get(nextPos);
+                    var nextChar = map.Get(nextPos);
 
                     if (nextChar == '.')
                         continue;
@@ -159,8 +156,6 @@ public class Solver : IProblemSolver<long>
                     break;
 
                 path.Add((currentPos, currentChar));
-
-                length++;
 
                 if (foundWhole)
                     break;
@@ -211,25 +206,19 @@ public class Solver : IProblemSolver<long>
 
             var psb = info[b];
 
-            foreach (var pa in psa)
-            {
-                foreach (var pb in psb)
+            var items =
+                from pa in psa
+                from pb in psb
+                select (dir, pa, pb) switch
                 {
-                    var r = (dir, pa, pb) switch
-                    {
-                        (Dirs.Top, Dirs.Top, Dirs.Bottom) => true,
-                        (Dirs.Bottom, Dirs.Bottom, Dirs.Top) => true,
-                        (Dirs.Left, Dirs.Left, Dirs.Right) => true,
-                        (Dirs.Right, Dirs.Right, Dirs.Left) => true,
-                        _ => false,
-                    };
-
-                    if (r == true)
-                        return true;
-                }
-            }
-
-            return false;
+                    (Dirs.Top, Dirs.Top, Dirs.Bottom) => true,
+                    (Dirs.Bottom, Dirs.Bottom, Dirs.Top) => true,
+                    (Dirs.Left, Dirs.Left, Dirs.Right) => true,
+                    (Dirs.Right, Dirs.Right, Dirs.Left) => true,
+                    _ => false,
+                };
+                
+            return items.Any(r => r);
         }
     }
 

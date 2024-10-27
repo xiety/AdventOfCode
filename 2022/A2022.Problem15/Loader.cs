@@ -2,7 +2,7 @@
 
 namespace A2022.Problem15;
 
-class Loader
+static class Loader
 {
     public static Item[] Load(string fileName)
         => File.ReadAllLines(fileName)

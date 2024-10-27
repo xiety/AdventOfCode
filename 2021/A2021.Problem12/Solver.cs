@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Run(filename, false);
 
-    private long Run(string filename, bool single)
+    private static long Run(string filename, bool single)
     {
         var graph = ParseGraph(File.ReadAllLines(filename).Select(ParseLine).ToArray());
 
@@ -28,7 +28,7 @@ public class Solver : IProblemSolver<long>
 
     private static Graph ParseGraph(Item[] items)
     {
-        var nodes = Enumerable.Concat(items.Select(a => a.From), items.Select(a => a.To))
+        var nodes = items.Select(a => a.From).Concat(items.Select(a => a.To))
             .Select(a => new GraphNode { Name = a, CaveType = CalcCaveType(a) }).ToArray();
 
         foreach (var item in items)
@@ -43,7 +43,7 @@ public class Solver : IProblemSolver<long>
         return new()
         {
             Start = nodes.First(a => a.Name == "start"),
-            End = nodes.First(a => a.Name == "end")
+            End = nodes.First(a => a.Name == "end"),
         };
     }
 
@@ -52,10 +52,9 @@ public class Solver : IProblemSolver<long>
         if (name is "start" or "end")
             return CaveType.StartOrEnd;
 
-        if (name.ToLower() == name)
-            return CaveType.Small;
-
-        return CaveType.Large;
+        return name.ToLower() == name
+            ? CaveType.Small
+            : CaveType.Large;
     }
 }
 

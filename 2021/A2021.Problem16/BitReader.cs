@@ -8,33 +8,32 @@ public sealed class BitReader(byte[] array)
     private readonly BitArray bits = BitArrayExtensions.MostSignificantFirst(array);
 
     //mutable
-    private int currentOffest;
 
-    public int CurrentOffset => currentOffest;
+    public int CurrentOffset { get; private set; }
 
     public byte ReadToByte(int length)
     {
-        var result = bits.GetByte(currentOffest, length);
-        currentOffest += length;
+        var result = bits.GetByte(CurrentOffset, length);
+        CurrentOffset += length;
         return result;
     }
 
     public bool ReadToBool()
     {
-        var result = bits.Get(currentOffest);
-        currentOffest++;
+        var result = bits.Get(CurrentOffset);
+        CurrentOffset++;
         return result;
     }
 
     public void Skip(int length)
     {
-        currentOffest += length;
+        CurrentOffset += length;
     }
 
     public BigInteger ReadToBigInteger(int length)
     {
-        var result = bits.GetBigInteger(currentOffest, length);
-        currentOffest += length;
+        var result = bits.GetBigInteger(CurrentOffset, length);
+        CurrentOffset += length;
         return result;
     }
 }

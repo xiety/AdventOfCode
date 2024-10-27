@@ -19,11 +19,9 @@ public class Solver : IProblemSolver<long>
             var scanner = scanners[a];
             var transform = dic[a];
 
-            for (var i = 0; i < scanner.Beams.Length; ++i)
+            foreach (var beam in scanner.Beams)
             {
-                var beam = scanner.Beams[i];
                 var rotated = ApplyTransformPos(beam, transform);
-
                 globalBeams.Add(rotated);
             }
         }
@@ -71,12 +69,12 @@ public class Solver : IProblemSolver<long>
         {
             unknown = false;
 
-            for (var a = 0; a < scanners.Length - 1; ++a)
+            for (var sa = 0; sa < scanners.Length - 1; ++sa)
             {
-                for (var b = a + 1; b < scanners.Length; ++b)
+                for (var sb = sa + 1; sb < scanners.Length; ++sb)
                 {
-                    var scannerA = scanners[a];
-                    var scannerB = scanners[b];
+                    var scannerA = scanners[sa];
+                    var scannerB = scanners[sb];
 
                     for (var i = 0; i < scannerA.Beams.Length; ++i)
                     {
@@ -91,14 +89,14 @@ public class Solver : IProblemSolver<long>
                                 .ToArray();
 
                             if (intersection.Length > 11)
-                                throw new Exception("WE HAVE A PROBLEM");
+                                throw new();
 
                             if (intersection.Length == 11)
                             {
-                                Console.WriteLine($"BEAM a={a} b={b} i={i} j={j} = {intersection.Length}");
+                                Console.WriteLine($"BEAM a={sa} b={sb} i={i} j={j} = {intersection.Length}");
 
                                 if (intersection.Distinct().Count() != 11)
-                                    throw new Exception("DISTINCT PROBLEM");
+                                    throw new();
 
                                 var sameA1 = scannerA.Beams[i];
                                 var sameB1 = scannerB.Beams[j];
@@ -111,7 +109,7 @@ public class Solver : IProblemSolver<long>
                                 var da = sameA1 - sameA2;
                                 var db = sameB1 - sameB2;
 
-                                if (dic.TryGetValue(a, out var transformForParent))
+                                if (dic.TryGetValue(sa, out var transformForParent))
                                 {
                                     var convert = CalcAxisConvert(da, db);
                                     var sameB1Rotated = ApplyConvertPos(sameB1, convert);
@@ -125,11 +123,11 @@ public class Solver : IProblemSolver<long>
 
                                     transform = ApplyTransform(transform, transformForParent);
 
-                                    dic.TryAdd(b, transform);
+                                    dic.TryAdd(sb, transform);
 
                                     goto labelOut;
                                 }
-                                else if (dic.TryGetValue(b, out var transformForParent2))
+                                else if (dic.TryGetValue(sb, out var transformForParent2))
                                 {
                                     var convert = CalcAxisConvert(db, da);
                                     var sameA1Rotated = ApplyConvertPos(sameA1, convert);
@@ -143,7 +141,7 @@ public class Solver : IProblemSolver<long>
 
                                     transform = ApplyTransform(transform, transformForParent2);
 
-                                    dic.TryAdd(a, transform);
+                                    dic.TryAdd(sa, transform);
 
                                     goto labelOut;
                                 }
@@ -155,8 +153,7 @@ public class Solver : IProblemSolver<long>
                         }
                     }
 
-                labelOut:
-                    ;
+                labelOut:;
                 }
             }
         }
@@ -196,6 +193,12 @@ public class Solver : IProblemSolver<long>
 
     static Pos3 ApplyConvertPos(Pos3 v, AxisConvert parent)
     {
+        var x = Get(parent.AxisX);
+        var y = Get(parent.AxisY);
+        var z = Get(parent.AxisZ);
+
+        return new(x, y, z);
+
         int Get(Orientation o)
             => o.Axis switch
             {
@@ -203,12 +206,6 @@ public class Solver : IProblemSolver<long>
                 Axis.Y => v.Y * o.Direction,
                 Axis.Z => v.Z * o.Direction,
             };
-
-        var x = Get(parent.AxisX);
-        var y = Get(parent.AxisY);
-        var z = Get(parent.AxisZ);
-
-        return new(x, y, z);
     }
 
     static AxisConvert CalcAxisConvert(Pos3 a, Pos3 b)
@@ -234,7 +231,7 @@ public class Solver : IProblemSolver<long>
         if (v.Z == -dist)
             return new(Axis.Z, -1);
 
-        throw new Exception("No axis");
+        throw new();
     }
 
     static (int index, double distance)[] CalcDistances(Pos3[] beams, int n)

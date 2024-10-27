@@ -30,18 +30,6 @@ public readonly record struct Pos3(int X, int Y, int Z)
 
     public static bool operator <=(Pos3 a, Pos3 b)
         => a.X <= b.X && a.Y <= b.Y && a.Z <= b.Z;
-
-    //public static bool operator >(Pos3 a, Pos3 b)
-    //    => a.X > b.X && a.Y > b.Y && a.Z > b.Z;
-
-    //public static bool operator <(Pos3 a, Pos3 b)
-    //    => a.X < b.X && a.Y < b.Y && a.Z < b.Z;
-
-    //if (from1.X > to2.X || from1.Y > to2.Y || from1.Z > to2.Z)
-    //    return false;
-
-    //if (from2.X > to1.X || from2.Y > to1.Y || from2.Z > to1.Z)
-    //    return false;
 }
 
 public readonly record struct Rect3(Pos3 From, Pos3 To)

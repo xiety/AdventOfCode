@@ -12,7 +12,7 @@ public class Solver : IProblemSolver<int, string>
 
         var currentCycle = 0;
         var total = 0;
-        var X = 1;
+        var x = 1;
 
         foreach (var command in commands)
         {
@@ -20,17 +20,17 @@ public class Solver : IProblemSolver<int, string>
             {
                 case CommandNoop:
                     currentCycle++;
-                    total += Check(currentCycle, X);
+                    total += Check(currentCycle, x);
                     break;
 
                 case CommandAddx addx:
                     for (var i = 0; i < 2; ++i)
                     {
                         currentCycle++;
-                        total += Check(currentCycle, X);
+                        total += Check(currentCycle, x);
                     }
 
-                    X += addx.V;
+                    x += addx.V;
                     break;
             }
         }
@@ -42,26 +42,28 @@ public class Solver : IProblemSolver<int, string>
     {
         var commands = LoadFile(filename);
 
-        var X = 1;
+        var x = 1;
         var currentCycle = 0;
         var screen = new char[40, 8];
 
         foreach (var command in commands)
         {
-            if (command is CommandNoop)
+            switch (command)
             {
-                currentCycle++;
-                Draw(screen, currentCycle, X);
-            }
-            else if (command is CommandAddx addx)
-            {
-                currentCycle++;
-                Draw(screen, currentCycle, X);
+                case CommandNoop:
+                    currentCycle++;
+                    Draw(screen, currentCycle, x);
+                    break;
 
-                currentCycle++;
-                Draw(screen, currentCycle, X);
+                case CommandAddx addx:
+                    currentCycle++;
+                    Draw(screen, currentCycle, x);
 
-                X += addx.V;
+                    currentCycle++;
+                    Draw(screen, currentCycle, x);
+
+                    x += addx.V;
+                    break;
             }
         }
 
@@ -69,19 +71,19 @@ public class Solver : IProblemSolver<int, string>
             .TrimEnd();
     }
 
-    static int Check(int currentCycle, int X)
+    static int Check(int currentCycle, int x)
     {
         int[] importantCycleNumbers = [20, 60, 100, 140, 180, 220];
 
-        return importantCycleNumbers.Contains(currentCycle) ? X * currentCycle : 0;
+        return importantCycleNumbers.Contains(currentCycle) ? x * currentCycle : 0;
     }
 
-    static void Draw(char[,] screen, int currentCycle, int X)
+    static void Draw(char[,] screen, int currentCycle, int x)
     {
         var posX = (currentCycle - 1) % 40;
         var posY = (currentCycle - 1) / 40;
 
-        screen[posX, posY] = (X - 1 <= posX && X + 1 >= posX) ? '#' : '.';
+        screen[posX, posY] = (x - 1 <= posX && x + 1 >= posX) ? '#' : '.';
     }
 
     static IEnumerable<Command> LoadFile(string fileName)

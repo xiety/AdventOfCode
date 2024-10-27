@@ -10,7 +10,6 @@ public static class RegexExtensions
     public static List<T> FromLines<T>(this Regex regex, IEnumerable<string> lines)
         => lines.Select(regex.MapTo<T>).ToList();
 
-    //TODO: source generator for constructor
     public static T MapTo<T>(this Match match, string debugText)
     {
         if (!match.Success)
@@ -94,5 +93,3 @@ public static class RegexExtensions
         throw new ArgumentOutOfRangeException($"Can not parse: {text}");
     }
 }
-
-public record MappedRegex<T>(Regex Regex);

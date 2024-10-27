@@ -3,7 +3,7 @@
 class Sandbox(int width, int height)
 {
     private readonly UnitType[,] data = new UnitType[width, height];
-    private readonly Pos[] down_deltas = [new(0, 1), new(-1, 1), new(1, 1)];
+    private readonly Pos[] downDeltas = [new(0, 1), new(-1, 1), new(1, 1)];
 
     //mutable
     private Pos currentPos;
@@ -29,7 +29,7 @@ class Sandbox(int width, int height)
                 AddWall(a, b);
     }
 
-    public void AddWall(Pos a, Pos b)
+    private void AddWall(Pos a, Pos b)
     {
         if (a.X != b.X)
         {
@@ -56,7 +56,7 @@ class Sandbox(int width, int height)
 
         var p = currentPos;
 
-        var tomove = down_deltas
+        var tomove = downDeltas
             .Select(a => a + p)
             .Where(a => !data.IsInBounds(a) || data.Get(a) == UnitType.Empty)
             .FirstOrNull();

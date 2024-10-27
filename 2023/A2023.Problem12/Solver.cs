@@ -28,7 +28,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    public long RunBLine(string line)
+    private static long RunBLine(string line)
     {
         var n = line.IndexOf(' ');
         var pattern = line[..n].Select(a => a switch { '.' => 0, '#' => 1, '?' => 2 }).ToArray();
@@ -115,7 +115,7 @@ public class Calculator
         }
     }
 
-    public (bool, int, int, int) Check(int[] pattern, int[] combos, int fromCombos, int fromIndex, int nextQuestion)
+    static (bool, int, int, int) Check(int[] pattern, int[] combos, int fromCombos, int fromIndex, int nextQuestion)
     {
         var start = -1;
         var partsCombos = fromCombos;
@@ -179,6 +179,6 @@ public class Calculator
             }
         }
 
-        throw new Exception($"{String.Join("", pattern)}, [{String.Join(", ", combos)}], {fromCombos}, {fromIndex}, {nextQuestion}");
+        throw new($"{String.Join("", pattern)}, [{String.Join(", ", combos)}], {fromCombos}, {fromIndex}, {nextQuestion}");
     }
 }

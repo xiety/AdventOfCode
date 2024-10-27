@@ -2,7 +2,7 @@
 
 namespace A2022.Problem14;
 
-class Loader
+static class Loader
 {
     public static List<Pos[]> Load(string filename)
         => File.ReadAllLines(filename).Select(ParseLine).ToList();

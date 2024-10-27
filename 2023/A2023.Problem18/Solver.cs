@@ -19,10 +19,8 @@ public class Solver : IProblemSolver<long>
 
         var pos = Pos.Zero;
 
-        foreach (var item in items)
+        foreach (var newpos in items.Select(item => pos + GetOffset(item)))
         {
-            var newpos = pos + GetOffset(item);
-
             for (var y = Math.Min(pos.Y, newpos.Y); y <= Math.Max(pos.Y, newpos.Y); ++y)
                 for (var x = Math.Min(pos.X, newpos.X); x <= Math.Max(pos.X, newpos.X); ++x)
                     map[x - minX + 1, y - minY + 1] = true;
@@ -73,10 +71,8 @@ public class Solver : IProblemSolver<long>
 
         var lines = new List<(Pos, Pos)>();
 
-        foreach (var item in items)
+        foreach (var newpos in items.Select(item => pos + GetOffset(item)))
         {
-            var newpos = pos + GetOffset(item);
-
             lines.Add((pos, newpos));
 
             pos = newpos;
@@ -130,7 +126,7 @@ public class Solver : IProblemSolver<long>
             }
         }
 
-        //pixel huting
+        //pixel hunting
         for (var iy = 0; iy < possibleY.Count; ++iy)
         {
             for (var ix = 0; ix < possibleX.Count; ++ix)
@@ -155,7 +151,7 @@ public class Solver : IProblemSolver<long>
         return volume;
     }
 
-    private static (int minX, int maxX, int minY, int maxY) GetMinMax(List<Item> items)
+    static (int minX, int maxX, int minY, int maxY) GetMinMax(List<Item> items)
     {
         var (minX, maxX, minY, maxY) = (0, 0, 0, 0);
 
@@ -174,7 +170,7 @@ public class Solver : IProblemSolver<long>
         return (minX, maxX, minY, maxY);
     }
 
-    private bool IntersectsRay(Pos item1, Pos item2, Pos middle, bool hor)
+    static bool IntersectsRay(Pos item1, Pos item2, Pos middle, bool hor)
     {
         if (hor)
         {
@@ -228,10 +224,10 @@ public class Solver : IProblemSolver<long>
     private static Pos GetOffset(Item item)
         => item.Dir switch
         {
-            "U" => new Pos(0, -item.Number),
-            "D" => new Pos(0, item.Number),
-            "L" => new Pos(-item.Number, 0),
-            "R" => new Pos(item.Number, 0),
+            "U" => new(0, -item.Number),
+            "D" => new(0, item.Number),
+            "L" => new(-item.Number, 0),
+            "R" => new(item.Number, 0),
         };
 }
 

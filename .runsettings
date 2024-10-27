@@ -1,0 +1,5 @@
+<RunSettings>
+    <MSTestV2>
+        <TestTimeout>240000</TestTimeout>
+    </MSTestV2>
+</RunSettings>

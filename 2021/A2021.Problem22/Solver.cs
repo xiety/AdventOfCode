@@ -13,8 +13,7 @@ public class Solver : IProblemSolver<long>
         var result = Fors
             .For((-50, 51), (-50, 51), (-50, 51))
             .Select(a => new Pos3(a[0], a[1], a[2]))
-            .Where(pos => items.Where(a => a.Rect.Intersects(pos)).Select(a => a.On).FirstOrDefault(false))
-            .Count();
+            .Count(pos => items.Where(a => a.Rect.Intersects(pos)).Select(a => a.On).FirstOrDefault(false));
 
         return result;
     }
@@ -82,7 +81,6 @@ record Item(bool On, Rect3 Rect);
 
 static partial class CompiledRegs
 {
-    //on x=-20..26,y=-36..17,z=-47..7
     [GeneratedRegex(@$"^(?<{nameof(ItemRaw.Type)}>(on|off)) x=(?<{nameof(ItemRaw.FromX)}>-?\d+)..(?<{nameof(ItemRaw.ToX)}>-?\d+),y=(?<{nameof(ItemRaw.FromY)}>-?\d+)..(?<{nameof(ItemRaw.ToY)}>-?\d+),z=(?<{nameof(ItemRaw.FromZ)}>-?\d+)..(?<{nameof(ItemRaw.ToZ)}>-?\d+)$")]
     private static partial Regex Regex();
 

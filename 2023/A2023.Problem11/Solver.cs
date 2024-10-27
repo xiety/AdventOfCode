@@ -27,16 +27,11 @@ public class Solver : IProblemSolver<long>
         return totalDistance;
     }
 
-    private IEnumerable<Pos> GetStars(bool[,] map, int resize, List<int> emptyCols, List<int> emptyRows)
-    {
-        foreach (var pos in map.EnumeratePositionsOf(true))
-        {
-            var dx = emptyCols.Count(a => a < pos.X) * (resize - 1) + pos.X;
-            var dy = emptyRows.Count(a => a < pos.Y) * (resize - 1) + pos.Y;
-
-            yield return new(dx, dy);
-        }
-    }
+    private static IEnumerable<Pos> GetStars(bool[,] map, int resize, List<int> emptyCols, List<int> emptyRows)
+        => from pos in map.EnumeratePositionsOf(true)
+           let dx = emptyCols.Count(a => a < pos.X) * (resize - 1) + pos.X
+           let dy = emptyRows.Count(a => a < pos.Y) * (resize - 1) + pos.Y
+           select new Pos(dx, dy);
 
     private static List<int> GetEmptyRows(bool[,] map)
     {

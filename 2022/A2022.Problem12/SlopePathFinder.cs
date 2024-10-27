@@ -50,25 +50,22 @@ internal class SlopePathFinder
 
         do
         {
-            foreach (var currentStep in currentSteps)
+            var items =
+                from currentStep in currentSteps
+                let currentValue = map.Get(currentStep)
+                from newStep in map.Offsetted(currentStep)
+                where map.Get(newStep) <= currentValue + 1
+                where star.Get(newStep) == -1
+                select newStep;
+
+            foreach (var newStep in items)
             {
-                var currentValue = map.Get(currentStep);
+                star.Set(newStep, currentDistance);
 
-                foreach (var newStep in map.Offsetted(currentStep))
-                {
-                    if (map.Get(newStep) <= currentValue + 1)
-                    {
-                        if (star.Get(newStep) == -1)
-                        {
-                            star.Set(newStep, currentDistance);
+                if (newStep == end)
+                    return star;
 
-                            if (newStep == end)
-                                return star;
-
-                            newSteps.Add(newStep);
-                        }
-                    }
-                }
+                newSteps.Add(newStep);
             }
 
             if (newSteps.Count == 0)

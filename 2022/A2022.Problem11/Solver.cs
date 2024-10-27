@@ -9,12 +9,12 @@ namespace A2022.Problem11;
 public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
-        => Run<decimal>(filename, (multi, value) => decimal.Floor(value / 3), 20);
+        => Run<decimal>(filename, (_, value) => decimal.Floor(value / 3), 20);
 
     public long RunB(string filename)
         => Run<decimal>(filename, (multi, value) => value % multi, 10000);
 
-    public long Run<T>(string filename, Func<T, T, T> modifyFunc, int totalRounds)
+    static long Run<T>(string filename, Func<T, T, T> modifyFunc, int totalRounds)
         where T : INumber<T>
     {
         var monkeys = LoadFile<T>(filename).ToArray();
@@ -52,20 +52,20 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    public static IEnumerable<Monkey<T>> LoadFile<T>(string fileName)
+    static IEnumerable<Monkey<T>> LoadFile<T>(string fileName)
         where T : IParsable<T>, INumber<T>
     {
         var text = File.ReadAllText(fileName);
 
         var items = text.ReplaceLineEndings()
             .Split(Environment.NewLine + Environment.NewLine)
-            .Select(CompiledRegs.RegexAddx().MapTo<Monkey<T>>);
+            .Select(CompiledRegs.Regex().MapTo<Monkey<T>>);
 
         return items;
     }
 }
 
-public record Monkey<T>(
+record Monkey<T>(
     int Number,
     List<T> StartingItems,
     string OperationLeft,
@@ -79,10 +79,10 @@ public record Monkey<T>(
 {
     public int StepsCount { get; set; }
 
-    private Func<T, T> CompiledCalculate = default!;
+    private Func<T, T> compiledCalculate = default!;
 
     public void Initialize()
-        => CompiledCalculate = GenerateFunction();
+        => compiledCalculate = GenerateFunction();
 
     private Func<T, T> GenerateFunction()
     {
@@ -116,7 +116,7 @@ public record Monkey<T>(
     }
 
     public T Calculate(T value)
-        => CompiledCalculate(value);
+        => compiledCalculate(value);
 
     public bool Check(T value)
         => (value % Test) == T.Zero;
@@ -132,5 +132,5 @@ static partial class CompiledRegs
             If true: throw to monkey (?<{nameof(Monkey<int>.IfTrue)}>.*)
             If false: throw to monkey (?<{nameof(Monkey<int>.IfFalse)}>.*)
         """)]
-    public static partial Regex RegexAddx();
+    public static partial Regex Regex();
 }

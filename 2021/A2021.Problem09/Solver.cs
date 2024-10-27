@@ -32,7 +32,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private List<(Pos pos, int item)> LowestPoints(int[,] data)
+    private static List<(Pos pos, int item)> LowestPoints(int[,] data)
         => data.Enumerate()
                .Where(tuple => !data
                    .Offsetted(tuple.pos)

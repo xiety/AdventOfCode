@@ -19,7 +19,7 @@ public class Solver : IProblemSolver<long>
 
         var seq = new LinkedList<char>(firstPart.First());
 
-        var steps = 10;
+        const int steps = 10;
 
         var template = new StringBuilder("AA");
 
@@ -37,7 +37,7 @@ public class Solver : IProblemSolver<long>
 
                 node = node.Next;
             }
-            while (node is not null && node.Next is not null);
+            while (node?.Next != null);
         }
 
         var grouped = seq.GroupBy(a => a).ToArray();
@@ -59,7 +59,7 @@ public class Solver : IProblemSolver<long>
 
         var text = firstPart.First();
 
-        var maxSteps = 40;
+        const int maxSteps = 40;
 
         var groups = new Dic();
 
@@ -94,9 +94,9 @@ public class Solver : IProblemSolver<long>
     }
 }
 
-public record Item(string A, char B);
+record Item(string A, char B);
 
-public static partial class CompiledRegs
+static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.A)}>\w+) -> (?<{nameof(Item.B)}>\w+)$")]
     public static partial Regex Regex();

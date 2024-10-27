@@ -1,6 +1,6 @@
 ﻿namespace A2022.Problem13;
 
-class Loader
+static class Loader
 {
     public static IEnumerable<Pair> Load(string filename)
     {
@@ -9,8 +9,10 @@ class Loader
 
         foreach (var chunk in chunks)
         {
-            var first = (ItemArray)ParseLine(chunk.First());
-            var second = (ItemArray)ParseLine(chunk.Last());
+            var array = chunk.ToArray();
+
+            var first = (ItemArray)ParseLine(array.First());
+            var second = (ItemArray)ParseLine(array.Last());
 
             yield return new(first, second);
         }

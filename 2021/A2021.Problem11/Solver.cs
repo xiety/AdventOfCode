@@ -5,12 +5,12 @@ namespace A2021.Problem11;
 public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
-        => Calc(filename, (data, step) => step == 100).Item2;
+        => Calc(filename, (_, step) => step == 100).Item2;
 
     public long RunB(string filename)
-        => Calc(filename, (data, step) => data.Enumerate().All(a => a.item == 0)).Item1;
+        => Calc(filename, (data, _) => data.Enumerate().All(a => a.item == 0)).Item1;
 
-    public static (long, long) Calc(string filename, Func<int[,], long, bool> exit)
+    static (long, long) Calc(string filename, Func<int[,], long, bool> exit)
     {
         var data = MapData.ParseMap(File.ReadAllLines(filename));
 

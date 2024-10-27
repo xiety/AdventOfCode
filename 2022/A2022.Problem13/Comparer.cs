@@ -1,6 +1,6 @@
 ﻿namespace A2022.Problem13;
 
-class Comparer
+static class Comparer
 {
     public static int Compare(Item first, Item second)
     {
@@ -11,12 +11,12 @@ class Comparer
 
         {
             if (first is ItemValue f && second is ItemArray s)
-                return Compare(new ItemArray([f]), s);
+                return Compare(new([f]), s);
         }
 
         {
             if (first is ItemArray f && second is ItemValue s)
-                return Compare(f, new ItemArray([s]));
+                return Compare(f, new([s]));
         }
 
         {

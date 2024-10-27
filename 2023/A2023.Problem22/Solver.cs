@@ -15,11 +15,11 @@ public class Solver : IProblemSolver<long>
 
         return bricks
             .AsParallel()
-            .Select(brick_to_remove =>
+            .Select(brickToRemove =>
             {
-                var rest = bricks.Where(a => a != brick_to_remove).ToArray();
-                var someone_fall = rest.Any(a => CanFall(rest, a) > 0);
-                return someone_fall ? 0 : 1;
+                var rest = bricks.Where(a => a != brickToRemove).ToArray();
+                var someoneFall = rest.Any(a => CanFall(rest, a) > 0);
+                return someoneFall ? 0 : 1;
             })
             .Sum();
     }
@@ -32,7 +32,7 @@ public class Solver : IProblemSolver<long>
 
         return bricks
             .AsParallel()
-            .Select(brick_to_remove => FallBricks(Cloned(bricks.Where(a => a != brick_to_remove))))
+            .Select(brickToRemove => FallBricks(Cloned(bricks.Where(a => a != brickToRemove))))
             .Sum();
     }
 
@@ -43,25 +43,13 @@ public class Solver : IProblemSolver<long>
     private static Brick[] LoadFile(string filename)
         => CompiledRegs.Regex().FromFile<Item>(filename).Select(Brick.FromItem).ToArray();
 
-    private void Dump(Brick[] bricks, string filename)
-    {
-        var obj = new ObjFile();
-
-        foreach (var brick in bricks)
-            obj.AddCube(
-                new(brick.From.X, brick.From.Z, brick.From.Y),
-                new(brick.To.X + 1, brick.To.Z + 1, brick.To.Y + 1));
-
-        obj.Save(filename);
-    }
-
     private int FallBricks(Brick[] bricks)
     {
         var set = new HashSet<string>();
 
         do
         {
-            var someone_fall = false;
+            var someoneFall = false;
 
             foreach (var brick in bricks)
             {
@@ -74,11 +62,11 @@ public class Solver : IProblemSolver<long>
 
                     set.Add(brick.Name);
 
-                    someone_fall = true;
+                    someoneFall = true;
                 }
             }
 
-            if (!someone_fall)
+            if (!someoneFall)
                 break;
         }
         while (true);
@@ -86,18 +74,15 @@ public class Solver : IProblemSolver<long>
         return set.Count;
     }
 
-    private int CanFall(IEnumerable<Brick> bricks, Brick brick)
+    private int CanFall(Brick[] bricks, Brick brick)
     {
         for (var z = brick.From.Z - 1; z > 0; --z)
         {
-            foreach (var another_brick in bricks)
+            if (bricks.Any(anotherBrick => anotherBrick != brick
+                                        && anotherBrick.To.Z == z
+                                        && IntersectIn2D(anotherBrick, brick)))
             {
-                if (another_brick != brick
-                 && another_brick.To.Z == z
-                 && IntersectIn2D(another_brick, brick))
-                {
-                    return brick.From.Z - z - 1;
-                }
+                return brick.From.Z - z - 1;
             }
         }
 
@@ -111,27 +96,27 @@ public class Solver : IProblemSolver<long>
         && b.From.Y <= a.To.Y;
 }
 
-public record Item(int X1, int Y1, int Z1, int X2, int Y2, int Z2);
+record Item(int X1, int Y1, int Z1, int X2, int Y2, int Z2);
 
-public class Brick : ICloneable
+class Brick : ICloneable
 {
     public required string Name { get; init; }
     public required Pos3 From { get; set; }
     public required Pos3 To { get; set; }
 
-    public Brick()
+    private Brick()
     {
     }
 
     [SetsRequiredMembers]
-    protected Brick(Brick b)
+    private Brick(Brick b)
     {
         Name = b.Name;
         From = b.From;
         To = b.To;
     }
 
-    public Brick Clone()
+    private Brick Clone()
         => new(this);
 
     object ICloneable.Clone()
@@ -151,7 +136,6 @@ public class Brick : ICloneable
 
 static partial class CompiledRegs
 {
-    //4,9,272~6,9,272
     [GeneratedRegex(@$"^(?<{nameof(Item.X1)}>\d+),(?<{nameof(Item.Y1)}>\d+),(?<{nameof(Item.Z1)}>\d+)~(?<{nameof(Item.X2)}>\d+),(?<{nameof(Item.Y2)}>\d+),(?<{nameof(Item.Z2)}>\d+)$")]
     public static partial Regex Regex();
 }

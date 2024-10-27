@@ -11,8 +11,7 @@ public class Solver : IProblemSolver<int>
         var items = LoadFile(filename);
 
         var result = items
-            .Where(a => (a.From1 >= a.From2 && a.To1 <= a.To2) || (a.From2 >= a.From1 && a.To2 <= a.To1))
-            .Count();
+            .Count(a => (a.From1 >= a.From2 && a.To1 <= a.To2) || (a.From2 >= a.From1 && a.To2 <= a.To1));
 
         return result;
     }
@@ -22,8 +21,7 @@ public class Solver : IProblemSolver<int>
         var items = LoadFile(filename);
 
         var result = items
-            .Where(a => Interval.IsIntersect(a.From1, a.To1, a.From2, a.To2))
-            .Count();
+            .Count(a => Interval.IsIntersect(a.From1, a.To1, a.From2, a.To2));
 
         return result;
     }

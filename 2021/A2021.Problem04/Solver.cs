@@ -14,8 +14,7 @@ public class Solver : IProblemSolver<int>
         var (numbers, boards) = LoadFile(filename);
 
         var marks = CreateEmptyMarks(boards);
-
-        var wins = new bool[boards.Length];
+        var result = -1;
 
         foreach (var number in numbers)
         {
@@ -27,12 +26,14 @@ public class Solver : IProblemSolver<int>
 
                 if (bingo)
                 {
-                    return CalculateResult(boards[i], marks[i], number);
+                    result = CalculateResult(boards[i], marks[i], number);
+                    goto end;
                 }
             }
         }
 
-        throw new Exception();
+    end:
+        return result;
     }
 
     public int RunB(string filename)
@@ -40,8 +41,8 @@ public class Solver : IProblemSolver<int>
         var (numbers, boards) = LoadFile(filename);
 
         var marks = CreateEmptyMarks(boards);
-
         var wins = new bool[boards.Length];
+        var result = -1;
 
         foreach (var number in numbers)
         {
@@ -57,13 +58,15 @@ public class Solver : IProblemSolver<int>
 
                     if (wins.All(a => a == true))
                     {
-                        return CalculateResult(boards[i], marks[i], number);
+                        result = CalculateResult(boards[i], marks[i], number);
+                        goto end;
                     }
                 }
             }
         }
 
-        throw new Exception();
+    end:
+        return result;
     }
 
     private static bool[][,] CreateEmptyMarks(int[][,] boards)
@@ -72,19 +75,16 @@ public class Solver : IProblemSolver<int>
 
         for (var i = 0; i < marks.Length; ++i)
             marks[i] = new bool[sizeX, sizeY];
+
         return marks;
     }
 
     private static void MarkBoardCell(int[,] boards, bool[,] marks, int number)
     {
         for (var y = 0; y < sizeY; ++y)
-        {
             for (var x = 0; x < sizeX; ++x)
-            {
                 if (boards[x, y] == number)
                     marks[x, y] = true;
-            }
-        }
     }
 
     private static (int[] numbers, int[][,]) LoadFile(string filename)
@@ -124,13 +124,9 @@ public class Solver : IProblemSolver<int>
         var sum = 0;
 
         for (var y = 0; y < sizeY; ++y)
-        {
             for (var x = 0; x < sizeX; ++x)
-            {
                 if (!mark[x, y])
                     sum += board[x, y];
-            }
-        }
 
         return number * sum;
     }

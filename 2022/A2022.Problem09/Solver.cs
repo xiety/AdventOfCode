@@ -11,10 +11,10 @@ public class Solver : IProblemSolver<long>
     {
         var steps = LoadFile(filename);
 
-        var visitedByTail = new HashSet<NonEuqlideanPos>();
+        var visitedByTail = new HashSet<NonEuclideanPos>();
 
-        var headPos = new NonEuqlideanPos(0, 0);
-        var tailPos = new NonEuqlideanPos(0, 0);
+        var headPos = new NonEuclideanPos(0, 0);
+        var tailPos = new NonEuclideanPos(0, 0);
 
         visitedByTail.Add(tailPos);
 
@@ -32,10 +32,10 @@ public class Solver : IProblemSolver<long>
     {
         var steps = LoadFile(filename);
 
-        var visitedByTail = new HashSet<NonEuqlideanPos>();
+        var visitedByTail = new HashSet<NonEuclideanPos>();
 
-        var ropeLength = 10;
-        var tailList = ArrayEx.CreateAndInitialize(ropeLength, _ => new NonEuqlideanPos(0, 0));
+        const int ropeLength = 10;
+        var tailList = ArrayEx.CreateAndInitialize(ropeLength, _ => new NonEuclideanPos(0, 0));
 
         visitedByTail.Add(tailList[^1]);
 
@@ -52,7 +52,7 @@ public class Solver : IProblemSolver<long>
         return visitedByTail.Count;
     }
 
-    static NonEuqlideanPos CalculateNewPos(NonEuqlideanPos h, NonEuqlideanPos t)
+    static NonEuclideanPos CalculateNewPos(NonEuclideanPos h, NonEuclideanPos t)
     {
         var diff = (h - t);
 
@@ -61,7 +61,7 @@ public class Solver : IProblemSolver<long>
             : t;
     }
 
-    static IEnumerable<NonEuqlideanPos> LoadFile(string fileName)
+    static IEnumerable<NonEuclideanPos> LoadFile(string fileName)
     {
         var lines = CompiledRegs.ItemRegex().FromFile<Item>(fileName);
 
@@ -71,10 +71,10 @@ public class Solver : IProblemSolver<long>
             {
                 yield return item.Dir switch
                 {
-                    "U" => new NonEuqlideanPos(0, 1),
-                    "D" => new NonEuqlideanPos(0, -1),
-                    "L" => new NonEuqlideanPos(-1, 0),
-                    "R" => new NonEuqlideanPos(1, 0),
+                    "U" => new NonEuclideanPos(0, 1),
+                    "D" => new NonEuclideanPos(0, -1),
+                    "L" => new NonEuclideanPos(-1, 0),
+                    "R" => new NonEuclideanPos(1, 0),
                     _ => throw new Exception()
                 };
             }
@@ -83,9 +83,9 @@ public class Solver : IProblemSolver<long>
 }
 
 [DebuggerDisplay($"[X={{{nameof(X)}}}, Y={{{nameof(Y)}}}, AbnormalLength={{{nameof(AbnormalLength)}}}]")]
-record NonEuqlideanPos(int X, int Y)
+record NonEuclideanPos(int X, int Y)
 {
-    public NonEuqlideanPos Direction
+    public NonEuclideanPos Direction
         => new(Normalize(X), Normalize(Y));
 
     public int AbnormalLength
@@ -97,14 +97,14 @@ record NonEuqlideanPos(int X, int Y)
     private static int Abs(int n)
         => n switch { < 0 => -n, _ => n };
 
-    public static NonEuqlideanPos operator +(NonEuqlideanPos a, NonEuqlideanPos b)
+    public static NonEuclideanPos operator +(NonEuclideanPos a, NonEuclideanPos b)
         => new(a.X + b.X, a.Y + b.Y);
 
-    public static NonEuqlideanPos operator -(NonEuqlideanPos a, NonEuqlideanPos b)
+    public static NonEuclideanPos operator -(NonEuclideanPos a, NonEuclideanPos b)
         => new(a.X - b.X, a.Y - b.Y);
 }
 
-public record Item(string Dir, int Number);
+record Item(string Dir, int Number);
 
 static partial class CompiledRegs
 {

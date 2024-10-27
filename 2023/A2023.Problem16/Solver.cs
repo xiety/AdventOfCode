@@ -57,8 +57,6 @@ public class Solver : IProblemSolver<long>
     {
         var rays = new List<MutableRay>() { new(startingPos, startingDir, []) };
 
-        var step = 0;
-
         do
         {
             foreach (var ray in rays.ToArray())
@@ -73,14 +71,12 @@ public class Solver : IProblemSolver<long>
                     }
                     else
                     {
-                        if (ray.Path.Contains((newPos, ray.Dir)))
+                        if (!ray.Path.Add((newPos, ray.Dir)))
                         {
                             ray.Stopped = true;
                         }
                         else
                         {
-                            ray.Path.Add((newPos, ray.Dir));
-
                             energy.Set(newPos, energy.Get(newPos) + 1);
 
                             var c = map.Get(newPos);
@@ -121,22 +117,17 @@ public class Solver : IProblemSolver<long>
                     }
                 }
             }
-
-            step++;
         }
         while (rays.Any(a => !a.Stopped));
     }
 }
 
-public class MutableRay
+public class MutableRay(Pos pos, Pos dir, HashSet<(Pos, Pos)> path)
 {
-    public Pos Pos { get; set; }
-    public Pos Dir { get; set; }
+    public Pos Pos { get; set; } = pos;
+    public Pos Dir { get; set; } = dir;
 
     public bool Stopped { get; set; }
 
-    public HashSet<(Pos, Pos)> Path { get; }
-
-    public MutableRay(Pos pos, Pos dir, HashSet<(Pos, Pos)> path)
-        => (Pos, Dir, Path) = (pos, dir, path);
+    public HashSet<(Pos, Pos)> Path { get; } = path;
 }
