@@ -102,6 +102,10 @@ public class AllTests : BaseProblemTest
     [ProblemTest<int>(18, 230, 54, 713)]
     public void Problem24(string filename, bool first, int value)
         => Test(2022, 24, new Problem24.Solver(), filename, first, value);
+
+    [ProblemTest<string, bool>("2=-1=0", "20===-20-020=0001-02", true, true)]
+    public void Problem25(string filename, bool first, string valueA, bool valueB)
+        => Test(2022, 25, new Problem25.Solver(), filename, first, valueA, valueB);
 }
 
 public class Data

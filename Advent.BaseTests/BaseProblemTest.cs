@@ -50,11 +50,6 @@ public abstract class BaseProblemTest
 
     protected static string GetFolder(int year, int number)
         => @$"..\..\..\..\A{year:0000}.Problem{number:00}\Data\";
-
-    public static string? TrimText(string? text)
-        => text
-            ?.Replace("\r\n", " ")
-            ?.TrimLength(9);
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
@@ -98,9 +93,7 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
         var first = (bool)data![1]!;
         var value = (TR)data![2]!;
 
-        var text = BaseProblemTest.TrimText(value?.ToString());
-
-        return $"{(first ? "RunA" : "RunB")} {filename} {text}";
+        return $"{(first ? "RunA" : "RunB")} {filename}";
     }
 }
 
@@ -124,8 +117,6 @@ public class ProblemTestAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sample
         var valueA = data![2];
         var valueB = data![3];
 
-        var text = BaseProblemTest.TrimText(first ? valueA?.ToString() : valueB?.ToString());
-
-        return $"{(first ? "RunA" : "RunB")} {filename} {text}";
+        return $"{(first ? "RunA" : "RunB")} {filename}";
     }
 }
