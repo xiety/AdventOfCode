@@ -4,15 +4,15 @@ using Advent.Common;
 
 namespace A2022.Problem22;
 
-public class Solver : IProblemSolver<long>
+public class Solver : IProblemSolver<int>
 {
-    public long RunA(string filename)
+    public int RunA(string filename)
         => Run(filename, false);
 
-    public long RunB(string filename)
+    public int RunB(string filename)
         => Run(filename, true);
 
-    static long Run(string filename, bool isCube)
+    static int Run(string filename, bool isCube)
     {
         var lines = File.ReadAllLines(filename);
 
