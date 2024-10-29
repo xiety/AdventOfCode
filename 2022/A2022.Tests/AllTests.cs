@@ -91,13 +91,17 @@ public class AllTests : BaseProblemTest
     public void Problem21(string filename, bool first, long value)
         => Test(2022, 21, new Problem21.Solver(), filename, first, value);
 
-    [ProblemTest<long>(6032, 50412, 5031, 130068)]
-    public void Problem22(string filename, bool first, long value)
+    [ProblemTest<int>(6032, 50412, 5031, 130068)]
+    public void Problem22(string filename, bool first, int value)
         => Test(2022, 22, new Problem22.Solver(), filename, first, value);
 
-    [ProblemTest<long>(110, 3862, 20, 913)]
-    public void Problem23(string filename, bool first, long value)
+    [ProblemTest<int>(110, 3862, 20, 913)]
+    public void Problem23(string filename, bool first, int value)
         => Test(2022, 23, new Problem23.Solver(), filename, first, value);
+
+    [ProblemTest<int>(18, 230, 54, 713)]
+    public void Problem24(string filename, bool first, int value)
+        => Test(2022, 24, new Problem24.Solver(), filename, first, value);
 }
 
 public class Data
