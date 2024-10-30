@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -6,6 +7,18 @@ namespace Advent.Common;
 
 public abstract class BaseProblemTest
 {
+    protected static void Test<TR>(ISolver<TR> solver, object p)
+    {
+        var type = solver.GetType();
+        var ns = type.Namespace!;
+        var year = int.Parse(ns[1..5]);
+        var number = int.Parse(ns[13..15]);
+
+        var tp = (TestParameter<TR>)p;
+
+        Test(year, number, solver, tp.IsA, tp.IsSample, tp.Value);
+    }
+
     protected static void Test<TR>(int year, int number, ISolver<TR> solver, bool isA, bool isSample, TR result)
     {
         var fullpath = GetPath(year, number, isA, isSample);
@@ -156,22 +169,28 @@ public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR res
 {
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
     {
-
-        yield return [true, true, sampleA];
-        yield return [true, false, resultA];
-        yield return [false, true, sampleB];
-        yield return [false, false, resultB];
+        yield return [new TestParameter<TR>(true, true, sampleA)];
+        yield return [new TestParameter<TR>(true, false, resultA)];
+        yield return [new TestParameter<TR>(false, true, sampleB)];
+        yield return [new TestParameter<TR>(false, false, resultB)];
     }
 
     public string? GetDisplayName(MethodInfo methodInfo, object?[]? data)
     {
-        if (data is [bool isA, bool isSample, TR value])
+        if (data is [TestParameter<TR> tp])
         {
-            var method = isA ? nameof(ISolver<int>.RunA) : nameof(ISolver<int>.RunB);
-            var mode = isSample ? "sample" : "input";
+            var method = tp.IsA ? nameof(ISolver<int>.RunA) : nameof(ISolver<int>.RunB);
+            var mode = tp.IsSample ? "sample" : "input";
             return $"{method} {mode}";
         }
 
         throw new();
     }
 }
+
+[DataContract]
+public record TestParameter<TR>(
+    [property: DataMember] bool IsA,
+    [property: DataMember] bool IsSample,
+    [property: DataMember] TR Value
+);
