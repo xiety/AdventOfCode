@@ -4,9 +4,9 @@ namespace A2019.Problem02;
 
 public class Solver : ISolver<int>
 {
-    public int RunA(string text, bool isSample)
+    public int RunA(string[] lines, bool isSample)
     {
-        var codes = LoadData(text);
+        var codes = LoadData(lines);
 
         if (!isSample)
         {
@@ -14,12 +14,15 @@ public class Solver : ISolver<int>
             codes[2] = 2;
         }
 
-        return Interpret(codes, codes);
+        var cpu = new Cpu(codes, codes);
+        var result = cpu.Interpret();
+
+        return result;
     }
 
-    public int RunB(string text, bool isSample)
+    public int RunB(string[] lines, bool isSample)
     {
-        var codes = LoadData(text);
+        var codes = LoadData(lines);
 
         var target = !isSample ? 19690720 : 100;
 
@@ -30,7 +33,8 @@ public class Solver : ISolver<int>
                 codes[1] = a;
                 codes[2] = b;
 
-                var result = Interpret(codes, [.. codes]);
+                var cpu = new Cpu(codes, [..codes]);
+                var result = cpu.Interpret();
 
                 if (result == target)
                     return a * 100 + b;
@@ -40,18 +44,27 @@ public class Solver : ISolver<int>
         throw new();
     }
 
-    private static int Interpret(int[] codes, int[] memory)
+    private static int[] LoadData(string[] lines)
+        => lines.First().Split(",").Select(int.Parse).ToArray();
+}
+
+public class Cpu(int[] codes, int[] memory)
+{
+    private readonly ResizableArray<int> codes = new(codes);
+    private readonly ResizableArray<int> memory = new(memory);
+
+    public int Interpret()
     {
         var position = 0;
 
         do
         {
-            var n = Get(ref codes, position);
+            var n = codes[position];
 
             if (n == 1)
-                Op(ref codes, ref memory, position, (a,b) => a + b);
+                Op(position, (a, b) => a + b);
             else if (n == 2)
-                Op(ref codes, ref memory, position, (a, b) => a * b);
+                Op(position, (a, b) => a * b);
             else if (n == 99)
                 break;
 
@@ -59,34 +72,13 @@ public class Solver : ISolver<int>
         }
         while (true);
 
-        return Get(ref memory, 0);
+        return memory[0];
     }
 
-    private static void Op(ref int[] codes, ref int[] memory, int position, Func<int, int, int> func)
+    private void Op(int position, Func<int, int, int> func)
     {
-        var a = Get(ref memory, Get(ref codes, position + 1));
-        var b = Get(ref memory, Get(ref codes, position + 2));
-        Set(ref memory, Get(ref codes, position + 3), func(a, b));
+        var a = memory[codes[position + 1]];
+        var b = memory[codes[position + 2]];
+        memory[codes[position + 3]] = func(a, b);
     }
-
-    static int Get(ref int[] m, int position)
-    {
-        Resize(ref m, position);
-        return m[position];
-    }
-
-    static void Set(ref int[] m, int position, int value)
-    {
-        Resize(ref m, position);
-        m[position] = value;
-    }
-
-    static void Resize(ref int[] m, int size)
-    {
-        if (m.Length <= size)
-            Array.Resize(ref m, size + 1);
-    }
-
-    private static int[] LoadData(string filename)
-        => filename.Split(Environment.NewLine).First().Split(",").Select(int.Parse).ToArray();
 }

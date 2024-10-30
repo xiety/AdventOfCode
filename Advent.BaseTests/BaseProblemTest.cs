@@ -10,11 +10,11 @@ public abstract class BaseProblemTest
     {
         var fullpath = GetPath(year, number, isA, isSample);
 
-        var text = File.ReadAllText(fullpath);
+        var lines = File.ReadAllLines(fullpath);
 
         var actual = isA
-            ? solver.RunA(text, isSample)
-            : solver.RunB(text, isSample);
+            ? solver.RunA(lines, isSample)
+            : solver.RunB(lines, isSample);
 
         Assert.AreEqual(result, actual);
     }

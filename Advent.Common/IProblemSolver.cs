@@ -14,6 +14,6 @@ public interface IProblemSolver<TRA, TRB>
 
 public interface ISolver<TR>
 {
-    public TR RunA(string input, bool isSample);
-    public TR RunB(string input, bool isSample);
+    public TR RunA(string[] lines, bool isSample);
+    public TR RunB(string[] lines, bool isSample);
 }

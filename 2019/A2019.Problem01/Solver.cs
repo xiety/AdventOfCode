@@ -4,18 +4,18 @@ namespace A2019.Problem01;
 
 public class Solver : ISolver<int>
 {
-    public int RunA(string text, bool isSample)
+    public int RunA(string[] lines, bool isSample)
     {
-        var items = LoadData(text);
+        var items = LoadData(lines);
 
         return items
             .Select(CalcFuel)
             .Sum();
     }
 
-    public int RunB(string text, bool isSample)
+    public int RunB(string[] lines, bool isSample)
     {
-        var items = LoadData(text);
+        var items = LoadData(lines);
 
         return items
             .Select(CalcTotalFuel)
@@ -41,6 +41,6 @@ public class Solver : ISolver<int>
         return total;
     }
 
-    private static int[] LoadData(string text)
-        => text.ToLines().Select(int.Parse).ToArray();
+    private static int[] LoadData(string[] lines)
+        => lines.Select(int.Parse).ToArray();
 }
