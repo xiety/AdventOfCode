@@ -13,4 +13,7 @@ public static class StringExtensions
 
         return text + ellipsis;
     }
+
+    public static string[] ToLines(this string text)
+        => text.Split(Environment.NewLine)[..^1];
 }

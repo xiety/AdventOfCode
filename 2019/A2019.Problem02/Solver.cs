@@ -2,13 +2,13 @@
 
 namespace A2019.Problem02;
 
-public class Solver : IProblemSolver<int>
+public class Solver : ISolver<int>
 {
-    public int RunA(string filename)
+    public int RunA(string text, bool isSample)
     {
-        var codes = LoadFile(filename);
+        var codes = LoadData(text);
 
-        if (!filename.Contains("sample.txt"))
+        if (!isSample)
         {
             codes[1] = 12;
             codes[2] = 2;
@@ -17,11 +17,11 @@ public class Solver : IProblemSolver<int>
         return Interpret(codes, codes);
     }
 
-    public int RunB(string filename)
+    public int RunB(string text, bool isSample)
     {
-        var codes = LoadFile(filename);
+        var codes = LoadData(text);
 
-        var target = !filename.Contains("sample.txt") ? 19690720 : 100;
+        var target = !isSample ? 19690720 : 100;
 
         for (var a = 0; a <= 99; ++a)
         {
@@ -49,27 +49,24 @@ public class Solver : IProblemSolver<int>
             var n = Get(ref codes, position);
 
             if (n == 1)
-            {
-                var a = Get(ref memory, Get(ref codes, position + 1));
-                var b = Get(ref memory, Get(ref codes, position + 2));
-                Set(ref memory, Get(ref codes, position + 3), a + b);
-            }
+                Op(ref codes, ref memory, position, (a,b) => a + b);
             else if (n == 2)
-            {
-                var a = Get(ref memory, Get(ref codes, position + 1));
-                var b = Get(ref memory, Get(ref codes, position + 2));
-                Set(ref memory, Get(ref codes, position + 3), a * b);
-            }
+                Op(ref codes, ref memory, position, (a, b) => a * b);
             else if (n == 99)
-            {
                 break;
-            }
 
             position += 4;
         }
         while (true);
 
         return Get(ref memory, 0);
+    }
+
+    private static void Op(ref int[] codes, ref int[] memory, int position, Func<int, int, int> func)
+    {
+        var a = Get(ref memory, Get(ref codes, position + 1));
+        var b = Get(ref memory, Get(ref codes, position + 2));
+        Set(ref memory, Get(ref codes, position + 3), func(a, b));
     }
 
     static int Get(ref int[] m, int position)
@@ -90,6 +87,6 @@ public class Solver : IProblemSolver<int>
             Array.Resize(ref m, size + 1);
     }
 
-    private static int[] LoadFile(string filename)
-        => File.ReadAllLines(filename).First().Split(",").Select(int.Parse).ToArray();
+    private static int[] LoadData(string filename)
+        => filename.Split(Environment.NewLine).First().Split(",").Select(int.Parse).ToArray();
 }

@@ -6,6 +6,19 @@ namespace Advent.Common;
 
 public abstract class BaseProblemTest
 {
+    protected static void Test<TR>(int year, int number, ISolver<TR> solver, bool isA, bool isSample, TR result)
+    {
+        var fullpath = GetPath(year, number, isA, isSample);
+
+        var text = File.ReadAllText(fullpath);
+
+        var actual = isA
+            ? solver.RunA(text, isSample)
+            : solver.RunB(text, isSample);
+
+        Assert.AreEqual(result, actual);
+    }
+
     protected static void Test<TR>(int year, int number, IProblemSolver<TR> solver, string filename, bool first, TR result)
     {
         var fullpath = GetPath(year, number, filename, first);
@@ -43,6 +56,23 @@ public abstract class BaseProblemTest
         {
             var name = Path.GetFileNameWithoutExtension(filename);
             fullpath = Path.Combine(folder, $"{name}{(first ? "A" : "B")}.txt");
+        }
+
+        return fullpath;
+    }
+
+    private static string GetPath(int year, int number, bool isA, bool isSample)
+    {
+        var folder = GetFolder(year, number);
+
+        var filename = isSample ? "sample.txt" : "input.txt";
+
+        var fullpath = Path.Combine(folder, filename);
+
+        if (!File.Exists(fullpath))
+        {
+            var name = Path.GetFileNameWithoutExtension(filename);
+            fullpath = Path.Combine(folder, $"{name}{(isA ? "A" : "B")}.txt");
         }
 
         return fullpath;
@@ -118,5 +148,30 @@ public class ProblemTestAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sample
         var valueB = data![3];
 
         return $"{(first ? "RunA" : "RunB")} {filename}";
+    }
+}
+
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR resultB) : TestMethodAttribute, ITestDataSource
+{
+    public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
+    {
+
+        yield return [true, true, sampleA];
+        yield return [true, false, resultA];
+        yield return [false, true, sampleB];
+        yield return [false, false, resultB];
+    }
+
+    public string? GetDisplayName(MethodInfo methodInfo, object?[]? data)
+    {
+        if (data is [bool isA, bool isSample, TR value])
+        {
+            var method = isA ? nameof(ISolver<int>.RunA) : nameof(ISolver<int>.RunB);
+            var mode = isSample ? "sample" : "input";
+            return $"{method} {mode}";
+        }
+
+        throw new();
     }
 }

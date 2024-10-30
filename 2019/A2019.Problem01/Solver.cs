@@ -2,20 +2,20 @@
 
 namespace A2019.Problem01;
 
-public class Solver : IProblemSolver<int>
+public class Solver : ISolver<int>
 {
-    public int RunA(string filename)
+    public int RunA(string text, bool isSample)
     {
-        var items = LoadFile(filename);
+        var items = LoadData(text);
 
         return items
             .Select(CalcFuel)
             .Sum();
     }
 
-    public int RunB(string filename)
+    public int RunB(string text, bool isSample)
     {
-        var items = LoadFile(filename);
+        var items = LoadData(text);
 
         return items
             .Select(CalcTotalFuel)
@@ -41,6 +41,6 @@ public class Solver : IProblemSolver<int>
         return total;
     }
 
-    private static int[] LoadFile(string filename)
-        => File.ReadAllLines(filename).Select(int.Parse).ToArray();
+    private static int[] LoadData(string text)
+        => text.ToLines().Select(int.Parse).ToArray();
 }
