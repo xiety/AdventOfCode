@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Advent.BaseTests\Advent.BaseTests.csproj" />
     <ProjectReference Include="..\A2019.Problem01\A2019.Problem01.csproj" />
+    <ProjectReference Include="..\A2019.Problem02\A2019.Problem02.csproj" />
   </ItemGroup>
 
 </Project>
