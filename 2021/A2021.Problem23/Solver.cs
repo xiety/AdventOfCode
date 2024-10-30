@@ -8,6 +8,8 @@ public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
     {
+        throw new NotImplementedException();
+
         var units = LoadFile(filename);
 
         return Recurse(0, 0, Int32.MaxValue, units, -1);
