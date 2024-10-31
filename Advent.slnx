@@ -5,6 +5,7 @@
   <Folder Name="/2019/0/">
     <Project Path="2019\A2019.Problem01\A2019.Problem01.csproj" />
     <Project Path="2019\A2019.Problem02\A2019.Problem02.csproj" />
+    <Project Path="2019\A2019.Problem03\A2019.Problem03.csproj" />
   </Folder>
   <Folder Name="/2021/">
     <Project Path="2021\A2021.Tests\A2021.Tests.csproj" />

@@ -10,8 +10,8 @@ public class Solver : IProblemSolver<long>
 
         var targetY = filename.Contains("sample") ? 10 : 2_000_000; // ugh
 
-        var minX = items.Min(a => a.Sensor.X - (a.Sensor - a.Beacon).ManhattanLength()) - 1;
-        var maxX = items.Max(a => a.Sensor.X + (a.Sensor - a.Beacon).ManhattanLength()) + 1;
+        var minX = items.Min(a => a.Sensor.X - (a.Sensor - a.Beacon).ManhattanLength) - 1;
+        var maxX = items.Max(a => a.Sensor.X + (a.Sensor - a.Beacon).ManhattanLength) + 1;
 
         return Enumerable.Range(minX, maxX - minX + 1).AsParallel().Select(x =>
         {
@@ -58,12 +58,6 @@ public class Solver : IProblemSolver<long>
         ];
 }
 
-static class PosExtensions
-{
-    public static int ManhattanLength(this Pos pos)
-        => Math.Abs(pos.X) + Math.Abs(pos.Y);
-}
-
 public class Item
 {
     public Pos Sensor { get; }
@@ -76,11 +70,11 @@ public class Item
     {
         Sensor = sensor;
         Beacon = beacon;
-        BeaconDistance = (Beacon - Sensor).ManhattanLength();
+        BeaconDistance = (Beacon - Sensor).ManhattanLength;
         Rect = new(Sensor - new Pos(BeaconDistance, BeaconDistance), Sensor + new Pos(BeaconDistance, BeaconDistance));
     }
 
     public bool Collide(Pos pos)
         => Rect.Intersects(pos)
-        && (Beacon == pos || Sensor == pos || (Sensor - pos).ManhattanLength() <= BeaconDistance);
+        && (Beacon == pos || Sensor == pos || (Sensor - pos).ManhattanLength <= BeaconDistance);
 }
