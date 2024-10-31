@@ -61,24 +61,27 @@ public class Cpu(int[] codes, int[] memory)
         {
             var n = codes[position];
 
-            if (n == 1)
-                Op(position, (a, b) => a + b);
-            else if (n == 2)
-                Op(position, (a, b) => a * b);
-            else if (n == 99)
+            if (n == 99)
                 break;
 
-            position += 4;
+            position = n switch
+            {
+                1 => Op(position, (a, b) => a + b),
+                2 => Op(position, (a, b) => a * b),
+                _ => position,
+            };
         }
         while (true);
 
         return memory[0];
     }
 
-    private void Op(int position, Func<int, int, int> func)
+    private int Op(int position, Func<int, int, int> func)
     {
         var a = memory[codes[position + 1]];
         var b = memory[codes[position + 2]];
         memory[codes[position + 3]] = func(a, b);
+        position += 4;
+        return position;
     }
 }

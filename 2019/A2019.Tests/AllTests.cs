@@ -18,4 +18,7 @@ public class AllTests : BaseProblemTest
 
     [ProblemData<int>(64, 960, 51, 626)]
     public void Problem04(object p) => Test(new Problem04.Solver(), p);
+
+    [ProblemData<int>(1, 16489636, 999, 9386583)]
+    public void Problem05(object p) => Test(new Problem05.Solver(), p);
 }
