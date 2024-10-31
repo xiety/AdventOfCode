@@ -25,16 +25,10 @@ public class Solver : ISolver<int>
     }
 
     static int CalcDistance(Line[] chain, Line last, Pos intersection)
-    {
-        var distance = 0;
-
-        foreach (var line in chain.TakeWhile(a => a != last))
-            distance += (line.From - line.To).ManhattanLength;
-
-        distance += (intersection - last.From).ManhattanLength;
-
-        return distance;
-    }
+        => chain
+            .TakeWhile(a => a != last)
+            .Append(new(last.From, intersection))
+            .Sum(line => (line.From - line.To).ManhattanLength);
 
     static IEnumerable<Intersection> EnumerateIntersections(Line[] chain1, Line[] chain2)
         => from line1 in chain1
@@ -49,10 +43,7 @@ public class Solver : ISolver<int>
             .Select(a => ToLines(a.Split(",").Select(Parse)).ToArray())
             .ToArray();
 
-        if (data is not [var chain1, var chain2, ..])
-            throw new();
-
-        return (chain1, chain2);
+        return data is [var chain1, var chain2, ..] ? (chain1, chain2) : throw new();
     }
 
     static IEnumerable<Line> ToLines(IEnumerable<Pos> items)
@@ -91,20 +82,14 @@ public class Line(Pos from, Pos to)
     public bool IsHorizontal => From.Y == To.Y;
 
     public Pos? Intersect(Line that)
-    {
-        var hor1 = this.IsHorizontal;
-        var hor2 = that.IsHorizontal;
-
-        if (hor1 && !hor2)
-            if (IsBetween(this.From.X, this.To.X, that.From.X) && IsBetween(that.From.Y, that.To.Y, this.From.Y))
-                return new(that.From.X, this.From.Y);
-
-        if (!hor1 && hor2)
-            if (IsBetween(this.From.Y, this.To.Y, that.From.Y) && IsBetween(that.From.X, that.To.X, this.From.X))
-                return new(this.From.X, that.From.Y);
-
-        return null;
-    }
+        => (this.IsHorizontal, that.IsHorizontal) switch
+        {
+            (true, false) when IsBetween(this.From.X, this.To.X, that.From.X) && IsBetween(that.From.Y, that.To.Y, this.From.Y)
+                => new(that.From.X, this.From.Y),
+            (false, true) when IsBetween(this.From.Y, this.To.Y, that.From.Y) && IsBetween(that.From.X, that.To.X, this.From.X)
+                => new(this.From.X, that.From.Y),
+            _ => null
+        };
 
     static bool IsBetween(int p1, int p2, int m)
         => Math.Min(p1, p2) <= m && m <= Math.Max(p1, p2);

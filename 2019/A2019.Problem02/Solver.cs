@@ -33,7 +33,7 @@ public class Solver : ISolver<int>
                 codes[1] = a;
                 codes[2] = b;
 
-                var cpu = new Cpu(codes, [..codes]);
+                var cpu = new Cpu(codes, [.. codes]);
                 var result = cpu.Interpret();
 
                 if (result == target)
