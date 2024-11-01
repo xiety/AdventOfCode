@@ -28,7 +28,8 @@ public class Solver : IProblemSolver<long>
 
     private static Graph ParseGraph(Item[] items)
     {
-        var nodes = items.Select(a => a.From).Concat(items.Select(a => a.To))
+        var nodes = Enumerable
+            .Concat(items.Select(a => a.From), items.Select(a => a.To))
             .Select(a => new GraphNode { Name = a, CaveType = CalcCaveType(a) }).ToArray();
 
         foreach (var item in items)

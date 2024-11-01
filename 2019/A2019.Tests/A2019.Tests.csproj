@@ -22,6 +22,7 @@
     <ProjectReference Include="..\A2019.Problem03\A2019.Problem03.csproj" />
     <ProjectReference Include="..\A2019.Problem04\A2019.Problem04.csproj" />
     <ProjectReference Include="..\A2019.Problem05\A2019.Problem05.csproj" />
+    <ProjectReference Include="..\A2019.Problem06\A2019.Problem06.csproj" />
   </ItemGroup>
 
 </Project>

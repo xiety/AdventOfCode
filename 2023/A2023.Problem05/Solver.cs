@@ -47,8 +47,8 @@ public class Solver : IProblemSolver<long>
 
         var chunk = chunks.Single(a => a.From == from);
 
-        var points = chunk.Maps.Select(a => a.SourceStart)
-            .Concat(chunk.Maps.Select(a => a.SourceEnd))
+        var points = Enumerable
+            .Concat(chunk.Maps.Select(a => a.SourceStart), chunk.Maps.Select(a => a.SourceEnd))
             .Distinct().Order().ToArray();
 
         var parts = ToParts(fromStart, fromEnd, points);

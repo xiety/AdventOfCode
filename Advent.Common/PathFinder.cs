@@ -1,6 +1,6 @@
-﻿namespace System.Collections.Generic;
+﻿namespace Advent.Common;
 
-public class PathFinder
+public static class PathFinder
 {
     public static Pos[]? Find(int[,] map, Pos start, Pos end)
     {
@@ -12,7 +12,7 @@ public class PathFinder
         return CalculatePath(map, star, start, end);
     }
 
-    private static Pos[] CalculatePath(int[,] map, int[,] star, Pos start, Pos end)
+    static Pos[] CalculatePath(int[,] map, int[,] star, Pos start, Pos end)
     {
         var path = new List<Pos>() { end };
         var currentStep = end;
@@ -37,7 +37,7 @@ public class PathFinder
         return path.Reverse<Pos>().ToArray();
     }
 
-    private static int[,]? CalculateStar(int[,] map, Pos start, Pos end)
+    static int[,]? CalculateStar(int[,] map, Pos start, Pos end)
     {
         var star = ArrayEx.CreateAndInitialize(map.GetWidth(), map.GetHeight(), -1);
 
