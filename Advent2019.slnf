@@ -1,0 +1,17 @@
+{
+  "solution": {
+    "path": "Advent.slnx",
+    "projects": [
+      "2019\\A2019.Problem01\\A2019.Problem01.csproj",
+      "2019\\A2019.Problem02\\A2019.Problem02.csproj",
+      "2019\\A2019.Problem03\\A2019.Problem03.csproj",
+      "2019\\A2019.Problem04\\A2019.Problem04.csproj",
+      "2019\\A2019.Problem05\\A2019.Problem05.csproj",
+      "2019\\A2019.Problem06\\A2019.Problem06.csproj",
+      "2019\\A2019.Problem07\\A2019.Problem07.csproj",
+      "2019\\A2019.Tests\\A2019.Tests.csproj",
+      "Advent.BaseTests\\Advent.BaseTests.csproj",
+      "Advent.Common\\Advent.Common.csproj"
+    ]
+  }
+}
