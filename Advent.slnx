@@ -10,6 +10,7 @@
     <Project Path="2019\A2019.Problem05\A2019.Problem05.csproj" />
     <Project Path="2019\A2019.Problem06\A2019.Problem06.csproj" />
     <Project Path="2019\A2019.Problem07\A2019.Problem07.csproj" />
+    <Project Path="2019\A2019.Problem08\A2019.Problem08.csproj" />
   </Folder>
   <Folder Name="/2021/">
     <Project Path="2021\A2021.Tests\A2021.Tests.csproj" />

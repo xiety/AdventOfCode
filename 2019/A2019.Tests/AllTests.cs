@@ -27,4 +27,24 @@ public class AllTests : BaseProblemTest
 
     [ProblemData<int>(65210, 99376, 139629729, 8754464)]
     public void Problem07(object p) => Test(new Problem07.Solver(), p);
+
+    [ProblemData<int, string>(4, 1206, Data.Result08Sample, Data.Result08Input)]
+    public void Problem08(object p) => Test(new Problem08.Solver(), p);
+}
+
+public class Data
+{
+    public const string Result08Sample = """
+        .#
+        #.
+        """;
+
+    public const string Result08Input = """
+        ####...##.###...##..###..
+        #.......#.#..#.#..#.#..#.
+        ###.....#.#..#.#....#..#.
+        #.......#.###..#.##.###..
+        #....#..#.#.#..#..#.#....
+        ####..##..#..#..###.#....
+        """;
 }

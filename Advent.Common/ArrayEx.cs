@@ -57,18 +57,6 @@ public static class ArrayEx
                     array[x, y, z] = value;
     }
 
-    public static void Dump<T>(this T[,] array, string format)
-        where T : IFormattable
-    {
-        for (var y = 0; y < array.GetLength(1); ++y)
-        {
-            Console.WriteLine(String.Join(", ", array.GetRow(y).Select(a => a.ToString(format, null))));
-            Console.WriteLine();
-        }
-
-        Console.WriteLine();
-    }
-
     public static string ToString<T>(this T[,] array, Func<T, string> format)
         => array.ToString(Environment.NewLine, "", format);
 
@@ -88,18 +76,6 @@ public static class ArrayEx
     public static void Dump<T>(this T[,] array, string lineSeparator, string itemSeparator, Func<T, string> format)
     {
         Console.WriteLine(ToString(array, lineSeparator, itemSeparator, format));
-    }
-
-    public static void Dump<T>(this T[,] array, string format, string separator, string lineSeparator)
-        where T : IFormattable
-    {
-        for (var y = 0; y < array.GetLength(1); ++y)
-        {
-            Console.Write(String.Join(separator, array.GetRow(y).Select(a => a.ToString(format, null))));
-            Console.Write(lineSeparator);
-        }
-
-        Console.WriteLine();
     }
 
     public static IEnumerable<T> GetRow<T>(this T[,] array, int row)

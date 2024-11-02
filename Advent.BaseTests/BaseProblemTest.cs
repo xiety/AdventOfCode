@@ -19,6 +19,19 @@ public abstract class BaseProblemTest
         Test(year, number, solver, tp.IsA, tp.IsSample, tp.Value);
     }
 
+    protected static void Test<TRA, TRB>(ISolver<TRA, TRB> solver, object p)
+    {
+        var type = solver.GetType();
+        var ns = type.Namespace!;
+        var year = int.Parse(ns[1..5]);
+        var number = int.Parse(ns[13..15]);
+
+        if (p is TestParameter<TRA> tpa)
+            TestA(year, number, solver, tpa.IsSample, tpa.Value);
+        else if (p is TestParameter<TRB> tpb)
+            TestB(year, number, solver, tpb.IsSample, tpb.Value);
+    }
+
     protected static void Test<TR>(int year, int number, ISolver<TR> solver, bool isA, bool isSample, TR result)
     {
         var fullpath = GetPath(year, number, isA, isSample);
@@ -30,6 +43,26 @@ public abstract class BaseProblemTest
             : solver.RunB(lines, isSample);
 
         Assert.AreEqual(result, actual);
+    }
+
+    protected static void TestA<TRA, TRB>(int year, int number, ISolver<TRA, TRB> solver, bool isSample, TRA resultA)
+    {
+        var fullpath = GetPath(year, number, true, isSample);
+
+        var lines = File.ReadAllLines(fullpath);
+
+        var actual = solver.RunA(lines, isSample);
+        Assert.AreEqual(resultA, actual);
+    }
+
+    protected static void TestB<TRA, TRB>(int year, int number, ISolver<TRA, TRB> solver, bool isSample, TRB resultB)
+    {
+        var fullpath = GetPath(year, number, false, isSample);
+
+        var lines = File.ReadAllLines(fullpath);
+
+        var actual = solver.RunB(lines, isSample);
+        Assert.AreEqual(resultB, actual);
     }
 
     protected static void Test<TR>(int year, int number, IProblemSolver<TR> solver, string filename, bool first, TR result)
@@ -181,6 +214,36 @@ public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR res
         {
             var method = tp.IsA ? nameof(ISolver<int>.RunA) : nameof(ISolver<int>.RunB);
             var mode = tp.IsSample ? "sample" : "input";
+            return $"{method} {mode}";
+        }
+
+        throw new();
+    }
+}
+
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+public class ProblemDataAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sampleB, TRB resultB) : TestMethodAttribute, ITestDataSource
+{
+    public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
+    {
+        yield return [new TestParameter<TRA>(true, true, sampleA)];
+        yield return [new TestParameter<TRA>(true, false, resultA)];
+        yield return [new TestParameter<TRB>(false, true, sampleB)];
+        yield return [new TestParameter<TRB>(false, false, resultB)];
+    }
+
+    public string? GetDisplayName(MethodInfo methodInfo, object?[]? data)
+    {
+        if (data is [TestParameter<TRA> tpa])
+        {
+            var method = nameof(ISolver<int>.RunA);
+            var mode = tpa.IsSample ? "sample" : "input";
+            return $"{method} {mode}";
+        }
+        else if (data is [TestParameter<TRB> tpb])
+        {
+            var method = nameof(ISolver<int>.RunB);
+            var mode = tpb.IsSample ? "sample" : "input";
             return $"{method} {mode}";
         }
 
