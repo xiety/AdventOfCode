@@ -5,6 +5,15 @@ namespace System.Linq;
 
 public static class EnumerableExtensions
 {
+    public static IEnumerable<IEnumerable<T>> Permutations<T>(this IEnumerable<T> source, int length)
+    {
+        if (length == 1)
+            return source.Select(t => new T[] { t });
+
+        return Permutations(source, length - 1)
+            .SelectMany(t => source.Where(e => !t.Contains(e)), (t1, t2) => t1.Concat([t2]));
+    }
+
     public static IEnumerable<long> LongRange(long start, long length)
     {
         for (var i = start; i < start + length; ++i)
