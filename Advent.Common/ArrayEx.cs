@@ -1,11 +1,17 @@
-﻿using System.Text;
+﻿using System.Numerics;
+using System.Text;
 
 namespace System;
 
 public static class ArrayEx
 {
+    public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this TValue[] array)
+        where TKey : notnull, INumber<TKey>
+        => array.Select((v, i) => KeyValuePair.Create(TKey.CreateChecked(i), v))
+                .ToDictionary(a => a.Key, a => a.Value);
+
     public static T[] CreateAndInitialize<T>(int number, Func<int, T> creator)
-        => Enumerable.Range(0, number).Select(creator).ToArray();
+            => Enumerable.Range(0, number).Select(creator).ToArray();
 
     public static T[] CreateAndInitialize<T>(int number, T value)
         => Enumerable.Range(0, number).Select(_ => value).ToArray();
