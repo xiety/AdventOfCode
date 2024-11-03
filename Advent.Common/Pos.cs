@@ -2,6 +2,9 @@
 
 public readonly record struct Pos(int X, int Y)
 {
+    public override string ToString()
+        => $"({X}, {Y})";
+
     public static Pos Zero { get; } = new(0, 0);
 
     public static Pos operator +(Pos a, Pos b)
@@ -71,4 +74,14 @@ public readonly record struct Rect(Pos From, Pos To)
 
     public bool Intersects(Pos pos)
         => From.X <= pos.X && To.X >= pos.X && From.Y <= pos.Y && To.Y >= pos.Y;
+
+    public static Rect CreateBoundingBox(IReadOnlyList<Pos> items)
+    {
+        var minX = items.Select(a => a.X).Min();
+        var maxX = items.Select(a => a.X).Max();
+        var minY = items.Select(a => a.Y).Min();
+        var maxY = items.Select(a => a.Y).Max();
+
+        return new(new(minX, minY), new(maxX, maxY));
+    }
 }
