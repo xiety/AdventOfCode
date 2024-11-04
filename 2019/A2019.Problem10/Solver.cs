@@ -56,7 +56,7 @@ public class Solver : ISolver<long>
         while (ordered.Any());
     }
 
-    static (Pos Pos, int Count) FindObservatory(Rect rect, IReadOnlyList<Pos> asteroids)
+    static (Pos Pos, int Count) FindObservatory(Rect rect, IReadOnlyCollection<Pos> asteroids)
         => asteroids
         .Select(observatory => (
                 Pos: observatory,

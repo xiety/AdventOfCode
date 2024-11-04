@@ -19,7 +19,7 @@ public class Solver : IProblemSolver<long>
 
     private static long CalcRecurse(long[] items, bool next)
     {
-        var diffs = items.Pairs(true).Select(a => a.Item2 - a.Item1).ToArray();
+        var diffs = items.Chain().Select(a => a.Item2 - a.Item1).ToArray();
         var done = diffs.Distinct().Count() == 1;
         var delta = done ? diffs[0] : CalcRecurse(diffs, next);
         var result = next ? items.Last() + delta : items.First() - delta;

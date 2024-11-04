@@ -70,12 +70,18 @@ public readonly record struct Rect3(Pos3 From, Pos3 To)
 public readonly record struct Rect(Pos From, Pos To)
 {
     public long Volume
-        => (To.X - From.X + 1L) * (To.Y - From.Y + 1L);
+        => (long)Width * Height;
+
+    public int Width
+        => To.X - From.X + 1;
+
+    public int Height
+        => To.Y - From.Y + 1;
 
     public bool Intersects(Pos pos)
         => From.X <= pos.X && To.X >= pos.X && From.Y <= pos.Y && To.Y >= pos.Y;
 
-    public static Rect CreateBoundingBox(IReadOnlyList<Pos> items)
+    public static Rect CreateBoundingBox(IReadOnlyCollection<Pos> items)
     {
         var minX = items.Select(a => a.X).Min();
         var maxX = items.Select(a => a.X).Max();

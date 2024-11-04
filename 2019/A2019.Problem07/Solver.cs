@@ -33,7 +33,7 @@ public class Solver : ISolver<int>
     {
         List<int> input1 = [phases[0], 0];
 
-        var cpu1 = new Cpu([.. codes], Enumerate(input1));
+        var cpu1 = new Cpu([.. codes], input1.Enumerate());
         var lastOutput = cpu1.Interpret();
 
         foreach (var phase in phases.Skip(1))
@@ -47,13 +47,6 @@ public class Solver : ISolver<int>
             input1.Add(p);
 
         return input1.Last();
-    }
-
-    // to make it possible to add elements to a list during enumeration
-    static IEnumerable<T> Enumerate<T>(List<T> list)
-    {
-        for (var i = 0; i < list.Count; ++i)
-            yield return list[i];
     }
 
     static int[] LoadData(string[] lines)

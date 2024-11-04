@@ -16,7 +16,7 @@ public class Solver : IProblemSolver<long>
     {
         var parts = File.ReadAllLines(filename).Split(String.Empty).ToArray();
         var seeds = parts.First().First().Split(' ').Skip(1).Select(long.Parse).ToArray()
-            .Pairs(false).Select(a => (a.Item1, a.Item1 + a.Item2 - 1)).ToArray();
+            .Pairs().Select(a => (a.Item1, a.Item1 + a.Item2 - 1)).ToArray();
         var chunks = parts.Skip(1).Select(ParseChunk).ToArray();
 
         return seeds.Select(a => RecurseB(chunks, "seed", a.Item1, a.Item2)).Min();
@@ -89,7 +89,7 @@ public class Solver : IProblemSolver<long>
 
         var pointsInside = temp.Distinct().Order().ToArray();
 
-        return pointsInside.Pairs(true).ToArray();
+        return pointsInside.Chain().ToArray();
     }
 
     private static Chunk ParseChunk(IEnumerable<string> lines)
