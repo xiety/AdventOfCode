@@ -5,6 +5,41 @@ namespace System.Linq;
 
 public static class EnumerableExtensions
 {
+    public static int FindRepeat<T>(this IEnumerable<T> enumerable)
+        where T : IEqualityOperators<T, T, bool>
+    {
+        List<T> list = [];
+
+        var repeatingCount = 0;
+        var repeatingFrom = 0;
+
+        foreach (var number in enumerable)
+        {
+            if (list.Count > 0)
+            {
+                if (list[repeatingCount] == number)
+                {
+                    if (repeatingCount == 0)
+                        repeatingFrom = list.Count;
+
+                    repeatingCount++;
+                }
+                else
+                {
+                    repeatingCount = 0;
+                    repeatingFrom = -1;
+                }
+
+                if (repeatingCount == repeatingFrom)
+                    return repeatingCount;
+            }
+
+            list.Add(number);
+        }
+
+        return 0;
+    }
+
     public static IEnumerable<IEnumerable<T>> Permutations<T>(this IEnumerable<T> source, int length)
     {
         if (length == 1)

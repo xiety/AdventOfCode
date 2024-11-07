@@ -10,10 +10,10 @@ public static class RegexExtensions
     public static List<T> FromLines<T>(this Regex regex, IEnumerable<string> lines)
         => lines.Select(regex.MapTo<T>).ToList();
 
-    public static T MapTo<T>(this Match match, string debugText)
+    public static T MapTo<T>(this Match match, Regex debugRegex, string debugText)
     {
         if (!match.Success)
-            throw new ArgumentOutOfRangeException(nameof(match), match, message: $"Match failed on '{debugText}'");
+            throw new ArgumentOutOfRangeException(nameof(match), match, message: $"Match failed on '{debugText}' with '{debugRegex}");
 
         var type = typeof(T);
         var constructor = type.GetConstructors().First();
@@ -71,10 +71,10 @@ public static class RegexExtensions
     }
 
     public static T MapTo<T>(this string text, Regex regex)
-        => regex.Match(text).MapTo<T>(text);
+        => regex.Match(text).MapTo<T>(regex, text);
 
     public static T MapTo<T>(this Regex regex, string text)
-        => regex.Match(text).MapTo<T>(text);
+        => regex.Match(text).MapTo<T>(regex, text);
 
     public static T MapTo<T, T1, T2>(this string text, Regex mr1, Regex mr2)
         where T1 : T
@@ -83,12 +83,12 @@ public static class RegexExtensions
         var m1 = mr1.Match(text);
 
         if (m1.Success)
-            return m1.MapTo<T1>(text);
+            return m1.MapTo<T1>(mr1, text);
 
         var m2 = mr2.Match(text);
 
         if (m2.Success)
-            return m2.MapTo<T2>(text);
+            return m2.MapTo<T2>(mr2, text);
 
         throw new ArgumentOutOfRangeException($"Can not parse: {text}");
     }

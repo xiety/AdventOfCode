@@ -22,6 +22,8 @@ public readonly record struct Pos(int X, int Y)
 
 public readonly record struct Pos3(int X, int Y, int Z)
 {
+    public static Pos3 Zero => new(0, 0, 0);
+
     public override string ToString()
         => $"({X}, {Y}, {Z})";
 

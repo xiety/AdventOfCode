@@ -21,4 +21,19 @@ public static class INumberExtensions
 
         return a == T.Zero ? b : a;
     }
+
+    public static T LCM<T>(T a, T b)
+        where T : INumber<T>
+        => T.Abs(a * b) / GCD(a, b);
+
+    public static T LCM<T>(T[] numbers)
+        where T : INumber<T>
+    {
+        var result = numbers[0];
+
+        foreach (var num in numbers)
+            result = LCM(result, num);
+
+        return result;
+    }
 }
