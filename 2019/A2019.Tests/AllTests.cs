@@ -45,6 +45,9 @@ public class AllTests : BaseSolverTest
 
     [ProblemData<long>(0, 180, 0, 8777)]
     public void Problem13(ITestParameter p) => Test(new Problem13.Solver(), p);
+
+    [ProblemData<long>(2210736, 158482, 460664, -1)]
+    public void Problem14(ITestParameter p) => Test(new Problem14.Solver(), p);
 }
 
 public class Data
