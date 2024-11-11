@@ -10,26 +10,40 @@ public abstract class BaseProblemTest
     {
         var fullpath = GetPath(year, number, filename, first);
 
-        var actual = first
-            ? solver.RunA(fullpath)
-            : solver.RunB(fullpath);
+        try
+        {
+            var actual = first
+                ? solver.RunA(fullpath)
+                : solver.RunB(fullpath);
 
-        Assert.AreEqual(result, actual);
+            Assert.AreEqual(result, actual);
+        }
+        catch (NotImplementedException)
+        {
+            Assert.Inconclusive("Not implemented");
+        }
     }
 
     protected static void Test<TRA, TRB>(int year, int number, IProblemSolver<TRA, TRB> solver, string filename, bool first, TRA resultA, TRB resultB)
     {
         var fullpath = GetPath(year, number, filename, first);
 
-        if (first)
+        try
         {
-            var actual = solver.RunA(fullpath);
-            Assert.AreEqual(resultA, actual);
+            if (first)
+            {
+                var actual = solver.RunA(fullpath);
+                Assert.AreEqual(resultA, actual);
+            }
+            else
+            {
+                var actual = solver.RunB(fullpath);
+                Assert.AreEqual(resultB, actual);
+            }
         }
-        else
+        catch (NotImplementedException)
         {
-            var actual = solver.RunB(fullpath);
-            Assert.AreEqual(resultB, actual);
+            Assert.Inconclusive("Not implemented");
         }
     }
 

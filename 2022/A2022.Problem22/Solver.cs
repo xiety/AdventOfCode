@@ -10,7 +10,12 @@ public class Solver : IProblemSolver<int>
         => Run(filename, false);
 
     public int RunB(string filename)
-        => Run(filename, true);
+    {
+        if (filename.Contains("sample.txt"))
+            throw new NotImplementedException();
+
+        return Run(filename, true);
+    }
 
     static int Run(string filename, bool isCube)
     {

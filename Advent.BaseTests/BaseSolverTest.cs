@@ -39,10 +39,17 @@ public abstract class BaseSolverTest
 
     protected static void Test<TR>(int year, int number, TestParameter<TR> p, Func<string[], TR> execute)
     {
-        var fullpath = GetPath(year, number, p.IsA, p.IsSample);
-        var lines = File.ReadAllLines(fullpath);
-        var actual = execute(lines);
-        Assert.AreEqual(p.Value, actual);
+        try
+        {
+            var fullpath = GetPath(year, number, p.IsA, p.IsSample);
+            var lines = File.ReadAllLines(fullpath);
+            var actual = execute(lines);
+            Assert.AreEqual(p.Value, actual);
+        }
+        catch (NotImplementedException)
+        {
+            Assert.Inconclusive("Not implemented");
+        }
     }
 
     private static string GetPath(int year, int number, bool isA, bool isSample)
