@@ -6,6 +6,8 @@ public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
     {
+        throw new NotImplementedException();
+
         var flow = new Flow();
         var flowResult = flow.Run(filename);
 

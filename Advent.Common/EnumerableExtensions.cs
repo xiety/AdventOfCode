@@ -55,28 +55,6 @@ public static class EnumerableExtensions
             yield return i;
     }
 
-    //public static IEnumerable<(T, T)> Pairs<T>(this T[] input, bool every)
-    //    => input.Zip(input.Skip(1), (a, b) => (first: a, second: b))
-    //        .Where((item, index) => every || index % 2 == 0);
-
-    // Skip doesn't work correctly with endless enumerables
-    public static IEnumerable<(T, T)> Pairs<T>(this IEnumerable<T> enumerable)
-    {
-        using var enumerator = enumerable.GetEnumerator();
-
-        while (enumerator.MoveNext())
-        {
-            var item1 = enumerator.Current;
-
-            if (!enumerator.MoveNext())
-                break;
-
-            var item2 = enumerator.Current;
-
-            yield return (item1, item2);
-        }
-    }
-
     public static IEnumerable<(TItem item, int index)> Indexed<TItem>(this IEnumerable<TItem> items)
         => items.Select((item, index) => (item, index));
 

@@ -1,73 +1,71 @@
-﻿using System.Numerics;
+﻿using System.Collections;
 
 using Advent.Common;
 
-namespace A2019.Problem11;
+namespace A2019.Problem13;
 
-public class Solver : ISolver<long, string>
+public class Solver : ISolver<long>
 {
     public long RunA(string[] lines, bool isSample)
     {
-        var map = Run(lines, 0, false);
-        return map.Count;
-    }
-
-    public string RunB(string[] lines, bool isSample)
-    {
-        var map = Run(lines, 1, true);
-
-        var bbox = Rect.CreateBoundingBox(map.Keys);
-        var c = new int[bbox.Width, bbox.Height];
-
-        foreach (var (pos, value) in map)
-            c.Set(pos - bbox.From, (int)value);
-
-        return c.ToString(Environment.NewLine, "", a => a == 1 ? "#" : ".").TrimEnd();
-    }
-
-    static Dictionary<Pos, long> Run(string[] lines, int start, bool paintStart)
-    {
         var codes = LoadData(lines);
-        var pos = new Pos(0, 0);
-        var dir = Dir.Up;
-        var map = new Dictionary<Pos, long>();
+        var map = new Dictionary<Pos, Tile>();
 
-        if (paintStart)
-            map[pos] = start;
-
-        var inputs = new List<long> { start };
-        var cpu = new Cpu(codes, inputs.Enumerate());
+        var cpu = new Cpu(codes, []);
         var outputs = cpu.Interpret();
 
-        foreach (var (color, rotate) in outputs.Chunk(2))
+        foreach (var (x, y, tile) in outputs.Chunk(3))
+            map[new((int)x, (int)y)] = (Tile)tile;
+
+        return map.Values.Count(a => a == Tile.Block);
+    }
+
+    public long RunB(string[] lines, bool isSample)
+    {
+        var codes = LoadData(lines);
+        codes[0] = 2;
+
+        var score = 0L;
+        var ballPos = Pos.Zero;
+        var paddlePos = Pos.Zero;
+
+        var joystick = new Joystick();
+        var cpu = new Cpu(codes, joystick);
+        var outputs = cpu.Interpret();
+
+        foreach (var (x, y, value) in outputs.Chunk(3))
         {
-            map[pos] = color;
-
-            dir = dir.RotateEnum(rotate == 0 ? -1 : 1);
-
-            pos += dir switch
+            if (x == -1)
             {
-                Dir.Up => new(0, -1),
-                Dir.Right => new(1, 0),
-                Dir.Down => new(0, 1),
-                Dir.Left => new(-1, 0),
-            };
+                score = value;
+            }
+            else
+            {
+                var pos = new Pos((int)x, (int)y);
+                var tile = (Tile)value;
 
-            inputs.Add(map.GetValueOrDefault(pos));
+                if (tile == Tile.Ball)
+                    ballPos = pos;
+                else if (tile == Tile.Paddle)
+                    paddlePos = pos;
+
+                joystick.Value = (long)Math.Sign(ballPos.X - paddlePos.X);
+            }
         }
 
-        return map;
+        return score;
     }
 
     static long[] LoadData(string[] lines)
         => lines.First().Split(",").Select(long.Parse).ToArray();
 
-    enum Dir
+    enum Tile
     {
-        Up = 0,
-        Right = 1,
-        Down = 2,
-        Left = 3,
+        Empty = 0,
+        Wall = 1,
+        Block = 2,
+        Paddle = 3,
+        Ball = 4,
     }
 }
 
@@ -202,4 +200,20 @@ public class Cpu
         Value = 1,
         Relative = 2,
     }
+}
+
+class Joystick : IEnumerable<long>
+{
+    public long Value { get; set; }
+
+    public IEnumerator<long> GetEnumerator()
+    {
+        do
+        {
+            yield return Value;
+        }
+        while (true);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

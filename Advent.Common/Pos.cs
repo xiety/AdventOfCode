@@ -38,6 +38,9 @@ public readonly record struct Pos3(int X, int Y, int Z)
 
     public static bool operator <=(Pos3 a, Pos3 b)
         => a.X <= b.X && a.Y <= b.Y && a.Z <= b.Z;
+
+    public int ManhattanLength
+        => Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z);
 }
 
 public readonly record struct Rect3(Pos3 From, Pos3 To)
