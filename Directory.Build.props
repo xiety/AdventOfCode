@@ -1,11 +1,11 @@
 <Project>
     <PropertyGroup>
         <LangVersion>12</LangVersion>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<NoWarn>CS1998,CS8509,CS8524,CA1860</NoWarn>
-        <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+        <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
         <RunWorkingDirectory>.</RunWorkingDirectory>
     </PropertyGroup>
 
