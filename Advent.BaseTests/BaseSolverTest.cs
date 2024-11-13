@@ -29,7 +29,7 @@ public abstract class BaseSolverTest
             throw new();
     }
 
-    private static (int, int) Parse(Type type)
+    static (int, int) Parse(Type type)
     {
         var ns = type.Namespace!;
         var year = int.Parse(ns[1..5]);
@@ -52,7 +52,7 @@ public abstract class BaseSolverTest
         }
     }
 
-    private static string GetPath(int year, int number, bool isA, bool isSample)
+    static string GetPath(int year, int number, bool isA, bool isSample)
     {
         var folder = GetFolder(year, number);
 
@@ -84,7 +84,7 @@ public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR res
         yield return [new TestParameter<TR>(false, false, resultB)];
     }
 
-    public string? GetDisplayName(MethodInfo methodInfo, object?[]? data)
+    public string GetDisplayName(MethodInfo methodInfo, object?[]? data)
     {
         if (data is [TestParameter<TR> tp])
         {
@@ -108,22 +108,27 @@ public class ProblemDataAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sample
         yield return [new TestParameter<TRB>(false, false, resultB)];
     }
 
-    public string? GetDisplayName(MethodInfo methodInfo, object?[]? data)
+    public string GetDisplayName(MethodInfo methodInfo, object?[]? data)
     {
-        if (data is [TestParameter<TRA> tpa])
+        switch (data)
         {
-            var method = nameof(ISolver<int>.RunA);
-            var mode = tpa.IsSample ? "sample" : "input";
-            return $"{method} {mode}";
-        }
-        else if (data is [TestParameter<TRB> tpb])
-        {
-            var method = nameof(ISolver<int>.RunB);
-            var mode = tpb.IsSample ? "sample" : "input";
-            return $"{method} {mode}";
-        }
+            case [TestParameter<TRA> tpa]:
+                {
+                    const string method = nameof(ISolver<int>.RunA);
+                    var mode = tpa.IsSample ? "sample" : "input";
+                    return $"{method} {mode}";
+                }
 
-        throw new();
+            case [TestParameter<TRB> tpb]:
+                {
+                    const string method = nameof(ISolver<int>.RunB);
+                    var mode = tpb.IsSample ? "sample" : "input";
+                    return $"{method} {mode}";
+                }
+
+            default:
+                throw new();
+        }
     }
 }
 

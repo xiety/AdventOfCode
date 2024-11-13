@@ -12,7 +12,7 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Run(filename, 50);
 
-    private static long Run(string filename, int totalSteps)
+    static long Run(string filename, int totalSteps)
     {
         var (palette, map) = LoadFile(filename);
 
@@ -79,7 +79,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static (bool[], bool[,]) LoadFile(string filename)
+    static (bool[], bool[,]) LoadFile(string filename)
     {
         var chunks = File.ReadAllLines(filename).Split(String.Empty).ToArray();
         var palette = chunks[0].First().Select(a => a == '#').ToArray();

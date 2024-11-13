@@ -57,7 +57,7 @@ public class Solver : IProblemSolver<long>
             list.Select((b, index2) => (index + 1) * (index2 + 1) * b.focal).Sum()).Sum();
     }
 
-    private long Hash(string text)
+    long Hash(string text)
     {
         var ret = 0;
 

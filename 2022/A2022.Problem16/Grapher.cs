@@ -1,11 +1,9 @@
 ﻿namespace A2022.Problem16;
 
-public class Grapher
+public static class Grapher
 {
     public static Graph CreateGraph(Item[] items)
     {
-        var itemsDic = items.ToDictionary(a => a.Valve, a => a);
-
         var graph = new Graph();
 
         var indexed = new List<string>();

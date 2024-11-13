@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<int>
     public int RunB(string filename)
         => Run(filename, 3);
 
-    private static int Run(string filename, int window)
+    static int Run(string filename, int window)
     {
         var items = LoadFile(filename);
 
@@ -34,7 +34,7 @@ public class Solver : IProblemSolver<int>
         return result;
     }
 
-    private static List<int> LoadFile(string filename)
+    static List<int> LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
         return lines.Select(int.Parse).ToList();

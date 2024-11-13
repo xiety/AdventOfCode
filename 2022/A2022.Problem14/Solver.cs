@@ -27,7 +27,7 @@ public class Solver : IProblemSolver<int>
         return Simulate(sandbox, items);
     }
 
-    private static int Simulate(Sandbox sandbox, List<Pos[]> items)
+    static int Simulate(Sandbox sandbox, List<Pos[]> items)
     {
         sandbox.AddWalls(items);
 
@@ -61,7 +61,7 @@ public class Solver : IProblemSolver<int>
         return sands;
     }
 
-    private static (int, int) CalcSize(List<Pos[]> items)
+    static (int, int) CalcSize(List<Pos[]> items)
     {
         var width = items.SelectMany(a => a).Max(a => a.X) + 1000;
         var height = items.SelectMany(a => a).Max(a => a.Y) + 1;

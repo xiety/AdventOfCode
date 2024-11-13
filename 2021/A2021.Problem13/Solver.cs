@@ -27,7 +27,7 @@ public class Solver : IProblemSolver<long, string>
             .TrimEnd();
     }
 
-    private static (bool[,], FoldItem[]) LoadFile(string filename)
+    static (bool[,], FoldItem[]) LoadFile(string filename)
     {
         var (firstPart, secondPart) = File.ReadAllLines(filename).Split(String.Empty);
 
@@ -37,7 +37,7 @@ public class Solver : IProblemSolver<long, string>
         return (map, folds);
     }
 
-    private static bool[,] Fold(bool[,] parent, FoldItem fold)
+    static bool[,] Fold(bool[,] parent, FoldItem fold)
     {
         if (fold.Axis == "x")
         {
@@ -79,7 +79,7 @@ public class Solver : IProblemSolver<long, string>
         }
     }
 
-    private static bool[,] ParseMap(IEnumerable<string> lines)
+    static bool[,] ParseMap(IEnumerable<string> lines)
     {
         var items = CompiledRegs.MapRegex().FromLines<MapItem>(lines);
 
@@ -93,7 +93,7 @@ public class Solver : IProblemSolver<long, string>
         return map;
     }
 
-    private static FoldItem[] ParseFolds(IEnumerable<string> lines)
+    static FoldItem[] ParseFolds(IEnumerable<string> lines)
         => CompiledRegs.FoldRegex().FromLines<FoldItem>(lines).ToArray();
 }
 

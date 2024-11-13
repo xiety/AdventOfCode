@@ -46,14 +46,14 @@ public class Solver : IProblemSolver<long>
         return max;
     }
 
-    private int Calculate(char[,] map, Pos startingPos, Pos startingDir)
+    static int Calculate(char[,] map, Pos startingPos, Pos startingDir)
     {
         var energy = new int[map.GetWidth(), map.GetHeight()];
         Go(map, energy, startingPos, startingDir);
         return energy.Enumerate().Count(pair => pair.item > 0);
     }
 
-    private void Go(char[,] map, int[,] energy, Pos startingPos, Pos startingDir)
+    static void Go(char[,] map, int[,] energy, Pos startingPos, Pos startingDir)
     {
         var rays = new List<MutableRay>() { new(startingPos, startingDir, []) };
 

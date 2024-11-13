@@ -16,7 +16,7 @@ public class Solver : IProblemSolver<long>
         return lines.AsParallel().Select(RunBLine).Sum();
     }
 
-    private static long RunALine(string line)
+    static long RunALine(string line)
     {
         var n = line.IndexOf(' ');
         var pattern = line[..n].Select(a => a switch { '.' => 0, '#' => 1, '?' => 2 }).ToArray();
@@ -28,7 +28,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static long RunBLine(string line)
+    static long RunBLine(string line)
     {
         var n = line.IndexOf(' ');
         var pattern = line[..n].Select(a => a switch { '.' => 0, '#' => 1, '?' => 2 }).ToArray();
@@ -60,9 +60,9 @@ public class Calculator
         return result;
     }
 
-    private readonly Dictionary<string, long> history = [];
+    readonly Dictionary<string, long> history = [];
 
-    private long Recurse(
+    long Recurse(
         int depth, int questionsLength, int[] questions, int[] required, int[] quantity, int[] pattern, int[] combos, int fromCombos, int fromIndex, int parentPredict)
     {
         if (depth < questionsLength)

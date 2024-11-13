@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Run(filename, Path.GetFileName(filename) == "sample.txt" ? 100 : 1_000_000);
 
-    private long Run(string filename, int resize)
+    static long Run(string filename, int resize)
     {
         var map = MapData.ParseMap(File.ReadAllLines(filename), c => c == '#');
 
@@ -27,13 +27,13 @@ public class Solver : IProblemSolver<long>
         return totalDistance;
     }
 
-    private static IEnumerable<Pos> GetStars(bool[,] map, int resize, List<int> emptyCols, List<int> emptyRows)
+    static IEnumerable<Pos> GetStars(bool[,] map, int resize, List<int> emptyCols, List<int> emptyRows)
         => from pos in map.EnumeratePositionsOf(true)
            let dx = emptyCols.Count(a => a < pos.X) * (resize - 1) + pos.X
            let dy = emptyRows.Count(a => a < pos.Y) * (resize - 1) + pos.Y
            select new Pos(dx, dy);
 
-    private static List<int> GetEmptyRows(bool[,] map)
+    static List<int> GetEmptyRows(bool[,] map)
     {
         var emptyRows = new List<int>();
 
@@ -57,7 +57,7 @@ public class Solver : IProblemSolver<long>
         return emptyRows;
     }
 
-    private static List<int> GetEmptyCols(bool[,] map)
+    static List<int> GetEmptyCols(bool[,] map)
     {
         var emptyCols = new List<int>();
 
@@ -81,6 +81,6 @@ public class Solver : IProblemSolver<long>
         return emptyCols;
     }
 
-    private static long Distance(Pos from, Pos to)
+    static long Distance(Pos from, Pos to)
         => Math.Abs(from.X - to.X) + Math.Abs(from.Y - to.Y);
 }

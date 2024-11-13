@@ -41,6 +41,6 @@ public class Solver : ISolver<int>
         return total;
     }
 
-    private static int[] LoadData(string[] lines)
+    static int[] LoadData(string[] lines)
         => lines.Select(int.Parse).ToArray();
 }

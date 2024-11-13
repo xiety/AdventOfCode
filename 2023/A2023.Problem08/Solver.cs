@@ -59,7 +59,7 @@ public class Solver : IProblemSolver<long>
         return MathExtensions.Lcm(all.Select(a => a.Max())); //little cheat with max
     }
 
-    private static (int[] path, List<Node>) LoadFile(string filename)
+    static (int[] path, List<Node>) LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
         var path = lines[0].Select(a => a switch { 'L' => 0, 'R' => 1 }).ToArray();

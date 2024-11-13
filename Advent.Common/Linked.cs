@@ -49,13 +49,13 @@ public class Linked<T>(T? value, bool end, Linked<T>? next, int count) : IEnumer
 
     struct Enumerator(Linked<T> initial) : IEnumerator<T>
     {
-        private Linked<T>? linked;
+        Linked<T>? linked;
 
         public readonly T Current => linked!.Value!;
 
         readonly object IEnumerator.Current => linked!.Value!;
 
-        private bool reseted = true;
+        bool reseted = true;
 
         public readonly void Dispose()
         {

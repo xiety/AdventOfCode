@@ -28,7 +28,7 @@ public class Solver : ISolver<long>
             .First();
     }
 
-    private static IEnumerable<Pos> EnumerateVaporized(List<Pos> asteroids, Rect rect, Pos observatory)
+    static IEnumerable<Pos> EnumerateVaporized(List<Pos> asteroids, Rect rect, Pos observatory)
     {
         var ordered = asteroids.OrderBy(a => Angle(a - observatory)).ToList();
 
@@ -39,8 +39,7 @@ public class Solver : ISolver<long>
             do
             {
                 var vaporized = circles
-                    .Where(a => See(rect, circles, observatory, a))
-                    .First();
+                    .First(a => See(rect, circles, observatory, a));
 
                 var shadowed = CastShadow(rect, observatory, vaporized)
                     .Where(a => circles.Any(b => b == a));
@@ -60,13 +59,13 @@ public class Solver : ISolver<long>
         => asteroids
         .Select(observatory => (
                 Pos: observatory,
-                Count: asteroids.Where(asteroid => See(rect, asteroids, observatory, asteroid)).Count()))
+                Count: asteroids.Count(asteroid => See(rect, asteroids, observatory, asteroid))))
         .MaxBy(a => a.Count);
 
     static IEnumerable<Pos> CastShadow(Rect rect, Pos observatory, Pos asteroid)
     {
         var distance = asteroid - observatory;
-        var g = INumberExtensions.GCD(distance.X, distance.Y);
+        var g = distance.X.GCD(distance.Y);
         var step = new Pos(distance.X / g, distance.Y / g);
         var pos = asteroid;
 

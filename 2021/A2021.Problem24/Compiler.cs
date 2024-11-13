@@ -4,14 +4,14 @@ namespace A2021.Problem24;
 
 public class Compiler
 {
-    public string Run(string filename)
+    public static string Run(string filename)
     {
         var lines = File.ReadAllLines(filename);
 
         return Compile(lines);
     }
 
-    private string Compile(string[] lines)
+    static string Compile(string[] lines)
     {
         var sb = new StringBuilder();
 
@@ -74,13 +74,13 @@ public class Compiler
         return sb.ToString();
     }
 
-    private (string, string) GetParts(string rest)
+    static (string, string) GetParts(string rest)
     {
         var n = rest.IndexOf(' ');
         return (rest[..n], rest[(n + 1)..]);
     }
 
-    private (string, string) GetOp(string line)
+    static (string, string) GetOp(string line)
     {
         var n = line.IndexOf(' ');
         return (line[..n], line[(n + 1)..]);

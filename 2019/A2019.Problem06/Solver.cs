@@ -29,8 +29,8 @@ public class Solver : ISolver<int>
 
     static GraphNode[] CreateGraph(List<Connection> connections)
     {
-        var nodes = Enumerable
-            .Concat(connections.Select(a => a.Center), connections.Select(a => a.Moon))
+        var nodes = connections.Select(a => a.Center)
+            .Concat(connections.Select(a => a.Moon))
             .Select(a => new GraphNode { Name = a }).ToArray();
 
         foreach (var connection in connections)

@@ -79,12 +79,12 @@ record Monkey<T>(
 {
     public int StepsCount { get; set; }
 
-    private Func<T, T> compiledCalculate = default!;
+    Func<T, T> compiledCalculate = default!;
 
     public void Initialize()
         => compiledCalculate = GenerateFunction();
 
-    private Func<T, T> GenerateFunction()
+    Func<T, T> GenerateFunction()
     {
         var old = Expression.Parameter(typeof(T), "old");
 

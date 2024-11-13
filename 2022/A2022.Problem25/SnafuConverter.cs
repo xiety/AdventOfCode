@@ -33,7 +33,6 @@ public class SnafuConverter
     {
         var cur = dec;
         var result = "";
-        var b = 1L;
         var a = 0L;
 
         do
@@ -53,13 +52,12 @@ public class SnafuConverter
             }
 
             cur = d + a;
-            b *= 5;
         }
         while (cur != 0);
 
         return result;
     }
 
-    private static char ToSnafuDigit(long n)
+    static char ToSnafuDigit(long n)
         => digits.First(a => a.Value == n).Key;
 }

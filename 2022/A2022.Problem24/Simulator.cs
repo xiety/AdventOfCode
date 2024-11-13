@@ -90,7 +90,7 @@ public class Simulator
 
 public class Map3d
 {
-    private readonly bool[,,] data;
+    readonly bool[,,] data;
 
     public Pos3 Size => new(data.GetLength(0), data.GetLength(1), data.GetLength(2));
 

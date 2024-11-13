@@ -21,7 +21,7 @@ public class Solver : IProblemSolver<long>
         return (long)result;
     }
 
-    private static Packet LoadFile(string filename)
+    static Packet LoadFile(string filename)
     {
         var hex = File.ReadAllLines(filename).First();
 
@@ -33,7 +33,7 @@ public class Solver : IProblemSolver<long>
         return packet;
     }
 
-    private static int CalcSumRecurse(Packet packet)
+    static int CalcSumRecurse(Packet packet)
     {
         var sum = (int)packet.Version;
 
@@ -43,7 +43,7 @@ public class Solver : IProblemSolver<long>
         return sum;
     }
 
-    private static BigInteger CalcExpressionRecurse(Packet packet)
+    static BigInteger CalcExpressionRecurse(Packet packet)
     {
         switch (packet)
         {
@@ -68,7 +68,7 @@ public class Solver : IProblemSolver<long>
         throw new ArgumentOutOfRangeException(paramName: nameof(packet));
     }
 
-    private static Packet Parse(BitReader br)
+    static Packet Parse(BitReader br)
     {
         var version = br.ReadToByte(3);
         var typeId = br.ReadToByte(3);
@@ -110,7 +110,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private static BigInteger ParseValue(BitReader br)
+    static BigInteger ParseValue(BitReader br)
     {
         var bools = new List<bool>();
         var flag = false;

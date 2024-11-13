@@ -32,7 +32,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static Combo CalcB(Card[] cards)
+    static Combo CalcB(Card[] cards)
     {
         var jockers = cards.Count(a => a == Card.Jack);
 
@@ -48,7 +48,7 @@ public class Solver : IProblemSolver<long>
         return CalcA([.. cards.Select(a => a == Card.Jack ? most : a)]);
     }
 
-    private static Combo CalcA(Card[] cards)
+    static Combo CalcA(Card[] cards)
     {
         var grouped = cards.GroupBy(a => a).Select(a => a.Count()).OrderDescending().ToArray();
 
@@ -64,14 +64,14 @@ public class Solver : IProblemSolver<long>
         };
     }
 
-    private static HandA Parse(string line)
+    static HandA Parse(string line)
     {
         var bid = int.Parse(line[6..]);
         var cards = line[..5].Select(ParseCard).ToArray();
         return new(cards, bid);
     }
 
-    private static Card ParseCard(char c)
+    static Card ParseCard(char c)
         => c switch
         {
             '2' => Card.Two,
@@ -89,7 +89,7 @@ public class Solver : IProblemSolver<long>
             'A' => Card.Ace,
         };
 
-    private static int CardScoreA(Card c)
+    static int CardScoreA(Card c)
         => c switch
         {
             Card.Two => 0,
@@ -107,7 +107,7 @@ public class Solver : IProblemSolver<long>
             Card.Ace => 12,
         };
 
-    private static int CardScoreB(Card c)
+    static int CardScoreB(Card c)
         => c switch
         {
             Card.Jack => 0,
@@ -139,7 +139,7 @@ public enum Combo
     FiveOfAKind,
 }
 
-public enum Card : int
+public enum Card
 {
     Two,
     Three,

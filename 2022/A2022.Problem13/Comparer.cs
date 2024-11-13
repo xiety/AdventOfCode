@@ -44,6 +44,6 @@ static class Comparer
         }
     }
 
-    private static int Compare<T>(T a, T b)
+    static int Compare<T>(T a, T b)
         => Comparer<T>.Default.Compare(a, b);
 }

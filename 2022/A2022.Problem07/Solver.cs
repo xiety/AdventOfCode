@@ -40,7 +40,7 @@ public class Solver : IProblemSolver<long>
         return ordered.CalculatedSize;
     }
 
-    private static FileSystemDir LoadFile(string filename)
+    static FileSystemDir LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
         var commands = SplitToCommands(lines);

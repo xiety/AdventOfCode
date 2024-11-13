@@ -26,8 +26,8 @@ public class Solver : IProblemSolver<long>
                 if (intersect.X >= from && intersect.X <= to
                  && intersect.Y >= from && intersect.Y <= to)
                 {
-                    var t1 = (intersect.X - lines[i].X) / (double)lines[i].VX;
-                    var t2 = (intersect.X - lines[j].X) / (double)lines[j].VX;
+                    var t1 = (intersect.X - lines[i].X) / lines[i].VX;
+                    var t2 = (intersect.X - lines[j].X) / lines[j].VX;
 
                     if (t1 >= 0 && t2 >= 0)
                         count++;

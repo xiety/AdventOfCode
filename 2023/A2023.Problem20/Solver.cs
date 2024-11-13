@@ -77,7 +77,7 @@ public class Solver : IProblemSolver<long>
         return child ?? parent.Inputs.Select(a => a.From).Select(FindConj).First();
     }
 
-    private bool Process(List<Radio> currentList, List<Radio> newList, Dictionary<bool, long> dic, Dictionary<string, List<long>> conjDic, bool exit, long buttonPress)
+    static bool Process(List<Radio> currentList, List<Radio> newList, Dictionary<bool, long> dic, Dictionary<string, List<long>> conjDic, bool exit, long buttonPress)
     {
         var step = 1L;
 
@@ -87,15 +87,15 @@ public class Solver : IProblemSolver<long>
             {
                 switch (radio)
                 {
-                    case RadioButton button:
-                    case RadioBroadcaster broadcaster:
+                    case RadioButton:
+                    case RadioBroadcaster:
                         SendSignal(dic, newList, radio, false, exit);
                         break;
                     case RadioFlipflop flipflop:
                         Flipflop(newList, dic, flipflop, exit);
                         break;
                     case RadioConjunction conjunction:
-                        Conjunction(newList, dic, conjunction, conjDic, exit, buttonPress, step);
+                        Conjunction(newList, dic, conjunction, conjDic, exit, buttonPress);
                         break;
 
                     case RadioDeadend:
@@ -119,7 +119,7 @@ public class Solver : IProblemSolver<long>
         return false;
     }
 
-    private static void Flipflop(List<Radio> newList, Dictionary<bool, long> dic, RadioFlipflop flipflop, bool exit)
+    static void Flipflop(List<Radio> newList, Dictionary<bool, long> dic, RadioFlipflop flipflop, bool exit)
     {
         var (connection, pulse) = flipflop.PulseQueue.Dequeue();
 
@@ -133,9 +133,9 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private static readonly Predicate<Connection> Check1 = a => a.PulseMemory;
+    static readonly Predicate<Connection> Check1 = a => a.PulseMemory;
 
-    private void Conjunction(List<Radio> newList, Dictionary<bool, long> dic, RadioConjunction conjunction, Dictionary<string, List<long>> conjDic, bool exit, long buttonPress, long step)
+    static void Conjunction(List<Radio> newList, Dictionary<bool, long> dic, RadioConjunction conjunction, Dictionary<string, List<long>> conjDic, bool exit, long buttonPress)
     {
         var (connection, pulse) = conjunction.PulseQueue.Dequeue();
 
@@ -153,7 +153,7 @@ public class Solver : IProblemSolver<long>
         SendSignal(dic, newList, conjunction, nextPulse, exit);
     }
 
-    private static void SendSignal(Dictionary<bool, long> dic, List<Radio> newList, Radio radio, bool pulse, bool exit)
+    static void SendSignal(Dictionary<bool, long> dic, List<Radio> newList, Radio radio, bool pulse, bool exit)
     {
         var size = radio.Outputs.Length;
 
@@ -226,7 +226,7 @@ public class Solver : IProblemSolver<long>
         return [.. radios];
     }
 
-    private static string GetName(string text)
+    static string GetName(string text)
     {
         if (text == BroadcasterName)
             return text;
@@ -239,9 +239,9 @@ public class Solver : IProblemSolver<long>
     }
 }
 
-public record Item(string Name, string[] Outputs);
+record Item(string Name, string[] Outputs);
 
-public abstract class Radio
+abstract class Radio
 {
     public required string Name;
 
@@ -251,28 +251,28 @@ public abstract class Radio
     public readonly Queue<(Connection, bool)> PulseQueue = [];
 }
 
-public class RadioButton : Radio
+class RadioButton : Radio
 {
 }
 
-public class RadioBroadcaster : Radio
+class RadioBroadcaster : Radio
 {
 }
 
-public class RadioDeadend : Radio
+class RadioDeadend : Radio
 {
 }
 
-public class RadioFlipflop : Radio
+class RadioFlipflop : Radio
 {
     public bool Turn;
 }
 
-public class RadioConjunction : Radio
+class RadioConjunction : Radio
 {
 }
 
-public class Connection
+class Connection
 {
     public required Radio From;
     public required Radio To;

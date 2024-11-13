@@ -91,10 +91,10 @@ record NonEuclideanPos(int X, int Y)
     public int AbnormalLength
         => Abs(X) > Abs(Y) ? Abs(X) : Abs(Y);
 
-    private static int Normalize(int n)
+    static int Normalize(int n)
         => n switch { < 0 => -1, > 0 => 1, 0 => 0 };
 
-    private static int Abs(int n)
+    static int Abs(int n)
         => n switch { < 0 => -n, _ => n };
 
     public static NonEuclideanPos operator +(NonEuclideanPos a, NonEuclideanPos b)

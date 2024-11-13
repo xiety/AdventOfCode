@@ -46,10 +46,10 @@ public class Solver : IProblemSolver<long>
         if (result is Pos p)
             return p.X * 4_000_000L + p.Y;
 
-        throw new ArgumentOutOfRangeException();
+        throw new();
     }
 
-    private static Pos[] CreateBeaconOffsets(int d, int n)
+    static Pos[] CreateBeaconOffsets(int d, int n)
         => [
                new(-d - 1 + n, -n),
                new(-d - 1 + n, n),
@@ -64,7 +64,7 @@ public class Item
     public Pos Beacon { get; }
     public int BeaconDistance { get; }
 
-    private Rect Rect { get; }
+    Rect Rect { get; }
 
     public Item(Pos sensor, Pos beacon)
     {

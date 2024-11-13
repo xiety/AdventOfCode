@@ -12,7 +12,7 @@ internal class SlopePathFinder
         return CalculatePath(map, star, start, end);
     }
 
-    private static Pos[] CalculatePath(int[,] map, int[,] star, Pos start, Pos end)
+    static Pos[] CalculatePath(int[,] map, int[,] star, Pos start, Pos end)
     {
         List<Pos> path = [end];
 
@@ -38,7 +38,7 @@ internal class SlopePathFinder
         return path.Reverse<Pos>().ToArray();
     }
 
-    private static int[,]? CalculateStar(int[,] map, Pos start, Pos end)
+    static int[,]? CalculateStar(int[,] map, Pos start, Pos end)
     {
         var star = ArrayEx.CreateAndInitialize(map.GetWidth(), map.GetHeight(), -1);
         star.Set(start, 0);

@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Run(filename, 256);
 
-    private static long Run(string filename, int days)
+    static long Run(string filename, int days)
     {
         var items = File.ReadAllText(filename)
             .TrimEnd()

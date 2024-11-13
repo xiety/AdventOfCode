@@ -1,8 +1,8 @@
 ﻿namespace A2022.Problem24;
 
-public class CubicPathFinder
+public static class CubicPathFinder
 {
-    static readonly Pos3[] deltas =
+    static readonly Pos3[] Deltas =
     [
         new(-1, 0, 1),
         new(0, -1, 1),
@@ -25,23 +25,18 @@ public class CubicPathFinder
         {
             foreach (var currentStep in currentSteps)
             {
-                var currentValue = map[currentStep];
-
-                foreach (var delta in deltas)
+                foreach (var delta in Deltas)
                 {
                     var newStep = currentStep + delta;
 
-                    if (star.IsInBounds(newStep) && map[newStep] == false)
+                    if (star.IsInBounds(newStep) && map[newStep] == false && star.Get(newStep) == -1)
                     {
-                        if (star.Get(newStep) == -1)
-                        {
-                            star.Set(newStep, currentDistance);
+                        star.Set(newStep, currentDistance);
 
-                            if (newStep.X == finishWithoutZ.X && newStep.Y == finishWithoutZ.Y) //ignore Z
-                                return newStep;
+                        if (newStep.X == finishWithoutZ.X && newStep.Y == finishWithoutZ.Y) //ignore Z
+                            return newStep;
 
-                            newSteps.Add(newStep);
-                        }
+                        newSteps.Add(newStep);
                     }
                 }
             }

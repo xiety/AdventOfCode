@@ -38,7 +38,7 @@ public static class RegexExtensions
         return obj;
     }
 
-    private static object Parse(Group group, Type type)
+    static object Parse(Group group, Type type)
     {
         if (type.IsArray)
         {
@@ -62,7 +62,7 @@ public static class RegexExtensions
         }
     }
 
-    private static object Parse(string value, Type type)
+    static object Parse(string value, Type type)
     {
         if (type == typeof(BigInteger))
             return BigInteger.Parse(value);

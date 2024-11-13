@@ -20,9 +20,9 @@ public class Solver : IProblemSolver<long>
         throw new NotImplementedException();
     }
 
-    private readonly Dictionary<string, int> history = [];
+    readonly Dictionary<string, int> history = [];
 
-    private int Recurse(int level, int cost, int parentBestCost, Unit[] units, int lastUnitIndex)
+    int Recurse(int level, int cost, int parentBestCost, Unit[] units, int lastUnitIndex)
     {
         var key = CreateKey(units);
 
@@ -73,10 +73,10 @@ public class Solver : IProblemSolver<long>
         return bestFinishCost;
     }
 
-    private string CreateKey(Unit[] units)
+    static string CreateKey(Unit[] units)
         => String.Join("|", units.Select(a => $"{a.Type}-{a.Node.Name}"));
 
-    private Situation CalcSituation(Unit[] units)
+    static Situation CalcSituation(Unit[] units)
     {
         var foreigners = new List<NodeType>();
 
@@ -91,7 +91,7 @@ public class Solver : IProblemSolver<long>
         return new([..foreigners], occupied);
     }
 
-    private IEnumerable<GraphConnection> GetPossibleMoves(Unit unit, Situation situation)
+    static IEnumerable<GraphConnection> GetPossibleMoves(Unit unit, Situation situation)
     {
         var destinations = GetAllDestintations(unit, situation);
 
@@ -144,7 +144,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private GraphConnection[] GetAllDestintations(Unit unit, Situation situation)
+    static GraphConnection[] GetAllDestintations(Unit unit, Situation situation)
     {
         var starts = new List<GraphConnection>() { new() { Target = unit.Node, Weight = 0 } };
         var history = new List<GraphNode>();
@@ -181,7 +181,7 @@ public class Solver : IProblemSolver<long>
         return endings.ToArray();
     }
 
-    private readonly Dictionary<NodeType, int> costs = new()
+    readonly Dictionary<NodeType, int> costs = new()
     {
         [NodeType.A] = 1,
         [NodeType.B] = 10,
@@ -189,7 +189,7 @@ public class Solver : IProblemSolver<long>
         [NodeType.D] = 1000,
     };
 
-    private static Unit[] LoadFile(string filename)
+    static Unit[] LoadFile(string filename)
     {
         var hall1 = new GraphNode { Name = "Hall1", Type = NodeType.Hall, Coordinates = new(0, 0) };
         var hall2 = new GraphNode { Name = "Hall2", Type = NodeType.Hall, Coordinates = new(1, 0) };

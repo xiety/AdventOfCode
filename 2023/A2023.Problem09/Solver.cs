@@ -10,14 +10,14 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Run(filename, false);
 
-    private static long Run(string filename, bool next)
+    static long Run(string filename, bool next)
         => LoadFiles(filename).Select(a => CalcRecurse(a, next)).Sum();
 
-    private static IEnumerable<long[]> LoadFiles(string filename)
+    static IEnumerable<long[]> LoadFiles(string filename)
         => File.ReadAllLines(filename)
                .Select(a => a.Split(' ').Select(long.Parse).ToArray());
 
-    private static long CalcRecurse(long[] items, bool next)
+    static long CalcRecurse(long[] items, bool next)
     {
         var diffs = items.Chain().Select(a => a.Item2 - a.Item1).ToArray();
         var done = diffs.Distinct().Count() == 1;

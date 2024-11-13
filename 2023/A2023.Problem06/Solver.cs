@@ -17,7 +17,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static long[] ParseA(string line)
+    static long[] ParseA(string line)
         => line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1).Select(long.Parse).ToArray();
 
     public long RunB(string filename)
@@ -31,11 +31,11 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static int Calculate(long time, long distance)
+    static int Calculate(long time, long distance)
         => EnumerableExtensions
             .LongRange(0, time)
             .Count(b => ((time - b) * b) > distance);
 
-    private static long ParseB(string line)
+    static long ParseB(string line)
         => long.Parse(String.Join("", line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1)));
 }

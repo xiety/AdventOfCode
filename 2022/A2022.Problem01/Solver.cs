@@ -24,10 +24,10 @@ public class Solver : IProblemSolver<int>
         return max;
     }
 
-    private static IEnumerable<int> Parse(IEnumerable<IEnumerable<string>> chunks)
+    static IEnumerable<int> Parse(IEnumerable<IEnumerable<string>> chunks)
         => chunks.Select(a => a.Select(int.Parse).Sum());
 
-    private static IEnumerable<IEnumerable<string>> LoadFile(string filename)
+    static IEnumerable<IEnumerable<string>> LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
         var chunks = lines.Split(String.Empty);

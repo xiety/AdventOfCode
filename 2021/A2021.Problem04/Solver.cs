@@ -1,13 +1,11 @@
-﻿using System.Globalization;
-
-using Advent.Common;
+﻿using Advent.Common;
 
 namespace A2021.Problem04;
 
 public class Solver : IProblemSolver<int>
 {
-    const int sizeX = 5;
-    const int sizeY = 5;
+    const int SizeX = 5;
+    const int SizeY = 5;
 
     public int RunA(string filename)
     {
@@ -56,7 +54,7 @@ public class Solver : IProblemSolver<int>
                 {
                     wins[i] = true;
 
-                    if (wins.All(a => a == true))
+                    if (wins.All(a => a))
                     {
                         result = CalculateResult(boards[i], marks[i], number);
                         goto end;
@@ -69,25 +67,25 @@ public class Solver : IProblemSolver<int>
         return result;
     }
 
-    private static bool[][,] CreateEmptyMarks(int[][,] boards)
+    static bool[][,] CreateEmptyMarks(int[][,] boards)
     {
         var marks = new bool[boards.Length][,];
 
         for (var i = 0; i < marks.Length; ++i)
-            marks[i] = new bool[sizeX, sizeY];
+            marks[i] = new bool[SizeX, SizeY];
 
         return marks;
     }
 
-    private static void MarkBoardCell(int[,] boards, bool[,] marks, int number)
+    static void MarkBoardCell(int[,] boards, bool[,] marks, int number)
     {
-        for (var y = 0; y < sizeY; ++y)
-            for (var x = 0; x < sizeX; ++x)
+        for (var y = 0; y < SizeY; ++y)
+            for (var x = 0; x < SizeX; ++x)
                 if (boards[x, y] == number)
                     marks[x, y] = true;
     }
 
-    private static (int[] numbers, int[][,]) LoadFile(string filename)
+    static (int[] numbers, int[][,]) LoadFile(string filename)
     {
         var items = File.ReadAllLines(filename);
         var numbers = items[0].Split(',').Select(int.Parse).ToArray();
@@ -96,15 +94,15 @@ public class Solver : IProblemSolver<int>
         return (numbers, boards);
     }
 
-    private static int[][,] ParseBoards(string[] items)
+    static int[][,] ParseBoards(string[] items)
     {
         var list = new List<int[,]>();
 
         foreach (var part in items.Split(String.Empty).Select(a => a.ToArray()))
         {
-            var array = new int[sizeX, sizeY];
+            var array = new int[SizeX, SizeY];
 
-            for (var y = 0; y < sizeY; ++y)
+            for (var y = 0; y < SizeY; ++y)
             {
                 var line = part[y]
                     .Split(" ", StringSplitOptions.RemoveEmptyEntries)
@@ -119,27 +117,27 @@ public class Solver : IProblemSolver<int>
         return list.ToArray();
     }
 
-    private static int CalculateResult(int[,] board, bool[,] mark, int number)
+    static int CalculateResult(int[,] board, bool[,] mark, int number)
     {
         var sum = 0;
 
-        for (var y = 0; y < sizeY; ++y)
-            for (var x = 0; x < sizeX; ++x)
+        for (var y = 0; y < SizeY; ++y)
+            for (var x = 0; x < SizeX; ++x)
                 if (!mark[x, y])
                     sum += board[x, y];
 
         return number * sum;
     }
 
-    private static bool CheckBingos(bool[,] mark)
+    static bool CheckBingos(bool[,] mark)
     {
         var bingo = false;
 
-        for (var y = 0; y < sizeY; ++y)
+        for (var y = 0; y < SizeY; ++y)
         {
             var lineBingo = true;
 
-            for (var x = 0; x < sizeX; ++x)
+            for (var x = 0; x < SizeX; ++x)
             {
                 if (!mark[x, y])
                 {
@@ -157,11 +155,11 @@ public class Solver : IProblemSolver<int>
 
         if (!bingo)
         {
-            for (var x = 0; x < sizeX; ++x)
+            for (var x = 0; x < SizeX; ++x)
             {
                 var lineBingo = true;
 
-                for (var y = 0; y < sizeY; ++y)
+                for (var y = 0; y < SizeY; ++y)
                 {
                     if (!mark[x, y])
                     {

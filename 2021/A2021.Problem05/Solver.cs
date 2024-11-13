@@ -12,7 +12,7 @@ public class Solver : IProblemSolver<int>
     public int RunB(string filename)
         => Run(filename, true);
 
-    private static int Run(string filename, bool diagonal)
+    static int Run(string filename, bool diagonal)
     {
         var items = CompiledRegs.Regex().FromFile<Item>(filename);
 
@@ -35,7 +35,7 @@ public class Solver : IProblemSolver<int>
         return result;
     }
 
-    private static void DrawDiagonal(int[,] array, Item item)
+    static void DrawDiagonal(int[,] array, Item item)
     {
         var signX = item.FromX < item.ToX ? 1 : -1;
         var signY = item.FromY < item.ToY ? 1 : -1;
@@ -46,7 +46,7 @@ public class Solver : IProblemSolver<int>
             array[item.FromX + (i * signX), item.FromY + (i * signY)]++;
     }
 
-    private static void DrawHorizontal(int[,] array, Item item)
+    static void DrawHorizontal(int[,] array, Item item)
     {
         var (from, to) = item.FromX < item.ToX ? (item.FromX, item.ToX) : (item.ToX, item.FromX);
 
@@ -54,7 +54,7 @@ public class Solver : IProblemSolver<int>
             array[x, item.FromY]++;
     }
 
-    private static void DrawVertical(int[,] array, Item item)
+    static void DrawVertical(int[,] array, Item item)
     {
         var (from, to) = item.FromY < item.ToY ? (item.FromY, item.ToY) : (item.ToY, item.FromY);
 
@@ -62,7 +62,7 @@ public class Solver : IProblemSolver<int>
             array[item.FromX, y]++;
     }
 
-    private static (int, int) FindSize(List<Item> items)
+    static (int, int) FindSize(List<Item> items)
     {
         var maxX = Math.Max(items.Max(a => a.FromX), items.Max(a => a.ToX));
         var maxY = Math.Max(items.Max(a => a.FromY), items.Max(a => a.ToY));

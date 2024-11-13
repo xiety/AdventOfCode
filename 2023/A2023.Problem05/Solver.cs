@@ -22,7 +22,7 @@ public class Solver : IProblemSolver<long>
         return seeds.Select(a => RecurseB(chunks, "seed", a.Item1, a.Item2)).Min();
     }
 
-    private static long RecurseA(Chunk[] chunks, string from, long fromValue)
+    static long RecurseA(Chunk[] chunks, string from, long fromValue)
     {
         if (from == "location")
             return fromValue;
@@ -40,7 +40,7 @@ public class Solver : IProblemSolver<long>
         return RecurseA(chunks, chunk.To, result);
     }
 
-    private long RecurseB(Chunk[] chunks, string from, long fromStart, long fromEnd)
+    long RecurseB(Chunk[] chunks, string from, long fromStart, long fromEnd)
     {
         if (from == "location")
             return fromStart;
@@ -60,7 +60,7 @@ public class Solver : IProblemSolver<long>
         return minResult;
     }
 
-    private long CalculateB(Chunk[] chunks, Chunk chunk, long partStart, long partEnd)
+    long CalculateB(Chunk[] chunks, Chunk chunk, long partStart, long partEnd)
     {
         var target = chunk.Maps
             .FirstOrDefault(a => Interval.IsIntersect(a.SourceStart, a.SourceEnd, partStart, partEnd));
@@ -78,7 +78,7 @@ public class Solver : IProblemSolver<long>
         return RecurseB(chunks, chunk.To, targetStart, targetEnd);
     }
 
-    private static (long, long)[] ToParts(long fromStart, long fromEnd, long[] points)
+    static (long, long)[] ToParts(long fromStart, long fromEnd, long[] points)
     {
         if (fromStart == fromEnd)
             return [(fromStart, fromEnd)];
@@ -92,7 +92,7 @@ public class Solver : IProblemSolver<long>
         return pointsInside.Chain().ToArray();
     }
 
-    private static Chunk ParseChunk(IEnumerable<string> lines)
+    static Chunk ParseChunk(IEnumerable<string> lines)
     {
         var array = lines.ToArray();
 
@@ -109,7 +109,7 @@ public class Solver : IProblemSolver<long>
         return new Chunk(from, to, maps);
     }
 
-    private static ItemMap ParseMap(string a)
+    static ItemMap ParseMap(string a)
     {
         var splits = a.Split(' ').Select(long.Parse).ToArray();
         return new(splits[0], splits[1], splits[0] + splits[2] - 1, splits[1] + splits[2] - 1);

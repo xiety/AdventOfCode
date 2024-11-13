@@ -50,8 +50,6 @@ public static class LongestPathFinder
                 {
                     var oldStar = star.Get(newStep);
 
-                    var c = map.Get(newStep);
-
                     var newStar = currentDistance + 1;
 
                     if (oldStar == -1 || oldStar < newStar)

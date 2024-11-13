@@ -37,7 +37,7 @@ public class Solver : IProblemSolver<int>
 
         var result = lines.Indexed()
             .SelectMany(a =>
-                CompiledRegs.Regex().Matches(a.item).Cast<Match>()
+                CompiledRegs.Regex().Matches(a.item)
                     .SelectMany(m =>
                         Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.index - 1, a.index + 2))
                             .Select(b => (px: b[0], py: b[1]))

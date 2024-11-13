@@ -55,15 +55,15 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static int CalcResult(char[,] map)
+    static int CalcResult(char[,] map)
         => map.EnumeratePositionsOf('O')
               .Select(a => map.GetWidth() - a.Y)
               .Sum();
 
-    private static char[,] LoadFile(string filename)
+    static char[,] LoadFile(string filename)
         => MapData.ParseMap(File.ReadAllLines(filename), c => c);
 
-    private static void North(char[,] map)
+    static void North(char[,] map)
     {
         var border = new int[map.GetWidth()];
 
@@ -87,7 +87,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private static void South(char[,] map)
+    static void South(char[,] map)
     {
         var border = ArrayEx.CreateAndInitialize(map.GetWidth(), map.GetHeight() - 1);
 
@@ -111,7 +111,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private static void West(char[,] map)
+    static void West(char[,] map)
     {
         var border = new int[map.GetHeight()];
 
@@ -135,7 +135,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private static void East(char[,] map)
+    static void East(char[,] map)
     {
         var border = ArrayEx.CreateAndInitialize(map.GetHeight(), map.GetWidth() - 1);
 

@@ -9,6 +9,7 @@ public class Solver : ISolver<int>
         var codes = LoadData(lines);
 
         return Enumerable.Range(0, 5)
+            .ToArray()
             .Permutations(5)
             .Max(a => a.Aggregate(0, (phase, input) => RunCpu([.. codes], [input, phase])));
     }
@@ -18,6 +19,7 @@ public class Solver : ISolver<int>
         var codes = LoadData(lines);
 
         return Enumerable.Range(5, 5)
+            .ToArray()
             .Permutations(5)
             .Max(a => RunCpuLoop(codes, [.. a]));
     }
@@ -43,8 +45,7 @@ public class Solver : ISolver<int>
             lastOutput = cpu.Interpret();
         }
 
-        foreach (var p in lastOutput)
-            input1.Add(p);
+        input1.AddRange(lastOutput);
 
         return input1.Last();
     }
@@ -55,9 +56,9 @@ public class Solver : ISolver<int>
 
 public class Cpu(int[] codes, IEnumerable<int> input)
 {
-    private readonly ResizableArray<int> codes = new(codes);
-    private readonly ResizableArray<int> memory = new(codes);
-    private readonly IEnumerator<int> inputEnumerator = input.GetEnumerator();
+    readonly ResizableArray<int> codes = new(codes);
+    readonly ResizableArray<int> memory = new(codes);
+    readonly IEnumerator<int> inputEnumerator = input.GetEnumerator();
 
     public IEnumerable<int> Interpret()
     {

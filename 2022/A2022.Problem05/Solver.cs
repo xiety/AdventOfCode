@@ -28,10 +28,10 @@ public class Solver : IProblemSolver<string>
         return CollectLetters(crates);
     }
 
-    private static string CollectLetters(Stack<char>[] crates)
+    static string CollectLetters(Stack<char>[] crates)
         => new(Enumerable.Range(1, crates.Length - 1).Select(a => crates[a].First()).ToArray());
 
-    private static (Stack<char>[] crates, IEnumerable<Item> commands) LoadFile(string filename)
+    static (Stack<char>[] crates, IEnumerable<Item> commands) LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
         var parts = lines.Split(String.Empty).ToArray();

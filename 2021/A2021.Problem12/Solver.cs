@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Run(filename, false);
 
-    private static long Run(string filename, bool single)
+    static long Run(string filename, bool single)
     {
         var graph = ParseGraph(File.ReadAllLines(filename).Select(ParseLine).ToArray());
 
@@ -20,13 +20,13 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static Item ParseLine(string line)
+    static Item ParseLine(string line)
     {
         var n = line.IndexOf('-');
         return new(line[..n], line[(n + 1)..]);
     }
 
-    private static Graph ParseGraph(Item[] items)
+    static Graph ParseGraph(Item[] items)
     {
         var nodes = Enumerable
             .Concat(items.Select(a => a.From), items.Select(a => a.To))
@@ -48,7 +48,7 @@ public class Solver : IProblemSolver<long>
         };
     }
 
-    private static CaveType CalcCaveType(string name)
+    static CaveType CalcCaveType(string name)
     {
         if (name is "start" or "end")
             return CaveType.StartOrEnd;

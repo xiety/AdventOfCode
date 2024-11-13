@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<int>
     public int RunB(string filename)
         => Run(File.ReadAllLines(filename), -1);
 
-    private readonly Pos[,] offsets = new Pos[,]
+    readonly Pos[,] offsets = new Pos[,]
     {
         { new(0,-1), new(+1,-1), new(-1,-1) }, //N, NE, NW
         { new(0,+1), new(+1,+1), new(-1,+1) }, //S, SE, SW
@@ -73,7 +73,7 @@ public class Solver : IProblemSolver<int>
         return (max.X - min.X + 1) * (max.Y - min.Y + 1) - dwarfs.Count;
     }
 
-    static Pos GetMin(IEnumerable<Pos> dwarfs)
+    static Pos GetMin(IReadOnlyCollection<Pos> dwarfs)
     {
         var minX = dwarfs.Min(a => a.X);
         var minY = dwarfs.Min(a => a.Y);
@@ -81,7 +81,7 @@ public class Solver : IProblemSolver<int>
         return new(minX, minY);
     }
 
-    static Pos GetMax(IEnumerable<Pos> dwarfs)
+    static Pos GetMax(IReadOnlyCollection<Pos> dwarfs)
     {
         var maxX = dwarfs.Max(a => a.X);
         var maxY = dwarfs.Max(a => a.Y);
@@ -89,7 +89,7 @@ public class Solver : IProblemSolver<int>
         return new(maxX, maxY);
     }
 
-    private static void ThirdStep(HashSet<Pos> dwarfs, Dictionary<Pos, Pos> dwarfOffsets)
+    static void ThirdStep(HashSet<Pos> dwarfs, Dictionary<Pos, Pos> dwarfOffsets)
     {
         dwarfs.Clear();
 
@@ -97,7 +97,7 @@ public class Solver : IProblemSolver<int>
             dwarfs.Add(dwarfOffsetPair.Value);
     }
 
-    private int FirstStep(HashSet<Pos> dwarfs, Dictionary<Pos, Pos> dwarfOffsets, Dictionary<Pos, int> newPositions, int start)
+    int FirstStep(HashSet<Pos> dwarfs, Dictionary<Pos, Pos> dwarfOffsets, Dictionary<Pos, int> newPositions, int start)
     {
         var moved = 0;
 

@@ -33,7 +33,7 @@ class Calculator(int maxLevel)
         return geodes;
     }
 
-    private int Build(Context context, Item item, int level, Resources resources, RobotsPack pack, int geodes)
+    int Build(Context context, Item item, int level, Resources resources, RobotsPack pack, int geodes)
     {
         if (resources.Ore >= item.GeodeOreCost && resources.Obsidian >= item.GeodeObsidianCost)
         {
@@ -77,12 +77,10 @@ class Calculator(int maxLevel)
     int QuickEvaluate(int level, Item item, Resources resources, RobotsPack pack)
     {
         var ore = resources.Ore;
-        var clay = resources.Clay;
         var obsidian = resources.Obsidian;
         var geode = resources.Geode;
 
         var oreRobot = pack.OreRobot;
-        var clayRobot = pack.ClayRobot;
         var obsidianRobot = pack.ObsidianRobot;
         var geodeRobot = pack.GeodeRobot;
 
@@ -91,7 +89,6 @@ class Calculator(int maxLevel)
         for (var i = level; i < maxLevel; ++i)
         {
             oreRobot++;
-            clayRobot++;
             obsidianRobot++;
             geodeRobot += geodeRobotDelta;
 
@@ -107,7 +104,6 @@ class Calculator(int maxLevel)
             }
 
             ore += oreRobot;
-            clay += clayRobot;
             obsidian += obsidianRobot;
             geode += geodeRobot;
         }
@@ -117,13 +113,11 @@ class Calculator(int maxLevel)
 
     int RecurseDig(Context context, Item item, int level, Resources resources, RobotsPack pack, RobotsPack newPack)
     {
-        var newResources = resources with
-        {
-            Ore = resources.Ore + pack.OreRobot,
-            Clay = resources.Clay + pack.ClayRobot,
-            Obsidian = resources.Obsidian + pack.ObsidianRobot,
-            Geode = resources.Geode + pack.GeodeRobot,
-        };
+        var newResources = new Resources(
+            Ore: resources.Ore + pack.OreRobot,
+            Clay: resources.Clay + pack.ClayRobot,
+            Obsidian: resources.Obsidian + pack.ObsidianRobot,
+            Geode: resources.Geode + pack.GeodeRobot);
 
         return RecurseBuild(context, item, level + 1, newResources, newPack);
     }

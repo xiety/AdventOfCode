@@ -12,7 +12,7 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Run(filename).Item2;
 
-    private static (long, long) Run(string filename)
+    static (long, long) Run(string filename)
     {
         var item = CompiledRegs.MapRegex().FromFile<Item>(filename).First();
 

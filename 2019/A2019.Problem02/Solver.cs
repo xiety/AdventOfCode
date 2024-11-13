@@ -44,14 +44,14 @@ public class Solver : ISolver<int>
         throw new();
     }
 
-    private static int[] LoadData(string[] lines)
+    static int[] LoadData(string[] lines)
         => lines.First().Split(",").Select(int.Parse).ToArray();
 }
 
 public class Cpu(int[] codes, int[] memory)
 {
-    private readonly ResizableArray<int> codes = new(codes);
-    private readonly ResizableArray<int> memory = new(memory);
+    readonly ResizableArray<int> codes = new(codes);
+    readonly ResizableArray<int> memory = new(memory);
 
     public int Interpret()
     {
@@ -76,7 +76,7 @@ public class Cpu(int[] codes, int[] memory)
         return memory[0];
     }
 
-    private int Op(int position, Func<int, int, int> func)
+    int Op(int position, Func<int, int, int> func)
     {
         var a = memory[codes[position + 1]];
         var b = memory[codes[position + 2]];

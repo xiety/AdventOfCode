@@ -36,14 +36,14 @@ public class Solver : IProblemSolver<long>
             .Sum();
     }
 
-    private static T[] Cloned<T>(IEnumerable<T> enumerable)
+    static T[] Cloned<T>(IEnumerable<T> enumerable)
         where T : ICloneable
         => enumerable.Select(a => (T)a.Clone()).ToArray();
 
-    private static Brick[] LoadFile(string filename)
+    static Brick[] LoadFile(string filename)
         => CompiledRegs.Regex().FromFile<Item>(filename).Select(Brick.FromItem).ToArray();
 
-    private int FallBricks(Brick[] bricks)
+    static int FallBricks(Brick[] bricks)
     {
         var set = new HashSet<string>();
 
@@ -74,7 +74,7 @@ public class Solver : IProblemSolver<long>
         return set.Count;
     }
 
-    private int CanFall(Brick[] bricks, Brick brick)
+    static int CanFall(Brick[] bricks, Brick brick)
     {
         for (var z = brick.From.Z - 1; z > 0; --z)
         {
@@ -89,7 +89,7 @@ public class Solver : IProblemSolver<long>
         return brick.From.Z - 1;
     }
 
-    private static bool IntersectIn2D(Brick a, Brick b)
+    static bool IntersectIn2D(Brick a, Brick b)
         => b.To.X >= a.From.X
         && b.From.X <= a.To.X
         && b.To.Y >= a.From.Y
@@ -104,19 +104,19 @@ class Brick : ICloneable
     public required Pos3 From { get; set; }
     public required Pos3 To { get; set; }
 
-    private Brick()
+    Brick()
     {
     }
 
     [SetsRequiredMembers]
-    private Brick(Brick b)
+    Brick(Brick b)
     {
         Name = b.Name;
         From = b.From;
         To = b.To;
     }
 
-    private Brick Clone()
+    Brick Clone()
         => new(this);
 
     object ICloneable.Clone()

@@ -1,7 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
 using Advent.Common;
-
 namespace A2021.Problem19;
 
 public class Solver : IProblemSolver<long>
@@ -56,7 +55,7 @@ public class Solver : IProblemSolver<long>
         return max;
     }
 
-    private static Dictionary<int, Transform> CalcDic(Scanner[] scanners)
+    static Dictionary<int, Transform> CalcDic(Scanner[] scanners)
     {
         var dic = new Dictionary<int, Transform>
         {
@@ -162,11 +161,10 @@ public class Solver : IProblemSolver<long>
         return dic;
     }
 
-    private static Scanner[] LoadFile(string filename)
+    static Scanner[] LoadFile(string filename)
     {
         var chunks = File.ReadAllLines(filename).Split(String.Empty);
-        var scanners = chunks.Select(a => new Scanner(a.Skip(1).Select(CompiledRegs.Parse).ToArray())).ToArray();
-        return scanners;
+        return chunks.Select(a => new Scanner(CompiledRegs.MapRegEx().FromLines<Pos3>(a.Skip(1)).ToArray())).ToArray();
     }
 
     static Pos3 ApplyTransformPos(Pos3 v, Transform transform)
@@ -178,13 +176,13 @@ public class Solver : IProblemSolver<long>
     static Transform ApplyTransform(Transform convert, Transform parent)
     {
         var pX = convert.Rotate.Get(parent.Rotate.AxisX.Axis);
-        var axisX = new Orientation(pX.Axis, pX.Direction * parent.Rotate.AxisX.Direction);
+        var axisX = pX with { Direction = pX.Direction * parent.Rotate.AxisX.Direction };
 
         var pY = convert.Rotate.Get(parent.Rotate.AxisY.Axis);
-        var axisY = new Orientation(pY.Axis, pY.Direction * parent.Rotate.AxisY.Direction);
+        var axisY = pY with { Direction = pY.Direction * parent.Rotate.AxisY.Direction };
 
         var pZ = convert.Rotate.Get(parent.Rotate.AxisZ.Axis);
-        var axisZ = new Orientation(pZ.Axis, pZ.Direction * parent.Rotate.AxisZ.Direction);
+        var axisZ = pZ with { Direction = pZ.Direction * parent.Rotate.AxisZ.Direction };
 
         var rotate = ApplyConvertPos(convert.Translate, parent.Rotate);
 
@@ -265,8 +263,5 @@ enum Axis { X, Y, Z };
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Pos3.X)}>-?\d+),(?<{nameof(Pos3.Y)}>-?\d+),(?<{nameof(Pos3.Z)}>-?\d+)$")]
-    private static partial Regex MapRegEx();
-
-    public static Pos3 Parse(string text)
-        => MapRegEx().MapTo<Pos3>(text);
+    public static partial Regex MapRegEx();
 }

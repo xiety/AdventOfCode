@@ -9,7 +9,7 @@ public class Solver : IProblemSolver<long>
         throw new NotImplementedException();
 
         var flow = new Flow();
-        var flowResult = flow.Run(filename);
+        var flowResult = Flow.Run(filename);
 
         Console.WriteLine(flowResult);
 
@@ -19,7 +19,7 @@ public class Solver : IProblemSolver<long>
         return -1;
     }
 
-    public long RunCpu(int offset, int cpu)
+    static long RunCpu(int offset, int cpu)
     {
         var cnt = 0L;
 
@@ -41,7 +41,7 @@ public class Solver : IProblemSolver<long>
         throw new("Not found");
     }
 
-    private static void NoZero(ref long t)
+    static void NoZero(ref long t)
     {
         var copy = t;
         var g = t;

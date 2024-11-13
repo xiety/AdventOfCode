@@ -64,7 +64,7 @@ public class Solver : IProblemSolver<long>
         return Math.Max(win1, win2);
     }
 
-    private static (long, long) Recurse(int level, int score1, int score2, int position1, int position2, int target, Dictionary<int, int> dic)
+    static (long, long) Recurse(int level, int score1, int score2, int position1, int position2, int target, Dictionary<int, int> dic)
     {
         if (score1 >= target)
             return (1, 0);
@@ -94,7 +94,7 @@ public class Solver : IProblemSolver<long>
         return (win1, win2);
     }
 
-    private static int[] LoadFile(string filename)
+    static int[] LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
         var p1 = int.Parse(lines[0]["Player 1 starting position: ".Length..]);

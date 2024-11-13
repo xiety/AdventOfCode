@@ -26,10 +26,10 @@ public class Solver : ISolver<int>
 
 public class Cpu(int[] codes, int[] memory, int[] input)
 {
-    private readonly ResizableArray<int> codes = new(codes);
-    private readonly ResizableArray<int> memory = new(memory);
-    private readonly Queue<int> input = new(input);
-    private readonly Queue<int> output = new();
+    readonly ResizableArray<int> codes = new(codes);
+    readonly ResizableArray<int> memory = new(memory);
+    readonly Queue<int> input = new(input);
+    readonly Queue<int> output = new();
 
     public int[] Interpret()
     {

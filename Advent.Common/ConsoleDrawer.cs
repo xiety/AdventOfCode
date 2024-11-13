@@ -4,11 +4,11 @@ namespace System;
 
 public class ConsoleDrawer
 {
-    private readonly int width;
-    private readonly int height;
+    readonly int width;
+    readonly int height;
 
-    private readonly char[,] lastFrame;
-    private readonly char[,] currentFrame;
+    readonly char[,] lastFrame;
+    readonly char[,] currentFrame;
 
     public ConsoleDrawer(int width, int height)
     {

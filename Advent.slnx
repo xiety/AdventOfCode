@@ -121,10 +121,11 @@
     <Project Path="2023\A2023.Problem24\A2023.Problem24.csproj" />
     <Project Path="2023\A2023.Problem25\A2023.Problem25.csproj" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+  </Folder>
   <Project Path="Advent.BaseTests\Advent.BaseTests.csproj" />
   <Project Path="Advent.Common\Advent.Common.csproj" />
   <Project Path="ConsoleApp\ConsoleApp.csproj" />
-  <Properties Name="Visual Studio">
-    <Property Name="OpenWith" Value="17" />
-  </Properties>
 </Solution>

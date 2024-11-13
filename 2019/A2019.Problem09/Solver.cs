@@ -24,12 +24,12 @@ public class Solver : ISolver<long>
 
 public class Cpu
 {
-    private readonly Dictionary<long, long> memory;
-    private readonly IEnumerator<long> inputEnumerator;
+    readonly Dictionary<long, long> memory;
+    readonly IEnumerator<long> inputEnumerator;
 
     //mutable
-    private long position;
-    private long relativeBase;
+    long position;
+    long relativeBase;
 
     public Cpu(long[] codes, IEnumerable<long> input)
     {
@@ -64,7 +64,7 @@ public class Cpu
         while (true);
     }
 
-    private bool RunOp(long op, Mode p1, Mode p2, Mode p3)
+    bool RunOp(long op, Mode p1, Mode p2, Mode p3)
         => op switch
         {
             1 => Op(p1, p2, p3, (a, b) => a + b),
@@ -122,12 +122,12 @@ public class Cpu
         return true;
     }
 
-    long SetValue(long position, Mode mode, long value)
+    long SetValue(long address, Mode mode, long value)
         => mode switch
         {
-            Mode.Address => (memory[ReadMemory(position)] = value),
+            Mode.Address => (memory[ReadMemory(address)] = value),
             Mode.Value => throw new(),
-            Mode.Relative => memory[relativeBase + ReadMemory(position)] = value,
+            Mode.Relative => memory[relativeBase + ReadMemory(address)] = value,
         };
 
     long GetValue(long address, Mode mode)
@@ -142,8 +142,8 @@ public class Cpu
         };
     }
 
-    long ReadMemory(long position)
-        => memory.GetValueOrDefault(position);
+    long ReadMemory(long address)
+        => memory.GetValueOrDefault(address);
 
     enum Mode
     {

@@ -2,11 +2,11 @@
 
 class Sandbox(int width, int height)
 {
-    private readonly UnitType[,] data = new UnitType[width, height];
-    private readonly Pos[] downDeltas = [new(0, 1), new(-1, 1), new(1, 1)];
+    readonly UnitType[,] data = new UnitType[width, height];
+    readonly Pos[] downDeltas = [new(0, 1), new(-1, 1), new(1, 1)];
 
     //mutable
-    private Pos currentPos;
+    Pos currentPos;
 
     public bool Emit(Pos pos, UnitType unitType)
     {
@@ -29,7 +29,7 @@ class Sandbox(int width, int height)
                 AddWall(a, b);
     }
 
-    private void AddWall(Pos a, Pos b)
+    void AddWall(Pos a, Pos b)
     {
         if (a.X != b.X)
         {

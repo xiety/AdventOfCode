@@ -33,7 +33,7 @@ public class Solver : IProblemSolver<long>
         return square;
     }
 
-    private static long Calc(bool[,] enlarged)
+    static long Calc(bool[,] enlarged)
     {
         var square = 0;
 
@@ -45,7 +45,7 @@ public class Solver : IProblemSolver<long>
         return square;
     }
 
-    private bool[,] Enlarged(char[,] map)
+    bool[,] Enlarged(char[,] map)
     {
         var large = new bool[map.GetWidth() * 3 + 2, map.GetHeight() * 3 + 2];
 
@@ -88,7 +88,7 @@ public class Solver : IProblemSolver<long>
                  "..."],
     };
 
-    private (Pos pos, char value)[] FoundPath(char[,] map)
+    (Pos pos, char value)[] FoundPath(char[,] map)
     {
         var startPos = map.EnumeratePositionsOf('S').First();
         var foundPath = Array.Empty<(Pos, char)>();
@@ -172,7 +172,7 @@ public class Solver : IProblemSolver<long>
         return foundPath;
     }
 
-    private static Dirs Anti(Dirs dir)
+    static Dirs Anti(Dirs dir)
         => dir switch
         {
             Dirs.Top => Dirs.Bottom,
@@ -181,7 +181,7 @@ public class Solver : IProblemSolver<long>
             Dirs.Bottom => Dirs.Top,
         };
 
-    private static Pos GetOffsetFromDir(Dirs dir)
+    static Pos GetOffsetFromDir(Dirs dir)
         => dir switch
         {
             Dirs.Top => new Pos(0, -1),
@@ -190,7 +190,7 @@ public class Solver : IProblemSolver<long>
             Dirs.Bottom => new Pos(0, 1),
         };
 
-    private bool IsConnected(Dirs dir, char a, char b)
+    bool IsConnected(Dirs dir, char a, char b)
     {
         if (a == 'S')
         {
@@ -222,7 +222,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private readonly Dictionary<char, Dirs[]> info = new()
+    readonly Dictionary<char, Dirs[]> info = new()
     {
         ['|'] = [Dirs.Top, Dirs.Bottom],
         ['-'] = [Dirs.Left, Dirs.Right],

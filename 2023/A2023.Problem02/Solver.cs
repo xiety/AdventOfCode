@@ -24,8 +24,6 @@ public class Solver : IProblemSolver<int>
 
     public int RunB(string filename)
     {
-        int[] cubes = [12, 13, 14];
-
         var games = LoadFile(filename);
 
         var result = games
@@ -36,14 +34,14 @@ public class Solver : IProblemSolver<int>
         return result;
     }
 
-    private static Game[] LoadFile(string filename)
+    static Game[] LoadFile(string filename)
         => CompiledRegs
             .Regex()
             .FromFile<Step1>(filename)
             .Select(Parse)
             .ToArray();
 
-    private static Game Parse(Step1 step)
+    static Game Parse(Step1 step)
     {
         var balls = ParseData();
 

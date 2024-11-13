@@ -47,7 +47,7 @@ public abstract class BaseProblemTest
         }
     }
 
-    private static string GetPath(int year, int number, string filename, bool first)
+    static string GetPath(int year, int number, string filename, bool first)
     {
         var folder = GetFolder(year, number);
 
@@ -69,10 +69,10 @@ public abstract class BaseProblemTest
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
 {
-    private readonly TR sampleA;
-    private readonly TR resultA;
-    private readonly TR sampleB = default!;
-    private readonly TR resultB = default!;
+    readonly TR sampleA;
+    readonly TR resultA;
+    readonly TR sampleB = default!;
+    readonly TR resultB = default!;
 
     public ProblemTestAttribute(TR sampleA, TR resultA, TR sampleB, TR resultB)
     {
@@ -101,11 +101,10 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
         return list;
     }
 
-    public string? GetDisplayName(MethodInfo methodInfo, object?[]? data)
+    public string GetDisplayName(MethodInfo methodInfo, object?[]? data)
     {
         var filename = (string)data![0]!;
         var first = (bool)data![1]!;
-        var value = (TR)data![2]!;
 
         return $"{(first ? "RunA" : "RunB")} {filename}";
     }
@@ -124,12 +123,10 @@ public class ProblemTestAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sample
         ];
     }
 
-    public string? GetDisplayName(MethodInfo methodInfo, object?[]? data)
+    public string GetDisplayName(MethodInfo methodInfo, object?[]? data)
     {
         var filename = (string)data![0]!;
         var first = (bool)data![1]!;
-        var valueA = data![2];
-        var valueB = data![3];
 
         return $"{(first ? "RunA" : "RunB")} {filename}";
     }

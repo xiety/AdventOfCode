@@ -18,19 +18,19 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static List<Item> LoadFile(string filename)
+    static List<Item> LoadFile(string filename)
         => File.ReadAllLines(filename)
                .Select(a => a.Split("|", StringSplitOptions.RemoveEmptyEntries))
                .Select(a => new Item(ToArray(a[0]), ToArray(a[1])))
                .ToList();
 
-    private static int[][] ToArray(string text)
+    static int[][] ToArray(string text)
         => text.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(ConvertToNums).ToArray();
 
-    private static int[] ConvertToNums(string text)
+    static int[] ConvertToNums(string text)
         => text.Select(a => a - 'a').ToArray();
 
-    private static int Analyze(Item item)
+    static int Analyze(Item item)
     {
         var positions = FindPositions(item);
         var digits = CreateDigits(positions);
@@ -43,7 +43,7 @@ public class Solver : IProblemSolver<long>
         return ret;
     }
 
-    private static int[][] CreateDigits(int[] positions)
+    static int[][] CreateDigits(int[] positions)
     {
         int[][] enums = [
             [0, 1, 2, 4, 5, 6],
@@ -61,12 +61,12 @@ public class Solver : IProblemSolver<long>
         return enums.Select(a => a.Select(b => positions[b]).Order().ToArray()).ToArray();
     }
 
-    private static int[] Convert(int[][] output, int[][] digits)
+    static int[] Convert(int[][] output, int[][] digits)
         => output.Select(a => new { Index = Array.FindIndex(digits, b => b.SequenceEqual(a.Order().ToArray())), Value = a })
                  .Select(a => a.Index == -1 ? throw new($"Not found {String.Join(", ", a.Value)} ({a.Value.Length})") : a.Index)
                  .ToArray();
 
-    private static int[] FindPositions(Item item)
+    static int[] FindPositions(Item item)
     {
         /*
          0000

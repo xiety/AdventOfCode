@@ -18,19 +18,19 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static int[] LoadFile(string filename)
+    static int[] LoadFile(string filename)
         => File.ReadAllText(filename)
                .TrimEnd()
                .Split(",")
                .Select(int.Parse)
                .ToArray();
 
-    private static int Find(int[] items, Func<int, int, int> func)
+    static int Find(int[] items, Func<int, int, int> func)
         => Enumerable.Range(items.Min(), items.Max() - items.Min() + 1)
                      .Select(best => items.Select(a => func(a, best)).Sum())
                      .Min();
 
-    private static int Dist(int a, int b)
+    static int Dist(int a, int b)
     {
         var n = Math.Abs(b - a);
         return n * (n + 1) / 2;

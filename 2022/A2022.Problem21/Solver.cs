@@ -125,7 +125,7 @@ public class Solver : IProblemSolver<long>
         return false;
     }
 
-    private static Monkey[] LoadFile(string filename)
+    static Monkey[] LoadFile(string filename)
     {
         var monkeys = File.ReadAllLines(filename)
             .Select(a => a.MapTo<Monkey, MonkeyOperation, MonkeyValue>(

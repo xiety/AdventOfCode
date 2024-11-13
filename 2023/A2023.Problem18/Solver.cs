@@ -206,7 +206,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private Item ParseB(Item item)
+    Item ParseB(Item item)
     {
         var length = int.Parse(item.Color[..5], System.Globalization.NumberStyles.HexNumber);
 
@@ -221,7 +221,7 @@ public class Solver : IProblemSolver<long>
         return new(dir, length, "");
     }
 
-    private static Pos GetOffset(Item item)
+    static Pos GetOffset(Item item)
         => item.Dir switch
         {
             "U" => new(0, -item.Number),

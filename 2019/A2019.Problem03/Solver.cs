@@ -88,7 +88,7 @@ public class Line(Pos from, Pos to)
                 => new(that.From.X, this.From.Y),
             (false, true) when IsBetween(this.From.Y, this.To.Y, that.From.Y) && IsBetween(that.From.X, that.To.X, this.From.X)
                 => new(this.From.X, that.From.Y),
-            _ => null
+            _ => null,
         };
 
     static bool IsBetween(int p1, int p2, int m)

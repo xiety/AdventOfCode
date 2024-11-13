@@ -9,7 +9,7 @@ public class Calculator(Graph graph, bool single)
         return Recurse(graph.Start, 0, path);
     }
 
-    private int Recurse(GraphNode parent, int level, LinkedList<GraphNode> path)
+    int Recurse(GraphNode parent, int level, LinkedList<GraphNode> path)
     {
         if (parent == graph.End)
             return 1;

@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 using Advent.Common;
 
@@ -35,7 +34,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private int Size(Component[] components, string startName)
+    static int Size(Component[] components, string startName)
     {
         var start = components.First(a => a.Name == startName);
 

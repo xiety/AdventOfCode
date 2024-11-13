@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-using Advent.Common;
+﻿using Advent.Common;
 
 namespace A2021.Problem10;
 
 public class Solver : IProblemSolver<long>
 {
-    private static readonly Dictionary<char, int> DicScores1 = new()
+    static readonly Dictionary<char, int> DicScores1 = new()
     {
         [')'] = 3,
         [']'] = 57,
@@ -14,7 +12,7 @@ public class Solver : IProblemSolver<long>
         ['>'] = 25137,
     };
 
-    private static readonly Dictionary<char, int> DicScores2 = new()
+    static readonly Dictionary<char, int> DicScores2 = new()
     {
         ['('] = 1,
         ['['] = 2,
@@ -22,7 +20,7 @@ public class Solver : IProblemSolver<long>
         ['<'] = 4,
     };
 
-    private static readonly Dictionary<char, int> DicCloses = new()
+    static readonly Dictionary<char, int> DicCloses = new()
     {
         [')'] = '(',
         [']'] = '[',

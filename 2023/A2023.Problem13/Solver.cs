@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
         => Run(filename, 1);
 
-    private long Run(string filename, int min)
+    static long Run(string filename, int min)
     {
         var chunks = File.ReadAllLines(filename).Split(String.Empty);
 

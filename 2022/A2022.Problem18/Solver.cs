@@ -59,7 +59,7 @@ class Cube(int width, int height, int depth)
 
     public Pos3 Size { get; } = new(width, height, depth);
 
-    private readonly bool[,,] data = new bool[width, height, depth];
+    readonly bool[,,] data = new bool[width, height, depth];
 
     public void AddSquare(Pos3 square)
         => data[square.X, square.Y, square.Z] = true;
@@ -77,12 +77,8 @@ class Cube(int width, int height, int depth)
         var water = new bool[Size.X, Size.Y, Size.Z];
         var points = new List<Pos3> { new(0, 0, 0) };
 
-        var index = 0;
-
         do
         {
-            index++;
-
             var copy = points.ToArray();
 
             points.Clear();

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
+    <NoWarn>IDE0130</NoWarn>
   </PropertyGroup>
 
 </Project>

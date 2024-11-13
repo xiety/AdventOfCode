@@ -26,7 +26,7 @@ public sealed class Solver1
 
     int globalMaximum = 0;
 
-    private int Recurse(Linked<string> path, Linked<int> released, Linked<Release> releases, int currentTime, GraphNode parent, bool opened)
+    int Recurse(Linked<string> path, Linked<int> released, Linked<Release> releases, int currentTime, GraphNode parent, bool opened)
     {
         var maximum = 0;
 
@@ -35,7 +35,7 @@ public sealed class Solver1
 
         if (currentTime >= totalTime - 1 || released.Count == availableWorkingVaults)
         {
-            var m = CalculatePreasure(releases, totalTime);
+            var m = CalculatePressure(releases, totalTime);
 
             if (m > globalMaximum)
                 globalMaximum = m;
@@ -51,6 +51,11 @@ public sealed class Solver1
             maximum = Math.Max(maximum, Recurse(path, newReleased, newReleases, currentTime + 1, parent, true));
         }
 
+        //return (from child in parent.Connections
+        //        where opened || child.Name != path.Next?.Value
+        //        select Recurse(path, released, releases, currentTime + 1, child, false))
+        //    .Prepend(maximum).Max();
+
         foreach (var child in parent.Connections)
             if (opened || child.Name != path.Next?.Value)
                 maximum = Math.Max(maximum, Recurse(path, released, releases, currentTime + 1, child, false));
@@ -58,14 +63,14 @@ public sealed class Solver1
         return maximum;
     }
 
-    private static int CalculatePreasure(Linked<Release> releases, int currentTime)
+    static int CalculatePressure(Linked<Release> releases, int currentTime)
     {
         var p = releases;
         var res = 0;
 
         while (!p.End)
         {
-            res += p.Value!.Rate * (currentTime - p.Value!.FromTime);
+            res += p.Value.Rate * (currentTime - p.Value.FromTime);
             p = p.Next!;
         }
 

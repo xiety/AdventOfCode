@@ -40,10 +40,10 @@ public static class EnumerableExtensions
         return 0;
     }
 
-    public static IEnumerable<IEnumerable<T>> Permutations<T>(this IEnumerable<T> source, int length)
+    public static IEnumerable<IEnumerable<T>> Permutations<T>(this IReadOnlyCollection<T> source, int length)
     {
         if (length == 1)
-            return source.Select(t => new T[] { t });
+            return source.Select(t => new[] { t });
 
         return Permutations(source, length - 1)
             .SelectMany(t => source.Where(e => !t.Contains(e)), (t1, t2) => t1.Concat([t2]));
@@ -86,7 +86,7 @@ public static class EnumerableExtensions
             }
         }
 
-        if (list.Any())
+        if (list.Count != 0)
             yield return list;
     }
 
@@ -98,7 +98,7 @@ public static class EnumerableExtensions
         {
             if (isHeader(line))
             {
-                if (list != null && list.Any())
+                if (list != null && list.Count != 0)
                     yield return list;
 
                 list = [];
@@ -107,7 +107,7 @@ public static class EnumerableExtensions
             list?.Add(line);
         }
 
-        if (list != null && list.Any())
+        if (list != null && list.Count != 0)
             yield return list;
     }
 
@@ -117,26 +117,26 @@ public static class EnumerableExtensions
 
         var enumerableType = typeof(Enumerable);
         var flags = BindingFlags.Static | BindingFlags.Public;
-        var parameters = new Type[] { elementType };
+        var parameters = new[] { elementType };
 
         var typeConvertedArray = enumerableType
             .GetMethod(nameof(Enumerable.ToArray), flags)!
             .MakeGenericMethod(parameters)
-            .Invoke(null, new object[] { typeConvertedEnumerable })!;
+            .Invoke(null, [typeConvertedEnumerable])!;
 
         return typeConvertedArray;
     }
 
-    private static object Cast(this IEnumerable<object> enumerable, Type elementType)
+    static object Cast(this IEnumerable<object> enumerable, Type elementType)
     {
         var enumerableType = typeof(Enumerable);
         var flags = BindingFlags.Static | BindingFlags.Public;
-        var parameters = new Type[] { elementType };
+        var parameters = new [] { elementType };
 
         return enumerableType
             .GetMethod(nameof(Enumerable.Cast), flags)!
             .MakeGenericMethod(parameters)
-            .Invoke(null, new object[] { enumerable })!;
+            .Invoke(null, [enumerable])!;
     }
 
     public static object ToList(this IEnumerable<object> enumerable, Type elementType)
@@ -145,7 +145,7 @@ public static class EnumerableExtensions
 
         var enumerableType = typeof(Enumerable);
         var flags = BindingFlags.Static | BindingFlags.Public;
-        var parameters = new Type[] { elementType };
+        var parameters = new [] { elementType };
 
         var typeConvertedList = enumerableType
             .GetMethod(nameof(Enumerable.ToList), flags)!
@@ -237,7 +237,7 @@ public static class EnumerableExtensions
     //    pos = new(x, y);
     //}
 
-    private static void Assign<T>(IEnumerator<T> enumerator, out T value)
+    static void Assign<T>(IEnumerator<T> enumerator, out T value)
     {
         var next = enumerator.MoveNext();
 

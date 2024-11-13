@@ -34,7 +34,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private static int[,] CreateBigMap(int[,] map)
+    static int[,] CreateBigMap(int[,] map)
     {
         var width = map.GetWidth();
         var height = map.GetHeight();
@@ -47,6 +47,6 @@ public class Solver : IProblemSolver<long>
         return bigMap;
     }
 
-    private static int Rotate(int n, int d, int max)
+    static int Rotate(int n, int d, int max)
         => ((n + d - 1) % (max - 1)) + 1;
 }

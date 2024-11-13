@@ -2,11 +2,11 @@
 
 public class Tetris(int width, int left, int topOffset)
 {
-    private readonly List<char[]> glass = [];
-    private readonly char[] emptyRow = ArrayEx.CreateAndInitialize(width, '.');
-    private readonly Dictionary<string, (long, long)> archive = [];
+    readonly List<char[]> glass = [];
+    readonly char[] emptyRow = ArrayEx.CreateAndInitialize(width, '.');
+    readonly Dictionary<string, (long, long)> archive = [];
 
-    private readonly string[][] figures =
+    readonly string[][] figures =
     [
         [ "####",
         ],
@@ -55,7 +55,7 @@ public class Tetris(int width, int left, int topOffset)
         return highest + cutted + 1;
     }
 
-    private (long, long, bool) FindSame(long step, long cutted, int movementIndex, int figureNumber, long totalFigures)
+    (long, long, bool) FindSame(long step, long cutted, int movementIndex, int figureNumber, long totalFigures)
     {
         var text = CreateKey(movementIndex, figureNumber);
         var foundSame = false;
@@ -81,11 +81,11 @@ public class Tetris(int width, int left, int topOffset)
 
     string CreateKey(int currentMovementIndex, int figureNumber)
     {
-        var glassText = glass.Select(line => line.StringJoin("")).StringJoin(";");
+        var glassText = glass.Select(line => line.StringJoin()).StringJoin(";");
         return $"{currentMovementIndex};{figureNumber};{glassText}";
     }
 
-    private (int, long) Simulate(int figureNumber, Movement[] movements, int movementIndex)
+    (int, long) Simulate(int figureNumber, Movement[] movements, int movementIndex)
     {
         var figure = figures[figureNumber];
 
@@ -124,7 +124,7 @@ public class Tetris(int width, int left, int topOffset)
         return (movementIndex, cuttedDelta);
     }
 
-    private bool CanMove(Movement movement, int from, int size)
+    bool CanMove(Movement movement, int from, int size)
     {
         var offset = movement == Movement.Left ? -1 : 1;
         var limit = movement == Movement.Left ? 0 : width - 1;
@@ -142,7 +142,7 @@ public class Tetris(int width, int left, int topOffset)
         return true;
     }
 
-    private void Move(Movement movement, int from, int size)
+    void Move(Movement movement, int from, int size)
     {
         for (var i = from; i >= from - size + 1; --i)
         {
@@ -173,7 +173,7 @@ public class Tetris(int width, int left, int topOffset)
         }
     }
 
-    private bool CanFall(int from, int size)
+    bool CanFall(int from, int size)
     {
         for (var i = from; i >= from - size + 1; --i)
         {
@@ -195,7 +195,7 @@ public class Tetris(int width, int left, int topOffset)
         return true;
     }
 
-    private void Fall(int from, int size)
+    void Fall(int from, int size)
     {
         //normal direction
         for (var i = from - size + 1; i <= from; ++i)
@@ -213,7 +213,7 @@ public class Tetris(int width, int left, int topOffset)
         }
     }
 
-    private void Freeze(int from, int size)
+    void Freeze(int from, int size)
     {
         for (var i = from; i >= from - size + 1; --i)
         {
@@ -225,7 +225,7 @@ public class Tetris(int width, int left, int topOffset)
         }
     }
 
-    private int Cut(int from, int size)
+    int Cut(int from, int size)
     {
         var lowest = FindPathFromLeftToRight(from, size);
         var cut = 0;
@@ -239,7 +239,7 @@ public class Tetris(int width, int left, int topOffset)
         return cut;
     }
 
-    private void Resize(int figureHeight)
+    void Resize(int figureHeight)
     {
         //enlarge
         var highest = FindHighest();
@@ -250,7 +250,7 @@ public class Tetris(int width, int left, int topOffset)
             glass.AddRange(Enumerable.Range(0, difference).Select(_ => emptyRow.ToArray()));
     }
 
-    private int PutFigure(string[] figure)
+    int PutFigure(string[] figure)
     {
         var highest = FindHighest();
         var figureHeight = figure.Length;
@@ -268,7 +268,7 @@ public class Tetris(int width, int left, int topOffset)
         return highest + requiredHeight;
     }
 
-    private int FindHighest()
+    int FindHighest()
     {
         for (var i = glass.Count - 1; i >= 0; --i)
             if (glass[i].Contains('#'))
@@ -277,7 +277,7 @@ public class Tetris(int width, int left, int topOffset)
         return -1;
     }
 
-    private int FindPathFromLeftToRight(int from, int size)
+    int FindPathFromLeftToRight(int from, int size)
     {
         for (var y = Math.Min(glass.Count - 1, from + size + 1); y >= Math.Max(1, from - 1); --y)
         {

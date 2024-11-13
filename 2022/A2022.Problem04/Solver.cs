@@ -26,7 +26,7 @@ public class Solver : IProblemSolver<int>
         return result;
     }
 
-    private static List<Item> LoadFile(string filename)
+    static List<Item> LoadFile(string filename)
         => CompiledRegs.Line().FromFile<Item>(filename);
 }
 

@@ -33,7 +33,7 @@ public class Solver : IProblemSolver<int>
         return results.Sum();
     }
 
-    private static IEnumerable<(char, char)> LoadFile(string filename)
+    static IEnumerable<(char, char)> LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
         var parsed = lines.Select(Parse);

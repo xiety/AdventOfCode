@@ -55,7 +55,7 @@ public class Solver2
 
     int globalMaximum = 0;
 
-    private int Recurse(Linked<string> path1, Linked<string> path2, Linked<int> released, Linked<Release> releases, int currentTime, GraphNode parent1, GraphNode parent2, bool opened1, bool opened2)
+    int Recurse(Linked<string> path1, Linked<string> path2, Linked<int> released, Linked<Release> releases, int currentTime, GraphNode parent1, GraphNode parent2, bool opened1, bool opened2)
     {
         if (path1.Value != parent1.Name)
             path1 = path1.AddBefore(parent1.Name);
@@ -107,7 +107,7 @@ public class Solver2
         return maximum;
     }
 
-    private int RecurseElephant(Linked<string> path1, Linked<string> path2, Linked<int> released, Linked<Release> releases, int currentTime, GraphNode parent1, GraphNode parent2, bool opened1, bool opened2)
+    int RecurseElephant(Linked<string> path1, Linked<string> path2, Linked<int> released, Linked<Release> releases, int currentTime, GraphNode parent1, GraphNode parent2, bool opened1, bool opened2)
     {
         if (path2.Value != parent2.Name)
             path2 = path2.AddBefore(parent2.Name);
@@ -138,10 +138,10 @@ public class Solver2
         return maximum;
     }
 
-    //private static int CalculatePreasure(IEnumerable<Release> releases, int currentTime)
+    //static int CalculatePreasure(IEnumerable<Release> releases, int currentTime)
     //    => releases.Select(a => a.Rate * (currentTime - a.FromTime)).Sum();
 
-    private static int CalculatePreasure(Linked<Release> releases, int totalTime)
+    static int CalculatePreasure(Linked<Release> releases, int totalTime)
     {
         var p = releases;
         var res = 0;
@@ -155,7 +155,7 @@ public class Solver2
         return res;
     }
 
-    private int Predict(Linked<Release> releases, int currentTime)
+    int Predict(Linked<Release> releases, int currentTime)
     {
         var preasure = 0;
 
@@ -174,7 +174,7 @@ public class Solver2
     record Release(string Name, int Rate, int FromTime);
 }
 
-public record class Item(string Valve, int Rate, string[] Targets);
+public record Item(string Valve, int Rate, string[] Targets);
 
 static partial class CompiledRegs
 {

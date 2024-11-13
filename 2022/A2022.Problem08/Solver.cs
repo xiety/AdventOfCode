@@ -69,6 +69,6 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private static int[,] LoadFile(string filename)
+    static int[,] LoadFile(string filename)
         => MapData.ParseMap(File.ReadAllLines(filename));
 }

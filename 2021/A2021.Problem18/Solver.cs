@@ -48,28 +48,26 @@ public class Solver : IProblemSolver<long>
 
     static Tree ToTree(ReadOnlySpan<Token> input)
     {
-        if (input[0] is TokenOpenBranch)
+        switch (input[0])
         {
-            var inner = input[1..^1];
+            case TokenOpenBranch:
+                var inner = input[1..^1];
 
-            var n = 0;
+                var n = inner[0] is TokenOpenBranch
+                    ? FindClosing(inner, 1)
+                    : inner.IndexOf(new TokenComma());
 
-            if (inner[0] is TokenOpenBranch)
-                n = FindClosing(inner, 1);
-            else
-                n = inner.IndexOf(new TokenComma());
+                var left = ToTree(inner[0..n]);
+                var right = ToTree(inner[(n + 1)..]);
 
-            var left = ToTree(inner[0..n]);
-            var right = ToTree(inner[(n + 1)..]);
+                return new TreeBranch(left, right);
 
-            return new TreeBranch(left, right);
+            case TokenValue tv:
+                return new TreeLeaf(tv.Value);
+
+            default:
+                throw new();
         }
-        else if (input[0] is TokenValue tv)
-        {
-            return new TreeLeaf(tv.Value);
-        }
-
-        throw new ArgumentOutOfRangeException();
     }
 
     static int FindClosing(ReadOnlySpan<Token> inner, int startingIndex)
@@ -91,7 +89,7 @@ public class Solver : IProblemSolver<long>
             }
         }
 
-        throw new ArgumentOutOfRangeException();
+        throw new();
     }
 
     static Node AddNodes(Node left, Node right)
@@ -188,7 +186,7 @@ public class Solver : IProblemSolver<long>
                     {
                         if (input.Tokens[j] is TokenValue tv)
                         {
-                            input.Tokens[j] = tv with { Value = tv.Value + leftValue };
+                            input.Tokens[j] = new TokenValue(tv.Value + leftValue);
                             break;
                         }
                     }
@@ -197,7 +195,7 @@ public class Solver : IProblemSolver<long>
                     {
                         if (input.Tokens[j] is TokenValue tv)
                         {
-                            input.Tokens[j] = tv with { Value = tv.Value + rightValue };
+                            input.Tokens[j] = new TokenValue(tv.Value + rightValue);
                             break;
                         }
                     }
@@ -244,9 +242,9 @@ public class Solver : IProblemSolver<long>
 record Node(List<Token> Tokens)
 {
     public override string ToString()
-        => Tokens.Select(TokenToString).StringJoin("");
+        => Tokens.Select(TokenToString).StringJoin();
 
-    private static string TokenToString(Token t)
+    static string TokenToString(Token t)
         => t switch
         {
             TokenOpenBranch => "[",

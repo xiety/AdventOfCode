@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-using Advent.Common;
+﻿using Advent.Common;
 
 namespace A2022.Problem06;
 
@@ -12,7 +10,7 @@ public class Solver : IProblemSolver<int>
     public int RunB(string filename)
         => Run(filename, 14);
 
-    private static int Run(string filename, int len)
+    static int Run(string filename, int len)
     {
         var line = File.ReadAllText(filename);
         var result = 0;

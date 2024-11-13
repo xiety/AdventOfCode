@@ -55,7 +55,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private const int Num = 4000;
+    const int Num = 4000;
 
     public long RunB(string filename)
     {
@@ -78,7 +78,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private long Recurse(Item1[] workflows, string workflowName, int conditionNum, int depth, Dictionary<string, Range[]> dic)
+    static long Recurse(Item1[] workflows, string workflowName, int conditionNum, int depth, Dictionary<string, Range[]> dic)
     {
         if (workflowName == "A")
             return dic.Values.Select(a => a.Sum(b => b.GetOffsetAndLength(Num).Length + 1L)).Mul();
@@ -116,7 +116,7 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    private (Range[], Range[]) StripRanges(Range[] ranges, int divider, bool middleToLeft)
+    static (Range[], Range[]) StripRanges(Range[] ranges, int divider, bool middleToLeft)
     {
         var left = new List<Range>();
         var right = new List<Range>();

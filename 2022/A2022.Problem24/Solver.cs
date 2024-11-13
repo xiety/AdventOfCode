@@ -24,7 +24,7 @@ public class Solver : IProblemSolver<int>
         return finish3.Z;
     }
 
-    private static (Map3d, Pos3, Pos3) CreateMap(string filename)
+    static (Map3d, Pos3, Pos3) CreateMap(string filename)
     {
         var data = File.ReadAllLines(filename);
 

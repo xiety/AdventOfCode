@@ -72,8 +72,11 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    private static Item[] LoadFile(string filename)
-        => File.ReadAllLines(filename).Select(CompiledRegs.Parse).Reverse().ToArray();
+    static Item Convert(ItemRaw r)
+        => new(r.Type == "on", new(new(r.FromX, r.FromY, r.FromZ), new(r.ToX, r.ToY, r.ToZ)));
+
+    static Item[] LoadFile(string filename)
+        => CompiledRegs.Regex().FromFile<ItemRaw>(filename).Select(Convert).Reverse().ToArray();
 }
 
 record ItemRaw(string Type, int FromX, int ToX, int FromY, int ToY, int FromZ, int ToZ);
@@ -82,11 +85,5 @@ record Item(bool On, Rect3 Rect);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(ItemRaw.Type)}>(on|off)) x=(?<{nameof(ItemRaw.FromX)}>-?\d+)..(?<{nameof(ItemRaw.ToX)}>-?\d+),y=(?<{nameof(ItemRaw.FromY)}>-?\d+)..(?<{nameof(ItemRaw.ToY)}>-?\d+),z=(?<{nameof(ItemRaw.FromZ)}>-?\d+)..(?<{nameof(ItemRaw.ToZ)}>-?\d+)$")]
-    private static partial Regex Regex();
-
-    public static Item Parse(string text)
-        => Convert(Regex().MapTo<ItemRaw>(text));
-
-    private static Item Convert(ItemRaw r)
-        => new(r.Type == "on", new(new(r.FromX, r.FromY, r.FromZ), new(r.ToX, r.ToY, r.ToZ)));
+    public static partial Regex Regex();
 }

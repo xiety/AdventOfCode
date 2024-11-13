@@ -4,7 +4,7 @@ public class Flow
 {
     const string input_str = "00000000000000";
 
-    public string Run(string filename)
+    public static string Run(string filename)
     {
         var lines = File.ReadAllLines(filename);
 
@@ -14,7 +14,7 @@ public class Flow
             data[i] = [new(0, input_str)];
 
         var linenum = 1;
-        var input_index = 1;
+        var inputIndex = 1;
 
         foreach (var line in lines)
         {
@@ -28,10 +28,10 @@ public class Flow
 
                     data[index].AddRange(
                         Enumerable.Range(1, 9)
-                        .Select(a => new Item(a, input_str[..(input_index - 1)] + a + input_str[(input_index)..]))
+                        .Select(x => new Item(x, input_str[..(inputIndex - 1)] + x + input_str[(inputIndex)..]))
                         .ToArray());
 
-                    input_index++;
+                    inputIndex++;
                     break;
                 case "add" or "mul" or "div" or "mod" or "eql":
                     var (a, b) = GetParts(rest);
@@ -65,26 +65,24 @@ public class Flow
                             if (op == "mul" && pb.Value == 0)
                                 merged = pb.Origins;
 
-                            var result_value = op switch
+                            var resultValue = op switch
                             {
                                 "add" => pa.Value + pb.Value,
                                 "mul" => pa.Value * pb.Value,
                                 "div" => pa.Value / pb.Value,
                                 "mod" => pa.Value % pb.Value,
-                                "eql" => pa.Value == pb.Value ? 1 : 0
+                                "eql" => pa.Value == pb.Value ? 1 : 0,
                             };
 
-                            result.Add(new(result_value, merged));
+                            result.Add(new(resultValue, merged));
                         }
                     }
 
-                    //data[ia] = [.. result.GroupBy(a => a.Value).Select(a => a.MaxBy(b => b.Origins))];
                     data[ia] = [.. result.Distinct()];
 
                     break;
             }
 
-            Console.WriteLine($"{linenum}: {line} | {String.Join(" | ", data.Select(b => b.Count))}");
             linenum++;
         }
 
@@ -93,18 +91,20 @@ public class Flow
         return ret.Origins;
     }
 
-    private bool CanMerge(string a, string b)
+    static bool CanMerge(string a, string b)
     {
+        //return !a.Where((t, i) => t != '0' && b[i] != '0' && t != b[i]).Any();
+        
         for (var i = 0; i < a.Length; ++i)
         {
             if (a[i] != '0' && b[i] != '0' && a[i] != b[i])
                 return false;
         }
 
-        return true;
+        return true;        
     }
 
-    private string Merge(string a, string b)
+    static string Merge(string a, string b)
     {
         var r = "";
 
@@ -116,7 +116,7 @@ public class Flow
         return r;
     }
 
-    private static int GetIndex(string text)
+    static int GetIndex(string text)
         => text switch
         {
             "x" => 0,
@@ -126,13 +126,13 @@ public class Flow
             _ => -1,
         };
 
-    private (string, string) GetParts(string rest)
+    static (string, string) GetParts(string rest)
     {
         var n = rest.IndexOf(' ');
         return (rest[..n], rest[(n + 1)..]);
     }
 
-    private (string, string) GetOp(string line)
+    static (string, string) GetOp(string line)
     {
         var n = line.IndexOf(' ');
         return (line[..n], line[(n + 1)..]);

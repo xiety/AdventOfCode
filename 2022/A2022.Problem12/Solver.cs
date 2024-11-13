@@ -11,7 +11,7 @@ public class Solver : IProblemSolver<int>
         var path = SlopePathFinder.Find(map, start, end);
 
         if (path == null)
-            throw new ArgumentOutOfRangeException();
+            throw new();
 
         return path.Length;
     }

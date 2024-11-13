@@ -103,7 +103,7 @@ public class Solver : IProblemSolver<long>
         return bestEnd;
     }
 
-    private static int[,] LoadFile(string filename)
+    static int[,] LoadFile(string filename)
         => MapData.ParseMap(File.ReadAllLines(filename), c => int.Parse($"{c}"));
 }
 

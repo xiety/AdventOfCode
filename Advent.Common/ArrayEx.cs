@@ -6,7 +6,7 @@ namespace System;
 public static class ArrayEx
 {
     public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this TValue[] array)
-        where TKey : notnull, INumber<TKey>
+        where TKey : INumber<TKey>
         => array.Select((v, i) => KeyValuePair.Create(TKey.CreateChecked(i), v))
                 .ToDictionary(a => a.Key, a => a.Value);
 

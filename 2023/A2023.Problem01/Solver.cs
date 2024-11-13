@@ -18,7 +18,7 @@ public class Solver : IProblemSolver<int>
         return result;
     }
 
-    private static int ProcessA(string line)
+    static int ProcessA(string line)
     {
         var a = line.IndexOfAny(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
         var b = line.LastIndexOfAny(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']);
@@ -26,7 +26,7 @@ public class Solver : IProblemSolver<int>
         return int.Parse(line[a].ToString() + line[b].ToString());
     }
 
-    private static int ProcessB(string line)
+    static int ProcessB(string line)
     {
         var dic = new Dictionary<string, int>
         {

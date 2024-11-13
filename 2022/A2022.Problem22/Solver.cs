@@ -130,7 +130,7 @@ public class Solver : IProblemSolver<int>
         return new(x, 0);
     }
 
-    private static Base[] ParsePath(string pathText)
+    static Base[] ParsePath(string pathText)
         => CompiledRegs.RegexPath()
            .Matches(pathText)
            .Select(a => a.Groups[nameof(Distance)].Success
@@ -162,7 +162,7 @@ static partial class CompiledRegs
     public static partial Regex RegexPath();
 }
 
-enum Rotation : int
+enum Rotation
 {
     Right = 0,
     Down = 1,
