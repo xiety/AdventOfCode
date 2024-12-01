@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Advent.Common\Advent.Common.csproj" />
+    <ProjectReference Include="..\A2019.Common\A2019.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,11 +2,11 @@
 
 namespace A2019.Problem02;
 
-public class Solver : ISolver<int>
+public class Solver : ISolver<long>
 {
-    public int RunA(string[] lines, bool isSample)
+    public long RunA(string[] lines, bool isSample)
     {
-        var codes = LoadData(lines);
+        var codes = CpuCodeLoader.Load(lines);
 
         if (!isSample)
         {
@@ -15,14 +15,15 @@ public class Solver : ISolver<int>
         }
 
         var cpu = new Cpu(codes, codes);
-        var result = cpu.Interpret();
+        var output = cpu.Interpret().ToArray();
+        var result = cpu.ReadMemory(0);
 
         return result;
     }
 
-    public int RunB(string[] lines, bool isSample)
+    public long RunB(string[] lines, bool isSample)
     {
-        var codes = LoadData(lines);
+        var codes = CpuCodeLoader.Load(lines);
 
         var target = !isSample ? 19690720 : 100;
 
@@ -34,7 +35,8 @@ public class Solver : ISolver<int>
                 codes[2] = b;
 
                 var cpu = new Cpu(codes, [.. codes]);
-                var result = cpu.Interpret();
+                var output = cpu.Interpret().ToArray();
+                var result = cpu.ReadMemory(0);
 
                 if (result == target)
                     return a * 100 + b;
@@ -42,46 +44,5 @@ public class Solver : ISolver<int>
         }
 
         throw new();
-    }
-
-    static int[] LoadData(string[] lines)
-        => lines.First().Split(",").Select(int.Parse).ToArray();
-}
-
-public class Cpu(int[] codes, int[] memory)
-{
-    readonly ResizableArray<int> codes = new(codes);
-    readonly ResizableArray<int> memory = new(memory);
-
-    public int Interpret()
-    {
-        var position = 0;
-
-        do
-        {
-            var n = codes[position];
-
-            if (n == 99)
-                break;
-
-            position = n switch
-            {
-                1 => Op(position, (a, b) => a + b),
-                2 => Op(position, (a, b) => a * b),
-                _ => position,
-            };
-        }
-        while (true);
-
-        return memory[0];
-    }
-
-    int Op(int position, Func<int, int, int> func)
-    {
-        var a = memory[codes[position + 1]];
-        var b = memory[codes[position + 2]];
-        memory[codes[position + 3]] = func(a, b);
-        position += 4;
-        return position;
     }
 }

@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/2019/">
+    <Project Path="2019\A2019.Common\A2019.Common.csproj" />
     <Project Path="2019\A2019.Tests\A2019.Tests.csproj" />
   </Folder>
   <Folder Name="/2019/0/">
