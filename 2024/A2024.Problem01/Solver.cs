@@ -10,7 +10,7 @@ public class Solver : ISolver<int>
     {
         var (left, right) = LoadData(lines);
 
-        return Enumerable.Zip(left.Order(), right.Order())
+        return left.Order().Zip(right.Order())
             .Sum(a => Math.Abs(a.First - a.Second));
     }
 

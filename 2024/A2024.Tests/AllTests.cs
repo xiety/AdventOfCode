@@ -9,4 +9,7 @@ public class AllTests : BaseSolverTest
 {
     [ProblemData<int>(11, 1151792, 31, 21790168)]
     public void Problem01(ITestParameter p) => Test(new Problem01.Solver(), p);
+
+    [ProblemData<int>(2, 213, 4, 285)]
+    public void Problem02(ITestParameter p) => Test(new Problem02.Solver(), p);
 }
