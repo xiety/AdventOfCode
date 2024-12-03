@@ -10,10 +10,10 @@ public static class RegexExtensions
     public static List<T> FromLines<T>(this Regex regex, IEnumerable<string> lines)
         => lines.Select(regex.MapTo<T>).ToList();
 
-    public static T MapTo<T>(this Match match, Regex debugRegex, string debugText)
+    public static T MapTo<T>(this Match match)
     {
         if (!match.Success)
-            throw new ArgumentOutOfRangeException(nameof(match), match, message: $"Match failed on '{debugText}' with '{debugRegex}");
+            throw new ArgumentOutOfRangeException(nameof(match), match, message: "Fail");
 
         var type = typeof(T);
         var constructor = type.GetConstructors().First();
@@ -36,6 +36,14 @@ public static class RegexExtensions
             init.Initialize();
 
         return obj;
+    }
+
+    public static T MapTo<T>(this Match match, Regex debugRegex, string debugText)
+    {
+        if (!match.Success)
+            throw new ArgumentOutOfRangeException(nameof(match), match, message: $"Match failed on '{debugText}' with '{debugRegex}");
+
+        return match.MapTo<T>();
     }
 
     static object Parse(Group group, Type type)
