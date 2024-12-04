@@ -5,6 +5,9 @@ namespace System;
 
 public static class ArrayEx
 {
+    public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
+    public static readonly Pos[] DiagOffsets = [new(-1, -1), new(1, -1), new(1, 1), new(-1, 1)];
+
     public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this TValue[] array)
         where TKey : INumber<TKey>
         => array.Select((v, i) => KeyValuePair.Create(TKey.CreateChecked(i), v))
@@ -110,6 +113,9 @@ public static class ArrayEx
     public static T Get<T>(this T[,] array, Pos p)
         => array[p.X, p.Y];
 
+    public static T GetOrDefault<T>(this T[,] array, Pos p, T defaultValue)
+        => array.IsInBounds(p) ? array[p.X, p.Y] : defaultValue;
+
     public static ref T GetRef<T>(this T[,] array, Pos p)
         => ref array[p.X, p.Y];
 
@@ -167,20 +173,17 @@ public static class ArrayEx
     public static int GetHeight<T>(this T[,] array)
         => array.GetLength(1);
 
-    public static IEnumerable<Pos> EnumerateNearest<T>(this T[,] array, Pos center)
-        => EnumerableExtensions
-              .Range2d(3, 3)
-              .Select(a => center + a + new Pos(-1, -1))
-              .Where(array.IsInBounds);
-
-    public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
-
     public static IEnumerable<Pos> Offsetted(Pos center)
         => Offsets
                .Select(a => center + a);
 
     public static IEnumerable<Pos> Offsetted<T>(this T[,] array, Pos center)
         => Offsetted(center)
+               .Where(array.IsInBounds);
+
+    public static IEnumerable<Pos> Offsetted<T>(this T[,] array, Pos center, IEnumerable<Pos> offsets)
+        => offsets
+               .Select(a => center + a)
                .Where(array.IsInBounds);
 
     public static void ForEach<T>(this T[,] array, Action<Pos> action)
@@ -202,7 +205,7 @@ public static class ArrayEx
         {
             var items =
                 from p in floodPoints
-                from p2 in array.EnumerateNearest(p)
+                from p2 in array.Delted(p)
                 where !array.Get(p2)
                 select p2;
 
@@ -216,5 +219,36 @@ public static class ArrayEx
             nextPoints.Clear();
         }
         while (floodPoints.Count > 0);
+    }
+
+    public static IEnumerable<Pos> EnumerateDeltas()
+    {
+        for (var dx = -1; dx <= 1; ++dx)
+        {
+            for (var dy = -1; dy <= 1; ++dy)
+            {
+                if (dx == 0 && dy == 0)
+                    continue;
+
+                yield return new Pos(dx, dy);
+            }
+        }
+    }
+
+    public static IEnumerable<Pos> Delted<T>(this T[,] array, Pos c)
+    {
+        for (var dx = -1; dx <= 1; ++dx)
+        {
+            for (var dy = -1; dy <= 1; ++dy)
+            {
+                if (dx == 0 && dy == 0)
+                    continue;
+
+                var k = new Pos(dx, dy) + c;
+
+                if (array.IsInBounds(k))
+                    yield return k;
+            }
+        }
     }
 }
