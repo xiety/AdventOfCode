@@ -5,6 +5,23 @@ namespace System.Linq;
 
 public static class EnumerableExtensions
 {
+    public static int FindLoopIndex<T>(this IEnumerable<T> enumerable)
+    {
+        var hashSet = new HashSet<T>();
+        var index = 0;
+
+        foreach (var item in enumerable)
+        {
+            if (hashSet.Contains(item))
+                return index;
+
+            hashSet.Add(item);
+            index++;
+        }
+
+        return -1;
+    }
+
     public static int FindRepeat<T>(this IEnumerable<T> enumerable)
         where T : IEqualityOperators<T, T, bool>
     {

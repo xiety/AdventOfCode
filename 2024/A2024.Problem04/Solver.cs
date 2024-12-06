@@ -34,5 +34,5 @@ public class Solver : ISolver<int>
 
     static string Get(string[,] map, Pos p, Pos d, int len)
         => Enumerable.Range(0, len)
-           .Aggregate((s: "", p), (acc, a) => (acc.s + map.GetOrDefault(acc.p, ""), acc.p + d)).s;
+           .Aggregate((s: "", p), (acc, _) => (acc.s + map.GetOrDefault(acc.p, ""), acc.p + d)).s;
 }
