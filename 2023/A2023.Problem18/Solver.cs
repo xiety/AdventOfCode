@@ -84,8 +84,6 @@ public class Solver : IProblemSolver<long>
                 possibleY.Add(pos.Y);
         }
 
-        Console.WriteLine($"{possibleX.Count} {possibleY.Count}");
-
         possibleX.Add(minX - 10);
         possibleX.Add(maxX + 10);
 

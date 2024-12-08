@@ -18,13 +18,8 @@ public class Solver : IProblemSolver<long>
         var emptyRows = GetEmptyRows(map);
 
         var stars = GetStars(map, resize, emptyCols, emptyRows).ToArray();
-        var totalDistance = 0L;
 
-        for (var i = 0; i < stars.Length - 1; ++i)
-            for (var j = i + 1; j < stars.Length; ++j)
-                totalDistance += Distance(stars[i], stars[j]);
-
-        return totalDistance;
+        return stars.EnumeratePairs().Select(a => Distance(a.Item1, a.Item2)).Sum();
     }
 
     static IEnumerable<Pos> GetStars(bool[,] map, int resize, List<int> emptyCols, List<int> emptyRows)

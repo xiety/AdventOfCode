@@ -92,8 +92,6 @@ public class Solver : IProblemSolver<long>
 
                             if (intersection.Length == 11)
                             {
-                                Console.WriteLine($"BEAM a={sa} b={sb} i={i} j={j} = {intersection.Length}");
-
                                 if (intersection.Distinct().Count() != 11)
                                     throw new();
 

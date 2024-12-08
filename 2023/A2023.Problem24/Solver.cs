@@ -15,27 +15,27 @@ public class Solver : IProblemSolver<long>
         var from = isSample ? 7 : 200000000000000L;
         var to = isSample ? 27 : 400000000000000L;
 
-        var count = 0;
+        return lines
+            .EnumeratePairs()
+            .Where(x => Check(@from, to, x.Item1, x.Item2))
+            .Count();
+    }
 
-        for (var i = 0; i < lines.Length - 1; ++i)
+    static bool Check(long from, long to, Line line1, Line line2)
+    {
+        var intersect = Intersect2D(line1, line2);
+
+        if (intersect.X >= from && intersect.X <= to
+         && intersect.Y >= from && intersect.Y <= to)
         {
-            for (var j = i + 1; j < lines.Length; ++j)
-            {
-                var intersect = Intersect2D(lines[i], lines[j]);
+            var t1 = (intersect.X - line1.X) / line1.VX;
+            var t2 = (intersect.X - line2.X) / line2.VX;
 
-                if (intersect.X >= from && intersect.X <= to
-                 && intersect.Y >= from && intersect.Y <= to)
-                {
-                    var t1 = (intersect.X - lines[i].X) / lines[i].VX;
-                    var t2 = (intersect.X - lines[j].X) / lines[j].VX;
-
-                    if (t1 >= 0 && t2 >= 0)
-                        count++;
-                }
-            }
+            if (t1 >= 0 && t2 >= 0)
+                return true;
         }
 
-        return count;
+        return false;
     }
 
     static (double X, double Y) Intersect2D(Line line1, Line line2)

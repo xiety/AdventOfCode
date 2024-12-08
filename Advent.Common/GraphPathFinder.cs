@@ -17,8 +17,6 @@ public static class GraphPathFinder
 
                 foreach (var newStep in currentStep.Connections)
                 {
-                    Console.WriteLine(newStep.Name);
-
                     var oldStar = star.GetValueOrDefault(newStep, -1);
 
                     var newStar = currentDistance + 1;

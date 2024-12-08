@@ -26,6 +26,9 @@ public static class EnumerableExtensions
         }
     }
 
+    public static IEnumerable<(T, T)> EnumeratePairs<T>(this IEnumerable<T> enumerable)
+        => enumerable.ToArray().EnumeratePairs();
+
     public static int FindLoopIndex<T>(this IEnumerable<T> enumerable)
     {
         var hashSet = new HashSet<T>();
@@ -92,9 +95,6 @@ public static class EnumerableExtensions
         for (var i = start; i < start + length; ++i)
             yield return i;
     }
-
-    public static IEnumerable<(TItem item, int index)> Indexed<TItem>(this IEnumerable<TItem> items)
-        => items.Select((item, index) => (item, index));
 
     public static IEnumerable<T> Debug<T>(this IEnumerable<T> enumerable, Action<T> action)
     {

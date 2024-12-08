@@ -7,15 +7,13 @@ public static class Grapher
         var graph = new Graph();
 
         var indexed = new List<string>();
-        var index = 0;
 
-        foreach (var item in items.OrderBy(a => a.Valve))
+        foreach (var (index, item) in items.OrderBy(a => a.Valve).Index())
         {
             var node = new GraphNode { Id = index, Name = item.Valve, Rate = item.Rate };
             graph.Nodes.Add(node);
 
             indexed.Add(item.Valve);
-            index++;
         }
 
         foreach (var item in items)
@@ -26,7 +24,6 @@ public static class Grapher
             {
                 var childNode = graph.Nodes.First(a => a.Id == indexed.IndexOf(childName));
 
-                //childNode.Connections.Add(node);
                 node.Connections.Add(childNode);
             }
         }

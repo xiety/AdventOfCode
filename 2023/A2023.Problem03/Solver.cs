@@ -13,10 +13,10 @@ public class Solver : IProblemSolver<int>
         var width = lines[0].Length;
         var height = lines.Length;
 
-        var result = lines.Indexed()
+        var result = lines.Index()
             .SelectMany(a =>
-                CompiledRegs.Regex().Matches(a.item)
-                    .Where(m => Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.index - 1, a.index + 2))
+                CompiledRegs.Regex().Matches(a.Item)
+                    .Where(m => Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.Index - 1, a.Index + 2))
                         .Select(b => (px: b[0], py: b[1]))
                         .Where(pos => pos.py >= 0 && pos.py < height && pos.px >= 0 && pos.px < width)
                         .Any(pos => lines[pos.py][pos.px]
@@ -35,11 +35,11 @@ public class Solver : IProblemSolver<int>
         var width = lines[0].Length;
         var height = lines.Length;
 
-        var result = lines.Indexed()
+        var result = lines.Index()
             .SelectMany(a =>
-                CompiledRegs.Regex().Matches(a.item)
+                CompiledRegs.Regex().Matches(a.Item)
                     .SelectMany(m =>
-                        Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.index - 1, a.index + 2))
+                        Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.Index - 1, a.Index + 2))
                             .Select(b => (px: b[0], py: b[1]))
                             .Where(pos => pos.py >= 0 && pos.py < height && pos.px >= 0 && pos.px < width)
                             .Where(pos => lines[pos.py][pos.px] is '*')

@@ -45,22 +45,15 @@ public class Solver : ISolver<long>
 
     static void SimulateStep(Planet[] items)
     {
-        for (var j = 0; j < items.Length - 1; ++j)
+        foreach (var (item1, item2) in items.EnumeratePairs())
         {
-            var item1 = items[j];
+            var change = new Pos3(
+                Math.Sign(item2.Pos.X - item1.Pos.X),
+                Math.Sign(item2.Pos.Y - item1.Pos.Y),
+                Math.Sign(item2.Pos.Z - item1.Pos.Z));
 
-            for (var k = j + 1; k < items.Length; ++k)
-            {
-                var item2 = items[k];
-
-                var change = new Pos3(
-                    Math.Sign(item2.Pos.X - item1.Pos.X),
-                    Math.Sign(item2.Pos.Y - item1.Pos.Y),
-                    Math.Sign(item2.Pos.Z - item1.Pos.Z));
-
-                item1.Velocity += change;
-                item2.Velocity -= change;
-            }
+            item1.Velocity += change;
+            item2.Velocity -= change;
         }
 
         foreach (var item in items)
