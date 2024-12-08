@@ -50,7 +50,7 @@ public class Solver : IProblemSolver<long>
     {
         var energy = new int[map.GetWidth(), map.GetHeight()];
         Go(map, energy, startingPos, startingDir);
-        return energy.Enumerate().Count(pair => pair.item > 0);
+        return energy.Enumerate().Count(pair => pair.Item > 0);
     }
 
     static void Go(char[,] map, int[,] energy, Pos startingPos, Pos startingDir)

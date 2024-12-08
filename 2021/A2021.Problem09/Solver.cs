@@ -35,8 +35,8 @@ public class Solver : IProblemSolver<long>
     static List<(Pos pos, int item)> LowestPoints(int[,] data)
         => data.Enumerate()
                .Where(tuple => !data
-                   .Offsetted(tuple.pos)
-                   .Any(a => data.Get(a) <= tuple.item))
+                   .Offsetted(tuple.Pos)
+                   .Any(a => data.Get(a) <= tuple.Item))
                .ToList();
 
     static int CalculateBasin(Pos start, int[,] data)

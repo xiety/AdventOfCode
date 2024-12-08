@@ -5,6 +5,27 @@ namespace System.Linq;
 
 public static class EnumerableExtensions
 {
+    public static IEnumerable<T> Concat<T>(params IEnumerable<T>[] enumerables)
+    {
+        foreach (var enumerable in enumerables)
+            foreach (var item in enumerable)
+                yield return item;
+    }
+
+    public static IEnumerable<(T, T)> EnumeratePairs<T>(this IReadOnlyList<T> collection)
+    {
+        for (var i = 0; i < collection.Count - 1; ++i)
+        {
+            for (var j = i + 1; j < collection.Count; ++j)
+            {
+                var a = collection[i];
+                var b = collection[j];
+
+                yield return (a, b);
+            }
+        }
+    }
+
     public static int FindLoopIndex<T>(this IEnumerable<T> enumerable)
     {
         var hashSet = new HashSet<T>();
@@ -63,7 +84,7 @@ public static class EnumerableExtensions
             return source.Select(t => new[] { t });
 
         return Permutations(source, length - 1)
-            .SelectMany(t => source.Where(e => !t.Contains(e)), (t1, t2) => t1.Concat([t2]));
+            .SelectMany(t => source.Where(e => !t.Contains(e)), (t1, t2) => t1.Append(t2));
     }
 
     public static IEnumerable<long> LongRange(long start, long length)
@@ -148,7 +169,7 @@ public static class EnumerableExtensions
     {
         var enumerableType = typeof(Enumerable);
         var flags = BindingFlags.Static | BindingFlags.Public;
-        var parameters = new [] { elementType };
+        var parameters = new[] { elementType };
 
         return enumerableType
             .GetMethod(nameof(Enumerable.Cast), flags)!
@@ -162,7 +183,7 @@ public static class EnumerableExtensions
 
         var enumerableType = typeof(Enumerable);
         var flags = BindingFlags.Static | BindingFlags.Public;
-        var parameters = new [] { elementType };
+        var parameters = new[] { elementType };
 
         var typeConvertedList = enumerableType
             .GetMethod(nameof(Enumerable.ToList), flags)!
@@ -201,7 +222,7 @@ public static class EnumerableExtensions
     public static string StringJoin<T>(this IEnumerable<T> enumerable, string separator, Func<T, string> selection)
         => String.Join(separator, enumerable.Select(selection));
 
-    public static IEnumerable<T> Concat<T>(this IEnumerable<T> enumerable, params T[] items)
+    public static IEnumerable<T> Append<T>(this IEnumerable<T> enumerable, params T[] items)
         => Enumerable.Concat(enumerable, items);
 
     public static IEnumerable<Pos> Range2d(int n1, int n2)

@@ -143,7 +143,7 @@ public static class ArrayEx
                 yield return new(x, y);
     }
 
-    public static IEnumerable<(Pos pos, T item)> Enumerate<T>(this T[,] array)
+    public static IEnumerable<(Pos Pos, T Item)> Enumerate<T>(this T[,] array)
     {
         for (var y = 0; y < array.GetLength(1); ++y)
             for (var x = 0; x < array.GetLength(0); ++x)

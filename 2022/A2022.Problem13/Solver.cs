@@ -22,7 +22,7 @@ public class Solver : IProblemSolver<int>
         var sep2 = Loader.ParseLine("[[6]]");
 
         var items = Loader.LoadItems(filename)
-            .Concat([sep1, sep2]);
+            .Append([sep1, sep2]);
 
         var sorted = items.Order().ToList();
 

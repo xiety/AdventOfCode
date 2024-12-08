@@ -8,7 +8,7 @@ public class Solver : IProblemSolver<long>
         => Calc(filename, (_, step) => step == 100).Item2;
 
     public long RunB(string filename)
-        => Calc(filename, (data, _) => data.Enumerate().All(a => a.item == 0)).Item1;
+        => Calc(filename, (data, _) => data.Enumerate().All(a => a.Item == 0)).Item1;
 
     static (long, long) Calc(string filename, Func<int[,], long, bool> exit)
     {
