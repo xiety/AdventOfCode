@@ -1,7 +1,4 @@
-﻿
-
-
-using Advent.Common;
+﻿using Advent.Common;
 
 namespace A2024.Problem09;
 
@@ -38,8 +35,7 @@ public class Solver : ISolver<long>
             if (firstPos == -1)
                 return;
 
-            disk[firstPos] = disk[lastPos];
-            disk[lastPos] = -1;
+            MoveFile(disk, lastPos, 1, firstPos);
 
             firstPos++;
             lastPos--;
