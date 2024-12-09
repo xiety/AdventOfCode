@@ -30,4 +30,7 @@ public class AllTests : BaseSolverTest
 
     [ProblemData<int>(14, 240, 34, 955)]
     public void Problem08(ITestParameter p) => Test(new Problem08.Solver(), p);
+
+    [ProblemData<long>(1928, 6330095022244, 2858, 6359491814941)]
+    public void Problem09(ITestParameter p) => Test(new Problem09.Solver(), p);
 }
