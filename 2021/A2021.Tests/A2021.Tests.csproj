@@ -14,30 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Advent.BaseTests\Advent.BaseTests.csproj" />
-    <ProjectReference Include="..\A2021.Problem01\A2021.Problem01.csproj" />
-    <ProjectReference Include="..\A2021.Problem02\A2021.Problem02.csproj" />
-    <ProjectReference Include="..\A2021.Problem03\A2021.Problem03.csproj" />
-    <ProjectReference Include="..\A2021.Problem04\A2021.Problem04.csproj" />
-    <ProjectReference Include="..\A2021.Problem05\A2021.Problem05.csproj" />
-    <ProjectReference Include="..\A2021.Problem06\A2021.Problem06.csproj" />
-    <ProjectReference Include="..\A2021.Problem07\A2021.Problem07.csproj" />
-    <ProjectReference Include="..\A2021.Problem08\A2021.Problem08.csproj" />
-    <ProjectReference Include="..\A2021.Problem09\A2021.Problem09.csproj" />
-    <ProjectReference Include="..\A2021.Problem10\A2021.Problem10.csproj" />
-    <ProjectReference Include="..\A2021.Problem11\A2021.Problem11.csproj" />
-    <ProjectReference Include="..\A2021.Problem12\A2021.Problem12.csproj" />
-    <ProjectReference Include="..\A2021.Problem13\A2021.Problem13.csproj" />
-    <ProjectReference Include="..\A2021.Problem14\A2021.Problem14.csproj" />
-    <ProjectReference Include="..\A2021.Problem15\A2021.Problem15.csproj" />
-    <ProjectReference Include="..\A2021.Problem16\A2021.Problem16.csproj" />
-    <ProjectReference Include="..\A2021.Problem17\A2021.Problem17.csproj" />
-    <ProjectReference Include="..\A2021.Problem18\A2021.Problem18.csproj" />
-    <ProjectReference Include="..\A2021.Problem19\A2021.Problem19.csproj" />
-    <ProjectReference Include="..\A2021.Problem20\A2021.Problem20.csproj" />
-    <ProjectReference Include="..\A2021.Problem21\A2021.Problem21.csproj" />
-    <ProjectReference Include="..\A2021.Problem22\A2021.Problem22.csproj" />
-    <ProjectReference Include="..\A2021.Problem23\A2021.Problem23.csproj" />
-    <ProjectReference Include="..\A2021.Problem24\A2021.Problem24.csproj" />
+    <ProjectReference Include="..\A2021.Problem*\A2021.Problem*.csproj" />
   </ItemGroup>
 
 </Project>

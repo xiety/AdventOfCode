@@ -143,5 +143,4 @@
   </Folder>
   <Project Path="Advent.BaseTests\Advent.BaseTests.csproj" />
   <Project Path="Advent.Common\Advent.Common.csproj" />
-  <Project Path="ConsoleApp\ConsoleApp.csproj" />
 </Solution>
