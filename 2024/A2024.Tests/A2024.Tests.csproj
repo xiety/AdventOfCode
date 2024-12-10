@@ -14,7 +14,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Advent.BaseTests\Advent.BaseTests.csproj" />
-    <ProjectReference Include="..\A2024.Problem*\A2024.Problem*.csproj" />
+    <ProjectReference Include="..\A2024.Problem01\A2024.Problem01.csproj" />
+    <ProjectReference Include="..\A2024.Problem02\A2024.Problem02.csproj" />
+    <ProjectReference Include="..\A2024.Problem03\A2024.Problem03.csproj" />
+    <ProjectReference Include="..\A2024.Problem04\A2024.Problem04.csproj" />
+    <ProjectReference Include="..\A2024.Problem05\A2024.Problem05.csproj" />
+    <ProjectReference Include="..\A2024.Problem06\A2024.Problem06.csproj" />
+    <ProjectReference Include="..\A2024.Problem07\A2024.Problem07.csproj" />
+    <ProjectReference Include="..\A2024.Problem08\A2024.Problem08.csproj" />
+    <ProjectReference Include="..\A2024.Problem09\A2024.Problem09.csproj" />
+    <ProjectReference Include="..\A2024.Problem10\A2024.Problem10.csproj" />
   </ItemGroup>
 
 </Project>

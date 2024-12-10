@@ -14,7 +14,31 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Advent.BaseTests\Advent.BaseTests.csproj" />
-    <ProjectReference Include="..\A2022.Problem*\A2022.Problem*.csproj" />
+    <ProjectReference Include="..\A2022.Problem01\A2022.Problem01.csproj" />
+    <ProjectReference Include="..\A2022.Problem02\A2022.Problem02.csproj" />
+    <ProjectReference Include="..\A2022.Problem03\A2022.Problem03.csproj" />
+    <ProjectReference Include="..\A2022.Problem04\A2022.Problem04.csproj" />
+    <ProjectReference Include="..\A2022.Problem05\A2022.Problem05.csproj" />
+    <ProjectReference Include="..\A2022.Problem06\A2022.Problem06.csproj" />
+    <ProjectReference Include="..\A2022.Problem07\A2022.Problem07.csproj" />
+    <ProjectReference Include="..\A2022.Problem08\A2022.Problem08.csproj" />
+    <ProjectReference Include="..\A2022.Problem09\A2022.Problem09.csproj" />
+    <ProjectReference Include="..\A2022.Problem10\A2022.Problem10.csproj" />
+    <ProjectReference Include="..\A2022.Problem11\A2022.Problem11.csproj" />
+    <ProjectReference Include="..\A2022.Problem12\A2022.Problem12.csproj" />
+    <ProjectReference Include="..\A2022.Problem13\A2022.Problem13.csproj" />
+    <ProjectReference Include="..\A2022.Problem14\A2022.Problem14.csproj" />
+    <ProjectReference Include="..\A2022.Problem15\A2022.Problem15.csproj" />
+    <ProjectReference Include="..\A2022.Problem16\A2022.Problem16.csproj" />
+    <ProjectReference Include="..\A2022.Problem17\A2022.Problem17.csproj" />
+    <ProjectReference Include="..\A2022.Problem18\A2022.Problem18.csproj" />
+    <ProjectReference Include="..\A2022.Problem19\A2022.Problem19.csproj" />
+    <ProjectReference Include="..\A2022.Problem20\A2022.Problem20.csproj" />
+    <ProjectReference Include="..\A2022.Problem21\A2022.Problem21.csproj" />
+    <ProjectReference Include="..\A2022.Problem22\A2022.Problem22.csproj" />
+    <ProjectReference Include="..\A2022.Problem23\A2022.Problem23.csproj" />
+    <ProjectReference Include="..\A2022.Problem24\A2022.Problem24.csproj" />
+    <ProjectReference Include="..\A2022.Problem25\A2022.Problem25.csproj" />
   </ItemGroup>
 
 </Project>
