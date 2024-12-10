@@ -14,7 +14,7 @@ public abstract class BaseSolverTest
         if (p is TestParameter<TR> tp)
             Test(year, number, tp, lines => tp.IsA ? solver.RunA(lines, tp.IsSample) : solver.RunB(lines, tp.IsSample));
         else
-            throw new();
+            throw new($"Type of p is {p.GetType()} and TR is {typeof(TR)}");
     }
 
     protected static void Test<TRA, TRB>(ISolver<TRA, TRB> solver, ITestParameter p)
