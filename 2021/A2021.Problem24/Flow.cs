@@ -13,7 +13,6 @@ public class Flow
         for (var i = 0; i < data.Length; ++i)
             data[i] = [new(0, input_str)];
 
-        var linenum = 1;
         var inputIndex = 1;
 
         foreach (var line in lines)
@@ -82,11 +81,9 @@ public class Flow
 
                     break;
             }
-
-            linenum++;
         }
 
-        var ret = data[2].Where(a => a.Value == 0).MaxBy(a => a. Origins);
+        var ret = data[2].Where(a => a.Value == 0).MaxBy(a => a.Origins);
 
         return ret.Origins;
     }
@@ -94,14 +91,14 @@ public class Flow
     static bool CanMerge(string a, string b)
     {
         //return !a.Where((t, i) => t != '0' && b[i] != '0' && t != b[i]).Any();
-        
+
         for (var i = 0; i < a.Length; ++i)
         {
             if (a[i] != '0' && b[i] != '0' && a[i] != b[i])
                 return false;
         }
 
-        return true;        
+        return true;
     }
 
     static string Merge(string a, string b)

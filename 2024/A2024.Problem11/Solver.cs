@@ -111,13 +111,13 @@ class TreeNode(long value, Cache cache)
     public void SetChildren(params IEnumerable<long> values)
         => Children = values.Select(FindOrCreate).ToArray();
 
-    TreeNode FindOrCreate(long value)
+    TreeNode FindOrCreate(long v)
     {
-        if (cache.TryGetValue(value, out var tree))
+        if (cache.TryGetValue(v, out var tree))
             return tree;
 
-        tree = new TreeNode(value, cache);
-        cache.Add(value, tree);
+        tree = new(v, cache);
+        cache.Add(v, tree);
 
         return tree;
     }

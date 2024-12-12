@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-using Advent.Common;
+﻿using Advent.Common;
 
 namespace A2024.Problem02;
 

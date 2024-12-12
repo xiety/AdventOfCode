@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-using Advent.Common;
+﻿using Advent.Common;
 
 namespace A2019.Problem13;
 
@@ -58,8 +56,6 @@ public class Solver : ISolver<long>
 
     enum Tile
     {
-        Empty = 0,
-        Wall = 1,
         Block = 2,
         Paddle = 3,
         Ball = 4,

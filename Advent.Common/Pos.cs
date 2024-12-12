@@ -16,6 +16,18 @@ public readonly record struct Pos(int X, int Y)
     public static Pos operator -(Pos a)
         => new(-a.X, -a.Y);
 
+    public static Pos operator *(Pos a, int num)
+        => new(a.X * num, a.Y * num);
+
+    public static Pos operator /(Pos a, int num)
+        => new(a.X / num, a.Y / num);
+
+    public static Pos operator +(Pos a, int num)
+        => new(a.X + num, a.Y + num);
+
+    public static Pos operator -(Pos a, int num)
+        => new(a.X - num, a.Y - num);
+
     public int ManhattanLength
         => Math.Abs(X) + Math.Abs(Y);
 }

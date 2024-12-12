@@ -45,10 +45,10 @@ public class Solver : ISolver<long, string>
 
             pos += dir switch
             {
-                Dir.Up => new(0, -1),
-                Dir.Right => new(1, 0),
-                Dir.Down => new(0, 1),
-                Dir.Left => new(-1, 0),
+                Dir.Up => new Pos(0, -1),
+                Dir.Right => new Pos(1, 0),
+                Dir.Down => new Pos(0, 1),
+                Dir.Left => new Pos(-1, 0),
             };
 
             inputs.Add(map.GetValueOrDefault(pos));
