@@ -140,6 +140,7 @@
   <Folder Name="/2024/10/">
     <Project Path="2024\A2024.Problem11\A2024.Problem11.csproj" />
     <Project Path="2024\A2024.Problem12\A2024.Problem12.csproj" />
+    <Project Path="2024\A2024.Problem13\A2024.Problem13.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />

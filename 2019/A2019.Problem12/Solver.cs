@@ -30,7 +30,7 @@ public class Solver : ISolver<long>
         var ry = simulation.Select(a => a[0].Pos.Y).FindRepeat();
         var rz = simulation.Select(a => a[0].Pos.Z).FindRepeat();
 
-        return INumberExtensions.LCM<long>([rx, ry, rz]);
+        return INumberExtensions.LCM((long)rx, (long)ry, (long)rz);
     }
 
     static IEnumerable<Planet[]> Simulate(Planet[] items)

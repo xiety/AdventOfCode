@@ -105,7 +105,7 @@ public static class EnumerableExtensions
         }
     }
 
-    public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> items, T separator)
+    public static IEnumerable<T[]> Split<T>(this IEnumerable<T> items, T separator)
         where T : notnull
         //where T : IEqualityOperators<T, T, bool>
     {
@@ -115,8 +115,8 @@ public static class EnumerableExtensions
         {
             if (item.Equals(separator))
             {
-                yield return list;
-                list = [];
+                yield return list.ToArray();
+                list.Clear();
             }
             else
             {
@@ -125,7 +125,7 @@ public static class EnumerableExtensions
         }
 
         if (list.Count != 0)
-            yield return list;
+            yield return list.ToArray();
     }
 
     public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> items, Func<T, bool> isHeader)
