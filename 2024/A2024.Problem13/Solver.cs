@@ -15,11 +15,11 @@ public class Solver : ISolver<long>
     public long RunB(string[] lines, bool isSample)
     {
         var offset = 10000000000000L;
-        var items = LoadData(lines).Select(a => a with { X = a.X + offset, Y = a.Y + offset }).ToArray();
+        var items = LoadData(lines).Select(a => a with { X = a.X + offset, Y = a.Y + offset });
         return Run(items);
     }
 
-    static long Run(Item[] items)
+    static long Run(IEnumerable<Item> items)
         => items.Select(Calc).OfType<long>().Sum();
 
     static long? Calc(Item item)

@@ -8,6 +8,40 @@ public static class ArrayEx
     public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
     public static readonly Pos[] DiagOffsets = [new(-1, -1), new(1, -1), new(1, 1), new(-1, 1)];
 
+    public static bool TryFindSubarray<T>(this T[,] big, T[,] small, out Pos? pos)
+        where T : IEquatable<T>
+    {
+        var bw = big.GetWidth();
+        var bh = big.GetHeight();
+        var sw = small.GetWidth();
+        var sh = small.GetHeight();
+        pos = null;
+
+        for (var i = 0; i <= bw - sw; ++i)
+            for (var j = 0; j <= bh - sh; ++j)
+            {
+                var match = true;
+
+                for (var x = 0; x < sw && match; ++x)
+                    for (var y = 0; y < sh && match; ++y)
+                        if (!big[i + x, j + y].Equals(small[x, y]))
+                            match = false;
+
+                if (match)
+                {
+                    pos = new(i, j);
+                    return true;
+                }
+            }
+
+        return false;
+    }
+
+    public static bool SequenceEquals<T>(this T[,] a, T[,] b)
+        => a.Rank == b.Rank
+        && Enumerable.Range(0, a.Rank).All(d => a.GetLength(d) == b.GetLength(d))
+        && a.Cast<T>().SequenceEqual(b.Cast<T>());
+
     public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this TValue[] array)
         where TKey : INumber<TKey>
         => array.Select((v, i) => KeyValuePair.Create(TKey.CreateChecked(i), v))
