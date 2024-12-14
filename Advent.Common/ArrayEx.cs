@@ -8,6 +8,12 @@ public static class ArrayEx
     public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
     public static readonly Pos[] DiagOffsets = [new(-1, -1), new(1, -1), new(1, 1), new(-1, 1)];
 
+    public static void ForEach<T>(this T[] array, Action<T> action)
+    {
+        for (var i = 0; i < array.Length; ++i)
+            action(array[i]);
+    }
+
     public static bool TryFindSubarray<T>(this T[,] big, T[,] small, out Pos? pos)
         where T : IEquatable<T>
     {

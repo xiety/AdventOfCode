@@ -60,10 +60,7 @@ public class Solver : ISolver<long>
     static bool[,] ToMap(Robot[] robots, int width, int height)
     {
         var array = new bool[width, height];
-
-        foreach (var robot in robots)
-            array.Set(robot.Pos, true);
-
+        robots.ForEach(a => array.Set(a.Pos, true));
         return array;
     }
 

@@ -20,7 +20,7 @@ public class Solver : IProblemSolver<int>
         return items.Take(3).Select(calculator.Calculate).Mul();
     }
 
-    static List<Item> LoadFile(string filename)
+    static Item[] LoadFile(string filename)
         => CompiledRegs.Regex().FromFile<Item>(filename);
 }
 

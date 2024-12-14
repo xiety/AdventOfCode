@@ -60,7 +60,7 @@ public class Solver : IProblemSolver<long>
     {
         var items = CompiledRegs.Regex().FromFile<Item>(filename);
 
-        items = items.Select(ParseB).ToList();
+        items = items.Select(ParseB).ToArray();
 
         var possibleX = new List<int>();
         var possibleY = new List<int>();
@@ -149,7 +149,7 @@ public class Solver : IProblemSolver<long>
         return volume;
     }
 
-    static (int minX, int maxX, int minY, int maxY) GetMinMax(List<Item> items)
+    static (int minX, int maxX, int minY, int maxY) GetMinMax(Item[] items)
     {
         var (minX, maxX, minY, maxY) = (0, 0, 0, 0);
 

@@ -40,7 +40,7 @@ public class Solver : ISolver<long>
             ? value == item.Result
             : ops.Any(a => Recurse(ops, item, a(value, item.Values[index]), index + 1));
 
-    static List<Item> LoadData(string[] lines)
+    static Item[] LoadData(string[] lines)
         => CompiledRegs.Regex().FromLines<Item>(lines);
 }
 

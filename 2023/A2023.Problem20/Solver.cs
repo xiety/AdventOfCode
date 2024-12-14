@@ -169,7 +169,7 @@ public class Solver : IProblemSolver<long>
         }
     }
 
-    static Radio[] Create(List<Item> items)
+    static Radio[] Create(Item[] items)
     {
         var radios = new List<Radio>();
 

@@ -27,11 +27,12 @@ public class Solver : ISolver<int>
         return star[end] - 2;
     }
 
-    static GraphNode[] CreateGraph(List<Connection> connections)
+    static GraphNode[] CreateGraph(Connection[] connections)
     {
         var nodes = connections.Select(a => a.Center)
             .Concat(connections.Select(a => a.Moon))
-            .Select(a => new GraphNode { Name = a }).ToArray();
+            .Select(a => new GraphNode { Name = a })
+            .ToArray();
 
         foreach (var connection in connections)
         {
@@ -45,7 +46,7 @@ public class Solver : ISolver<int>
         return nodes;
     }
 
-    static int RecurseCount(List<Connection> connections, string moon, int number)
+    static int RecurseCount(Connection[] connections, string moon, int number)
     {
         var connection = connections.FirstOrDefault(a => a.Moon == moon);
 
@@ -54,7 +55,7 @@ public class Solver : ISolver<int>
             : number;
     }
 
-    static List<Connection> LoadData(string[] lines)
+    static Connection[] LoadData(string[] lines)
         => CompiledRegs.Regex().FromLines<Connection>(lines);
 }
 

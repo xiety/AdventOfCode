@@ -74,7 +74,7 @@ public class Solver : IProblemSolver<long>
         component2.Connections.Remove(component1);
     }
 
-    static Component[] Create(List<Item> items)
+    static Component[] Create(Item[] items)
     {
         var components = items
             .Select(a => a.Name)

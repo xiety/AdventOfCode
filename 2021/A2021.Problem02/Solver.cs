@@ -42,7 +42,7 @@ public class Solver : IProblemSolver<int>
             };
     }
 
-    static List<Item> LoadFile(string filename)
+    static Item[] LoadFile(string filename)
         => CompiledRegs.Regex().FromFile<Item>(filename);
 }
 

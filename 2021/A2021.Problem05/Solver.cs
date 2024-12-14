@@ -62,7 +62,7 @@ public class Solver : IProblemSolver<int>
             array[item.FromX, y]++;
     }
 
-    static (int, int) FindSize(List<Item> items)
+    static (int, int) FindSize(Item[] items)
     {
         var maxX = Math.Max(items.Max(a => a.FromX), items.Max(a => a.ToX));
         var maxY = Math.Max(items.Max(a => a.FromY), items.Max(a => a.ToY));

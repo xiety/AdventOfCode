@@ -4,11 +4,11 @@ namespace System.Text.RegularExpressions;
 
 public static class RegexExtensions
 {
-    public static List<T> FromFile<T>(this Regex regex, string filename)
+    public static T[] FromFile<T>(this Regex regex, string filename)
         => regex.FromLines<T>(File.ReadAllLines(filename));
 
-    public static List<T> FromLines<T>(this Regex regex, IEnumerable<string> lines)
-        => lines.Select(regex.MapTo<T>).ToList();
+    public static T[] FromLines<T>(this Regex regex, IEnumerable<string> lines)
+        => lines.Select(regex.MapTo<T>).ToArray();
 
     public static T MapTo<T>(this Match match)
     {
