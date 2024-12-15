@@ -198,6 +198,14 @@ public static class ArrayEx
                     yield return new(x, y);
     }
 
+    public static IEnumerable<Pos> EnumeratePositionsOf<T>(this T[,] array, params T[] values)
+    {
+        for (var y = 0; y < array.GetLength(1); ++y)
+            for (var x = 0; x < array.GetLength(0); ++x)
+                if (values.Contains(array[x, y]))
+                    yield return new(x, y);
+    }
+
     public static IEnumerable<int> FindAllIndexes<T>(this T[] array, T search)
     {
         for (var i = 0; i < array.Length; ++i)
