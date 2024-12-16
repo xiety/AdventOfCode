@@ -12,43 +12,136 @@ public class Solver : ISolver<long>
         var end = map.First("E");
         var direction = new Pos(1, 0);
 
-        return Find(map, start, direction, end);
+        var star = CalculateStar(map, start, direction, end);
+
+        return star.Where(a => a.Key.Item1 == end).Min(a => a.Value);
     }
 
-    static int Find(string[,] map, Pos start, Pos direction, Pos end)
+    public long RunB(string[] lines, bool isSample)
     {
-        var star = ArrayEx.CreateAndInitialize(map.GetWidth(), map.GetHeight(), -1);
-        star.Set(start, 0);
+        var map = MapData.ParseMap(lines, a => $"{a}");
 
-        List<(Pos, Pos)> currentSteps = [(start, direction)];
+        var start = map.First("S");
+        var end = map.First("E");
+        var direction = new Pos(1, 0);
+
+        var star = CalculateStar(map, start, direction, end);
+
+        return CalculatePath(star, start, end);
+    }
+
+    static int CalculatePath(Dictionary<(Pos, Pos, Pos), int> star, Pos start, Pos end)
+    {
+        var allStepsEnd = star
+            .Where(a => a.Key.Item1 == end)
+            .ToArray();
+
+        var minEnd = allStepsEnd.Min(a => a.Value);
+
+        var currentSteps = allStepsEnd
+                    .Where(a => a.Value == minEnd)
+                    .Select(a => (a.Key.Item1, a.Key.Item2))
+                    .ToList();
+
         List<(Pos, Pos)> newSteps = [];
+        HashSet<Pos> paths = [start, end];
 
         do
         {
             foreach (var currentStep in currentSteps)
             {
-                var oldStar = star.Get(currentStep.Item1);
+                var newPos = currentStep.Item1 - currentStep.Item2;
 
-                foreach (var offset in ArrayEx.Offsets)
+                var allSteps = star
+                    .Where(a => a.Key.Item1 == newPos && a.Key.Item3 == currentStep.Item2)
+                    .ToArray();
+
+                if (allSteps.Length == 0)
+                    continue;
+
+                var min = allSteps.Min(a => a.Value);
+
+                var nextSteps = allSteps
+                    .Where(a => a.Value == min)
+                    .Select(a => a.Key)
+                    .ToArray();
+
+                foreach (var nextStep in nextSteps)
                 {
-                    if (currentStep.Item2 == -offset)
+                    var newValue = star.GetValueOrDefault(nextStep, -1);
+
+                    if (newValue == -1)
                         continue;
 
-                    var newStep = currentStep.Item1 + offset;
+                    paths.Add(nextStep.Item1);
+                    newSteps.Add((nextStep.Item1, nextStep.Item2));
+                }
+            }
 
-                    if (map.Get(newStep) == "#")
+            if (newSteps.Count == 0)
+                break;
+
+            (currentSteps, newSteps) = (newSteps, currentSteps);
+            newSteps.Clear();
+        }
+        while (true);
+
+        return paths.Count;
+    }
+
+    static Dictionary<(Pos, Pos, Pos), int> CalculateStar(string[,] map, Pos start, Pos direction, Pos end)
+    {
+        var star = new Dictionary<(Pos, Pos, Pos), int>
+        {
+            { (start, new Pos(1, 0), new Pos(1, 0)), 0 },
+            { (start, new Pos(1, 0), new Pos(0, -1)), 1000 },
+            { (start, new Pos(1, 0), new Pos(0, 1)), 1000 },
+            { (start, new Pos(1, 0), new Pos(-1, 0)), 2000 },
+        };
+
+        List<(Pos, Pos, int)> currentSteps = [
+            (start, new Pos(1, 0), 0),
+            (start, new Pos(0, -1), 1000),
+            (start, new Pos(0, 1), 1000),
+            (start, new Pos(-1, 0), 2000)
+        ];
+
+        List<(Pos, Pos, int)> newSteps = [];
+
+        do
+        {
+            foreach (var currentStep in currentSteps)
+            {
+                var newStep = currentStep.Item1 + currentStep.Item2;
+
+                if (map.Get(newStep) == "#")
+                    continue;
+
+                foreach (var offset2 in ArrayEx.Offsets)
+                {
+                    if (offset2 == -currentStep.Item2)
                         continue;
 
-                    var newStar = oldStar + 1;
+                    if (map.Get(newStep + offset2) == "#" && newStep != end)
+                        continue;
 
-                    if (currentStep.Item2 != offset)
-                        newStar += 1000;
+                    var rotate = 0;
 
-                    if (star.Get(newStep) == -1 || star.Get(newStep) > newStar)
+                    if (offset2 != currentStep.Item2 && newStep != end)
+                        rotate = 1000;
+
+                    var key = (newStep, currentStep.Item2, offset2);
+
+                    var newStar = currentStep.Item3 + rotate + 1;
+
+                    var toStar = star.GetValueOrDefault(key, -1);
+
+                    if (toStar == -1 || toStar > newStar)
                     {
-                        star.Set(newStep, newStar);
-                        newSteps.RemoveAll(a => a.Item1 == newStep);
-                        newSteps.Add((newStep, offset));
+                        star[key] = newStar;
+
+                        if (newStep != end)
+                            newSteps.Add((newStep, offset2, newStar));
                     }
                 }
             }
@@ -61,6 +154,6 @@ public class Solver : ISolver<long>
         }
         while (true);
 
-        return star.Get(end);
+        return star;
     }
 }
