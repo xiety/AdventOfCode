@@ -206,6 +206,16 @@ public static class ArrayEx
                     yield return new(x, y);
     }
 
+    public static Pos First<T>(this T[,] array, T value)
+    {
+        for (var y = 0; y < array.GetLength(1); ++y)
+            for (var x = 0; x < array.GetLength(0); ++x)
+                if (array[x, y]?.Equals(value) ?? false)
+                    return new(x, y);
+
+        throw new ArgumentOutOfRangeException();
+    }
+
     public static IEnumerable<int> FindAllIndexes<T>(this T[] array, T search)
     {
         for (var i = 0; i < array.Length; ++i)
