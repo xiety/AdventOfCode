@@ -144,6 +144,7 @@
     <Project Path="2024\A2024.Problem14\A2024.Problem14.csproj" />
     <Project Path="2024\A2024.Problem15\A2024.Problem15.csproj" />
     <Project Path="2024\A2024.Problem16\A2024.Problem16.csproj" />
+    <Project Path="2024\A2024.Problem17\A2024.Problem17.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
