@@ -309,12 +309,12 @@ public static class EnumerableExtensions
     {
         Console.WriteLine("Begin");
 
-        foreach (var item in items)
+        foreach (var (index, item) in items.Index())
         {
-            Console.WriteLine(item);
+            Console.WriteLine($"{index}: {item}");
             yield return item;
         }
 
-        Console.WriteLine();
+        Console.WriteLine("End");
     }
 }
