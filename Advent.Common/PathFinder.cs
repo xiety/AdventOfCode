@@ -2,6 +2,16 @@
 
 public static class PathFinder
 {
+    public static int? Length(int[,] map, Pos start, Pos end)
+    {
+        var star = CalculateStar(map, start, end);
+
+        if (star is null)
+            return null;
+
+        return star.Get(end);
+    }
+
     public static Pos[]? Find(int[,] map, Pos start, Pos end)
     {
         var star = CalculateStar(map, start, end);

@@ -8,6 +8,17 @@ public static class ArrayEx
     public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
     public static readonly Pos[] DiagOffsets = [new(-1, -1), new(1, -1), new(1, 1), new(-1, 1)];
 
+    public static TR[,] ToArray<T, TR>(this T[,] array, Func<T, TR> map)
+    {
+        var result = new TR[array.GetLength(0), array.GetLength(1)];
+
+        for (var x = 0; x < array.GetLength(0); ++x)
+            for (var y = 0; y < array.GetLength(1); ++y)
+                result[x, y] = map(array[x, y]);
+
+        return result;
+    }
+
     public static void ForEach<T>(this T[] array, Action<T> action)
     {
         for (var i = 0; i < array.Length; ++i)
@@ -121,6 +132,9 @@ public static class ArrayEx
 
         return sb.ToString();
     }
+
+    public static void Dump<T>(this T[,] array, Func<T, string> format)
+        => array.Dump(Environment.NewLine, "", format);
 
     public static void Dump<T>(this T[,] array, string lineSeparator, string itemSeparator, Func<T, string> format)
     {
