@@ -8,8 +8,8 @@ public class Solver : ISolver<long>
     {
         var map = MapData.ParseMap(lines, a => $"{a}");
 
-        var start = map.First("S");
-        var end = map.First("E");
+        var start = map.FindValue("S");
+        var end = map.FindValue("E");
         var direction = new Pos(1, 0);
 
         var star = CalculateStar(map, start, direction, end);
@@ -21,8 +21,8 @@ public class Solver : ISolver<long>
     {
         var map = MapData.ParseMap(lines, a => $"{a}");
 
-        var start = map.First("S");
-        var end = map.First("E");
+        var start = map.FindValue("S");
+        var end = map.FindValue("E");
         var direction = new Pos(1, 0);
 
         var star = CalculateStar(map, start, direction, end);
@@ -39,9 +39,9 @@ public class Solver : ISolver<long>
         var minEnd = allStepsEnd.Min(a => a.Value);
 
         var currentSteps = allStepsEnd
-                    .Where(a => a.Value == minEnd)
-                    .Select(a => (a.Key.Item1, a.Key.Item2))
-                    .ToList();
+            .Where(a => a.Value == minEnd)
+            .Select(a => (a.Key.Item1, a.Key.Item2))
+            .ToList();
 
         List<(Pos, Pos)> newSteps = [];
         HashSet<Pos> paths = [start, end];

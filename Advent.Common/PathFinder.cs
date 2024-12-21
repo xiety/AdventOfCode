@@ -22,6 +22,16 @@ public static class PathFinder
         return CalculatePath(map, star, start, end);
     }
 
+    public static Pos[][] FindAll(int[,] map, Pos start, Pos end)
+    {
+        var star = CalculateStar(map, start, end);
+
+        if (star is null)
+            return [];
+
+        return CalculatePaths(map, star, start, end);
+    }
+
     static Pos[] CalculatePath(int[,] map, int[,] star, Pos start, Pos end)
     {
         var path = new List<Pos>() { end };
@@ -45,6 +55,43 @@ public static class PathFinder
         while (true);
 
         return path.Reverse<Pos>().ToArray();
+    }
+
+    static Pos[][] CalculatePaths(int[,] map, int[,] star, Pos start, Pos end)
+    {
+        List<List<Pos>> paths = [[end]];
+        List<List<Pos>> newPaths = [];
+
+        do
+        {
+            foreach (var path in paths)
+            {
+                if (path[^1] != start)
+                {
+                    var currentSteps = map
+                        .Offsetted(path[^1])
+                        .Select(a => new { NewStep = a, Value = star.Get(a) })
+                        .Where(a => a.Value != -1)
+                        .MinAllBy(a => a.Value)
+                        .Select(a => a.NewStep);
+
+                    foreach (var (index, currentStep) in currentSteps.Index())
+                    {
+                        var newPath = path.Append(currentStep).ToList();
+                        newPaths.Add(newPath);
+                    }
+                }
+            }
+
+            if (newPaths.Count == 0)
+                break;
+
+            (paths, newPaths) = (newPaths, paths);
+            newPaths.Clear();
+        }
+        while (true);
+
+        return paths.Select(a => a[..^1].Reverse<Pos>().ToArray()).ToArray();
     }
 
     static int[,]? CalculateStar(int[,] map, Pos start, Pos end)

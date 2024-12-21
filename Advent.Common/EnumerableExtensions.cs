@@ -5,6 +5,39 @@ namespace System.Linq;
 
 public static class EnumerableExtensions
 {
+    public static TR[] ToArray<T, TR>(this IEnumerable<T> source, Func<T, TR> selector)
+        => source.Select(selector).ToArray();
+
+    public static IEnumerable<T> MinAllBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> selector)
+    {
+        var comparer = Comparer<TKey>.Default;
+
+        var first = true;
+        var minValue = default(TKey);
+        var result = new List<T>();
+
+        foreach (var item in source)
+        {
+            var value = selector(item);
+
+            var c = first ? -1 : comparer.Compare(value, minValue);
+
+            if (c < 0)
+            {
+                minValue = value;
+                result.Clear();
+                result.Add(item);
+                first = false;
+            }
+            else if (c == 0)
+            {
+                result.Add(item);
+            }
+        }
+
+        return result;
+    }
+
     public static IEnumerable<T> Concat<T>(params IEnumerable<T>[] enumerables)
     {
         foreach (var enumerable in enumerables)
@@ -200,7 +233,7 @@ public static class EnumerableExtensions
         where T : struct
         => enumerable.Cast<T?>().FirstOrDefault();
 
-    public static IEnumerable<(T, T)> Chain<T>(this IEnumerable<T> enumerable)
+    public static IEnumerable<(T First, T Second)> Chain<T>(this IEnumerable<T> enumerable)
     {
         using var enumerator = enumerable.GetEnumerator();
 

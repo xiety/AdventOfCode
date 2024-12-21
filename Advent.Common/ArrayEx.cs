@@ -8,6 +8,19 @@ public static class ArrayEx
     public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
     public static readonly Pos[] DiagOffsets = [new(-1, -1), new(1, -1), new(1, 1), new(-1, 1)];
 
+    public static T[,] Transposed<T>(this T[,] array)
+    {
+        var rows = array.GetLength(0);
+        var cols = array.GetLength(1);
+        var result = new T[cols, rows];
+
+        for (int row = 0; row < rows; row++)
+            for (int col = 0; col < cols; col++)
+                result[col, row] = array[row, col];
+
+        return result;
+    }
+
     public static TR[,] ToArray<T, TR>(this T[,] array, Func<T, TR> map)
     {
         var result = new TR[array.GetLength(0), array.GetLength(1)];
@@ -220,7 +233,7 @@ public static class ArrayEx
                     yield return new(x, y);
     }
 
-    public static Pos First<T>(this T[,] array, T value)
+    public static Pos FindValue<T>(this T[,] array, T value)
     {
         for (var y = 0; y < array.GetLength(1); ++y)
             for (var x = 0; x < array.GetLength(0); ++x)

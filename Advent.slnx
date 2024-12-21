@@ -149,6 +149,9 @@
     <Project Path="2024\A2024.Problem19\A2024.Problem19.csproj" />
     <Project Path="2024\A2024.Problem20\A2024.Problem20.csproj" />
   </Folder>
+  <Folder Name="/2024/20/">
+    <Project Path="2024\A2024.Problem21\A2024.Problem21.csproj" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
