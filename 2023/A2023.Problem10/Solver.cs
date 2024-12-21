@@ -164,7 +164,7 @@ public class Solver : IProblemSolver<long>
 
             if (foundWhole)
             {
-                foundPath = path.ToArray();
+                foundPath = [.. path];
                 break;
             }
         }

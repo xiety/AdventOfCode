@@ -24,7 +24,7 @@ public class Solver : ISolver<int>
         if (!item.SequenceEqual(item.Order()) && !item.SequenceEqual(item.OrderDescending()))
             return false;
 
-        var diffs = item.Chain().Select(a => Math.Abs(a.Item2 - a.Item1)).ToArray();
+        var diffs = item.Chain().ToArray(a => Math.Abs(a.Second - a.First));
         var maxDiff = diffs.Max();
         var minDiff = diffs.Min();
 
@@ -32,5 +32,5 @@ public class Solver : ISolver<int>
     }
 
     static int[][] LoadData(string[] lines)
-        => lines.Select(a => a.Split(' ').Select(int.Parse).ToArray()).ToArray();
+        => lines.ToArray(a => a.Split(' ').ToArray(int.Parse));
 }

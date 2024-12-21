@@ -25,9 +25,7 @@ public class Solver : ISolver<int>
     }
 
     static int CalcDistance(Line[] chain, Line last, Pos intersection)
-        => Enumerable.Append(chain
-            .TakeWhile(a => a != last)
-, new(last.From, intersection))
+        => Enumerable.Append(chain.TakeWhile(a => a != last), new(last.From, intersection))
             .Sum(line => (line.From - line.To).ManhattanLength);
 
     static IEnumerable<Intersection> EnumerateIntersections(Line[] chain1, Line[] chain2)
@@ -40,8 +38,7 @@ public class Solver : ISolver<int>
     static (Line[], Line[]) LoadData(string[] lines)
     {
         var data = lines
-            .Select(a => ToLines(a.Split(",").Select(Parse)).ToArray())
-            .ToArray();
+            .ToArray(a => ToLines(a.Split(",").Select(Parse)).ToArray());
 
         return data is [var chain1, var chain2, ..] ? (chain1, chain2) : throw new();
     }

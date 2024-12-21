@@ -86,7 +86,7 @@ public class Solver : IProblemSolver<long>
                 foreigners.Add(unit.Node.Type);
         }
 
-        var occupied = units.Select(a => a.Node).ToArray();
+        var occupied = units.ToArray(a => a.Node);
 
         return new([..foreigners], occupied);
     }

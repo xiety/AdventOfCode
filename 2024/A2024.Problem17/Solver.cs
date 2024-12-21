@@ -79,7 +79,7 @@ public class Solver : ISolver<string, long>
             list.Add(sublist);
         }
 
-        return list.Select(a => a.ToArray()).ToArray();
+        return list.ToArray(a => a.ToArray());
     }
 
     static string ToBin(int n)
@@ -93,7 +93,7 @@ public class Solver : ISolver<string, long>
 
         var text = lines[4][(lines[4].LastIndexOf(' ') + 1)..];
 
-        var ops = text.Split(',').Select(long.Parse).ToArray();
+        var ops = text.Split(',').ToArray(long.Parse);
 
         return (a, b, c, ops);
     }

@@ -10,11 +10,10 @@ public class Solver : IProblemSolver<long>
     {
         var chunks = File.ReadAllLines(filename).Split(String.Empty).ToArray();
 
-        var workflows = CompiledRegs.Regex1().FromLines<ItemRaw1>(chunks[0].ToArray())
-            .Select(a => new Item1(a.Name, a.Conditions.Select(b => CompiledRegs.Regex2().MapTo<Item1Condition>(b)).ToArray(), a.LastCondition))
-            .ToArray();
+        var workflows = CompiledRegs.Regex1().FromLines<ItemRaw1>([.. chunks[0]])
+            .ToArray(a => new Item1(a.Name, a.Conditions.ToArray(b => CompiledRegs.Regex2().MapTo<Item1Condition>(b)), a.LastCondition));
 
-        var items = CompiledRegs.Regex3().FromLines<Item2>(chunks[1]).ToArray();
+        var items = CompiledRegs.Regex3().FromLines<Item2>(chunks[1]);
 
         var result = 0L;
 
@@ -61,9 +60,8 @@ public class Solver : IProblemSolver<long>
     {
         var chunks = File.ReadAllLines(filename).Split(String.Empty).ToArray();
 
-        var workflows = CompiledRegs.Regex1().FromLines<ItemRaw1>(chunks[0].ToArray())
-            .Select(a => new Item1(a.Name, a.Conditions.Select(b => CompiledRegs.Regex2().MapTo<Item1Condition>(b)).ToArray(), a.LastCondition))
-            .ToArray();
+        var workflows = CompiledRegs.Regex1().FromLines<ItemRaw1>([.. chunks[0]])
+            .ToArray(a => new Item1(a.Name, a.Conditions.ToArray(b => CompiledRegs.Regex2().MapTo<Item1Condition>(b)), a.LastCondition));
 
         var dic = new Dictionary<string, Range[]>
         {
@@ -152,7 +150,7 @@ public class Solver : IProblemSolver<long>
             }
         }
 
-        return (left.ToArray(), right.ToArray());
+        return ([.. left], [.. right]);
     }
 }
 

@@ -9,8 +9,7 @@ static class Loader
 
     static Pos[] ParseLine(string line)
         => line.Split(" -> ")
-               .Select(CompiledRegs.Regex().MapTo<Pos>)
-               .ToArray();
+               .ToArray(CompiledRegs.Regex().MapTo<Pos>);
 }
 
 static partial class CompiledRegs

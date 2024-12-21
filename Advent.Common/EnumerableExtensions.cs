@@ -8,6 +8,9 @@ public static class EnumerableExtensions
     public static TR[] ToArray<T, TR>(this IEnumerable<T> source, Func<T, TR> selector)
         => source.Select(selector).ToArray();
 
+    public static TR[] ToArray<T, TR>(this IEnumerable<T> source, Func<T, int, TR> selector)
+            => source.Select(selector).ToArray();
+
     public static IEnumerable<T> MinAllBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> selector)
     {
         var comparer = Comparer<TKey>.Default;

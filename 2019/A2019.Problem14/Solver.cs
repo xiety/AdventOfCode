@@ -12,7 +12,7 @@ public class Solver : ISolver<long>
         return Recurse(items, [], "FUEL", 1, 0);
     }
 
-    static long Recurse(List<Item> items, Dictionary<string, long> bag, string outputName, long outputNum, int level)
+    static long Recurse(Item[] items, Dictionary<string, long> bag, string outputName, long outputNum, int level)
     {
         if (outputName == "ORE")
             return outputNum;
@@ -45,10 +45,9 @@ public class Solver : ISolver<long>
         return result;
     }
 
-    static List<Item> LoadData(string[] lines)
+    static Item[] LoadData(string[] lines)
         => CompiledRegs.Regex().FromLines<ItemRaw>(lines)
-            .Select(a => new Item([.. a.InNum.Zip(a.InName).Select(b => new Info(b.First, b.Second))], new(a.OutNum, a.OutName)))
-            .ToList();
+            .ToArray(a => new Item([.. a.InNum.Zip(a.InName).Select(b => new Info(b.First, b.Second))], new(a.OutNum, a.OutName)));
 }
 
 record ItemRaw(int[] InNum, string[] InName, int OutNum, string OutName);

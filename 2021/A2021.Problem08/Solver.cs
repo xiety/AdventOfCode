@@ -18,17 +18,11 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    static List<Item> LoadFile(string filename)
-        => File.ReadAllLines(filename)
-               .Select(a => a.Split("|", StringSplitOptions.RemoveEmptyEntries))
-               .Select(a => new Item(ToArray(a[0]), ToArray(a[1])))
-               .ToList();
-
     static int[][] ToArray(string text)
-        => text.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(ConvertToNums).ToArray();
+        => text.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToArray(ConvertToNums);
 
     static int[] ConvertToNums(string text)
-        => text.Select(a => a - 'a').ToArray();
+        => text.ToArray(a => a - 'a');
 
     static int Analyze(Item item)
     {
@@ -58,13 +52,12 @@ public class Solver : IProblemSolver<long>
             [0, 1, 2, 3, 5, 6],
         ];
 
-        return enums.Select(a => a.Select(b => positions[b]).Order().ToArray()).ToArray();
+        return enums.ToArray(a => a.Select(b => positions[b]).Order().ToArray());
     }
 
     static int[] Convert(int[][] output, int[][] digits)
-        => output.Select(a => new { Index = Array.FindIndex(digits, b => b.SequenceEqual(a.Order().ToArray())), Value = a })
-                 .Select(a => a.Index == -1 ? throw new($"Not found {String.Join(", ", a.Value)} ({a.Value.Length})") : a.Index)
-                 .ToArray();
+        => output.Select(a => new { Index = Array.FindIndex(digits, b => b.SequenceEqual([.. a.Order()])), Value = a })
+                 .ToArray(a => a.Index == -1 ? throw new($"Not found {String.Join(", ", a.Value)} ({a.Value.Length})") : a.Index);
 
     static int[] FindPositions(Item item)
     {
@@ -87,8 +80,8 @@ public class Solver : IProblemSolver<long>
             .Select(a => new { Position = a.Key, Count = a.Count() })
             .ToArray();
 
-        var times02 = times.Where(a => a.Count == 8).Select(a => a.Position).ToArray(); //0 or 2
-        var times36 = times.Where(a => a.Count == 7).Select(a => a.Position).ToArray(); //3 or 6
+        var times02 = times.Where(a => a.Count == 8).ToArray(a => a.Position); //0 or 2
+        var times36 = times.Where(a => a.Count == 7).ToArray(a => a.Position); //3 or 6
 
         var left = new int[8];
 
@@ -106,6 +99,11 @@ public class Solver : IProblemSolver<long>
 
         return left;
     }
+
+    static Item[] LoadFile(string filename)
+        => File.ReadAllLines(filename)
+               .Select(a => a.Split("|", StringSplitOptions.RemoveEmptyEntries))
+               .ToArray(a => new Item(ToArray(a[0]), ToArray(a[1])));
 }
 
 record Item(int[][] Input, int[][] Output);

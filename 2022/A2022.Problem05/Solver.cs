@@ -29,7 +29,7 @@ public class Solver : IProblemSolver<string>
     }
 
     static string CollectLetters(Stack<char>[] crates)
-        => new(Enumerable.Range(1, crates.Length - 1).Select(a => crates[a].First()).ToArray());
+        => new(Enumerable.Range(1, crates.Length - 1).ToArray(a => crates[a].First()));
 
     static (Stack<char>[] crates, IEnumerable<Item> commands) LoadFile(string filename)
     {

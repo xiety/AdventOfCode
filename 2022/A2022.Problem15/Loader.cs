@@ -7,8 +7,7 @@ static class Loader
     public static Item[] Load(string fileName)
         => File.ReadAllLines(fileName)
               .Select(CompiledRegs.Regex().MapTo<ParsedItem>)
-              .Select(a => new Item(new(a.SensorX, a.SensorY), new(a.BeaconX, a.BeaconY)))
-              .ToArray();
+              .ToArray(a => new Item(new(a.SensorX, a.SensorY), new(a.BeaconX, a.BeaconY)));
 }
 
 record ParsedItem(int SensorX, int SensorY, int BeaconX, int BeaconY);

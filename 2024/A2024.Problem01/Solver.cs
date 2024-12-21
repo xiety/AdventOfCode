@@ -22,12 +22,12 @@ public class Solver : ISolver<int>
             .Sum(a => a * right.Count(b => b == a));
     }
 
-    static (IEnumerable<int>, IEnumerable<int>) LoadData(string[] lines)
+    static (int[], int[]) LoadData(string[] lines)
     {
         var items = CompiledRegs.Regex().FromLines<Item>(lines);
         var left = items.Select(a => a.Left);
         var right = items.Select(a => a.Right);
-        return (left, right);
+        return ([.. left], [.. right]);
     }
 }
 

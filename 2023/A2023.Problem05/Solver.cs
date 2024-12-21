@@ -8,16 +8,16 @@ public class Solver : IProblemSolver<long>
     {
         var parts = File.ReadAllLines(filename).Split(String.Empty).ToArray();
         var seeds = parts.First().First().Split(' ').Skip(1).Select(long.Parse);
-        var chunks = parts.Skip(1).Select(ParseChunk).ToArray();
+        var chunks = parts.Skip(1).ToArray(ParseChunk);
         return seeds.Select(a => RecurseA(chunks, "seed", a)).Min();
     }
 
     public long RunB(string filename)
     {
         var parts = File.ReadAllLines(filename).Split(String.Empty).ToArray();
-        var seeds = parts.First().First().Split(' ').Skip(1).Select(long.Parse).ToArray()
-            .Chunk(2).Select(a => (a[0], a[0] + a[1] - 1)).ToArray();
-        var chunks = parts.Skip(1).Select(ParseChunk).ToArray();
+        var seeds = parts.First().First().Split(' ').Skip(1).ToArray(long.Parse)
+            .Chunk(2).ToArray(a => (a[0], a[0] + a[1] - 1));
+        var chunks = parts.Skip(1).ToArray(ParseChunk);
 
         return seeds.Select(a => RecurseB(chunks, "seed", a.Item1, a.Item2)).Min();
     }
@@ -104,14 +104,14 @@ public class Solver : IProblemSolver<long>
         var from = first[..n1];
         var to = first[(n1 + 4)..n2];
 
-        var maps = array.Skip(1).Select(ParseMap).ToArray();
+        var maps = array.Skip(1).ToArray(ParseMap);
 
         return new Chunk(from, to, maps);
     }
 
     static ItemMap ParseMap(string a)
     {
-        var splits = a.Split(' ').Select(long.Parse).ToArray();
+        var splits = a.Split(' ').ToArray(long.Parse);
         return new(splits[0], splits[1], splits[0] + splits[2] - 1, splits[1] + splits[2] - 1);
     }
 }

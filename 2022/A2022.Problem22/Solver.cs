@@ -133,10 +133,9 @@ public class Solver : IProblemSolver<int>
     static Base[] ParsePath(string pathText)
         => CompiledRegs.RegexPath()
            .Matches(pathText)
-           .Select(a => a.Groups[nameof(Distance)].Success
+           .ToArray(a => a.Groups[nameof(Distance)].Success
                ? (Base)new Distance(int.Parse(a.Groups[nameof(Distance)].Value))
-               : (Base)new Turn(a.Groups[nameof(Turn)].Value))
-           .ToArray();
+               : (Base)new Turn(a.Groups[nameof(Turn)].Value));
 }
 
 record Base;

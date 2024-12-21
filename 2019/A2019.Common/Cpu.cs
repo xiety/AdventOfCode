@@ -148,5 +148,5 @@ public class Joystick : IEnumerable<long>
 public static class CpuCodeLoader
 {
     public static long[] Load(string[] lines)
-        => lines.First().Split(",").Select(long.Parse).ToArray();
+        => lines.First().Split(",").ToArray(long.Parse);
 }

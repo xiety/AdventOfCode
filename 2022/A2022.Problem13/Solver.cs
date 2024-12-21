@@ -24,10 +24,10 @@ public class Solver : IProblemSolver<int>
         var items = Loader.LoadItems(filename)
             .Append([sep1, sep2]);
 
-        var sorted = items.Order().ToList();
+        var sorted = items.Order().ToArray();
 
-        var index1 = sorted.IndexOf(sep1);
-        var index2 = sorted.IndexOf(sep2);
+        var index1 = Array.IndexOf(sorted, sep1);
+        var index2 = Array.IndexOf(sorted, sep2);
 
         var result = (index1 + 1) * (index2 + 1);
 

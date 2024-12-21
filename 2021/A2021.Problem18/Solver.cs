@@ -8,7 +8,7 @@ public class Solver : IProblemSolver<long>
     {
         var items = File.ReadAllLines(filename);
 
-        var lines = items.Select(Parse).ToArray();
+        var lines = items.ToArray(Parse);
 
         var result = lines.Skip(1).Aggregate(lines.First(), AddNodes);
 
@@ -23,7 +23,7 @@ public class Solver : IProblemSolver<long>
     {
         var items = File.ReadAllLines(filename);
 
-        var lines = items.Select(Parse).ToArray();
+        var lines = items.ToArray(Parse);
 
         var max = lines
             .SelectMany(a => lines

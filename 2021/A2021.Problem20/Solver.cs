@@ -82,8 +82,8 @@ public class Solver : IProblemSolver<long>
     static (bool[], bool[,]) LoadFile(string filename)
     {
         var chunks = File.ReadAllLines(filename).Split(String.Empty).ToArray();
-        var palette = chunks[0].First().Select(a => a == '#').ToArray();
-        var map = MapData.ParseMap(chunks[1].ToArray(), a => a == '#');
+        var palette = chunks[0].First().ToArray(a => a == '#');
+        var map = MapData.ParseMap([.. chunks[1]], a => a == '#');
         return (palette, map);
     }
 }

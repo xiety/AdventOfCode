@@ -144,7 +144,7 @@ public class Solver : IProblemSolver<long>
                 if (command.StartsWith(cdPrefix))
                     yield return new CommandCd(command[cdPrefix.Length..]);
                 else if (command == "ls")
-                    yield return new CommandLs(output.Select(Parse).ToArray());
+                    yield return new CommandLs(output.ToArray(Parse));
             }
         }
     }

@@ -12,7 +12,7 @@ public class Solver : IProblemSolver<long>
 
     static long Run(string filename, bool single)
     {
-        var graph = ParseGraph(File.ReadAllLines(filename).Select(ParseLine).ToArray());
+        var graph = ParseGraph(File.ReadAllLines(filename).ToArray(ParseLine));
 
         var calc = new Calculator(graph, single);
         var result = calc.Calculate();
@@ -30,7 +30,7 @@ public class Solver : IProblemSolver<long>
     {
         var nodes = Enumerable
             .Concat(items.Select(a => a.From), items.Select(a => a.To))
-            .Select(a => new GraphNode { Name = a, CaveType = CalcCaveType(a) }).ToArray();
+            .ToArray(a => new GraphNode { Name = a, CaveType = CalcCaveType(a) });
 
         foreach (var item in items)
         {

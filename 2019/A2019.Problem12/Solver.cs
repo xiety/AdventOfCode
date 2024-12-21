@@ -65,7 +65,7 @@ public class Solver : ISolver<long>
 
     static Planet[] LoadData(string[] lines)
         => CompiledRegs.Regex().FromLines<Pos3>(lines)
-               .Select(a => new Planet { Pos = a }).ToArray();
+               .ToArray(a => new Planet { Pos = a });
 }
 
 record Planet

@@ -128,9 +128,8 @@ public class Solver : IProblemSolver<long>
     static Monkey[] LoadFile(string filename)
     {
         var monkeys = File.ReadAllLines(filename)
-            .Select(a => a.MapTo<Monkey, MonkeyOperation, MonkeyValue>(
-                CompiledRegs.RegexOperation(), CompiledRegs.RegexValue()))
-            .ToArray();
+            .ToArray(a => a.MapTo<Monkey, MonkeyOperation, MonkeyValue>(
+                CompiledRegs.RegexOperation(), CompiledRegs.RegexValue()));
 
         foreach (var monkey in monkeys.OfType<MonkeyOperation>())
         {

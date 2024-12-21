@@ -57,7 +57,6 @@ public class Solver : ISolver<int, string>
 
     static Pos[] LoadData(string[] lines)
         => lines
-        .Select(a => a.Split(',').Select(int.Parse).ToArray())
-        .Select(a => new Pos(a[0], a[1]))
-        .ToArray();
+        .Select(a => a.Split(',').ToArray(int.Parse))
+        .ToArray(a => new Pos(a[0], a[1]));
 }

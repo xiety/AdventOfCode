@@ -32,17 +32,17 @@ public class Solver : IProblemSolver<long>
         return result;
     }
 
-    static List<(Pos pos, int item)> LowestPoints(int[,] data)
+    static (Pos pos, int item)[] LowestPoints(int[,] data)
         => data.Enumerate()
                .Where(tuple => !data
                    .Offsetted(tuple.Pos)
                    .Any(a => data.Get(a) <= tuple.Item))
-               .ToList();
+               .ToArray();
 
     static int CalculateBasin(Pos start, int[,] data)
     {
         var list = new HashSet<Pos>();
-        var nextPositions = new List<Pos> { start };
+        Pos[] nextPositions = [start];
 
         do
         {
@@ -51,11 +51,11 @@ public class Solver : IProblemSolver<long>
                     .Offsetted(nextPosition)
                     .Where(pos => data.Get(pos) < 9)
                     .Where(pos => !list.Contains(pos)))
-                .ToList();
+                .ToArray();
 
             list.UnionWith(nextPositions);
         }
-        while (nextPositions.Count > 0);
+        while (nextPositions.Length > 0);
 
         return list.Count;
     }

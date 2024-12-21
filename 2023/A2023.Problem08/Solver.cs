@@ -62,7 +62,7 @@ public class Solver : IProblemSolver<long>
     static (int[] path, Node[]) LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
-        var path = lines[0].Select(a => a switch { 'L' => 0, 'R' => 1 }).ToArray();
+        var path = lines[0].ToArray(a => a switch { 'L' => 0, 'R' => 1 });
         var nodes = CompiledRegs.Regex().FromLines<Node>(lines[2..]);
         return (path, nodes);
     }

@@ -16,7 +16,7 @@ public class Solver : IProblemSolver<int>
     {
         var cards = CompiledRegs.Regex().FromFile<Card>(filename);
 
-        var calculates = cards.Select(a => (a.Number, Win: CalcWin(a), Copies: 1)).ToArray();
+        var calculates = cards.ToArray(a => (a.Number, Win: CalcWin(a), Copies: 1));
 
         for (var i = 0; i < calculates.Length; ++i)
             for (var j = i + 1; j < Math.Min(i + 1 + calculates[i].Win, calculates.Length); ++j)

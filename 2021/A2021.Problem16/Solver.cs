@@ -51,7 +51,7 @@ public class Solver : IProblemSolver<long>
                 return literal.Value;
 
             case PacketParent parent:
-                var subs = parent.SubPackets.Select(CalcExpressionRecurse).ToArray();
+                var subs = parent.SubPackets.ToArray(CalcExpressionRecurse);
 
                 return parent.TypeId switch
                 {

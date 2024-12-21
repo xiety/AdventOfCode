@@ -38,10 +38,10 @@ public class Solver : IProblemSolver<long>
 
     static T[] Cloned<T>(IEnumerable<T> enumerable)
         where T : ICloneable
-        => enumerable.Select(a => (T)a.Clone()).ToArray();
+        => enumerable.ToArray(a => (T)a.Clone());
 
     static Brick[] LoadFile(string filename)
-        => CompiledRegs.Regex().FromFile<Item>(filename).Select(Brick.FromItem).ToArray();
+        => CompiledRegs.Regex().FromFile<Item>(filename).ToArray(Brick.FromItem);
 
     static int FallBricks(Brick[] bricks)
     {

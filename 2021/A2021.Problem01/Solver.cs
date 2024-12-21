@@ -16,7 +16,7 @@ public class Solver : IProblemSolver<int>
 
         var result = 0;
 
-        for (var i = 0; i < items.Count - window; ++i)
+        for (var i = 0; i < items.Length - window; ++i)
         {
             var m1 = 0;
             var m2 = 0;
@@ -34,9 +34,6 @@ public class Solver : IProblemSolver<int>
         return result;
     }
 
-    static List<int> LoadFile(string filename)
-    {
-        var lines = File.ReadAllLines(filename);
-        return lines.Select(int.Parse).ToList();
-    }
+    static int[] LoadFile(string filename)
+        => File.ReadAllLines(filename).ToArray(int.Parse);
 }

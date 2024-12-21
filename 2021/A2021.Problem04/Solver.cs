@@ -88,7 +88,7 @@ public class Solver : IProblemSolver<int>
     static (int[] numbers, int[][,]) LoadFile(string filename)
     {
         var items = File.ReadAllLines(filename);
-        var numbers = items[0].Split(',').Select(int.Parse).ToArray();
+        var numbers = items[0].Split(',').ToArray(int.Parse);
         var boards = ParseBoards(items[2..]);
 
         return (numbers, boards);

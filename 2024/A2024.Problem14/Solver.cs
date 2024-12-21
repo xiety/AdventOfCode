@@ -94,7 +94,7 @@ public class Solver : ISolver<long>
 
     static Robot[] LoadData(string[] lines)
         => CompiledRegs.Regex().FromLines<Item>(lines)
-            .Select(a => new Robot { Pos = new(a.Px, a.Py), Velocity = new(a.Vx, a.Vy) }).ToArray();
+            .ToArray(a => new Robot { Pos = new(a.Px, a.Py), Velocity = new(a.Vx, a.Vy) });
 }
 
 class Robot

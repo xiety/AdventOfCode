@@ -91,7 +91,7 @@ public static class PathFinder
         }
         while (true);
 
-        return paths.Select(a => a[..^1].Reverse<Pos>().ToArray()).ToArray();
+        return paths.ToArray(a => a[..^1].Reverse<Pos>().ToArray());
     }
 
     static int[,]? CalculateStar(int[,] map, Pos start, Pos end)

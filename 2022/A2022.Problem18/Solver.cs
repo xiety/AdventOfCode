@@ -41,9 +41,8 @@ public class Solver : IProblemSolver<int>
 
     static Pos3[] LoadFile(string filename)
         => File.ReadAllLines(filename)
-               .Select(a => a.Split(",").Select(int.Parse).ToArray())
-               .Select(a => new Pos3(a[0], a[1], a[2]))
-               .ToArray();
+               .Select(a => a.Split(",").ToArray(int.Parse))
+               .ToArray(a => new Pos3(a[0], a[1], a[2]));
 }
 
 class Cube(int width, int height, int depth)

@@ -109,7 +109,7 @@ class TreeNode(long value, Cache cache)
     public int Calculation { get; set; } = -1;
 
     public void SetChildren(params IEnumerable<long> values)
-        => Children = values.Select(FindOrCreate).ToArray();
+        => Children = values.ToArray(FindOrCreate);
 
     TreeNode FindOrCreate(long v)
     {

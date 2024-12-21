@@ -38,8 +38,7 @@ public class Solver : IProblemSolver<int>
         => CompiledRegs
             .Regex()
             .FromFile<Step1>(filename)
-            .Select(Parse)
-            .ToArray();
+            .ToArray(Parse);
 
     static Game Parse(Step1 step)
     {

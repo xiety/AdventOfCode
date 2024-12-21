@@ -94,7 +94,7 @@ public class Solver : IProblemSolver<long, string>
     }
 
     static FoldItem[] ParseFolds(IEnumerable<string> lines)
-        => CompiledRegs.FoldRegex().FromLines<FoldItem>(lines).ToArray();
+        => CompiledRegs.FoldRegex().FromLines<FoldItem>(lines);
 }
 
 public record MapItem(int X, int Y);

@@ -80,8 +80,7 @@ public class Solver : IProblemSolver<long>
             .Select(a => a.Name)
             .Concat(items.SelectMany(a => a.Outputs))
             .Distinct()
-            .Select(a => new Component { Name = a })
-            .ToArray();
+            .ToArray(a => new Component { Name = a });
 
         foreach (var item in items)
         {

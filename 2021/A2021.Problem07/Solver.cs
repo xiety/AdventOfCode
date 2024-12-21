@@ -22,8 +22,7 @@ public class Solver : IProblemSolver<long>
         => File.ReadAllText(filename)
                .TrimEnd()
                .Split(",")
-               .Select(int.Parse)
-               .ToArray();
+               .ToArray(int.Parse);
 
     static int Find(int[] items, Func<int, int, int> func)
         => Enumerable.Range(items.Min(), items.Max() - items.Min() + 1)

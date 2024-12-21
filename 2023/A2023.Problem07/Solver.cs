@@ -11,7 +11,7 @@ public class Solver : IProblemSolver<long>
         var result = hands
             .Select(a => (Hand: a, Combo: CalcA(a.Cards)))
             .OrderBy(a => a.Combo)
-            .ThenBy(a => a.Hand.Cards.Select(CardScoreA).ToArray(), new ArrayComparer<int>())
+            .ThenBy(a => a.Hand.Cards.ToArray(CardScoreA), new ArrayComparer<int>())
             .Select((tuple, index) => tuple.Hand.Bid * (index + 1))
             .Sum();
 
@@ -25,7 +25,7 @@ public class Solver : IProblemSolver<long>
         var result = hands
             .Select(a => (Hand: a, Combo: CalcB(a.Cards)))
             .OrderBy(a => a.Combo)
-            .ThenBy(a => a.Hand.Cards.Select(CardScoreB).ToArray(), new ArrayComparer<int>())
+            .ThenBy(a => a.Hand.Cards.ToArray(CardScoreB), new ArrayComparer<int>())
             .Select((tuple, index) => tuple.Hand.Bid * (index + 1))
             .Sum();
 
@@ -67,7 +67,7 @@ public class Solver : IProblemSolver<long>
     static HandA Parse(string line)
     {
         var bid = int.Parse(line[6..]);
-        var cards = line[..5].Select(ParseCard).ToArray();
+        var cards = line[..5].ToArray(ParseCard);
         return new(cards, bid);
     }
 

@@ -31,7 +31,7 @@ static class Loader
 
         var parts = Split(line);
 
-        return new ItemArray(parts.Select(ParseLine).ToArray());
+        return new ItemArray(parts.ToArray(ParseLine));
     }
 
     static IEnumerable<string> Split(string line)

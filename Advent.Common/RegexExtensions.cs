@@ -8,7 +8,7 @@ public static class RegexExtensions
         => regex.FromLines<T>(File.ReadAllLines(filename));
 
     public static T[] FromLines<T>(this Regex regex, IEnumerable<string> lines)
-        => lines.Select(regex.MapTo<T>).ToArray();
+        => lines.ToArray(regex.MapTo<T>);
 
     public static T MapTo<T>(this Match match)
     {
@@ -24,11 +24,11 @@ public static class RegexExtensions
 
         if (!parameters.All(a => groups.ContainsKey(a.Name!)))
         {
-            var wrong = parameters.Where(a => !groups.ContainsKey(a.Name!)).Select(a => a.Name).ToArray();
+            var wrong = parameters.Where(a => !groups.ContainsKey(a.Name!)).ToArray(a => a.Name);
             throw new ArgumentOutOfRangeException(paramName: nameof(match), message: $"Regex groups not found: {String.Join(", ", wrong)}");
         }
 
-        var parametersValues = parameters.Select(a => Parse(groups[a.Name!], a.ParameterType)).ToArray();
+        var parametersValues = parameters.ToArray(a => Parse(groups[a.Name!], a.ParameterType));
 
         var obj = (T)constructor.Invoke(parametersValues);
 

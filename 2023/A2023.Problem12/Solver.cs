@@ -19,8 +19,8 @@ public class Solver : IProblemSolver<long>
     static long RunALine(string line)
     {
         var n = line.IndexOf(' ');
-        var pattern = line[..n].Select(a => a switch { '.' => 0, '#' => 1, '?' => 2 }).ToArray();
-        var combos = line[(n + 1)..].Split(',').Select(int.Parse).ToArray();
+        var pattern = line[..n].ToArray(a => a switch { '.' => 0, '#' => 1, '?' => 2 });
+        var combos = line[(n + 1)..].Split(',').ToArray(int.Parse);
 
         var calculator = new Calculator();
         var result = calculator.BruteForce(pattern, combos);
@@ -31,11 +31,11 @@ public class Solver : IProblemSolver<long>
     static long RunBLine(string line)
     {
         var n = line.IndexOf(' ');
-        var pattern = line[..n].Select(a => a switch { '.' => 0, '#' => 1, '?' => 2 }).ToArray();
-        var combos = line[(n + 1)..].Split(',').Select(int.Parse).ToArray();
+        var pattern = line[..n].ToArray(a => a switch { '.' => 0, '#' => 1, '?' => 2 });
+        var combos = line[(n + 1)..].Split(',').ToArray(int.Parse);
 
-        pattern = Enumerable.Range(0, 4).Aggregate(pattern.AsEnumerable(), (p, _) => [.. p, 2, .. pattern]).ToArray();
-        combos = Enumerable.Range(0, 4).Aggregate(combos.AsEnumerable(), (p, _) => [.. p, .. combos]).ToArray();
+        pattern = Enumerable.Range(0, 4).Aggregate(pattern, (p, _) => [.. p, 2, .. pattern]).ToArray();
+        combos = Enumerable.Range(0, 4).Aggregate(combos, (p, _) => [.. p, .. combos]).ToArray();
 
         var calculator = new Calculator();
         var result = calculator.BruteForce(pattern, combos);

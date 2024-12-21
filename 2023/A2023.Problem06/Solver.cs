@@ -18,7 +18,7 @@ public class Solver : IProblemSolver<long>
     }
 
     static long[] ParseA(string line)
-        => line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1).Select(long.Parse).ToArray();
+        => line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1).ToArray(long.Parse);
 
     public long RunB(string filename)
     {

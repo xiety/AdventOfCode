@@ -32,8 +32,8 @@ public class Solver : ISolver<int>
     private static (Rule[], int[][]) LoadData(string[] lines)
     {
         var (chunk1, chunk2) = lines.Split(String.Empty);
-        var rules = CompiledRegs.Regex().FromLines<Rule>(chunk1).ToArray();
-        var items = chunk2.Select(a => a.Split(",").Select(int.Parse).ToArray()).ToArray();
+        var rules = CompiledRegs.Regex().FromLines<Rule>(chunk1);
+        var items = chunk2.ToArray(a => a.Split(",").ToArray(int.Parse));
         return (rules, items);
     }
 }

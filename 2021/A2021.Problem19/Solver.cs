@@ -162,7 +162,7 @@ public class Solver : IProblemSolver<long>
     static Scanner[] LoadFile(string filename)
     {
         var chunks = File.ReadAllLines(filename).Split(String.Empty);
-        return chunks.Select(a => new Scanner(CompiledRegs.MapRegEx().FromLines<Pos3>(a.Skip(1)).ToArray())).ToArray();
+        return chunks.ToArray(a => new Scanner([.. CompiledRegs.MapRegEx().FromLines<Pos3>(a.Skip(1))]));
     }
 
     static Pos3 ApplyTransformPos(Pos3 v, Transform transform)
@@ -231,11 +231,9 @@ public class Solver : IProblemSolver<long>
     }
 
     static (int index, double distance)[] CalcDistances(Pos3[] beams, int n)
-        => beams
-        .Select((item, index) => (item, index))
-        .Where(a => a.index != n)
-        .Select(a => (a.index, CalcDistance(a.item, beams[n])))
-        .ToArray();
+        => beams.Select((item, index) => (item, index))
+                .Where(a => a.index != n)
+                .ToArray(a => (a.index, CalcDistance(a.item, beams[n])));
 
     static double CalcDistance(Pos3 a, Pos3 b)
         => (a.X - b.X) * (a.X - b.X) + (a.Y - b.Y) * (a.Y - b.Y) + (a.Z - b.Z) * (a.Z - b.Z);

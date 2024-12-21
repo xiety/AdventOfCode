@@ -60,7 +60,7 @@ public class Solver : IProblemSolver<long>
     {
         var items = CompiledRegs.Regex().FromFile<Item>(filename);
 
-        items = items.Select(ParseB).ToArray();
+        items = items.ToArray(ParseB);
 
         var possibleX = new List<int>();
         var possibleY = new List<int>();

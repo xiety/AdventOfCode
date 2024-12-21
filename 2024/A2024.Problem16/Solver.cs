@@ -63,8 +63,7 @@ public class Solver : ISolver<long>
 
                 var nextSteps = allSteps
                     .Where(a => a.Value == min)
-                    .Select(a => a.Key)
-                    .ToArray();
+                    .ToArray(a => a.Key);
 
                 foreach (var nextStep in nextSteps)
                 {

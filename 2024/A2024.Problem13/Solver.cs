@@ -37,13 +37,13 @@ public class Solver : ISolver<long>
     }
 
     static Item[] LoadData(string[] lines)
-        => lines.Split(String.Empty).Select(a =>
+        => lines.Split(String.Empty).ToArray(a =>
         {
             var line1 = CompiledRegs.Line1().MapTo<ItemLine1>(a[0]);
             var line2 = CompiledRegs.Line2().MapTo<ItemLine2>(a[1]);
             var line3 = CompiledRegs.Line3().MapTo<ItemLine3>(a[2]);
             return new Item(line1.Ax, line1.Ay, line2.Bx, line2.By, line3.X, line3.Y);
-        }).ToArray();
+        });
 }
 
 record Item(int Ax, int Ay, int Bx, int By, long X, long Y);
