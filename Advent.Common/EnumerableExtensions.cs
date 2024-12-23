@@ -11,6 +11,18 @@ public static class EnumerableExtensions
     public static TR[] ToArray<T, TR>(this IEnumerable<T> source, Func<T, int, TR> selector)
             => source.Select(selector).ToArray();
 
+    public static ValueTuple<T, T> ToTuple2<T>(this IEnumerable<T> source)
+    {
+        var array = source.Take(2).ToArray();
+        return (array[0], array[1]);
+    }
+
+    public static ValueTuple<T, T, T> ToTuple3<T>(this IEnumerable<T> source)
+    {
+        var array = source.Take(3).ToArray();
+        return (array[0], array[1], array[2]);
+    }
+
     public static IEnumerable<T> MinAllBy<T, TKey>(this IEnumerable<T> source, Func<T, TKey> selector)
     {
         var comparer = Comparer<TKey>.Default;

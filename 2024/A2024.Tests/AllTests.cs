@@ -72,4 +72,7 @@ public class AllTests : BaseSolverTest
 
     [ProblemData<long>(37327623, 12664695565, 23, 1444)]
     public void Problem22(ITestParameter p) => Test(new Problem22.Solver(), p);
+
+    [ProblemData<long, string>(7, 1098, "co,de,ka,ta", "ar,ep,ih,ju,jx,le,ol,pk,pm,pp,xf,yu,zg")]
+    public void Problem23(ITestParameter p) => Test(new Problem23.Solver(), p);
 }
