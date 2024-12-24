@@ -13,12 +13,12 @@ public class Solver : ISolver<long>
     long Run(string[] lines, int num)
         => lines.Select(a => long.Parse(a[..^1]) * Find(a, num)).Sum();
 
-    long Find(string sequence1, int num)
+    long Find(string sequence, int num)
     {
         Func<string, int, long> memo = null!;
         var recurse = Recurse;
         memo = Memoization.Wrap(recurse);
-        return memo(sequence1, 0);
+        return memo(sequence, 0);
 
         long Recurse(string seq, int level)
             => num == level - 1
