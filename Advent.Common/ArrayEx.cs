@@ -177,6 +177,12 @@ public static class ArrayEx
             yield return array[column, i];
     }
 
+    public static IEnumerable<T[]> GetColumns<T>(this T[,] array)
+    {
+        for (var x = 0; x < array.GetWidth(); ++x)
+            yield return GetColumn(array, x).ToArray();
+    }
+
     public static T Get<T>(this T[,] array, Pos p)
         => array[p.X, p.Y];
 
