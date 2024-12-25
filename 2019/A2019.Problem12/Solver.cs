@@ -25,7 +25,7 @@ public class Solver : ISolver<long>
 
         var simulation = Simulate(items);
 
-        // TODO: simulation is running three times here
+        // Simulation is running three times here and with the mutated state
         var rx = simulation.Select(a => a[0].Pos.X).FindRepeat();
         var ry = simulation.Select(a => a[0].Pos.Y).FindRepeat();
         var rz = simulation.Select(a => a[0].Pos.Z).FindRepeat();
@@ -38,7 +38,7 @@ public class Solver : ISolver<long>
         do
         {
             SimulateStep(items);
-            yield return items;
+            yield return items; //returning the same mutated variable
         }
         while (true);
     }

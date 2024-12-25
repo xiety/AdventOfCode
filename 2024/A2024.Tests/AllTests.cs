@@ -78,4 +78,7 @@ public class AllTests : BaseSolverTest
 
     [ProblemData<long, string>(2024, 36902370467952, "z00,z01,z02,z05", "cvp,mkk,qbw,wcb,wjb,z10,z14,z34")]
     public void Problem24(ITestParameter p) => Test(new Problem24.Solver(), p);
+
+    [ProblemData<long>(3, 3356, -1, -1)]
+    public void Problem25(ITestParameter p) => Test(new Problem25.Solver(), p);
 }
