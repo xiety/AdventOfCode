@@ -1,4 +1,6 @@
-﻿using Advent.Common;
+﻿using System.Linq;
+
+using Advent.Common;
 
 namespace A2022.Problem13;
 
@@ -22,7 +24,7 @@ public class Solver : IProblemSolver<int>
         var sep2 = Loader.ParseLine("[[6]]");
 
         var items = Loader.LoadItems(filename)
-            .Append([sep1, sep2]);
+            .AppendRange([sep1, sep2]); //TODO: remove array
 
         var sorted = items.Order().ToArray();
 

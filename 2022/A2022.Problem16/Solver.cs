@@ -8,6 +8,7 @@ public class Solver : IProblemSolver<int>
 {
     public int RunA(string filename)
     {
+        throw new NotImplementedException(); //too slow
         var items = CompiledRegs.Regex().FromFile<Item>(filename).ToArray();
         var graph = Grapher.CreateGraph(items);
         var solver = new Solver1();

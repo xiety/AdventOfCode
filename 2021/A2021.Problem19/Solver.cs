@@ -161,7 +161,7 @@ public class Solver : IProblemSolver<long>
 
     static Scanner[] LoadFile(string filename)
     {
-        var chunks = File.ReadAllLines(filename).Split(String.Empty);
+        var chunks = File.ReadAllLines(filename).SplitBy(String.Empty);
         return chunks.ToArray(a => new Scanner([.. CompiledRegs.MapRegEx().FromLines<Pos3>(a.Skip(1))]));
     }
 

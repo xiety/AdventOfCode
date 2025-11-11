@@ -8,10 +8,8 @@ public class Solver : IProblemSolver<int>
     {
         var (map, start, end) = Load(filename);
 
-        var path = SlopePathFinder.Find(map, start, end);
-
-        if (path == null)
-            throw new();
+        var path = SlopePathFinder.Find(map, start, end)
+            ?? throw new();
 
         return path.Length;
     }

@@ -37,5 +37,5 @@ public class Solver : ISolver<long>
     }
 
     static int[][,] LoadData(string[] lines)
-        => lines.Split(String.Empty).Select(a => MapData.ParseMap(a, b => b == '#' ? 1 : 0)).ToArray();
+        => lines.SplitBy(String.Empty).Select(a => MapData.ParseMap(a, b => b == '#' ? 1 : 0)).ToArray();
 }

@@ -8,7 +8,7 @@ public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
     {
-        var chunks = File.ReadAllLines(filename).Split(String.Empty).ToArray();
+        var chunks = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
 
         var workflows = CompiledRegs.Regex1().FromLines<ItemRaw1>([.. chunks[0]])
             .ToArray(a => new Item1(a.Name, a.Conditions.ToArray(b => CompiledRegs.Regex2().MapTo<Item1Condition>(b)), a.LastCondition));
@@ -58,7 +58,7 @@ public class Solver : IProblemSolver<long>
 
     public long RunB(string filename)
     {
-        var chunks = File.ReadAllLines(filename).Split(String.Empty).ToArray();
+        var chunks = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
 
         var workflows = CompiledRegs.Regex1().FromLines<ItemRaw1>([.. chunks[0]])
             .ToArray(a => new Item1(a.Name, a.Conditions.ToArray(b => CompiledRegs.Regex2().MapTo<Item1Condition>(b)), a.LastCondition));

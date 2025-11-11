@@ -2,29 +2,31 @@
 
 public static class INumberExtensions
 {
-    public static T GCD<T>(this T a, T b)
+    extension<T>(T a)
         where T : INumber<T>
     {
-        if (a < T.Zero)
-            a = -a;
-
-        if (b < T.Zero)
-            b = -b;
-
-        while (a != T.Zero && b != T.Zero)
+        public T GCD(T b)
         {
-            if (a > b)
-                a %= b;
-            else
-                b %= a;
+            if (a < T.Zero)
+                a = -a;
+
+            if (b < T.Zero)
+                b = -b;
+
+            while (a != T.Zero && b != T.Zero)
+            {
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
+            }
+
+            return a == T.Zero ? b : a;
         }
 
-        return a == T.Zero ? b : a;
+        public T LCM(T b)
+            => T.Abs(a * b) / GCD(a, b);
     }
-
-    public static T LCM<T>(this T a, T b)
-        where T : INumber<T>
-        => T.Abs(a * b) / GCD(a, b);
 
     public static T LCM<T>(params T[] numbers)
         where T : INumber<T>

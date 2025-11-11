@@ -88,7 +88,7 @@ public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR res
     {
         if (data is [TestParameter<TR> tp])
         {
-            var method = tp.IsA ? nameof(ISolver<int>.RunA) : nameof(ISolver<int>.RunB);
+            var method = tp.IsA ? nameof(ISolver<>.RunA) : nameof(ISolver<>.RunB);
             var mode = tp.IsSample ? "sample" : "input";
             return $"{method} {mode}";
         }
@@ -114,14 +114,14 @@ public class ProblemDataAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sample
         {
             case [TestParameter<TRA> tpa]:
                 {
-                    const string method = nameof(ISolver<int>.RunA);
+                    const string method = nameof(ISolver<>.RunA);
                     var mode = tpa.IsSample ? "sample" : "input";
                     return $"{method} {mode}";
                 }
 
             case [TestParameter<TRB> tpb]:
                 {
-                    const string method = nameof(ISolver<int>.RunB);
+                    const string method = nameof(ISolver<>.RunB);
                     var mode = tpb.IsSample ? "sample" : "input";
                     return $"{method} {mode}";
                 }

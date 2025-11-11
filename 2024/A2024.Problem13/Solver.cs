@@ -37,7 +37,7 @@ public class Solver : ISolver<long>
     }
 
     static Item[] LoadData(string[] lines)
-        => lines.Split(String.Empty).ToArray(a =>
+        => lines.SplitBy(String.Empty).ToArray(a =>
         {
             var line1 = CompiledRegs.Line1().MapTo<ItemLine1>(a[0]);
             var line2 = CompiledRegs.Line2().MapTo<ItemLine2>(a[1]);

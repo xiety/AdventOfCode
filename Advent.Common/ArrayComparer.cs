@@ -3,7 +3,7 @@
 public class ArrayComparer<T> : IComparer<T[]>
     where T : IComparable
 {
-    //IComparable<T> constraint doesn't work with Enums
+    //IComparable<TV> constraint doesn't work with Enums
 
     public int Compare(T[]? x, T[]? y)
     {

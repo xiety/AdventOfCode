@@ -12,7 +12,7 @@ public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
     {
-        var (firstPart, secondPart) = File.ReadAllLines(filename).Split(String.Empty);
+        var (firstPart, secondPart) = File.ReadAllLines(filename).SplitBy(String.Empty);
 
         var rules = CompiledRegs.Regex().FromLines<Item>(secondPart)
             .ToDictionary(a => a.A, a => a.B);
@@ -52,7 +52,7 @@ public class Solver : IProblemSolver<long>
 
     public long RunB(string filename)
     {
-        var (firstPart, secondPart) = File.ReadAllLines(filename).Split(String.Empty);
+        var (firstPart, secondPart) = File.ReadAllLines(filename).SplitBy(String.Empty);
 
         var rules = CompiledRegs.Regex().FromLines<Item>(secondPart)
             .ToDictionary(a => (a.A[0], a.A[1]), a => a.B);

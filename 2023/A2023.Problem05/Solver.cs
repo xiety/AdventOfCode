@@ -6,7 +6,7 @@ public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
     {
-        var parts = File.ReadAllLines(filename).Split(String.Empty).ToArray();
+        var parts = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
         var seeds = parts.First().First().Split(' ').Skip(1).Select(long.Parse);
         var chunks = parts.Skip(1).ToArray(ParseChunk);
         return seeds.Select(a => RecurseA(chunks, "seed", a)).Min();
@@ -14,7 +14,7 @@ public class Solver : IProblemSolver<long>
 
     public long RunB(string filename)
     {
-        var parts = File.ReadAllLines(filename).Split(String.Empty).ToArray();
+        var parts = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
         var seeds = parts.First().First().Split(' ').Skip(1).ToArray(long.Parse)
             .Chunk(2).ToArray(a => (a[0], a[0] + a[1] - 1));
         var chunks = parts.Skip(1).ToArray(ParseChunk);

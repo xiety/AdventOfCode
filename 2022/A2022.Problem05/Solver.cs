@@ -34,7 +34,7 @@ public class Solver : IProblemSolver<string>
     static (Stack<char>[] crates, IEnumerable<Item> commands) LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
-        var parts = lines.Split(String.Empty).ToArray();
+        var parts = lines.SplitBy(String.Empty).ToArray();
 
         var cratesLines = parts[0].ToArray();
         var last = cratesLines.Last();

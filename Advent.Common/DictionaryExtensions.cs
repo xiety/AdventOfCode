@@ -4,35 +4,37 @@ namespace System.Collections.Generic;
 
 public static class DictionaryExtensions
 {
-    public static void AddOrReplace<TK, TV>(this Dictionary<TK, TV> dic, TK key, TV initialValue, Func<TV, TV> replaceFunc)
+    extension<TK, TV>(Dictionary<TK, TV> dic)
         where TK : notnull
     {
-        if (dic.TryGetValue(key, out var value))
+        public void AddOrReplace(TK key, TV initialValue, Func<TV, TV> replaceFunc)
         {
-            dic[key] = replaceFunc(value);
+            if (dic.TryGetValue(key, out var value))
+                dic[key] = replaceFunc(value);
+            else
+                dic.Add(key, initialValue);
         }
-        else
+
+        public TV GetOrCreate(TK key, Func<TV> create)
         {
-            dic.Add(key, initialValue);
+            if (!dic.TryGetValue(key, out var value))
+            {
+                value = create();
+                dic.Add(key, value);
+            }
+
+            return value;
         }
     }
 
-    public static Dictionary<TK, TV> Merge<TK, TV>(this Dictionary<TK, TV> dic1, Dictionary<TK, TV> dic2)
+    extension<TK, TV>(Dictionary<TK, TV> dic1)
         where TK : notnull
         where TV : INumber<TV>
     {
-        return dic1.Concat(dic2).GroupBy(a => a.Key).ToDictionary(a => a.Key, a => a.Sum(b => b.Value));
-    }
-
-    public static T GetOrCreate<TKey, T>(this Dictionary<TKey, T> dic, TKey key, Func<T> create)
-        where TKey : notnull
-    {
-        if (!dic.TryGetValue(key, out var value))
-        {
-            value = create();
-            dic.Add(key, value);
-        }
-
-        return value;
+        public Dictionary<TK, TV> Merge(Dictionary<TK, TV> dic2)
+            => dic1
+                .Concat(dic2)
+                .GroupBy(a => a.Key)
+                .ToDictionary(a => a.Key, a => a.Sum(b => b.Value));
     }
 }

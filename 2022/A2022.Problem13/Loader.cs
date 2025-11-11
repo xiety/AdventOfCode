@@ -5,7 +5,7 @@ static class Loader
     public static IEnumerable<Pair> Load(string filename)
     {
         var lines = File.ReadAllLines(filename);
-        var chunks = lines.Split(String.Empty);
+        var chunks = lines.SplitBy(String.Empty);
 
         foreach (var chunk in chunks)
         {

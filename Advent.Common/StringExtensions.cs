@@ -2,15 +2,18 @@
 
 public static class StringExtensions
 {
-    public static string TrimLength(this string text, int n)
+    extension(string text)
     {
-        if (text.Length <= n)
-            return text;
+        public string TrimLength(int n)
+        {
+            if (text.Length <= n)
+                return text;
 
-        const string ellipsis = "...";
+            const string ellipsis = "...";
 
-        text = text[0..(n - ellipsis.Length)];
+            text = text[0..(n - ellipsis.Length)];
 
-        return text + ellipsis;
+            return text + ellipsis;
+        }
     }
 }

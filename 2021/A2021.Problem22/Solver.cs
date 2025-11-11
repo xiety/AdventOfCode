@@ -20,15 +20,19 @@ public class Solver : IProblemSolver<long>
 
     public long RunB(string filename)
     {
+        throw new NotImplementedException(); //too slow
+
         var items = LoadFile(filename);
 
         var all = items.SelectMany(a => new[] { a.Rect.From, new Pos3(a.Rect.To.X + 1, a.Rect.To.Y + 1, a.Rect.To.Z + 1) })
             .Distinct()
             .ToArray();
 
-        var allX = all.Select(a => a.X).Distinct().Order().ToArray();
-        var allY = all.Select(a => a.Y).Distinct().Order().ToArray();
-        var allZ = all.Select(a => a.Z).Distinct().Order().ToArray();
+        //TODO: change to var
+        //warning CS8604: Possible null reference argument for parameter 'array' in 'int Array.IndexOf<int>(int[] array, int value)'.
+        int[] allX = all.Select(a => a.X).Distinct().Order().ToArray();
+        int[] allY = all.Select(a => a.Y).Distinct().Order().ToArray();
+        int[] allZ = all.Select(a => a.Z).Distinct().Order().ToArray();
 
         var insideAll = items
             .SelectMany(a => Populate(a.Rect))

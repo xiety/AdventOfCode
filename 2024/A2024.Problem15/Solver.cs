@@ -89,7 +89,7 @@ public class Solver : ISolver<long>
 
     static (NodeType[,], Pos[]) LoadData(string[] lines)
     {
-        var parts = lines.Split(String.Empty).ToArray();
+        var parts = lines.SplitBy(String.Empty).ToArray();
 
         var map = MapData.ParseMap(parts[0], a => a switch { '#' => NodeType.Wall, 'O' => NodeType.Box, '@' => NodeType.Unit, _ => NodeType.None });
 

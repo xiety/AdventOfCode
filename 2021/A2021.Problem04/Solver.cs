@@ -98,7 +98,7 @@ public class Solver : IProblemSolver<int>
     {
         var list = new List<int[,]>();
 
-        foreach (var part in items.Split(String.Empty).Select(a => a.ToArray()))
+        foreach (var part in items.SplitBy(String.Empty).Select(a => a.ToArray()))
         {
             var array = new int[SizeX, SizeY];
 

@@ -192,7 +192,7 @@ public class Solver : ISolver<long, string>
 
     static (Dictionary<string, int>, Connection[]) LoadData(string[] lines)
     {
-        var parts = lines.Split(String.Empty).ToArray();
+        var parts = lines.SplitBy(String.Empty).ToArray();
         var inputs = parts[0].Select(ParseInput).ToDictionary(a => a.Item1, a => a.Item2);
         var connections = parts[1].Select(ParseConnection).ToArray();
         return (inputs, connections);

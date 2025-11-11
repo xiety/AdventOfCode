@@ -29,7 +29,7 @@ public class Solver : IProblemSolver<long, string>
 
     static (bool[,], FoldItem[]) LoadFile(string filename)
     {
-        var (firstPart, secondPart) = File.ReadAllLines(filename).Split(String.Empty);
+        var (firstPart, secondPart) = File.ReadAllLines(filename).SplitBy(String.Empty);
 
         var map = ParseMap(firstPart);
         var folds = ParseFolds(secondPart);

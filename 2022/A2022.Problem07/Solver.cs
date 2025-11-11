@@ -135,7 +135,7 @@ public class Solver : IProblemSolver<long>
         const string prefix = "$ ";
         const string cdPrefix = "cd ";
 
-        foreach (var chunk in lines.Split(a => a.StartsWith(prefix)))
+        foreach (var chunk in lines.SplitBy(a => a.StartsWith(prefix)))
         {
             if (chunk.ToArray() is [var input, .. var output])
             {

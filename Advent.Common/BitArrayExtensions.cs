@@ -5,42 +5,45 @@ namespace System.Collections;
 // Most significant first
 public static class BitArrayExtensions
 {
-    public static byte GetByte(this BitArray @this, Range r)
+    extension(BitArray @this)
     {
-        var (offset, length) = r.GetOffsetAndLength(@this.Length);
-        return @this.GetByte(offset, length);
-    }
-
-    public static byte GetByte(this BitArray @this, int offset, int length)
-    {
-        var result = (byte)0;
-
-        for (var n = 0; n < length; ++n)
+        public byte GetByte(Range r)
         {
-            if (@this[n + offset])
-                result |= (byte)(1 << (length - n - 1));
+            var (offset, length) = r.GetOffsetAndLength(@this.Length);
+            return @this.GetByte(offset, length);
         }
 
-        return result;
-    }
-
-    public static BigInteger GetBigInteger(this BitArray @this)
-        => @this.GetBigInteger(0, @this.Count);
-
-    public static BigInteger GetBigInteger(this BitArray @this, int offset, int length)
-    {
-        var result = (BigInteger)0;
-        var slider = ((BigInteger)1) << (length - 1);
-
-        for (var n = 0; n < length; ++n)
+        public byte GetByte(int offset, int length)
         {
-            if (@this[n + offset])
-                result |= slider;
+            var result = (byte)0;
 
-            slider >>= 1;
+            for (var n = 0; n < length; ++n)
+            {
+                if (@this[n + offset])
+                    result |= (byte)(1 << (length - n - 1));
+            }
+
+            return result;
         }
 
-        return result;
+        public BigInteger GetBigInteger()
+            => @this.GetBigInteger(0, @this.Count);
+
+        public BigInteger GetBigInteger(int offset, int length)
+        {
+            var result = (BigInteger)0;
+            var slider = ((BigInteger)1) << (length - 1);
+
+            for (var n = 0; n < length; ++n)
+            {
+                if (@this[n + offset])
+                    result |= slider;
+
+                slider >>= 1;
+            }
+
+            return result;
+        }
     }
 
     public static BitArray MostSignificantFirst(byte[] array)

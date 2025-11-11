@@ -30,7 +30,7 @@ public class Solver : IProblemSolver<int>
     static IEnumerable<IEnumerable<string>> LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
-        var chunks = lines.Split(String.Empty);
+        var chunks = lines.SplitBy(String.Empty);
         return chunks;
     }
 }

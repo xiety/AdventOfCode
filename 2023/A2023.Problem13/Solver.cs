@@ -12,7 +12,7 @@ public class Solver : IProblemSolver<long>
 
     static long Run(string filename, int min)
     {
-        var chunks = File.ReadAllLines(filename).Split(String.Empty);
+        var chunks = File.ReadAllLines(filename).SplitBy(String.Empty);
 
         var r = 0L;
 
