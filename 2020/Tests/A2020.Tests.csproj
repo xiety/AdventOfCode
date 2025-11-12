@@ -1,0 +1,11 @@
+﻿<Project Sdk="MSTest.Sdk/4.0.1">
+
+  <PropertyGroup>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Advent.BaseTests\Advent.BaseTests.csproj" />
+    <ProjectReference Include="..\Problems\A2020.Problems.csproj" />
+  </ItemGroup>
+
+</Project>

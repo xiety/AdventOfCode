@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -74,7 +75,8 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
     readonly TR sampleB = default!;
     readonly TR resultB = default!;
 
-    public ProblemTestAttribute(TR sampleA, TR resultA, TR sampleB, TR resultB)
+    public ProblemTestAttribute(TR sampleA, TR resultA, TR sampleB, TR resultB, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        : base(callerFilePath, callerLineNumber)
     {
         this.sampleA = sampleA;
         this.resultA = resultA;
@@ -82,7 +84,8 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
         this.resultB = resultB;
     }
 
-    public ProblemTestAttribute(TR sampleA, TR resultA)
+    public ProblemTestAttribute(TR sampleA, TR resultA, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+        : base(callerFilePath, callerLineNumber)
     {
         this.sampleA = sampleA;
         this.resultA = resultA;
@@ -111,7 +114,8 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class ProblemTestAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sampleB, TRB resultB) : TestMethodAttribute, ITestDataSource
+public class ProblemTestAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sampleB, TRB resultB, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+    : TestMethodAttribute(callerFilePath, callerLineNumber), ITestDataSource
 {
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
     {

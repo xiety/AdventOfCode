@@ -254,19 +254,7 @@ public static class EnumerableExtensions
         }
     }
 
-    extension<T>(IReadOnlyCollection<T> source)
-    {
-        public IEnumerable<IEnumerable<T>> Permutations(int length)
-        {
-            if (length == 1)
-                return source.Select(t => new[] { t });
-
-            return Permutations(source, length - 1)
-                .SelectMany(t => source.Where(e => !t.Contains(e)), (t1, t2) => t1.Append(t2));
-        }
-    }
-
-    public static IEnumerable<long> LongRange(long start, long length)
+     public static IEnumerable<long> LongRange(long start, long length)
     {
         for (var i = start; i < start + length; ++i)
             yield return i;
@@ -363,10 +351,10 @@ public static class EnumerableExtensions
     //{
     //    var enumerator = @source.GetEnumerator();
 
-    //    Assign(enumerator, out var x);
+    //    Assign(enumerator, out var a);
     //    Assign(enumerator, out var y);
 
-    //    pos = new(x, y);
+    //    pos = new(a, y);
     //}
 
     static void Assign<T>(IEnumerator<T> enumerator, out T value)

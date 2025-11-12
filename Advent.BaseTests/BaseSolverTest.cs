@@ -1,13 +1,18 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Advent.Common;
 
+public abstract class FolderSolverTest : BaseSolverTest
+{
+    protected override string GetFolder(int year, int number)
+        => @$"..\..\..\..\Data\Problem{number:00}\";
+}
+
 public abstract class BaseSolverTest
 {
-    protected static void Test<TR>(ISolver<TR> solver, ITestParameter p)
+    protected void Test<TR>(ISolver<TR> solver, ITestParameter p)
     {
         var (year, number) = Parse(solver.GetType());
 
@@ -17,7 +22,7 @@ public abstract class BaseSolverTest
             throw new($"Type of p is {p.GetType()} and TR is {typeof(TR)}");
     }
 
-    protected static void Test<TRA, TRB>(ISolver<TRA, TRB> solver, ITestParameter p)
+    protected void Test<TRA, TRB>(ISolver<TRA, TRB> solver, ITestParameter p)
     {
         var (year, number) = Parse(solver.GetType());
 
@@ -37,7 +42,7 @@ public abstract class BaseSolverTest
         return (year, number);
     }
 
-    protected static void Test<TR>(int year, int number, TestParameter<TR> p, Func<string[], TR> execute)
+    protected void Test<TR>(int year, int number, TestParameter<TR> p, Func<string[], TR> execute)
     {
         try
         {
@@ -52,7 +57,7 @@ public abstract class BaseSolverTest
         }
     }
 
-    static string GetPath(int year, int number, bool isA, bool isSample)
+    string GetPath(int year, int number, bool isA, bool isSample)
     {
         var folder = GetFolder(year, number);
 
@@ -69,12 +74,13 @@ public abstract class BaseSolverTest
         return fullpath;
     }
 
-    protected static string GetFolder(int year, int number)
+    protected virtual string GetFolder(int year, int number)
         => @$"..\..\..\..\A{year:0000}.Problem{number:00}\Data\";
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR resultB) : TestMethodAttribute, ITestDataSource
+public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR resultB, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+    : TestMethodAttribute(callerFilePath, callerLineNumber), ITestDataSource
 {
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
     {
@@ -98,7 +104,8 @@ public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR res
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class ProblemDataAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sampleB, TRB resultB) : TestMethodAttribute, ITestDataSource
+public class ProblemDataAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sampleB, TRB resultB, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+    : TestMethodAttribute(callerFilePath, callerLineNumber), ITestDataSource
 {
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
     {
