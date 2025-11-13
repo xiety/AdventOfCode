@@ -13,7 +13,7 @@ public class Solver : ISolver<long>
     static IEnumerable<(int, Log[])> Run(string[] lines)
     {
         var map = MapData.ParseMap(lines, a => $"{a}");
-        var filled = new bool[map.GetWidth(), map.GetHeight()];
+        var filled = new bool[map.Width, map.Height];
 
         do
         {
@@ -22,7 +22,7 @@ public class Solver : ISolver<long>
             if (startOrNull is not Pos start)
                 break;
 
-            var current = new bool[map.GetWidth(), map.GetHeight()];
+            var current = new bool[map.Width, map.Height];
             Flood(start, filled, current, map);
 
             var num = current.EnumeratePositionsOf(true).Count();

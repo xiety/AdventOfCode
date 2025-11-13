@@ -371,12 +371,12 @@ public static class EnumerableExtensions
         where T : INumber<T>
     {
         public T Sum()
-            => source.Aggregate(T.Zero, (agg, t) => agg + t);
+            => source.Aggregate(T.Zero, (agg, t) => checked(agg + t));
 
         public T Mul()
-            => source.Aggregate(T.One, (agg, t) => agg * t);
+            => source.Aggregate(T.One, (agg, t) => checked(agg * t));
 
         public long MulLong()
-            => source.Aggregate(long.CreateChecked(T.One), (agg, t) => agg * long.CreateChecked(t));
+            => source.Aggregate(long.CreateChecked(T.One), (agg, t) => checked(agg * long.CreateChecked(t)));
     }
 }

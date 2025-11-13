@@ -17,27 +17,27 @@ public class Solver : IProblemSolver<long>
         var max = -1;
         var value = 0;
 
-        for (var x = 0; x < map.GetWidth(); ++x)
+        for (var x = 0; x < map.Width; ++x)
         {
             value = Calculate(map, new(x, -1), new(0, 1));
 
             if (value > max)
                 max = value;
 
-            value = Calculate(map, new(x, map.GetHeight()), new(0, -1));
+            value = Calculate(map, new(x, map.Height), new(0, -1));
 
             if (value > max)
                 max = value;
         }
 
-        for (var y = 0; y < map.GetHeight(); ++y)
+        for (var y = 0; y < map.Height; ++y)
         {
             value = Calculate(map, new(-1, y), new(1, 0));
 
             if (value > max)
                 max = value;
 
-            value = Calculate(map, new(map.GetWidth(), y), new(-1, 0));
+            value = Calculate(map, new(map.Width, y), new(-1, 0));
 
             if (value > max)
                 max = value;
@@ -48,7 +48,7 @@ public class Solver : IProblemSolver<long>
 
     static int Calculate(char[,] map, Pos startingPos, Pos startingDir)
     {
-        var energy = new int[map.GetWidth(), map.GetHeight()];
+        var energy = new int[map.Width, map.Height];
         Go(map, energy, startingPos, startingDir);
         return energy.Enumerate().Count(pair => pair.Item > 0);
     }

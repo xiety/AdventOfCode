@@ -10,4 +10,7 @@ public class AllTests : FolderSolverTest
 
     [ProblemData<int>(2, 638, 1, 699)]
     public void Problem02(ITestParameter p) => Test(new Problem02.Solver(), p);
+
+    [ProblemData<long>(7, 187, 336, 4723283400)]
+    public void Problem03(ITestParameter p) => Test(new Problem03.Solver(), p);
 }

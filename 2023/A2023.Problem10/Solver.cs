@@ -19,7 +19,7 @@ public class Solver : IProblemSolver<long>
 
         var foundPath = FoundPath(map);
 
-        var newmap = ArrayEx.CreateAndInitialize(map.GetWidth(), map.GetHeight(), ' ');
+        var newmap = ArrayEx.CreateAndInitialize(map.Width, map.Height, ' ');
 
         foreach (var step in foundPath)
             newmap.Set(step.pos, step.value);
@@ -37,8 +37,8 @@ public class Solver : IProblemSolver<long>
     {
         var square = 0;
 
-        for (var x = 2; x < enlarged.GetWidth() - 1; x += 3)
-            for (var y = 2; y < enlarged.GetHeight() - 1; y += 3)
+        for (var x = 2; x < enlarged.Width - 1; x += 3)
+            for (var y = 2; y < enlarged.Height - 1; y += 3)
                 if (!enlarged.Get(new Pos(x, y)))
                     square++;
 
@@ -47,7 +47,7 @@ public class Solver : IProblemSolver<long>
 
     bool[,] Enlarged(char[,] map)
     {
-        var large = new bool[map.GetWidth() * 3 + 2, map.GetHeight() * 3 + 2];
+        var large = new bool[map.Width * 3 + 2, map.Height * 3 + 2];
 
         map.ForEach(pos =>
         {

@@ -7,7 +7,7 @@ public class Solver : IProblemSolver<long>
     public long RunA(string filename)
     {
         var map = MapData.ParseMap(File.ReadAllLines(filename), c => c);
-        var path = LongestPathFinder.Find(map, new(1, 0), new(map.GetWidth() - 2, map.GetHeight() - 1));
+        var path = LongestPathFinder.Find(map, new(1, 0), new(map.Width - 2, map.Height - 1));
         return path.Length;
     }
 }
@@ -16,7 +16,7 @@ public static class LongestPathFinder
 {
     public static Pos[] Find(char[,] map, Pos start, Pos end)
     {
-        var star = ArrayEx.CreateAndInitialize(map.GetWidth(), map.GetHeight(), -1);
+        var star = ArrayEx.CreateAndInitialize(map.Width, map.Height, -1);
 
         star.Set(start, 0);
 

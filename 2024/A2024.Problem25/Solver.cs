@@ -9,7 +9,7 @@ public class Solver : ISolver<long>
         var items = LoadData(lines);
         var locks = ParseLocks(items).ToArray();
         var keys = ParseKeys(items).ToArray();
-        var height = items[0].GetHeight() - 2;
+        var height = items[0].Height - 2;
 
         var query = from @lock in locks
                     from key in keys
@@ -32,7 +32,7 @@ public class Solver : ISolver<long>
     static IEnumerable<int[]> ParseKeys(int[][,] items)
     {
         foreach (var item in items)
-            if (item.GetRow(item.GetHeight() - 1).All(b => b == 1))
+            if (item.GetRow(item.Height - 1).All(b => b == 1))
                 yield return item.GetColumns().Select(a => a.Length - Array.IndexOf(a, 1) - 1).ToArray();
     }
 

@@ -16,8 +16,8 @@ public class Solver : IProblemSolver<long>
     {
         var (palette, map) = LoadFile(filename);
 
-        var width = map.GetWidth();
-        var height = map.GetHeight();
+        var width = map.Width;
+        var height = map.Height;
 
         var space = new bool[width + totalSteps * 2 + 2, height + totalSteps * 2 + 2];
 
@@ -31,13 +31,13 @@ public class Solver : IProblemSolver<long>
         var tempArray = new int[1];
         var ba = new BitArray(9);
 
-        var output = new bool[space.GetWidth(), space.GetHeight()];
+        var output = new bool[space.Width, space.Height];
 
         for (var step = 0; step < totalSteps; ++step)
         {
-            for (var y = 1; y < space.GetHeight() - 1; ++y)
+            for (var y = 1; y < space.Height - 1; ++y)
             {
-                for (var x = 1; x < space.GetWidth() - 1; ++x)
+                for (var x = 1; x < space.Width - 1; ++x)
                 {
                     var bit = 8;
 
@@ -49,8 +49,8 @@ public class Solver : IProblemSolver<long>
 
                             var isBorder = ox == 0
                                         || oy == 0
-                                        || ox == space.GetWidth() - 1
-                                        || oy == space.GetHeight() - 1;
+                                        || ox == space.Width - 1
+                                        || oy == space.Height - 1;
 
                             if (isBorder && palette[0] && !palette[^1])
                                 ba[bit] = step % 2 == 1;

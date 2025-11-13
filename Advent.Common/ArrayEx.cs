@@ -100,7 +100,7 @@ public static class ArrayEx
 
         public IEnumerable<T[]> GetColumns()
         {
-            for (var x = 0; x < array.GetWidth(); ++x)
+            for (var x = 0; x < array.Width; ++x)
                 yield return GetColumn(array, x).ToArray();
         }
 
@@ -159,10 +159,10 @@ public static class ArrayEx
             throw new ArgumentOutOfRangeException(paramName: nameof(value));
         }
 
-        public int GetWidth()
+        public int Width
             => array.GetLength(0);
 
-        public int GetHeight()
+        public int Height
             => array.GetLength(1);
 
         public IEnumerable<Pos> Offsetted(Pos center)
@@ -182,7 +182,7 @@ public static class ArrayEx
         }
 
         public Pos Size()
-            => new(array.GetWidth(), array.GetHeight());
+            => new(array.Width, array.Height);
 
         public IEnumerable<Pos> Delted(Pos c)
         {
@@ -244,10 +244,10 @@ public static class ArrayEx
     {
         public bool TryFindSubarray(T[,] small, out Pos? pos)
         {
-            var bw = big.GetWidth();
-            var bh = big.GetHeight();
-            var sw = small.GetWidth();
-            var sh = small.GetHeight();
+            var bw = big.Width;
+            var bh = big.Height;
+            var sw = small.Width;
+            var sh = small.Height;
             pos = null;
 
             for (var i = 0; i <= bw - sw; ++i)

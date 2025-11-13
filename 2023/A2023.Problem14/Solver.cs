@@ -11,7 +11,7 @@ public class Solver : IProblemSolver<long>
         North(map);
 
         var result = map.EnumeratePositionsOf('O')
-                        .Select(a => map.GetWidth() - a.Y)
+                        .Select(a => map.Width - a.Y)
                         .Sum();
 
         return result;
@@ -57,7 +57,7 @@ public class Solver : IProblemSolver<long>
 
     static int CalcResult(char[,] map)
         => map.EnumeratePositionsOf('O')
-              .Select(a => map.GetWidth() - a.Y)
+              .Select(a => map.Width - a.Y)
               .Sum();
 
     static char[,] LoadFile(string filename)
@@ -65,11 +65,11 @@ public class Solver : IProblemSolver<long>
 
     static void North(char[,] map)
     {
-        var border = new int[map.GetWidth()];
+        var border = new int[map.Width];
 
-        for (var y = 0; y < map.GetHeight(); ++y)
+        for (var y = 0; y < map.Height; ++y)
         {
-            for (var x = 0; x < map.GetWidth(); ++x)
+            for (var x = 0; x < map.Width; ++x)
             {
                 var c = map[x, y];
 
@@ -89,11 +89,11 @@ public class Solver : IProblemSolver<long>
 
     static void South(char[,] map)
     {
-        var border = ArrayEx.CreateAndInitialize(map.GetWidth(), map.GetHeight() - 1);
+        var border = ArrayEx.CreateAndInitialize(map.Width, map.Height - 1);
 
-        for (var y = map.GetHeight() - 1; y >= 0; --y)
+        for (var y = map.Height - 1; y >= 0; --y)
         {
-            for (var x = 0; x < map.GetWidth(); ++x)
+            for (var x = 0; x < map.Width; ++x)
             {
                 var c = map[x, y];
 
@@ -113,11 +113,11 @@ public class Solver : IProblemSolver<long>
 
     static void West(char[,] map)
     {
-        var border = new int[map.GetHeight()];
+        var border = new int[map.Height];
 
-        for (var x = 0; x < map.GetWidth(); ++x)
+        for (var x = 0; x < map.Width; ++x)
         {
-            for (var y = 0; y < map.GetHeight(); ++y)
+            for (var y = 0; y < map.Height; ++y)
             {
                 var c = map[x, y];
 
@@ -137,11 +137,11 @@ public class Solver : IProblemSolver<long>
 
     static void East(char[,] map)
     {
-        var border = ArrayEx.CreateAndInitialize(map.GetHeight(), map.GetWidth() - 1);
+        var border = ArrayEx.CreateAndInitialize(map.Height, map.Width - 1);
 
-        for (var x = map.GetWidth() - 1; x >= 0; --x)
+        for (var x = map.Width - 1; x >= 0; --x)
         {
-            for (var y = 0; y < map.GetHeight(); ++y)
+            for (var y = 0; y < map.Height; ++y)
             {
                 var c = map[x, y];
 

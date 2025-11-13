@@ -32,11 +32,11 @@ public class Solver : IProblemSolver<long>
     {
         var emptyRows = new List<int>();
 
-        for (var y = 0; y < map.GetHeight(); ++y)
+        for (var y = 0; y < map.Height; ++y)
         {
             var empty = true;
 
-            for (var x = 0; x < map.GetWidth(); ++x)
+            for (var x = 0; x < map.Width; ++x)
             {
                 if (map[x, y])
                 {
@@ -56,11 +56,11 @@ public class Solver : IProblemSolver<long>
     {
         var emptyCols = new List<int>();
 
-        for (var x = 0; x < map.GetWidth(); ++x)
+        for (var x = 0; x < map.Width; ++x)
         {
             var empty = true;
 
-            for (var y = 0; y < map.GetHeight(); ++y)
+            for (var y = 0; y < map.Height; ++y)
             {
                 if (map[x, y])
                 {

@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <NoWarn>CS1998,CS8509,CS8524,CA1860,CS0162</NoWarn>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <RunWorkingDirectory>.</RunWorkingDirectory>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>

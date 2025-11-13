@@ -34,7 +34,7 @@ public class Solver : IProblemSolver<long>
 
         var floodCount = map.EnumeratePositionsOf(true).Count();
 
-        var result = (map.GetWidth() * map.GetHeight() - floodCount) + borderCount;
+        var result = (map.Width * map.Height - floodCount) + borderCount;
 
         return result;
     }

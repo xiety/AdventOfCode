@@ -41,9 +41,9 @@ public class Solver : IProblemSolver<long, string>
     {
         if (fold.Axis == "x")
         {
-            var map = new bool[fold.Num, parent.GetHeight()];
+            var map = new bool[fold.Num, parent.Height];
 
-            for (var y = 0; y < parent.GetHeight(); ++y)
+            for (var y = 0; y < parent.Height; ++y)
             {
                 for (var x = 0; x < fold.Num; ++x)
                 {
@@ -51,7 +51,7 @@ public class Solver : IProblemSolver<long, string>
 
                     var side = fold.Num * 2 - x;
 
-                    if (side >= 0 && side < parent.GetWidth())
+                    if (side >= 0 && side < parent.Width)
                         map[x, y] |= parent[side, y];
                 }
             }
@@ -60,9 +60,9 @@ public class Solver : IProblemSolver<long, string>
         }
         else
         {
-            var map = new bool[parent.GetWidth(), fold.Num];
+            var map = new bool[parent.Width, fold.Num];
 
-            for (var x = 0; x < parent.GetWidth(); ++x)
+            for (var x = 0; x < parent.Width; ++x)
             {
                 for (var y = 0; y < fold.Num; ++y)
                 {
@@ -70,7 +70,7 @@ public class Solver : IProblemSolver<long, string>
 
                     var side = fold.Num * 2 - y;
 
-                    if (side >= 0 && side < parent.GetHeight())
+                    if (side >= 0 && side < parent.Height)
                         map[x, y] |= parent[x, side];
                 }
             }

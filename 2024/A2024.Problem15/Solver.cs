@@ -69,7 +69,7 @@ public class Solver : ISolver<long>
 
     static NodeType[,] Enlarge(NodeType[,] map)
     {
-        var newMap = new NodeType[map.GetWidth() * 2, map.GetHeight()];
+        var newMap = new NodeType[map.Width * 2, map.Height];
 
         foreach (var (pos, item) in map.Enumerate())
         {

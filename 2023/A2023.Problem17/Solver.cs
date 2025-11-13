@@ -13,7 +13,7 @@ public class Solver : IProblemSolver<long>
     static long Run(string filename, int min, int max)
     {
         var map = LoadFile(filename);
-        return CalculateDistance(map, Pos.Zero, new Pos(map.GetWidth() - 1, map.GetHeight() - 1), min, max);
+        return CalculateDistance(map, Pos.Zero, new Pos(map.Width - 1, map.Height - 1), min, max);
     }
 
     static int CalculateDistance(int[,] map, Pos start, Pos end, int min, int max)
