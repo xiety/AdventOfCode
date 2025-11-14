@@ -18,6 +18,12 @@ public static class ArrayEx
                     yield return new(x, y);
     }
 
+    extension<T>(T obj)
+    {
+        public bool Inside(params IEnumerable<T> items)
+            => items.Contains(obj);
+    }
+
     extension<T>(T[,] array)
     {
         public T[,] Transposed()

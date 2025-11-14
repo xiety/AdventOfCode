@@ -14,6 +14,9 @@ public static class RegexExtensions
 
         public T MapTo<T>(string text)
             => regex.Match(text).MapTo<T>(regex, text);
+
+        public bool TryMapTo<T>(string text, out T? result)
+            => regex.Match(text).TryMapTo(regex, text, out result);
     }
 
     extension(Match match)
@@ -52,6 +55,18 @@ public static class RegexExtensions
                 throw new ArgumentOutOfRangeException(nameof(match), match, message: $"Match failed on '{debugText}' with '{debugRegex}");
 
             return match.MapTo<T>();
+        }
+
+        public bool TryMapTo<T>(Regex debugRegex, string debugText, out T? result)
+        {
+            if (!match.Success)
+            {
+                result = default;
+                return false;
+            }
+
+            result = match.MapTo<T>();
+            return true;
         }
     }
 
