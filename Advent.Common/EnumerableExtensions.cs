@@ -17,8 +17,14 @@ public static class EnumerableExtensions
         public TR[] ToArray<TR>(Func<T, TR> selector)
             => source.Select(selector).ToArray();
 
+        public TR[] ToArrayMany<TR>(Func<T, IEnumerable<TR>> selector)
+            => source.SelectMany(selector).ToArray();
+
         public TR[] ToArray<TR>(Func<T, int, TR> selector)
             => source.Select(selector).ToArray();
+
+        public bool ContainsAll(params IEnumerable<T> items)
+            => items.All(source.Contains);
 
         public ValueTuple<T, T> ToTuple2()
         {

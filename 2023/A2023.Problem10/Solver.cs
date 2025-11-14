@@ -19,7 +19,7 @@ public class Solver : IProblemSolver<long>
 
         var foundPath = FoundPath(map);
 
-        var newmap = ArrayEx.CreateAndInitialize(map.Width, map.Height, ' ');
+        var newmap = Array.CreateAndInitialize(map.Width, map.Height, ' ');
 
         foreach (var step in foundPath)
             newmap.Set(step.pos, step.value);

@@ -47,7 +47,7 @@ public class Solver : ISolver<int, string>
 
     static int[,] CreateMap(Pos[] items, int size, int total)
     {
-        var map = ArrayEx.CreateAndInitialize(size, size, 1);
+        var map = Array.CreateAndInitialize(size, size, 1);
 
         for (var i = 0; i < total; ++i)
             map.Set(items[i], -1);

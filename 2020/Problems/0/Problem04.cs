@@ -22,10 +22,9 @@ public class Solver : ISolver<int>
     }
 
     bool ValidateRequired(Item[] items)
-    {
-        string[] required = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
-        return required.All(b => items.Any(c => c.Key == b));
-    }
+        => items
+        .Select(a => a.Key)
+        .ContainsAll(["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]); //TODO: remove array
 
     bool Validate(Item item)
         => item.Key switch
@@ -62,12 +61,9 @@ public class Solver : ISolver<int>
         => value.Length == 9 && value.All(char.IsNumber);
 
     static Item[][] LoadData(string[] lines)
-    {
-        var chunks = lines.SplitBy(string.Empty);
-        return chunks
-            .Select(a => a.SelectMany(d => d.Split(" ")
-                .Select(b => CompiledRegs.RegexItem().MapTo<Item>(b))).ToArray()).ToArray();
-    }
+        => lines.SplitBy(string.Empty)
+            .ToArray(a => a.ToArrayMany(d => d.Split(" ")
+                .Select(b => CompiledRegs.RegexItem().MapTo<Item>(b))));
 }
 
 record Item(string Key, string Value);

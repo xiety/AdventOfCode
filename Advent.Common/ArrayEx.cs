@@ -172,13 +172,12 @@ public static class ArrayEx
             => array.GetLength(1);
 
         public IEnumerable<Pos> Offsetted(Pos center)
-            => Offsetted(center)
-            .Where(array.IsInBounds);
+            => array.Offsetted(center, Offsets);
 
         public IEnumerable<Pos> Offsetted(Pos center, IEnumerable<Pos> offsets)
             => offsets
-            .Select(a => center + a)
-            .Where(array.IsInBounds);
+                .Select(a => center + a)
+                .Where(array.IsInBounds);
 
         public void ForEach(Action<Pos> action)
         {
@@ -246,12 +245,13 @@ public static class ArrayEx
             .ToDictionary(a => a.Key, a => a.Value);
     }
 
-    extension<T>(T[,] big) where T : IEquatable<T>
+    extension<T>(T[,] array)
+        where T : IEquatable<T>
     {
         public bool TryFindSubarray(T[,] small, out Pos? pos)
         {
-            var bw = big.Width;
-            var bh = big.Height;
+            var bw = array.Width;
+            var bh = array.Height;
             var sw = small.Width;
             var sh = small.Height;
             pos = null;
@@ -263,7 +263,7 @@ public static class ArrayEx
 
                     for (var x = 0; x < sw && match; ++x)
                         for (var y = 0; y < sh && match; ++y)
-                            if (!big[i + x, j + y].Equals(small[x, y]))
+                            if (!array[i + x, j + y].Equals(small[x, y]))
                                 match = false;
 
                     if (match)
@@ -277,43 +277,60 @@ public static class ArrayEx
         }
     }
 
-    extension<T>(T[,] a)
+    extension<T>(T[,] array)
     {
         public bool SequenceEquals(T[,] b)
-            => a.Rank == b.Rank
-                && Enumerable.Range(0, a.Rank).All(d => a.GetLength(d) == b.GetLength(d))
-                && a.Cast<T>().SequenceEqual(b.Cast<T>());
+            => array.Rank == b.Rank
+                && Enumerable.Range(0, array.Rank).All(d => array.GetLength(d) == b.GetLength(d))
+                && array.Cast<T>().SequenceEqual(b.Cast<T>());
     }
 
-    public static T[] CreateAndInitialize<T>(int number, Func<int, T> creator)
-            => Enumerable.Range(0, number).ToArray(creator);
-
-    public static T[] CreateAndInitialize<T>(int number, T value)
-        => Enumerable.Range(0, number).ToArray(_ => value);
-
-    public static T[,] CreateAndInitialize<T>(int width, int height, T value)
+    extension(Array)
     {
-        var array = new T[width, height];
-        array.Fill(value);
-        return array;
-    }
+        public static T[] CreateAndInitialize<T>(int number, Func<int, T> creator)
+                => Enumerable.Range(0, number).ToArray(creator);
 
-    public static T[,] CreateAndInitialize<T>(int width, int height, Func<int, int, T> func)
-    {
-        var array = new T[width, height];
+        public static T[] CreateAndInitialize1D<T>(int number, T value)
+            => Enumerable.Range(0, number).ToArray(_ => value);
 
-        for (var y = 0; y < height; ++y)
-            for (var x = 0; x < width; ++x)
-                array[x, y] = func(x, y);
+        public static T[,] CreateAndInitialize<T>(int width, int height, T value)
+        {
+            var array = new T[width, height];
+            array.Fill(value);
+            return array;
+        }
 
-        return array;
-    }
+        public static T[,] CreateAndInitialize<T>(int width, int height, Func<int, int, T> func)
+        {
+            var array = new T[width, height];
 
-    public static T[,,] CreateAndInitialize<T>(int d1, int d2, int d3, T value)
-    {
-        var array = new T[d1, d2, d3];
-        array.Fill(value);
-        return array;
+            for (var y = 0; y < height; ++y)
+                for (var x = 0; x < width; ++x)
+                    array[x, y] = func(x, y);
+
+            return array;
+        }
+
+        public static T[,,] CreateAndInitialize<T>(int d1, int d2, int d3, T value)
+        {
+            var array = new T[d1, d2, d3];
+            array.Fill(value);
+            return array;
+        }
+
+        public static IEnumerable<Pos> EnumerateDeltas()
+        {
+            for (var dx = -1; dx <= 1; ++dx)
+            {
+                for (var dy = -1; dy <= 1; ++dy)
+                {
+                    if (dx == 0 && dy == 0)
+                        continue;
+
+                    yield return new Pos(dx, dy);
+                }
+            }
+        }
     }
 
     extension<T>(T[,,] array)
@@ -337,10 +354,6 @@ public static class ArrayEx
             && p.Y >= 0 && p.Y < array.GetLength(1)
             && p.Z >= 0 && p.Z < array.GetLength(2);
     }
-
-    public static IEnumerable<Pos> Offsetted(Pos center)
-        => Offsets
-               .Select(a => center + a);
 
     extension(bool[,] array)
     {
@@ -367,20 +380,6 @@ public static class ArrayEx
                 nextPoints.Clear();
             }
             while (floodPoints.Count > 0);
-        }
-    }
-
-    public static IEnumerable<Pos> EnumerateDeltas()
-    {
-        for (var dx = -1; dx <= 1; ++dx)
-        {
-            for (var dy = -1; dy <= 1; ++dy)
-            {
-                if (dx == 0 && dy == 0)
-                    continue;
-
-                yield return new Pos(dx, dy);
-            }
         }
     }
 }

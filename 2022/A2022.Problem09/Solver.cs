@@ -35,7 +35,7 @@ public class Solver : IProblemSolver<long>
         var visitedByTail = new HashSet<NonEuclideanPos>();
 
         const int ropeLength = 10;
-        var tailList = ArrayEx.CreateAndInitialize(ropeLength, _ => new NonEuclideanPos(0, 0));
+        var tailList = Array.CreateAndInitialize(ropeLength, _ => new NonEuclideanPos(0, 0));
 
         visitedByTail.Add(tailList[^1]);
 

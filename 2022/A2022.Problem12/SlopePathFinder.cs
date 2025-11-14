@@ -40,7 +40,7 @@ class SlopePathFinder
 
     static int[,]? CalculateStar(int[,] map, Pos start, Pos end)
     {
-        var star = ArrayEx.CreateAndInitialize(map.Width, map.Height, -1);
+        var star = Array.CreateAndInitialize(map.Width, map.Height, -1);
         star.Set(start, 0);
 
         List<Pos> currentSteps = [start];

@@ -13,7 +13,7 @@ public static class CubicPathFinder
 
     public static Pos3 CountSteps(Map3d map, Pos3 start, Pos3 finishWithoutZ)
     {
-        var star = ArrayEx.CreateAndInitialize(map.Size.X, map.Size.Y, map.Size.Z, -1);
+        var star = Array.CreateAndInitialize(map.Size.X, map.Size.Y, map.Size.Z, -1);
 
         star.Set(start, 0);
 

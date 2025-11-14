@@ -16,7 +16,7 @@ public static class LongestPathFinder
 {
     public static Pos[] Find(char[,] map, Pos start, Pos end)
     {
-        var star = ArrayEx.CreateAndInitialize(map.Width, map.Height, -1);
+        var star = Array.CreateAndInitialize(map.Width, map.Height, -1);
 
         star.Set(start, 0);
 

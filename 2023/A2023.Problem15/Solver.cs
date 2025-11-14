@@ -15,7 +15,7 @@ public class Solver : IProblemSolver<long>
     {
         var items = File.ReadAllText(filename).TrimEnd().Split(",").ToArray();
 
-        var boxes = ArrayEx.CreateAndInitialize(256, _ => new List<(string label, int focal)>());
+        var boxes = Array.CreateAndInitialize(256, _ => new List<(string label, int focal)>());
 
         foreach (var item in items)
         {

@@ -3,7 +3,7 @@
 public class Tetris(int width, int left, int topOffset)
 {
     readonly List<char[]> glass = [];
-    readonly char[] emptyRow = ArrayEx.CreateAndInitialize(width, '.');
+    readonly char[] emptyRow = Array.CreateAndInitialize1D(width, '.');
     readonly Dictionary<string, (long, long)> archive = [];
 
     readonly string[][] figures =
