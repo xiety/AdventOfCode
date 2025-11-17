@@ -89,7 +89,7 @@ public class Solver : IProblemSolver<long>
 
     static void South(char[,] map)
     {
-        var border = Array.CreateAndInitialize1D(map.Width, value: map.Height - 1);
+        var border = Array.CreateAndInitialize1D(map.Width, initValue: map.Height - 1);
 
         for (var y = map.Height - 1; y >= 0; --y)
         {
@@ -137,7 +137,7 @@ public class Solver : IProblemSolver<long>
 
     static void East(char[,] map)
     {
-        var border = Array.CreateAndInitialize1D(map.Height, value: map.Width - 1);
+        var border = Array.CreateAndInitialize1D(map.Height, initValue: map.Width - 1);
 
         for (var x = map.Width - 1; x >= 0; --x)
         {

@@ -290,8 +290,8 @@ public static class ArrayEx
         public static T[] CreateAndInitialize<T>(int number, Func<int, T> creator)
                 => Enumerable.Range(0, number).ToArray(creator);
 
-        public static T[] CreateAndInitialize1D<T>(int number, T value)
-            => Enumerable.Range(0, number).ToArray(_ => value);
+        public static T[] CreateAndInitialize1D<T>(int number, T initValue)
+            => Enumerable.Range(0, number).ToArray(_ => initValue);
 
         public static T[,] CreateAndInitialize<T>(int width, int height, T value)
         {
