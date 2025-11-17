@@ -16,4 +16,7 @@ public class AllTests : FolderSolverTest
 
     [ProblemData<int>(2, 254, 2, 184)]
     public void Problem04(ITestParameter p) => Test(new Problem04.Solver(), p);
+
+    [ProblemData<int>(820, 938, 356, 696)]
+    public void Problem05(ITestParameter p) => Test(new Problem05.Solver(), p);
 }
