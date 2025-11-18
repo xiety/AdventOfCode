@@ -22,7 +22,7 @@
     <Project Path="2019\A2019.Problem14\A2019.Problem14.csproj" />
   </Folder>
   <Folder Name="/2020/">
-    <Project Path="2020/Info/A2020.Data.csproj" />
+    <Project Path="2020/Data/A2020.Data.csproj" />
     <Project Path="2020/Problems/A2020.Problems.csproj" />
     <Project Path="2020/Tests/A2020.Tests.csproj" />
   </Folder>

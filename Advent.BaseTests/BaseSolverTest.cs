@@ -7,7 +7,7 @@ namespace Advent.Common;
 public abstract class FolderSolverTest : BaseSolverTest
 {
     protected override string GetFolder(int year, int number)
-        => @$"..\..\..\..\Info\Data\Problem{number:00}\";
+        => @$"..\..\..\..\Data\{number / 10}\Problem{number:00}\";
 }
 
 public abstract class BaseSolverTest
