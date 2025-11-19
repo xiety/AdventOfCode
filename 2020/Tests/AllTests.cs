@@ -22,4 +22,7 @@ public class AllTests : FolderSolverTest
 
     [ProblemData<int>(11, 6457, 6, 3260)]
     public void Problem06(ITestParameter p) => Test(new Problem06.Solver(), p);
+
+    [ProblemData<int>(4, 124, 126, 34862)]
+    public void Problem07(ITestParameter p) => Test(new Problem07.Solver(), p);
 }
