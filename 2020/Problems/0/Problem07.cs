@@ -21,17 +21,10 @@ public class Solver : ISolver<int>
         => 1 + parent.Receipts.Sum(a => a.Value * CountRecurse(a.Item));
 
     static Dictionary<string, Item> LoadItems(string[] lines)
-    {
-        var dic2 = lines.Select(ParseItem2).ToDictionary(a => a.Name);
-        var cache = new Dictionary<string, Item>();
-        foreach (var item2 in dic2.Values)
-            ConvertRecurse(cache, dic2, item2);
-        return cache;
-    }
-
-    static Item ConvertRecurse(Dictionary<string, Item> cache, Dictionary<string, Item2> dic2, Item2 item2)
-        => cache.GetOrCreate(item2.Name, () => new Item(item2.Name, item2.Receipts
-                .ToArray(a => new Receipt(a.Value, ConvertRecurse(cache, dic2, dic2[a.Name])))));
+        => lines
+            .Select(ParseItem2)
+            .ToRecursiveGraphBuilder(a => a.Name)
+            .Build<Item>((a, recurse) => new Item(a.Name, a.Receipts.ToArray(b => new Receipt(b.Value, recurse(b.Name)))));
 
     static Item2 ParseItem2(string text)
     {
