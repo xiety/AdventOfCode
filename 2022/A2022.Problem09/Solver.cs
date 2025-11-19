@@ -63,7 +63,9 @@ public class Solver : IProblemSolver<long>
 
     static IEnumerable<NonEuclideanPos> LoadFile(string fileName)
     {
+#pragma warning disable RCS1124 // Inline local variable
         var lines = CompiledRegs.ItemRegex().FromFile<Item>(fileName);
+#pragma warning restore RCS1124 // Inline local variable
 
         foreach (var item in lines)
         {
@@ -75,7 +77,6 @@ public class Solver : IProblemSolver<long>
                     "D" => new NonEuclideanPos(0, -1),
                     "L" => new NonEuclideanPos(-1, 0),
                     "R" => new NonEuclideanPos(1, 0),
-                    _ => throw new Exception()
                 };
             }
         }

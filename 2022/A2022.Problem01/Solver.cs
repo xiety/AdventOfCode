@@ -9,9 +9,8 @@ public class Solver : IProblemSolver<int>
         var chunks = LoadFile(filename);
 
         var sums = Parse(chunks);
-        var max = sums.Max();
 
-        return max;
+        return sums.Max();
     }
 
     public int RunB(string filename)
@@ -19,9 +18,7 @@ public class Solver : IProblemSolver<int>
         var chunks = LoadFile(filename);
 
         var sums = Parse(chunks);
-        var max = sums.OrderDescending().Take(3).Sum();
-
-        return max;
+        return sums.OrderDescending().Take(3).Sum();
     }
 
     static IEnumerable<int> Parse(IEnumerable<IEnumerable<string>> chunks)
@@ -30,7 +27,6 @@ public class Solver : IProblemSolver<int>
     static IEnumerable<IEnumerable<string>> LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
-        var chunks = lines.SplitBy(String.Empty);
-        return chunks;
+        return lines.SplitBy(String.Empty);
     }
 }

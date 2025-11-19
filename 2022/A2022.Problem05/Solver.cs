@@ -43,7 +43,7 @@ public class Solver : IProblemSolver<string>
 
         for (var i = 0; i < numberOfColumns; ++i)
         {
-            crates[i + 1] = new();
+            crates[i + 1] = [];
 
             for (var j = 0; j < cratesLines.Length - 1; ++j)
             {

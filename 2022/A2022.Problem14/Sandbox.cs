@@ -16,10 +16,8 @@ class Sandbox(int width, int height)
             currentPos = pos;
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     public void AddWalls(List<Pos[]> items)

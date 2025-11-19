@@ -27,7 +27,7 @@ public static class RegexExtensions
                 throw new ArgumentOutOfRangeException(nameof(match), match, message: "Fail");
 
             var type = typeof(T);
-            var constructor = type.GetConstructors().First();
+            var constructor = type.GetConstructors()[0];
             var parameters = constructor.GetParameters();
 
             var comparer = StringComparer.OrdinalIgnoreCase;
@@ -49,6 +49,7 @@ public static class RegexExtensions
             return obj;
         }
 
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
         public T MapTo<T>(Regex debugRegex, string debugText)
         {
             if (!match.Success)
@@ -56,6 +57,7 @@ public static class RegexExtensions
 
             return match.MapTo<T>();
         }
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
 
         public bool TryMapTo<T>(Regex debugRegex, string debugText, out T? result)
         {
@@ -82,7 +84,7 @@ public static class RegexExtensions
         }
         else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
         {
-            var elementType = type.GetGenericArguments().First();
+            var elementType = type.GetGenericArguments()[0];
 
             return group.Captures
                 .Select(a => Parse(a.Value, elementType))

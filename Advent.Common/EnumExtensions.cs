@@ -6,8 +6,8 @@ public static class EnumExtensions
     {
         public T RotateEnum(int step)
         {
-            int enumLength = Enum.GetValues(typeof(T)).Length;
-            int newIndex = ((int)(object)currentValue + step) % enumLength;
+            var enumLength = Enum.GetValues(typeof(T)).Length;
+            var newIndex = ((int)(object)currentValue + step) % enumLength;
 
             if (newIndex < 0)
                 newIndex += enumLength;

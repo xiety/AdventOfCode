@@ -25,9 +25,7 @@ public class Solver : IProblemSolver<int>
         var r1 = ToDec(output1);
         var r2 = ToDec(output2);
 
-        var result = r1 * r2;
-
-        return result;
+        return r1 * r2;
     }
 
     public int RunB(string filename)
@@ -73,9 +71,7 @@ public class Solver : IProblemSolver<int>
         var r1 = ToDec(copy1[0]);
         var r2 = ToDec(copy2[0]);
 
-        var result = r1 * r2;
-
-        return result;
+        return r1 * r2;
     }
 
     static int ToDec(string n)

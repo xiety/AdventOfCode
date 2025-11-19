@@ -9,7 +9,7 @@ public static class EnumerableExtensions
         where T : class
     {
         public IEnumerable<T> WhereNotNull()
-            => source.Where(a => a != null)!;
+            => source.Where(a => a is not null)!;
     }
 
     extension<T>(IEnumerable<T> source)
@@ -130,7 +130,7 @@ public static class EnumerableExtensions
             {
                 if (isHeader(line))
                 {
-                    if (list != null && list.Count != 0)
+                    if (list is not null && list.Count != 0)
                         yield return list;
 
                     list = [];
@@ -139,7 +139,7 @@ public static class EnumerableExtensions
                 list?.Add(line);
             }
 
-            if (list != null && list.Count != 0)
+            if (list is not null && list.Count != 0)
                 yield return list;
         }
 
@@ -302,12 +302,10 @@ public static class EnumerableExtensions
             const BindingFlags flags = BindingFlags.Static | BindingFlags.Public;
             var parameters = new[] { elementType };
 
-            var typeConvertedArray = enumerableType
+            return enumerableType
                 .GetMethod(nameof(Enumerable.ToArray), flags)!
                 .MakeGenericMethod(parameters)
                 .Invoke(null, [typeConvertedEnumerable])!;
-
-            return typeConvertedArray;
         }
 
         object Cast(Type elementType)
@@ -330,12 +328,10 @@ public static class EnumerableExtensions
             const BindingFlags flags = BindingFlags.Static | BindingFlags.Public;
             var parameters = new[] { elementType };
 
-            var typeConvertedList = enumerableType
+            return enumerableType
                 .GetMethod(nameof(Enumerable.ToList), flags)!
                 .MakeGenericMethod(parameters)
                 .Invoke(null, [typeConvertedEnumerable])!;
-
-            return typeConvertedList;
         }
     }
 
@@ -368,7 +364,7 @@ public static class EnumerableExtensions
         var next = enumerator.MoveNext();
 
         if (!next)
-            throw new Exception("No data");
+            throw new("No data");
 
         value = enumerator.Current;
     }

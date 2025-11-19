@@ -47,10 +47,9 @@ public class Solver2
         var released = Linked.Empty<Release>();
 
         path1 = path1.AddBefore(parent.Name);
-        var maximum = parent.Connections.AsParallel()
-            .Max(child => RecurseElephant(path1, path2, releases, released, 0, child, parent, false, false));
 
-        return maximum;
+        return parent.Connections.AsParallel()
+            .Max(child => RecurseElephant(path1, path2, releases, released, 0, child, parent, false, false));
     }
 
     int globalMaximum = 0;

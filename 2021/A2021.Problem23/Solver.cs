@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿#pragma warning disable CS0162 // Unreachable code detected
+using System.Diagnostics;
 
 using Advent.Common;
 
@@ -46,7 +47,9 @@ public class Solver : IProblemSolver<long>
 
             var unit = units[unitIndex];
 
+#pragma warning disable RCS1124 // Inline local variable
             var possibleMoves = GetPossibleMoves(unit, situation).ToArray();
+#pragma warning restore RCS1124 // Inline local variable
 
             foreach (var possibleMove in possibleMoves)
             {
@@ -142,7 +145,7 @@ public class Solver : IProblemSolver<long>
 
     static GraphConnection[] GetAllDestintations(Unit unit, Situation situation)
     {
-        var starts = new List<GraphConnection>() { new() { Target = unit.Node, Weight = 0 } };
+        var starts = new List<GraphConnection> { new() { Target = unit.Node, Weight = 0 } };
         var history = new List<GraphNode>();
         var endings = new List<GraphConnection>();
         var newStarts = new List<GraphConnection>();
@@ -158,7 +161,7 @@ public class Solver : IProblemSolver<long>
 
                     var newWeight = start.Weight + connection.Weight;
 
-                    var newConnection = new GraphConnection() { Target = connection.Target, Weight = newWeight };
+                    var newConnection = new GraphConnection { Target = connection.Target, Weight = newWeight };
 
                     if (!history.Contains(newConnection.Target))
                     {
@@ -244,9 +247,7 @@ public class Solver : IProblemSolver<long>
 
                 if (room is not null)
                 {
-                    var c = lines[y][x];
-
-                    switch (c)
+                    switch (lines[y][x])
                     {
                         case 'A':
                             units.Add(new(NodeType.A, room));
@@ -294,7 +295,7 @@ public class GraphConnection
     public required GraphNode Target { get; init; }
 }
 
-public enum NodeType { Empty, Hall, Skip, Wall, A, B, C, D, }
+public enum NodeType { Empty, Hall, Skip, Wall, A, B, C, D }
 
 [DebuggerDisplay("Type={Type} Node={Node}")]
 public record Unit(NodeType Type, GraphNode Node);

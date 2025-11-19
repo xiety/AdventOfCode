@@ -38,15 +38,13 @@ public class Solver : IProblemSolver<long>
             return EnumerateDirection(map, treePos, delta)
                 .Count();
         }
-        else
-        {
-            var tree = map.Get(treePos);
 
-            return EnumerateDirection(map, treePos, delta)
-                .Select(map.Get)
-                .TakeWhile(a => a < tree)
-                .Count() + 1;
-        }
+        var tree = map.Get(treePos);
+
+        return EnumerateDirection(map, treePos, delta)
+            .Select(map.Get)
+            .TakeWhile(a => a < tree)
+            .Count() + 1;
     }
 
     static bool IsVisibleTreeDirection(int[,] map, Pos treePos, Pos delta)

@@ -15,7 +15,7 @@ public class Solver : IProblemSolver<long>
 
         const int total = 1000;
 
-        var dic = new Dictionary<bool, long>() { [false] = 0, [true] = 0 };
+        var dic = new Dictionary<bool, long> { [false] = 0, [true] = 0 };
         var conjDic = new Dictionary<string, List<long>>();
 
         var button = graph.OfType<RadioButton>().First();
@@ -39,7 +39,7 @@ public class Solver : IProblemSolver<long>
 
         var deadend = graph.OfType<RadioDeadend>().First();
 
-        var dic = new Dictionary<bool, long>() { [false] = 0, [true] = 0 };
+        var dic = new Dictionary<bool, long> { [false] = 0, [true] = 0 };
 
         var buttonPress = 0L;
 
@@ -210,7 +210,7 @@ public class Solver : IProblemSolver<long>
 
                 if (toRadio is null)
                 {
-                    toRadio = new RadioDeadend() { Name = toName };
+                    toRadio = new RadioDeadend { Name = toName };
                     radios.Add(toRadio);
                 }
 

@@ -10,12 +10,10 @@ public class Solver : IProblemSolver<int>
     {
         var pairs = Loader.Load(filename).ToArray();
 
-        var result = pairs
+        return pairs
             .Select((a, i) => new { Index = i + 1, Pair = a })
             .Where(a => Comparer.Compare(a.Pair.First, a.Pair.Second) == -1)
             .Sum(a => a.Index);
-
-        return result;
     }
 
     public int RunB(string filename)
@@ -31,9 +29,7 @@ public class Solver : IProblemSolver<int>
         var index1 = Array.IndexOf(sorted, sep1);
         var index2 = Array.IndexOf(sorted, sep2);
 
-        var result = (index1 + 1) * (index2 + 1);
-
-        return result;
+        return (index1 + 1) * (index2 + 1);
     }
 }
 

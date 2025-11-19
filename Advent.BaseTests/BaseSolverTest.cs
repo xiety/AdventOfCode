@@ -79,7 +79,7 @@ public abstract class BaseSolverTest
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR resultB, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+public sealed class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR resultB, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
     : TestMethodAttribute(callerFilePath, callerLineNumber), ITestDataSource
 {
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
@@ -90,7 +90,7 @@ public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR res
         yield return [new TestParameter<TR>(false, false, resultB)];
     }
 
-    public string GetDisplayName(MethodInfo methodInfo, object?[]? data)
+    string ITestDataSource.GetDisplayName(MethodInfo methodInfo, object?[]? data)
     {
         if (data is [TestParameter<TR> tp])
         {
@@ -104,7 +104,7 @@ public class ProblemDataAttribute<TR>(TR sampleA, TR resultA, TR sampleB, TR res
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class ProblemDataAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sampleB, TRB resultB, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+public sealed class ProblemDataAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sampleB, TRB resultB, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
     : TestMethodAttribute(callerFilePath, callerLineNumber), ITestDataSource
 {
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
@@ -115,7 +115,7 @@ public class ProblemDataAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sample
         yield return [new TestParameter<TRB>(false, false, resultB)];
     }
 
-    public string GetDisplayName(MethodInfo methodInfo, object?[]? data)
+    string ITestDataSource.GetDisplayName(MethodInfo methodInfo, object?[]? data)
     {
         switch (data)
         {

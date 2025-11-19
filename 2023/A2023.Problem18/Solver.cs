@@ -34,9 +34,7 @@ public class Solver : IProblemSolver<long>
 
         var floodCount = map.EnumeratePositionsOf(true).Count();
 
-        var result = (map.Width * map.Height - floodCount) + borderCount;
-
-        return result;
+        return (map.Width * map.Height - floodCount) + borderCount;
     }
 
     public long RunBAlternative(string filename)
@@ -185,22 +183,20 @@ public class Solver : IProblemSolver<long>
 
             return true;
         }
-        else
-        {
-            if (item1.X == item2.X)
-                return false;
 
-            var minX = Math.Min(item1.X, item2.X);
-            var maxX = Math.Max(item1.X, item2.X);
+        if (item1.X == item2.X)
+            return false;
 
-            if (minX > middle.X || maxX < middle.X)
-                return false;
+        var minX = Math.Min(item1.X, item2.X);
+        var maxX = Math.Max(item1.X, item2.X);
 
-            if (item1.Y < middle.Y)
-                return false;
+        if (minX > middle.X || maxX < middle.X)
+            return false;
 
-            return true;
-        }
+        if (item1.Y < middle.Y)
+            return false;
+
+        return true;
     }
 
     Item ParseB(Item item)

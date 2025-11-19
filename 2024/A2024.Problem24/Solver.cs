@@ -171,7 +171,7 @@ public class Solver : ISolver<long, string>
         while (true);
     }
 
-    private static int Operation(string op, int i1, int i2)
+    static int Operation(string op, int i1, int i2)
         => op switch
         {
             "AND" => i1 & i2,

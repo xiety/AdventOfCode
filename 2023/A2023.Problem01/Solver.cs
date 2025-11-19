@@ -54,8 +54,6 @@ public class Solver : IProblemSolver<int>
         var minResult = existing.Select(a => (Pos: line.IndexOf(a.Key, StringComparison.Ordinal), a.Value)).MinBy(a => a.Pos).Value;
         var maxResult = existing.Select(a => (Pos: line.LastIndexOf(a.Key, StringComparison.Ordinal), a.Value)).MaxBy(a => a.Pos).Value;
 
-        var result = int.Parse($"{minResult}{maxResult}");
-
-        return result;
+        return int.Parse($"{minResult}{maxResult}");
     }
 }

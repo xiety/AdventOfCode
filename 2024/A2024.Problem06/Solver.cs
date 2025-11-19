@@ -25,7 +25,7 @@ public class Solver : ISolver<int>
         return path.Count(a => Check(map, start, a));
     }
 
-    private static bool Check(bool[,] map, Pos start, Pos obst)
+    static bool Check(bool[,] map, Pos start, Pos obst)
     {
         map.Set(obst, true);
         var loopIndex = EnumeratePath(map, start).FindLoopIndex();

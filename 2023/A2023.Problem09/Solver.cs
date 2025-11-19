@@ -22,7 +22,6 @@ public class Solver : IProblemSolver<long>
         var diffs = items.Chain().ToArray(a => a.Second - a.First);
         var done = diffs.Distinct().Count() == 1;
         var delta = done ? diffs[0] : CalcRecurse(diffs, next);
-        var result = next ? items[^1] + delta : items[0] - delta;
-        return result;
+        return next ? items[^1] + delta : items[0] - delta;
     }
 }

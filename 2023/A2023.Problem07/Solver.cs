@@ -5,32 +5,20 @@ namespace A2023.Problem07;
 public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
-    {
-        var hands = File.ReadAllLines(filename).Select(Parse);
-
-        var result = hands
+        => LoadItems(filename)
             .Select(a => (Hand: a, Combo: CalcA(a.Cards)))
             .OrderBy(a => a.Combo)
             .ThenBy(a => a.Hand.Cards.ToArray(CardScoreA), new ArrayComparer<int>())
             .Select((tuple, index) => tuple.Hand.Bid * (index + 1))
             .Sum();
 
-        return result;
-    }
-
     public long RunB(string filename)
-    {
-        var hands = File.ReadAllLines(filename).Select(Parse);
-
-        var result = hands
+        => LoadItems(filename)
             .Select(a => (Hand: a, Combo: CalcB(a.Cards)))
             .OrderBy(a => a.Combo)
             .ThenBy(a => a.Hand.Cards.ToArray(CardScoreB), new ArrayComparer<int>())
             .Select((tuple, index) => tuple.Hand.Bid * (index + 1))
             .Sum();
-
-        return result;
-    }
 
     static Combo CalcB(Card[] cards)
     {
@@ -124,11 +112,14 @@ public class Solver : IProblemSolver<long>
             Card.King => 11,
             Card.Ace => 12,
         };
+
+    static IEnumerable<HandA> LoadItems(string filename)
+        => File.ReadAllLines(filename).Select(Parse);
 }
 
-public record HandA(Card[] Cards, int Bid);
+record HandA(Card[] Cards, int Bid);
 
-public enum Combo
+enum Combo
 {
     HighCard,
     OnePair,
@@ -139,7 +130,7 @@ public enum Combo
     FiveOfAKind,
 }
 
-public enum Card
+enum Card
 {
     Two,
     Three,

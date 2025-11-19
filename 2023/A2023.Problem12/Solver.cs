@@ -23,9 +23,7 @@ public class Solver : IProblemSolver<long>
         var combos = line[(n + 1)..].Split(',').ToArray(int.Parse);
 
         var calculator = new Calculator();
-        var result = calculator.BruteForce(pattern, combos);
-
-        return result;
+        return calculator.BruteForce(pattern, combos);
     }
 
     static long RunBLine(string line)
@@ -38,9 +36,8 @@ public class Solver : IProblemSolver<long>
         combos = Enumerable.Range(0, 4).Aggregate(combos, (p, _) => [.. p, .. combos]).ToArray();
 
         var calculator = new Calculator();
-        var result = calculator.BruteForce(pattern, combos);
 
-        return result;
+        return calculator.BruteForce(pattern, combos);
     }
 }
 
@@ -54,10 +51,8 @@ public class Calculator
         var quantityOne = pattern.Count(a => a == 1);
         var quantityZero = pattern.Count(a => a == 0);
 
-        var result = Recurse(
+        return Recurse(
             0, questions.Length, questions, [requiredZero, requiredOne], [quantityZero, quantityOne], pattern, combos, 0, 0, 2);
-
-        return result;
     }
 
     readonly Dictionary<string, long> history = [];
@@ -70,49 +65,43 @@ public class Calculator
             var key = String.Join("", pattern[fromIndex..]) + $";{fromCombos}";
 
             if (history.TryGetValue(key, out var result))
-            {
                 return result;
-            }
-            else
+
+            var index = questions[depth];
+
+            var ret = 0L;
+
+            for (var g = 0; g <= 1; ++g)
             {
-                var index = questions[depth];
+                if (parentPredict != 2 && parentPredict != g)
+                    continue;
 
-                var ret = 0L;
-
-                for (var g = 0; g <= 1; ++g)
+                if (quantity[g] < required[g])
                 {
-                    if (parentPredict != 2 && parentPredict != g)
-                        continue;
+                    pattern[index] = g;
+                    quantity[g]++;
 
-                    if (quantity[g] < required[g])
+                    var (good, skipCombo, skipIndex, predict) = Check(pattern, combos, fromCombos, fromIndex,
+                        depth + 1 < questionsLength ? depth + 1 : -1);
+
+                    if (good)
                     {
-                        pattern[index] = g;
-                        quantity[g]++;
-
-                        var (good, skipCombo, skipIndex, predict) = Check(pattern, combos, fromCombos, fromIndex,
-                            depth + 1 < questionsLength ? depth + 1 : -1);
-
-                        if (good)
-                        {
-                            ret += Recurse(
-                                depth + 1, questionsLength, questions, required, quantity, pattern, combos, skipCombo, skipIndex, predict);
-                        }
-
-                        quantity[g]--;
+                        ret += Recurse(
+                            depth + 1, questionsLength, questions, required, quantity, pattern, combos, skipCombo, skipIndex, predict);
                     }
+
+                    quantity[g]--;
                 }
-
-                pattern[index] = 2;
-
-                history[key] = ret;
-
-                return ret;
             }
+
+            pattern[index] = 2;
+
+            history[key] = ret;
+
+            return ret;
         }
-        else
-        {
-            return 1;
-        }
+
+        return 1;
     }
 
     static (bool, int, int, int) Check(int[] pattern, int[] combos, int fromCombos, int fromIndex, int nextQuestion)

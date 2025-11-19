@@ -1,5 +1,7 @@
 ﻿using Advent.Common;
 
+using System.Linq;
+
 namespace A2024.Problem25;
 
 public class Solver : ISolver<long>
@@ -23,18 +25,14 @@ public class Solver : ISolver<long>
         => @lock.Zip(key).All(a => a.First + a.Second <= height);
 
     static IEnumerable<int[]> ParseLocks(int[][,] items)
-    {
-        foreach (var item in items)
-            if (item.GetRow(0).All(b => b == 1))
-                yield return item.GetColumns().Select(a => Array.IndexOf(a, 0) - 1).ToArray();
-    }
+        => from item in items
+            where item.GetRow(0).All(b => b == 1)
+            select item.GetColumns().Select(a => Array.IndexOf(a, 0) - 1).ToArray();
 
     static IEnumerable<int[]> ParseKeys(int[][,] items)
-    {
-        foreach (var item in items)
-            if (item.GetRow(item.Height - 1).All(b => b == 1))
-                yield return item.GetColumns().Select(a => a.Length - Array.IndexOf(a, 1) - 1).ToArray();
-    }
+        => from item in items
+            where item.GetRow(item.Height - 1).All(b => b == 1)
+            select item.GetColumns().Select(a => a.Length - Array.IndexOf(a, 1) - 1).ToArray();
 
     static int[][,] LoadData(string[] lines)
         => lines.SplitBy(String.Empty).Select(a => MapData.ParseMap(a, b => b == '#' ? 1 : 0)).ToArray();

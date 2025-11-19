@@ -14,7 +14,7 @@ public class Solver : IProblemSolver<long>
 
     static (long, long) Run(string filename)
     {
-        var item = CompiledRegs.MapRegex().FromFile<Item>(filename).First();
+        var item = CompiledRegs.MapRegex().FromFile<Item>(filename)[0];
 
         var globalMaxY = Int32.MinValue;
 

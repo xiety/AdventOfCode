@@ -47,7 +47,7 @@ public class Solver : ISolver<int>
     }
 
     static Item LoadData(string[] lines)
-        => CompiledRegs.Regex().FromLines<Item>(lines).First();
+        => CompiledRegs.Regex().FromLines<Item>(lines)[0];
 }
 
 record Item(int Min, int Max);

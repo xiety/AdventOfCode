@@ -1,8 +1,8 @@
-﻿namespace Advent.Common.Graph;
+﻿namespace Advent.Common;
 
 public static class GraphPathFinder
 {
-    public static Dictionary<GraphNode, int> CalculateStar(GraphNode[] nodes, GraphNode start, GraphNode end)
+    public static Dictionary<GraphNode, int> CalculateStar(GraphNode start, GraphNode end)
     {
         var star = new Dictionary<GraphNode, int> { [start] = 0 };
 
@@ -47,10 +47,4 @@ public class GraphNode
 {
     public required string Name { get; init; }
     public List<GraphNode> Connections { get; } = [];
-}
-
-public class Graph
-{
-    public required GraphNode Start { get; init; }
-    public required GraphNode End { get; init; }
 }

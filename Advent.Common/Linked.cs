@@ -8,7 +8,9 @@ public static class Linked
 
 public class Linked<T>(T? value, bool end, Linked<T>? next, int count) : IEnumerable<T>
 {
+#pragma warning disable CA1051 // Do not declare visible instance fields
     public T? Value = value;
+#pragma warning restore CA1051 // Do not declare visible instance fields
 
     public bool End { get; } = end;
 
@@ -69,14 +71,13 @@ public class Linked<T>(T? value, bool end, Linked<T>? next, int count) : IEnumer
                 linked = initial;
                 return !linked.End;
             }
-            else
-            {
-                if (linked?.Next == null)
-                    return false; //WHY THIS IS HAPPENING FROM VISUALIZER???
 
-                linked = linked!.Next;
-                return !linked!.End;
-            }
+            if (linked?.Next is null)
+                return false; //WHY THIS IS HAPPENING FROM VISUALIZER???
+
+            linked = linked!.Next;
+
+            return !linked!.End;
         }
 
         public void Reset()

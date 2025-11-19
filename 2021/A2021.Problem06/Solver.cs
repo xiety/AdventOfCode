@@ -35,8 +35,6 @@ public class Solver : IProblemSolver<long>
             array[period + 2 - 1] = temp;
         }
 
-        var result = array.Sum();
-
-        return result;
+        return array.Sum();
     }
 }

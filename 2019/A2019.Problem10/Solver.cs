@@ -42,7 +42,7 @@ public class Solver : ISolver<long>
                     .First(a => See(rect, circles, observatory, a));
 
                 var shadowed = CastShadow(rect, observatory, vaporized)
-                    .Where(a => circles.Any(b => b == a));
+                    .Where(circles.Contains);
 
                 circles.RemoveRange(shadowed);
                 circles.Remove(vaporized);

@@ -10,8 +10,7 @@ public class Solver : IProblemSolver<long>
     public long RunA(string filename)
     {
         var packet = LoadFile(filename);
-        var result = CalcSumRecurse(packet);
-        return result;
+        return CalcSumRecurse(packet);
     }
 
     public long RunB(string filename)
@@ -23,14 +22,12 @@ public class Solver : IProblemSolver<long>
 
     static Packet LoadFile(string filename)
     {
-        var hex = File.ReadAllLines(filename).First();
+        var hex = File.ReadAllLines(filename)[0];
 
         var bytes = Convert.FromHexString(hex);
         var br = new BitReader(bytes);
 
-        var packet = Parse(br);
-
-        return packet;
+        return Parse(br);
     }
 
     static int CalcSumRecurse(Packet packet)
@@ -79,33 +76,31 @@ public class Solver : IProblemSolver<long>
 
             return new PacketLiteral(version, typeId, value);
         }
+
+        var subPackets = new List<Packet>();
+
+        var lengthTypeId = br.ReadToBool();
+
+        if (lengthTypeId)
+        {
+            var num = (int)br.ReadToBigInteger(11);
+
+            for (var n = 0; n < num; ++n)
+                subPackets.Add(Parse(br));
+        }
         else
         {
-            var subPackets = new List<Packet>();
+            var length = (int)br.ReadToBigInteger(15);
+            var startSubPackets = br.CurrentOffset;
 
-            var lengthTypeId = br.ReadToBool();
-
-            if (lengthTypeId)
+            do
             {
-                var num = (int)br.ReadToBigInteger(11);
-
-                for (var n = 0; n < num; ++n)
-                    subPackets.Add(Parse(br));
+                subPackets.Add(Parse(br));
             }
-            else
-            {
-                var length = (int)br.ReadToBigInteger(15);
-                var startSubPackets = br.CurrentOffset;
-
-                do
-                {
-                    subPackets.Add(Parse(br));
-                }
-                while (br.CurrentOffset - startSubPackets < length);
-            }
-
-            return new PacketParent(version, typeId, subPackets.ToArray());
+            while (br.CurrentOffset - startSubPackets < length);
         }
+
+        return new PacketParent(version, typeId, subPackets.ToArray());
     }
 
     static BigInteger ParseValue(BitReader br)
@@ -123,9 +118,8 @@ public class Solver : IProblemSolver<long>
         while (flag);
 
         var ba = new BitArray(bools.ToArray());
-        var result = ba.GetBigInteger();
 
-        return result;
+        return ba.GetBigInteger();
     }
 }
 

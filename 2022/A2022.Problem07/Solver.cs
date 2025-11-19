@@ -96,7 +96,7 @@ public class Solver : IProblemSolver<long>
 
                     if (existing is null)
                     {
-                        existing = new FileSystemDir(cd.Dir, currentDir);
+                        existing = new(cd.Dir, currentDir);
                         currentDir.Children.Add(existing);
                     }
 

@@ -34,7 +34,7 @@ public static class PathFinder
 
     static Pos[] CalculatePath(int[,] map, int[,] star, Pos start, Pos end)
     {
-        var path = new List<Pos>() { end };
+        var path = new List<Pos> { end };
         var currentStep = end;
 
         do

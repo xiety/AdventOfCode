@@ -37,7 +37,7 @@ public class Solver : IProblemSolver<int>
         var width = lines[0].Length;
         var height = lines.Length;
 
-        var result = lines.Index()
+        return lines.Index()
             .SelectMany(a =>
                 CompiledRegs.Regex().Matches(a.Item)
                     .SelectMany(m =>
@@ -49,8 +49,6 @@ public class Solver : IProblemSolver<int>
             .GroupBy(a => a.pos)
             .Where(a => a.Count() == 2)
             .Sum(a => a.Mul(b => b.value));
-
-        return result;
     }
 }
 

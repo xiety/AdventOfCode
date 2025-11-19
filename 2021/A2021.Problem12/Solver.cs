@@ -15,9 +15,8 @@ public class Solver : IProblemSolver<long>
         var graph = ParseGraph(File.ReadAllLines(filename).ToArray(ParseLine));
 
         var calc = new Calculator(graph, single);
-        var result = calc.Calculate();
 
-        return result;
+        return calc.Calculate();
     }
 
     static Item ParseLine(string line)

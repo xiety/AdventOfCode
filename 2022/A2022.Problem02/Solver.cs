@@ -36,8 +36,7 @@ public class Solver : IProblemSolver<int>
     static IEnumerable<(char, char)> LoadFile(string filename)
     {
         var lines = File.ReadAllLines(filename);
-        var parsed = lines.Select(Parse);
-        return parsed;
+        return lines.Select(Parse);
     }
 
     readonly Dictionary<(char, char), int> wins = new()

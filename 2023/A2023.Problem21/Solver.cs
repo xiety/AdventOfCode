@@ -23,16 +23,15 @@ public class Solver : IProblemSolver<long>
                 {
                     var c = map.Get(newStep);
 
-                    if (!c)
+                    if (!c && !newSteps.Contains(newStep))
                     {
-                        if (!newSteps.Contains(newStep))
-                            newSteps.Add(newStep);
+                        newSteps.Add(newStep);
                     }
                 }
             }
 
             if (newSteps.Count == 0)
-                throw new Exception();
+                throw new();
 
             (currentSteps, newSteps) = (newSteps, currentSteps);
             newSteps.Clear();

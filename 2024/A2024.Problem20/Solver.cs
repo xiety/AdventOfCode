@@ -1,4 +1,7 @@
-﻿using Advent.Common;
+﻿#pragma warning disable RCS1163 // Unused parameter
+#pragma warning disable IDE0060 // Remove unused parameter
+
+using Advent.Common;
 
 namespace A2024.Problem20;
 

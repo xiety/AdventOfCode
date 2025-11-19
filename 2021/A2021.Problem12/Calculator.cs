@@ -1,6 +1,6 @@
 ﻿namespace A2021.Problem12;
 
-public class Calculator(Graph graph, bool single)
+public class Calculator(Graph graph, bool singleStep)
 {
     public int Calculate()
     {
@@ -14,7 +14,7 @@ public class Calculator(Graph graph, bool single)
         if (parent == graph.End)
             return 1;
 
-        if (single && parent.CaveType == CaveType.Small && path.Contains(parent))
+        if (singleStep && parent.CaveType == CaveType.Small && path.Contains(parent))
             return 0;
 
         if (parent == graph.Start && level > 0)

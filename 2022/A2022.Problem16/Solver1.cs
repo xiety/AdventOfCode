@@ -17,9 +17,7 @@ public sealed class Solver1
         var releases = Linked.Empty<int>();
         var released = Linked.Empty<Release>();
 
-        var maximum = Recurse(path, releases, released, 0, parent, false);
-
-        return maximum;
+        return Recurse(path, releases, released, 0, parent, false);
     }
 
     int globalMaximum = 0;

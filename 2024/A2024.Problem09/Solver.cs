@@ -132,6 +132,6 @@ public class Solver : ISolver<long>
         }
     }
 
-    private static int[] LoadData(string[] lines)
+    static int[] LoadData(string[] lines)
         => ToDisk(lines[0].Select(a => int.Parse($"{a}"))).ToArray();
 }

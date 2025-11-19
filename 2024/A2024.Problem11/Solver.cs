@@ -44,23 +44,19 @@ public class Solver : ISolver<long>
     static long[] CreateChildren(long n)
     {
         if (n == 0)
-        {
             return [1];
+
+        var ns = n.ToString();
+
+        if (ns.Length % 2 == 0)
+        {
+            var (n1, n2) = Split(ns);
+            return [n1, n2];
         }
         else
         {
-            var ns = n.ToString();
-
-            if (ns.Length % 2 == 0)
-            {
-                var (n1, n2) = Split(ns);
-                return [n1, n2];
-            }
-            else
-            {
-                var n1 = n * 2024;
-                return [n1];
-            }
+            var n1 = n * 2024;
+            return [n1];
         }
     }
 
@@ -83,7 +79,7 @@ public class Solver : ISolver<long>
         return c;
     }
 
-    private static TreeNode CreateRoot(IEnumerable<long> items)
+    static TreeNode CreateRoot(IEnumerable<long> items)
     {
         var root = new TreeNode(-1, []);
         root.SetChildren(items);

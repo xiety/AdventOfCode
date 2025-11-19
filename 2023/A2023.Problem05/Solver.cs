@@ -7,7 +7,7 @@ public class Solver : IProblemSolver<long>
     public long RunA(string filename)
     {
         var parts = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
-        var seeds = parts[0].First().Split(' ').Skip(1).Select(long.Parse);
+        var seeds = parts[0][0].Split(' ').Skip(1).Select(long.Parse);
         var chunks = parts.Skip(1).ToArray(ParseChunk);
         return seeds.Min(a => RecurseA(chunks, "seed", a));
     }
@@ -15,7 +15,7 @@ public class Solver : IProblemSolver<long>
     public long RunB(string filename)
     {
         var parts = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
-        var seeds = parts[0].First().Split(' ').Skip(1).ToArray(long.Parse)
+        var seeds = parts[0][0].Split(' ').Skip(1).ToArray(long.Parse)
             .Chunk(2).ToArray(a => (a[0], a[0] + a[1] - 1));
         var chunks = parts.Skip(1).ToArray(ParseChunk);
 
@@ -53,10 +53,8 @@ public class Solver : IProblemSolver<long>
 
         var parts = ToParts(fromStart, fromEnd, points);
 
-        var minResult = parts
+        return parts
             .Min(a => CalculateB(chunks, chunk, a.Item1, a.Item2));
-
-        return minResult;
     }
 
     long CalculateB(Chunk[] chunks, Chunk chunk, long partStart, long partEnd)
@@ -105,7 +103,7 @@ public class Solver : IProblemSolver<long>
 
         var maps = array.Skip(1).ToArray(ParseMap);
 
-        return new Chunk(from, to, maps);
+        return new(from, to, maps);
     }
 
     static ItemMap ParseMap(string a)

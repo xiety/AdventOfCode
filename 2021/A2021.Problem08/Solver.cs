@@ -5,18 +5,10 @@ namespace A2021.Problem08;
 public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
-    {
-        var items = LoadFile(filename);
-        var result = items.Sum(a => a.Output.Count(b => b.Length is 2 or 3 or 4 or 7));
-        return result;
-    }
+        => LoadFile(filename).Sum(a => a.Output.Count(b => b.Length is 2 or 3 or 4 or 7));
 
     public long RunB(string filename)
-    {
-        var items = LoadFile(filename);
-        var result = items.Sum(Analyze);
-        return result;
-    }
+        => LoadFile(filename).Sum(Analyze);
 
     static int[][] ToArray(string text)
         => text.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToArray(ConvertToNums);
@@ -30,11 +22,9 @@ public class Solver : IProblemSolver<long>
         var digits = CreateDigits(positions);
         var output = Convert(item.Output, digits);
 
-        var ret = output
+        return output
             .Reverse()
             .Aggregate((sum: 0, mul: 1), (acc, a) => (acc.sum + a * acc.mul, acc.mul * 10), acc => acc.sum);
-
-        return ret;
     }
 
     static int[][] CreateDigits(int[] positions)

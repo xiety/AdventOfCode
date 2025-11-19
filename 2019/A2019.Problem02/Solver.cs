@@ -16,9 +16,7 @@ public class Solver : ISolver<long>
 
         var cpu = new Cpu(codes, codes);
         var output = cpu.Interpret().ToArray();
-        var result = cpu.ReadMemory(0);
-
-        return result;
+        return cpu.ReadMemory(0);
     }
 
     public long RunB(string[] lines, bool isSample)

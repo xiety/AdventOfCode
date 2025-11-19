@@ -68,9 +68,7 @@ public class Solver : IProblemSolver<long>
             ["s"] = [1..Num],
         };
 
-        var result = Recurse(workflows, "in", conditionNum: 0, depth: 0, dic);
-
-        return result;
+        return Recurse(workflows, "in", conditionNum: 0, depth: 0, dic);
     }
 
     static long Recurse(Item1[] workflows, string workflowName, int conditionNum, int depth, Dictionary<string, Range[]> dic)

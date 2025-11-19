@@ -88,7 +88,9 @@ public class Solver : IProblemSolver<int, string>
 
     static IEnumerable<Command> LoadFile(string fileName)
     {
+#pragma warning disable RCS1124 // Inline local variable
         var lines = File.ReadAllLines(fileName);
+#pragma warning restore RCS1124 // Inline local variable
 
         foreach (var item in lines)
         {

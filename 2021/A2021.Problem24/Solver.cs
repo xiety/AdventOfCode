@@ -55,7 +55,7 @@ public class Solver : IProblemSolver<long>
             t -= 1;
             g = t / 10;
 
-            for (int w = 2; w <= 14-4; ++w)
+            for (var w = 2; w <= 14-4; ++w)
             {
                 if (g % 10 == 0)
                 {

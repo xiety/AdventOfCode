@@ -37,7 +37,7 @@ public class Solver : IProblemSolver<long>
 
                 node = node.Next;
             }
-            while (node?.Next != null);
+            while (node?.Next is not null);
         }
 
         var grouped = seq.GroupBy(a => a).ToArray();
@@ -45,9 +45,7 @@ public class Solver : IProblemSolver<long>
         var min = grouped.Min(a => a.LongCount());
         var max = grouped.Max(a => a.LongCount());
 
-        var result = max - min;
-
-        return result;
+        return max - min;
     }
 
     public long RunB(string filename)
@@ -63,7 +61,9 @@ public class Solver : IProblemSolver<long>
 
         var groups = new Dic();
 
-        MyFunc memo = null!; //#pragma warning disable RCS1212 // Remove redundant assignment
+#pragma warning disable RCS1212 // Remove redundant assignment
+        MyFunc memo = null!;
+#pragma warning restore RCS1212 // Remove redundant assignment
 
         memo = Memoization.Wrap((MyFunc)Recurse);
 
@@ -73,9 +73,7 @@ public class Solver : IProblemSolver<long>
         var min = groups.Min(a => a.Value);
         var max = groups.Max(a => a.Value);
 
-        var result = max - min;
-
-        return result;
+        return max - min;
 
         Dic Recurse((char a, char b, int level) p)
         {
@@ -86,10 +84,8 @@ public class Solver : IProblemSolver<long>
 
                 return d1.Merge(d2);
             }
-            else
-            {
-                return new() { [p.b] = 1 };
-            }
+
+            return new() { [p.b] = 1 };
         }
     }
 }

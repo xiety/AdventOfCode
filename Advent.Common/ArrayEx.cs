@@ -224,17 +224,20 @@ public static class ArrayEx
 
         public IEnumerable<int> FindAllIndexes(T search)
         {
+            var comparer = EqualityComparer<T?>.Default;
+
             for (var i = 0; i < array.Length; ++i)
             {
-                if ((array[i] == null && search == null) || (array[i] != null && array[i]!.Equals(search)))
+                if ((comparer.Equals(array[i], default) && comparer.Equals(search, default))
+                 || (!comparer.Equals(array[i], default) && array[i]!.Equals(search)))
                     yield return i;
             }
         }
 
         public Dictionary<TKey, T> ToDictionary<TKey>()
             where TKey : INumber<TKey>
-           => array.Select((v, i) => KeyValuePair.Create(TKey.CreateChecked(i), v))
-            .ToDictionary(a => a.Key, a => a.Value);
+            => array.Select((v, i) => KeyValuePair.Create(TKey.CreateChecked(i), v))
+                .ToDictionary(a => a.Key, a => a.Value);
     }
 
     extension<TKey, TValue>(TValue[] array)
@@ -327,7 +330,7 @@ public static class ArrayEx
                     if (dx == 0 && dy == 0)
                         continue;
 
-                    yield return new Pos(dx, dy);
+                    yield return new(dx, dy);
                 }
             }
         }
@@ -359,8 +362,8 @@ public static class ArrayEx
     {
         public void Flood(Pos pos)
         {
-            var floodPoints = new List<Pos>() { pos };
-            var nextPoints = new List<Pos>();
+            List<Pos> floodPoints = [pos];
+            List<Pos> nextPoints = [];
 
             do
             {

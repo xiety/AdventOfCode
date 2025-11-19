@@ -99,5 +99,5 @@ public class Solver : ISolver<long>
         return (map, moves);
     }
 
-    enum NodeType { None, Wall, Box, BoxLeft, BoxRight, Unit, }
+    enum NodeType { None, Wall, Box, BoxLeft, BoxRight, Unit }
 }

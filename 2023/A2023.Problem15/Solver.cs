@@ -52,7 +52,6 @@ public class Solver : IProblemSolver<long>
             }
         }
 
-        //.Reverse<(string label, int focal)>()
         return boxes.Select((list, index) =>
             list.Select((b, index2) => (index + 1) * (index2 + 1) * b.focal).Sum()).Sum();
     }
@@ -61,7 +60,9 @@ public class Solver : IProblemSolver<long>
     {
         var ret = 0;
 
+#pragma warning disable RCS1124 // Inline local variable
         var bytes = System.Text.Encoding.ASCII.GetBytes(text);
+#pragma warning restore RCS1124 // Inline local variable
 
         foreach (var b in bytes)
         {

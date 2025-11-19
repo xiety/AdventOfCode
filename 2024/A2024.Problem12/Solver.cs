@@ -107,7 +107,7 @@ public class Solver : ISolver<long>
     {
         var startString = map.Get(start);
 
-        var floodPoints = new List<Pos>() { start };
+        var floodPoints = new List<Pos> { start };
         var nextPoints = new List<Pos>();
 
         filled.Set(start, true);

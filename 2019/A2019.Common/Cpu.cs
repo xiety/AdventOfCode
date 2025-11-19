@@ -101,7 +101,7 @@ public class Cpu(long[] codes, IEnumerable<long> input)
     long SetValue(long address, Mode mode, long value)
         => mode switch
         {
-            Mode.Address => (memory[ReadMemory(address)] = value),
+            Mode.Address => memory[ReadMemory(address)] = value,
             Mode.Value => throw new(),
             Mode.Relative => memory[relativeBase + ReadMemory(address)] = value,
         };

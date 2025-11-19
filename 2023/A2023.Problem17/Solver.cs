@@ -22,7 +22,7 @@ public class Solver : IProblemSolver<long>
         var startStar = new StarData(0, 0);
         var star = new Dictionary<StarKey, List<StarData>> { [startKey] = [startStar] };
 
-        var currentSteps = new Dictionary<StarKey, List<StarData>>() { [startKey] = [startStar] };
+        var currentSteps = new Dictionary<StarKey, List<StarData>> { [startKey] = [startStar] };
         var newSteps = new Dictionary<StarKey, List<StarData>>();
 
         var bestEnd = int.MaxValue;

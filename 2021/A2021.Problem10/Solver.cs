@@ -97,8 +97,6 @@ public class Solver : IProblemSolver<long>
             }
         }
 
-        var score = scores.Order().Skip(scores.Count / 2).First();
-
-        return score;
+        return scores.Order().Skip(scores.Count / 2).First();
     }
 }

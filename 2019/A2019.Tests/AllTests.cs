@@ -1,7 +1,5 @@
 using Advent.Common;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace A2019.Tests;
 
 [TestClass]

@@ -18,7 +18,6 @@ public class Solver : IProblemSolver<long>
     }
 
     static Movement[] Load(string filename)
-        => File.ReadAllLines(filename)
-               .First()
+        => File.ReadAllLines(filename)[0]
                .ToArray(c => c switch { '>' => Movement.Right, '<' => Movement.Left });
 }

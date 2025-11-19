@@ -20,12 +20,10 @@ public class Solver : IProblemSolver<int>
 
         var starts = map.EnumeratePositionsOf(0);
 
-        var result = starts
+        return starts
             .Select(a => SlopePathFinder.Find(map, a, end))
             .WhereNotNull()
             .Min(a => a.Length);
-
-        return result;
     }
 
     public static (int[,], Pos, Pos) Load(string filename)

@@ -77,9 +77,7 @@ public class Solver : IProblemSolver<int>
             }
         }
 
-        var result = (pos.Y + 1) * 1000 + (pos.X + 1) * 4 + (int)rotation;
-
-        return result;
+        return (pos.Y + 1) * 1000 + (pos.X + 1) * 4 + (int)rotation;
     }
 
     static Pos CalcPosition(Map map, Pos pos, Pos offset)

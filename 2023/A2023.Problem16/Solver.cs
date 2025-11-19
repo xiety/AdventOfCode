@@ -55,7 +55,7 @@ public class Solver : IProblemSolver<long>
 
     static void Go(char[,] map, int[,] energy, Pos startingPos, Pos startingDir)
     {
-        var rays = new List<MutableRay>() { new(startingPos, startingDir, []) };
+        var rays = new List<MutableRay> { new(startingPos, startingDir, []) };
 
         do
         {
@@ -94,7 +94,7 @@ public class Solver : IProblemSolver<long>
                             {
                                 if (ray.Dir == new Pos(0, 1) || ray.Dir == new Pos(0, -1))
                                 {
-                                    newDir = new Pos(-1, 0);
+                                    newDir = new(-1, 0);
 
                                     var newRay = new MutableRay(newPos, new Pos(1, 0), ray.Path);
                                     rays.Add(newRay);
@@ -104,7 +104,7 @@ public class Solver : IProblemSolver<long>
                             {
                                 if (ray.Dir == new Pos(1, 0) || ray.Dir == new Pos(-1, 0))
                                 {
-                                    newDir = new Pos(0, -1);
+                                    newDir = new(0, -1);
 
                                     var newRay = new MutableRay(newPos, new Pos(0, 1), ray.Path);
                                     rays.Add(newRay);

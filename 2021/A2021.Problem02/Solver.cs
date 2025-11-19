@@ -10,9 +10,7 @@ public class Solver : IProblemSolver<int>
     {
         var items = LoadFile(filename);
         var pos = items.Aggregate(new Pos(0, 0), Process);
-        var result = pos.X * pos.Y;
-
-        return result;
+        return pos.X * pos.Y;
 
         static Pos Process(Pos pos, Item item)
             => item.Dir switch
@@ -27,9 +25,7 @@ public class Solver : IProblemSolver<int>
     {
         var items = LoadFile(filename);
         var (_, pos) = items.Aggregate((0, new Pos(0, 0)), Process);
-        var result = pos.X * pos.Y;
-
-        return result;
+        return pos.X * pos.Y;
 
         static (int, Pos) Process((int Aim, Pos Pos) data, Item item)
             => item.Dir switch

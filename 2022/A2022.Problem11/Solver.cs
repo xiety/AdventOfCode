@@ -43,13 +43,11 @@ public class Solver : IProblemSolver<long>
             }
         }
 
-        var result = monkeys
+        return monkeys
             .OrderByDescending(a => a.StepsCount)
             .Take(2)
             .Select(a => a.StepsCount)
             .MulLong();
-
-        return result;
     }
 
     static IEnumerable<Monkey<T>> LoadFile<T>(string fileName)
@@ -57,11 +55,9 @@ public class Solver : IProblemSolver<long>
     {
         var text = File.ReadAllText(fileName);
 
-        var items = text.ReplaceLineEndings()
+        return text.ReplaceLineEndings()
             .Split(Environment.NewLine + Environment.NewLine)
             .Select(CompiledRegs.Regex().MapTo<Monkey<T>>);
-
-        return items;
     }
 }
 
@@ -106,13 +102,10 @@ record Monkey<T>(
             "/" => Expression.Divide(left, right),
             "+" => Expression.Add(left, right),
             "-" => Expression.Subtract(left, right),
-            string a => throw new NotSupportedException(a)
         };
 
         var expression = Expression.Lambda(operation, old);
-        var func = (Func<T, T>)expression.Compile();
-
-        return func;
+        return (Func<T, T>)expression.Compile();
     }
 
     public T Calculate(T value)

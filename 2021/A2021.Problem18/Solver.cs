@@ -6,26 +6,20 @@ public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
     {
-        var items = File.ReadAllLines(filename);
-
-        var lines = items.ToArray(Parse);
+        var lines = LoadItems(filename);
 
         var result = lines.Skip(1).Aggregate(lines[0], AddNodes);
 
         var tree = ToTree(result.Tokens.ToArray());
 
-        var magnitude = Magnitude(tree);
-
-        return magnitude;
+        return Magnitude(tree);
     }
 
     public long RunB(string filename)
     {
-        var items = File.ReadAllLines(filename);
+        var lines = LoadItems(filename);
 
-        var lines = items.ToArray(Parse);
-
-        var max = lines
+        return lines
             .SelectMany(a => lines
                 .Where(b => b != a)
                 .Select(b =>
@@ -35,8 +29,6 @@ public class Solver : IProblemSolver<long>
                     return Magnitude(tree);
                 }))
             .Max();
-
-        return max;
     }
 
     static int Magnitude(Tree tree)
@@ -248,6 +240,9 @@ public class Solver : IProblemSolver<long>
             }
         }
     }
+
+    static Node[] LoadItems(string filename)
+        => File.ReadAllLines(filename).ToArray(Parse);
 }
 
 record Node(List<Token> Tokens)

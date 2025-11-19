@@ -1,7 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
 using Advent.Common;
-using Advent.Common.Graph;
 
 namespace A2019.Problem06;
 
@@ -22,7 +21,7 @@ public class Solver : ISolver<int>
         var start = nodes.First(a => a.Name == "YOU");
         var end = nodes.First(a => a.Name == "SAN");
 
-        var star = GraphPathFinder.CalculateStar(nodes, start, end);
+        var star = GraphPathFinder.CalculateStar(start, end);
 
         return star[end] - 2;
     }

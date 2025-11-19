@@ -68,7 +68,7 @@ public abstract class BaseProblemTest
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
+public sealed class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
 {
     readonly TR sampleA;
     readonly TR resultA;
@@ -91,22 +91,15 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
         this.resultA = resultA;
     }
 
-#pragma warning disable RCS1032 // Remove redundant parentheses
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
-    {
-        var list = new List<object?[]>
-        {
+        => [
             (["sample.txt", true, sampleA]),
             (["input.txt", true, resultA]),
             (["sample.txt", false, sampleB]),
             (["input.txt", false, resultB])
-        };
+        ];
 
-        return list;
-    }
-#pragma warning restore RCS1032 // Remove redundant parentheses
-
-    public string GetDisplayName(MethodInfo methodInfo, object?[]? data)
+    string ITestDataSource.GetDisplayName(MethodInfo methodInfo, object?[]? data)
     {
         var filename = (string)data![0]!;
         var first = (bool)data![1]!;
@@ -116,7 +109,7 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
 }
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class ProblemTestAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sampleB, TRB resultB, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
+public sealed class ProblemTestAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sampleB, TRB resultB, [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = -1)
     : TestMethodAttribute(callerFilePath, callerLineNumber), ITestDataSource
 {
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
@@ -129,7 +122,7 @@ public class ProblemTestAttribute<TRA, TRB>(TRA sampleA, TRA resultA, TRB sample
         ];
     }
 
-    public string GetDisplayName(MethodInfo methodInfo, object?[]? data)
+    string ITestDataSource.GetDisplayName(MethodInfo methodInfo, object?[]? data)
     {
         var filename = (string)data![0]!;
         var first = (bool)data![1]!;

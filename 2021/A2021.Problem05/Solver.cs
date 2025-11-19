@@ -30,9 +30,7 @@ public class Solver : IProblemSolver<int>
                 DrawDiagonal(array, item);
         }
 
-        var result = array.Cast<int>().Count(a => a > 1);
-
-        return result;
+        return array.Cast<int>().Count(a => a > 1);
     }
 
     static void DrawDiagonal(int[,] array, Item item)

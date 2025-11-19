@@ -5,7 +5,9 @@ static class Loader
     public static IEnumerable<Pair> Load(string filename)
     {
         var lines = File.ReadAllLines(filename);
+#pragma warning disable RCS1124 // Inline local variable
         var chunks = lines.SplitBy(String.Empty);
+#pragma warning restore RCS1124 // Inline local variable
 
         foreach (var chunk in chunks)
         {

@@ -14,12 +14,10 @@ public class Solver : IProblemSolver<int>
 
         var games = LoadFile(filename);
 
-        var result = games
+        return games
             .Where(g => !g.Balls.Any(b => cubes.Zip(b)
                 .Any(tuple => tuple.First < tuple.Second)))
             .Sum(g => g.GameNumber);
-
-        return result;
     }
 
     public int RunB(string filename)
@@ -45,7 +43,9 @@ public class Solver : IProblemSolver<int>
             {
                 var data = new int[3];
 
+#pragma warning disable RCS1124 // Inline local variable
                 var parts = CompiledRegs.ColorRegex().FromLines<Step2>(part.Split(", "));
+#pragma warning restore RCS1124 // Inline local variable
 
                 foreach (var part2 in parts)
                 {

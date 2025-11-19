@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿#pragma warning disable CS0162 // Unreachable code detected
+using System.Text.RegularExpressions;
 
 using Advent.Common;
 
@@ -10,12 +11,10 @@ public class Solver : IProblemSolver<long>
     {
         var items = LoadFile(filename);
 
-        var result = Fors
+        return Fors
             .For((-50, 51), (-50, 51), (-50, 51))
             .Select(a => new Pos3(a[0], a[1], a[2]))
             .Count(pos => items.Where(a => a.Rect.Intersects(pos)).Select(a => a.On).FirstOrDefault(false));
-
-        return result;
     }
 
     public long RunB(string filename)
@@ -30,15 +29,17 @@ public class Solver : IProblemSolver<long>
 
         //TODO: change to var
         //warning CS8604: Possible null reference argument for parameter 'array' in 'int Array.IndexOf<int>(int[] array, int value)'.
+#pragma warning disable RCS1264 // Use 'var' or explicit type
         int[] allX = all.Select(a => a.X).Distinct().Order().ToArray();
         int[] allY = all.Select(a => a.Y).Distinct().Order().ToArray();
         int[] allZ = all.Select(a => a.Z).Distinct().Order().ToArray();
+#pragma warning restore RCS1264 // Use 'var' or explicit type
 
         var insideAll = items
             .SelectMany(a => Populate(a.Rect))
             .Distinct();
 
-        var result = insideAll.AsParallel().Sum(@for =>
+        return insideAll.AsParallel().Sum(@for =>
         {
             var (nx, ny, nz) = @for;
 
@@ -53,8 +54,6 @@ public class Solver : IProblemSolver<long>
 
             return on ? rect.Volume : 0;
         });
-
-        return result;
 
         IEnumerable<(int, int, int)> Populate(Rect3 rect)
         {

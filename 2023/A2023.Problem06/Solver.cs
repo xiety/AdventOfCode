@@ -10,11 +10,9 @@ public class Solver : IProblemSolver<long>
         var times = ParseA(lines[0]);
         var distances = ParseA(lines[1]);
 
-        var result = times.Zip(distances)
+        return times.Zip(distances)
             .Select(a => Calculate(a.First, a.Second))
             .Mul();
-
-        return result;
     }
 
     static long[] ParseA(string line)
@@ -26,9 +24,7 @@ public class Solver : IProblemSolver<long>
         var time = ParseB(lines[0]);
         var distance = ParseB(lines[1]);
 
-        var result = Calculate(time, distance);
-
-        return result;
+        return Calculate(time, distance);
     }
 
     static int Calculate(long time, long distance)

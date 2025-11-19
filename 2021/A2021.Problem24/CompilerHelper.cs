@@ -2,7 +2,7 @@
 
 namespace A2021.Problem24;
 
-public static class Compiler
+public static class CompilerHelper
 {
     public static string Run(string filename)
     {

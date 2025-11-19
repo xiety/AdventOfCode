@@ -28,9 +28,7 @@ public class Solver : IProblemSolver<long>
 
         enlarged.Flood(Pos.Zero);
 
-        var square = Calc(enlarged);
-
-        return square;
+        return Calc(enlarged);
     }
 
     static long Calc(bool[,] enlarged)

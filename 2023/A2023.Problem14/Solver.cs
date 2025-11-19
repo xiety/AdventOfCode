@@ -36,15 +36,13 @@ public class Solver : IProblemSolver<long>
 
                 break;
             }
-            else
-            {
-                North(map);
-                West(map);
-                South(map);
-                East(map);
 
-                history.Add(key, i);
-            }
+            North(map);
+            West(map);
+            South(map);
+            East(map);
+
+            history.Add(key, i);
         }
 
         return CalcResult(map);

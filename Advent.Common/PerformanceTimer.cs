@@ -7,7 +7,7 @@ public sealed class PerformanceTimer(Action<TimeSpan> action) : IDisposable
     public TimeSpan Elapsed
         => Stopwatch.GetElapsedTime(startTime, Stopwatch.GetTimestamp());
 
-    void IDisposable.Dispose()
+    public void Dispose()
         => action(Elapsed);
 
     public static PerformanceTimer CreateConsole()

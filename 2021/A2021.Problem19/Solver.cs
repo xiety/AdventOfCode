@@ -116,7 +116,7 @@ public class Solver : IProblemSolver<long>
                                     var test = ApplyTransformPos(sameB1, transform);
 
                                     if (test != sameA1)
-                                        throw new Exception();
+                                        throw new();
 
                                     transform = ApplyTransform(transform, transformForParent);
 
@@ -134,7 +134,7 @@ public class Solver : IProblemSolver<long>
                                     var test = ApplyTransformPos(sameA1, transform);
 
                                     if (test != sameB1)
-                                        throw new Exception();
+                                        throw new();
 
                                     transform = ApplyTransform(transform, transformForParent2);
 
@@ -254,7 +254,7 @@ readonly record struct AxisConvert(Orientation AxisX, Orientation AxisY, Orienta
         };
 }
 
-enum Axis { X, Y, Z };
+enum Axis { X, Y, Z }
 
 static partial class CompiledRegs
 {

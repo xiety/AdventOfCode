@@ -10,9 +10,7 @@ public class Solver : IProblemSolver<long>
 
         var lowestPoints = LowestPoints(data);
 
-        var result = lowestPoints.Sum(a => a.item + 1);
-
-        return result;
+        return lowestPoints.Sum(a => a.item + 1);
     }
 
     public long RunB(string filename)
@@ -24,12 +22,10 @@ public class Solver : IProblemSolver<long>
         var basins = lowestPoints
             .Select(tuple => CalculateBasin(tuple.pos, data));
 
-        var result = basins
+        return basins
             .OrderDescending()
             .Take(3)
             .Aggregate(1, (acc, item) => acc * item);
-
-        return result;
     }
 
     static (Pos pos, int item)[] LowestPoints(int[,] data)
@@ -60,7 +56,6 @@ public class Solver : IProblemSolver<long>
         return list.Count;
     }
 
-    //TODO:
-    private static int[,] LoadData(string filename)
+    static int[,] LoadData(string filename)
         => MapData.ParseMap(File.ReadAllLines(filename));
 }

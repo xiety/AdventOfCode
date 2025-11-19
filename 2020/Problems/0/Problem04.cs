@@ -14,12 +14,12 @@ public class Solver : ISolver<int>
             .Where(ValidateRequired)
             .Count(a => a.All(Validate));
 
-    bool ValidateRequired(Item[] items)
+    static bool ValidateRequired(Item[] items)
         => items
         .Select(a => a.Key)
         .ContainsAll(["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]); //TODO: remove array
 
-    bool Validate(Item item)
+    static bool Validate(Item item)
         => item.Key switch
         {
             "byr" => ValidateNumber(item.Value, 1920, 2002),

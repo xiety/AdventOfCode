@@ -29,7 +29,7 @@ public class Solver : ISolver<int>
     static int Compare(Rule[] rules, int x, int y)
         => rules.Any(a => a.Left == x && a.Right == y) ? -1 : 1;
 
-    private static (Rule[], int[][]) LoadData(string[] lines)
+    static (Rule[], int[][]) LoadData(string[] lines)
     {
         var (chunk1, chunk2) = lines.SplitBy(String.Empty);
         var rules = CompiledRegs.Regex().FromLines<Rule>(chunk1);

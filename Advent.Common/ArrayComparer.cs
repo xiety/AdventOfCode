@@ -7,7 +7,7 @@ public class ArrayComparer<T> : IComparer<T[]>
 
     public int Compare(T[]? x, T[]? y)
     {
-        if (x == null || y == null || x.Length != y.Length)
+        if (x is null || y is null || x.Length != y.Length)
             return -1;
 
         return x.Select((t, i) => t.CompareTo(y[i])).FirstOrDefault(r => r != 0);

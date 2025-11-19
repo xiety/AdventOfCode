@@ -18,12 +18,10 @@ public class Solver : IProblemSolver<string, bool>
                 sum += dec;
             }
 
-            var result = SnafuConverter.ToSnafu(sum);
-
-            return result;
+            return SnafuConverter.ToSnafu(sum);
         }
     }
 
-    public bool RunB(string filename)
-        => true;
+    //public bool RunB(string filename)
+    //    => true;
 }

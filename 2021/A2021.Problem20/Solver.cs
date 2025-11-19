@@ -64,9 +64,7 @@ public class Solver : IProblemSolver<long>
                     ba.CopyTo(tempArray, 0);
                     var n = tempArray[0];
 
-                    var pn = palette[n];
-
-                    output[x, y] = pn;
+                    output[x, y] = palette[n];
                 }
             }
 
@@ -74,15 +72,13 @@ public class Solver : IProblemSolver<long>
             Array.Clear(output);
         }
 
-        var result = space.EnumeratePositionsOf(true).Count();
-
-        return result;
+        return space.EnumeratePositionsOf(true).Count();
     }
 
     static (bool[], bool[,]) LoadFile(string filename)
     {
         var chunks = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
-        var palette = chunks[0].First().ToArray(a => a == '#');
+        var palette = chunks[0][0].ToArray(a => a == '#');
         var map = MapData.ParseMap([.. chunks[1]], a => a == '#');
         return (palette, map);
     }
