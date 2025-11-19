@@ -11,8 +11,8 @@ static class Loader
         {
             var array = chunk.ToArray();
 
-            var first = (ItemArray)ParseLine(array.First());
-            var second = (ItemArray)ParseLine(array.Last());
+            var first = (ItemArray)ParseLine(array[0]);
+            var second = (ItemArray)ParseLine(array[^1]);
 
             yield return new(first, second);
         }

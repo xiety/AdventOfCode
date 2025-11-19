@@ -66,7 +66,7 @@ public static class ArrayEx
 
             for (var y = 0; y < array.GetLength(1); ++y)
             {
-                sb.Append(String.Join(itemSeparator, array.GetRow(y).Select(format)));
+                sb.AppendJoin(itemSeparator, array.GetRow(y).Select(format));
                 sb.Append(lineSeparator);
             }
 

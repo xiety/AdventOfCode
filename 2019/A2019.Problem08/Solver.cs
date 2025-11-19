@@ -31,7 +31,7 @@ public class Solver : ISolver<int, string>
 
     static int[][,] LoadData(string[] lines, int width, int height)
     {
-        var text = lines.First();
+        var text = lines[0];
         var numLayers = text.Length / (width * height);
         var ret = new int[numLayers][,];
 

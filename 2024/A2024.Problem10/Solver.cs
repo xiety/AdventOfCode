@@ -7,13 +7,13 @@ public class Solver : ISolver<int>
     public int RunA(string[] lines, bool isSample)
     {
         var map = MapData.ParseMap(lines);
-        return map.EnumeratePositionsOf(0).Select(a => FindNumberOfPaths(map, a).Distinct().Count()).Sum();
+        return map.EnumeratePositionsOf(0).Sum(a => FindNumberOfPaths(map, a).Distinct().Count());
     }
 
     public int RunB(string[] lines, bool isSample)
     {
         var map = MapData.ParseMap(lines);
-        return map.EnumeratePositionsOf(0).Select(a => FindNumberOfPaths(map, a).Count()).Sum();
+        return map.EnumeratePositionsOf(0).Sum(a => FindNumberOfPaths(map, a).Count());
     }
 
     static IEnumerable<Pos> FindNumberOfPaths(int[,] map, Pos start)

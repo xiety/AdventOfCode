@@ -1,6 +1,6 @@
 ﻿namespace A2021.Problem24;
 
-public class Flow
+public static class Flow
 {
     const string input_str = "00000000000000";
 

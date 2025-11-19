@@ -11,7 +11,7 @@ public class Solver : ISolver<int>
     {
         var connections = LoadData(lines);
         var moons = connections.Select(a => a.Moon).Distinct().ToArray();
-        return moons.Select(a => RecurseCount(connections, a, 0)).Sum();
+        return moons.Sum(a => RecurseCount(connections, a, 0));
     }
 
     public int RunB(string[] lines, bool isSample)

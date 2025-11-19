@@ -77,7 +77,7 @@ public class Solver : ISolver<long>
         if (cache.TryGetValue((tree.Value, left), out var result))
             return result;
 
-        var c = tree.Children.Select(a => Count(cache, a, iteration, level + 1)).Sum();
+        var c = tree.Children.Sum(a => Count(cache, a, iteration, level + 1));
         cache.Add((tree.Value, left), c);
 
         return c;

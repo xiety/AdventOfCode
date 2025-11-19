@@ -7,19 +7,12 @@ namespace A2020.Problem04;
 public class Solver : ISolver<int>
 {
     public int RunA(string[] lines, bool isSample)
-    {
-        var items = LoadData(lines);
-        return items.Where(ValidateRequired).Count();
-    }
+        => LoadData(lines).Count(ValidateRequired);
 
     public int RunB(string[] lines, bool isSample)
-    {
-        var items = LoadData(lines);
-
-        return items.Where(ValidateRequired)
-            .Where(a => a.All(Validate))
-            .Count();
-    }
+        => LoadData(lines)
+            .Where(ValidateRequired)
+            .Count(a => a.All(Validate));
 
     bool ValidateRequired(Item[] items)
         => items

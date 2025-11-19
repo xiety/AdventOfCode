@@ -13,11 +13,10 @@ public class Solver : ISolver<int>
     {
         var regex = CompiledRegs.Regex();
 
-        return lines.Select(line => regex.Matches(line)
+        return lines.Sum(line => regex.Matches(line)
                 .Where(a => a.Groups[1].Success && a.Groups[2].Success)
                 .Select(m => m.MapTo<Item>())
-                .Select(b => b.Left * b.Right).Sum())
-                .Sum();
+                .Sum(b => b.Left * b.Right));
     }
 
     public int RunB(string[] lines, bool isSample)
@@ -29,9 +28,13 @@ public class Solver : ISolver<int>
         foreach (var match in lines.SelectMany(line => regex.Matches(line)))
         {
             if (match.Value == CommandDo)
+            {
                 enabled = true;
+            }
             else if (match.Value == CommandDont)
+            {
                 enabled = false;
+            }
             else if (enabled)
             {
                 var item = match.MapTo<Item>();

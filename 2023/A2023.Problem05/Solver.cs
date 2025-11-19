@@ -7,19 +7,19 @@ public class Solver : IProblemSolver<long>
     public long RunA(string filename)
     {
         var parts = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
-        var seeds = parts.First().First().Split(' ').Skip(1).Select(long.Parse);
+        var seeds = parts[0].First().Split(' ').Skip(1).Select(long.Parse);
         var chunks = parts.Skip(1).ToArray(ParseChunk);
-        return seeds.Select(a => RecurseA(chunks, "seed", a)).Min();
+        return seeds.Min(a => RecurseA(chunks, "seed", a));
     }
 
     public long RunB(string filename)
     {
         var parts = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
-        var seeds = parts.First().First().Split(' ').Skip(1).ToArray(long.Parse)
+        var seeds = parts[0].First().Split(' ').Skip(1).ToArray(long.Parse)
             .Chunk(2).ToArray(a => (a[0], a[0] + a[1] - 1));
         var chunks = parts.Skip(1).ToArray(ParseChunk);
 
-        return seeds.Select(a => RecurseB(chunks, "seed", a.Item1, a.Item2)).Min();
+        return seeds.Min(a => RecurseB(chunks, "seed", a.Item1, a.Item2));
     }
 
     static long RecurseA(Chunk[] chunks, string from, long fromValue)
@@ -47,15 +47,14 @@ public class Solver : IProblemSolver<long>
 
         var chunk = chunks.Single(a => a.From == from);
 
-        var points = Enumerable
-            .Concat(chunk.Maps.Select(a => a.SourceStart), chunk.Maps.Select(a => a.SourceEnd))
+        var points = chunk.Maps.Select(a => a.SourceStart)
+            .Concat(chunk.Maps.Select(a => a.SourceEnd))
             .Distinct().Order().ToArray();
 
         var parts = ToParts(fromStart, fromEnd, points);
 
         var minResult = parts
-            .Select(a => CalculateB(chunks, chunk, a.Item1, a.Item2))
-            .Min();
+            .Min(a => CalculateB(chunks, chunk, a.Item1, a.Item2));
 
         return minResult;
     }
@@ -96,7 +95,7 @@ public class Solver : IProblemSolver<long>
     {
         var array = lines.ToArray();
 
-        var first = array.First();
+        var first = array[0];
 
         var n1 = first.IndexOf('-');
         var n2 = first.LastIndexOf(' ');

@@ -10,11 +10,9 @@ public class Solver : IProblemSolver<long, string>
     {
         var (map, folds) = LoadFile(filename);
 
-        var folded = Fold(map, folds.First());
+        var folded = Fold(map, folds[0]);
 
-        var result = folded.Cast<bool>().Count(a => a);
-
-        return result;
+        return folded.Cast<bool>().Count(a => a);
     }
 
     public string RunB(string filename)

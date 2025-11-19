@@ -7,17 +7,14 @@ public class Solver : ISolver<int>
     public int RunA(string[] lines, bool isSample)
         => lines
             .SplitBy(string.Empty)
-            .Select(a => a.SelectMany(b => b)
+            .Sum(a => a.SelectMany(b => b)
                 .Distinct()
-                .Count())
-            .Sum();
+                .Count());
 
     public int RunB(string[] lines, bool isSample)
         => lines
             .SplitBy(string.Empty)
-            .Select(a => a.SelectMany(b => b)
+            .Sum(a => a.SelectMany(b => b)
                 .GroupBy(b => b)
-                .Where(b => b.Count() == a.Length)
-                .Count())
-            .Sum();
+                .Count(b => b.Count() == a.Length));
 }

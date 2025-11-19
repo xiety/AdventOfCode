@@ -5,10 +5,10 @@ namespace A2024.Problem12;
 public class Solver : ISolver<long>
 {
     public long RunA(string[] lines, bool isSample)
-        => Run(lines).Select(a => a.Item1 * a.Item2.Length).Sum();
+        => Run(lines).Sum(a => a.Item1 * a.Item2.Length);
 
     public long RunB(string[] lines, bool isSample)
-        => Run(lines).Select(a => a.Item1 * CountSides(a.Item2)).Sum();
+        => Run(lines).Sum(a => a.Item1 * CountSides(a.Item2));
 
     static IEnumerable<(int, Log[])> Run(string[] lines)
     {
@@ -40,7 +40,7 @@ public class Solver : ISolver<long>
 
         do
         {
-            var pos = remainder.First();
+            var pos = remainder[0];
 
             switch (pos.Wall)
             {

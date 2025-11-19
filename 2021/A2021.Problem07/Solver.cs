@@ -7,15 +7,13 @@ public class Solver : IProblemSolver<long>
     public long RunA(string filename)
     {
         var items = LoadFile(filename);
-        var result = Find(items, (a, best) => Math.Abs(best - a));
-        return result;
+        return Find(items, (a, best) => Math.Abs(best - a));
     }
 
     public long RunB(string filename)
     {
         var items = LoadFile(filename);
-        var result = Find(items, Dist);
-        return result;
+        return Find(items, Dist);
     }
 
     static int[] LoadFile(string filename)
@@ -26,8 +24,7 @@ public class Solver : IProblemSolver<long>
 
     static int Find(int[] items, Func<int, int, int> func)
         => Enumerable.Range(items.Min(), items.Max() - items.Min() + 1)
-                     .Select(best => items.Select(a => func(a, best)).Sum())
-                     .Min();
+                     .Min<int, int>(best => items.Sum(a => func(a, best)));
 
     static int Dist(int a, int b)
     {

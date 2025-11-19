@@ -1,6 +1,6 @@
 ﻿namespace A2022.Problem12;
 
-class SlopePathFinder
+static class SlopePathFinder
 {
     public static Pos[]? Find(int[,] map, Pos start, Pos end)
     {

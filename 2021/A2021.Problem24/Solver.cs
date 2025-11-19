@@ -1,4 +1,8 @@
-﻿using Advent.Common;
+﻿#pragma warning disable RCS1089 // Use --/++ operator instead of assignment
+#pragma warning disable CS0162 // Unreachable code detected
+#pragma warning disable RCS1213 // Remove unused member declaration
+
+using Advent.Common;
 
 namespace A2021.Problem24;
 
@@ -8,7 +12,6 @@ public class Solver : IProblemSolver<long>
     {
         throw new NotImplementedException();
 
-        var flow = new Flow();
         var flowResult = Flow.Run(filename);
 
         Console.WriteLine(flowResult);

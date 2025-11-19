@@ -100,10 +100,10 @@ public readonly record struct Rect(Pos From, Pos To)
 
     public static Rect CreateBoundingBox(IReadOnlyCollection<Pos> items)
     {
-        var minX = items.Select(a => a.X).Min();
-        var maxX = items.Select(a => a.X).Max();
-        var minY = items.Select(a => a.Y).Min();
-        var maxY = items.Select(a => a.Y).Max();
+        var minX = items.Min(a => a.X);
+        var maxX = items.Max(a => a.X);
+        var minY = items.Min(a => a.Y);
+        var maxY = items.Max(a => a.Y);
 
         return new(new(minX, minY), new(maxX, maxY));
     }

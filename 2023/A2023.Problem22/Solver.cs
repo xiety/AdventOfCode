@@ -98,7 +98,7 @@ public class Solver : IProblemSolver<long>
 
 record Item(int X1, int Y1, int Z1, int X2, int Y2, int Z2);
 
-class Brick : ICloneable
+sealed class Brick : ICloneable
 {
     public required string Name { get; init; }
     public required Pos3 From { get; set; }

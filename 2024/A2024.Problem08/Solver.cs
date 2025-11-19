@@ -39,13 +39,10 @@ public class Solver : ISolver<int>
     static IEnumerable<Pos> Ray(string[,] map, Pos start, Pos diff, int maxSteps)
     {
         var p = start + diff;
-        var step = 0;
-
-        while ((maxSteps == -1 || step < maxSteps) && map.IsInBounds(p))
+        for (var step = 0; (maxSteps == -1 || step < maxSteps) && map.IsInBounds(p); ++step)
         {
             yield return p;
             p += diff;
-            step++;
         }
     }
 }

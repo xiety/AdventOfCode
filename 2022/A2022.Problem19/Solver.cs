@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<int>
     {
         var items = LoadFile(filename);
         var calculator = new Calculator(24);
-        return items.Select(a => calculator.Calculate(a) * a.Number).Sum();
+        return items.Sum(a => calculator.Calculate(a) * a.Number);
     }
 
     public int RunB(string filename)

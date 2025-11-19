@@ -1,6 +1,6 @@
 ﻿namespace A2022.Problem25;
 
-public class SnafuConverter
+public static class SnafuConverter
 {
     static readonly Dictionary<char, long> digits = new()
     {

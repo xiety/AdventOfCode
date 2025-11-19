@@ -37,7 +37,7 @@ public class Solver : ISolver<int>
     {
         var raw = CompiledRegs.Regex1().MapTo<Item1>(text);
         var receipts = CompiledRegs.Regex2().Matches(raw.To).ToArray(a => a.MapTo<Receipt2>());
-        return new(raw.From, receipts);
+        return new Item2(raw.From, receipts);
     }
 }
 

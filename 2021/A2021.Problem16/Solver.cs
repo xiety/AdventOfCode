@@ -38,7 +38,7 @@ public class Solver : IProblemSolver<long>
         var sum = (int)packet.Version;
 
         if (packet is PacketParent parent)
-            sum += parent.SubPackets.Select(CalcSumRecurse).Sum();
+            sum += parent.SubPackets.Sum(CalcSumRecurse);
 
         return sum;
     }
@@ -85,7 +85,14 @@ public class Solver : IProblemSolver<long>
 
             var lengthTypeId = br.ReadToBool();
 
-            if (lengthTypeId == false)
+            if (lengthTypeId)
+            {
+                var num = (int)br.ReadToBigInteger(11);
+
+                for (var n = 0; n < num; ++n)
+                    subPackets.Add(Parse(br));
+            }
+            else
             {
                 var length = (int)br.ReadToBigInteger(15);
                 var startSubPackets = br.CurrentOffset;
@@ -95,15 +102,6 @@ public class Solver : IProblemSolver<long>
                     subPackets.Add(Parse(br));
                 }
                 while (br.CurrentOffset - startSubPackets < length);
-            }
-            else
-            {
-                var num = (int)br.ReadToBigInteger(11);
-
-                for (var n = 0; n < num; ++n)
-                {
-                    subPackets.Add(Parse(br));
-                }
             }
 
             return new PacketParent(version, typeId, subPackets.ToArray());

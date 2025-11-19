@@ -120,7 +120,7 @@ public static class EnumerableExtensions
             => String.Join(separator, source.Select(selection));
 
         public IEnumerable<T> AppendRange(params T[] items)
-            => Enumerable.Concat(source, items);
+            => source.Concat(items);
 
         public IEnumerable<IEnumerable<T>> SplitBy(Func<T, bool> isHeader)
         {
@@ -299,7 +299,7 @@ public static class EnumerableExtensions
             var typeConvertedEnumerable = source.Cast(elementType);
 
             var enumerableType = typeof(Enumerable);
-            var flags = BindingFlags.Static | BindingFlags.Public;
+            const BindingFlags flags = BindingFlags.Static | BindingFlags.Public;
             var parameters = new[] { elementType };
 
             var typeConvertedArray = enumerableType
@@ -313,7 +313,7 @@ public static class EnumerableExtensions
         object Cast(Type elementType)
         {
             var enumerableType = typeof(Enumerable);
-            var flags = BindingFlags.Static | BindingFlags.Public;
+            const BindingFlags flags = BindingFlags.Static | BindingFlags.Public;
             var parameters = new[] { elementType };
 
             return enumerableType
@@ -327,7 +327,7 @@ public static class EnumerableExtensions
             var typeConvertedEnumerable = source.Cast(elementType);
 
             var enumerableType = typeof(Enumerable);
-            var flags = BindingFlags.Static | BindingFlags.Public;
+            const BindingFlags flags = BindingFlags.Static | BindingFlags.Public;
             var parameters = new[] { elementType };
 
             var typeConvertedList = enumerableType

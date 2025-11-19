@@ -104,7 +104,7 @@ public class AllTests : BaseProblemTest
         => Test(2021, 24, new Problem24.Solver(), filename, first, value);
 }
 
-class Data
+static class Data
 {
     public const string Result13A = """
         #####

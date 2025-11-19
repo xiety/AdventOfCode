@@ -57,11 +57,8 @@ public class Solver : IProblemSolver<long>
                         hit = true;
                         break;
                     }
-
-                    if (x > item.ToX || y < item.FromY)
-                        break;
                 }
-                while (true);
+                while (x <= item.ToX && y >= item.FromY);
 
                 if (hit)
                 {
@@ -72,18 +69,12 @@ public class Solver : IProblemSolver<long>
                 }
 
                 startVX++;
-
-                if (startVX > item.ToX)
-                    break;
             }
-            while (true);
+            while (startVX <= item.ToX);
 
             startVY++;
-
-            if (startVY > 200) //cheat
-                break;
         }
-        while (true);
+        while (startVY <= 200); //cheat
 
         return (globalMaxY, hitCount);
     }

@@ -44,11 +44,8 @@ public class Solver : IProblemSolver<long>
                     result += item.Values.Sum();
                     break;
                 }
-
-                if (workflowName == "R")
-                    break;
             }
-            while (true);
+            while (workflowName != "R");
         }
 
         return result;
@@ -127,9 +124,13 @@ public class Solver : IProblemSolver<long>
             if (middleToLeft)
             {
                 if (end <= divider)
+                {
                     left.Add(range);
+                }
                 else if (start > divider)
+                {
                     right.Add(range);
+                }
                 else
                 {
                     left.Add(start..divider);
@@ -139,9 +140,13 @@ public class Solver : IProblemSolver<long>
             else
             {
                 if (end < divider)
+                {
                     left.Add(range);
+                }
                 else if (start >= divider)
+                {
                     right.Add(range);
+                }
                 else
                 {
                     left.Add(start..(divider - 1));

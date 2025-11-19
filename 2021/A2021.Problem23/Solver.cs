@@ -100,12 +100,8 @@ public class Solver : IProblemSolver<long>
             // destination is own room
             if (destination.Target.Type == unit.Type)
             {
-                // source is own room
-                if (unit.Node.Type == unit.Type)
-                {
-                }
-                // source is foreign room or hall
-                else
+                // source is not own room
+                if (unit.Node.Type != unit.Type)
                 {
                     var noForeigners = !situation.Foreigners.Contains(unit.Type);
 

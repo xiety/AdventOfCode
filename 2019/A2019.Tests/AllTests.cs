@@ -50,7 +50,7 @@ public class AllTests : BaseSolverTest
     public void Problem14(ITestParameter p) => Test(new Problem14.Solver(), p);
 }
 
-class Data
+static class Data
 {
     public const string Result08Sample = """
         .#

@@ -10,7 +10,7 @@ public class Solver : IProblemSolver<long>
 
         var lines = items.ToArray(Parse);
 
-        var result = lines.Skip(1).Aggregate(lines.First(), AddNodes);
+        var result = lines.Skip(1).Aggregate(lines[0], AddNodes);
 
         var tree = ToTree(result.Tokens.ToArray());
 
@@ -169,9 +169,13 @@ public class Solver : IProblemSolver<long>
             var token = input.Tokens[i];
 
             if (token is TokenOpenBranch)
+            {
                 depth++;
+            }
             else if (token is TokenCloseBranch)
+            {
                 depth--;
+            }
             else
             {
                 if (depth >= 5)
@@ -216,23 +220,30 @@ public class Solver : IProblemSolver<long>
         {
             for (var i = 0; i < text.Length; ++i)
             {
-                if (text[i] == '[')
-                    yield return new TokenOpenBranch();
-                else if (text[i] == ']')
-                    yield return new TokenCloseBranch();
-                else if (text[i] == ',')
-                    yield return new TokenComma();
-                else
+                switch (text[i])
                 {
-                    var j = i;
+                    case '[':
+                        yield return new TokenOpenBranch();
+                        break;
+                    case ']':
+                        yield return new TokenCloseBranch();
+                        break;
+                    case ',':
+                        yield return new TokenComma();
+                        break;
+                    default:
+                        {
+                            var j = i;
 
-                    for (; j < text.Length; ++j)
-                    {
-                        if (!Char.IsDigit(text[j]))
+                            for (; j < text.Length; ++j)
+                            {
+                                if (!Char.IsDigit(text[j]))
+                                    break;
+                            }
+
+                            yield return new TokenValue(int.Parse(text[i..j]));
                             break;
-                    }
-
-                    yield return new TokenValue(int.Parse(text[i..j]));
+                        }
                 }
             }
         }

@@ -28,8 +28,8 @@ public class Solver : IProblemSolver<long>
 
     static Graph ParseGraph(Item[] items)
     {
-        var nodes = Enumerable
-            .Concat(items.Select(a => a.From), items.Select(a => a.To))
+        var nodes = items.Select(a => a.From)
+            .Concat(items.Select(a => a.To))
             .ToArray(a => new GraphNode { Name = a, CaveType = CalcCaveType(a) });
 
         foreach (var item in items)
@@ -53,6 +53,7 @@ public class Solver : IProblemSolver<long>
         if (name is "start" or "end")
             return CaveType.StartOrEnd;
 
+#pragma warning disable CA1862 // Use the 'StringComparison' method overloads to perform case-insensitive string comparisons
         return name.ToLower() == name
             ? CaveType.Small
             : CaveType.Large;

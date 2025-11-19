@@ -5,22 +5,10 @@ namespace A2019.Problem01;
 public class Solver : ISolver<int>
 {
     public int RunA(string[] lines, bool isSample)
-    {
-        var items = LoadData(lines);
-
-        return items
-            .Select(CalcFuel)
-            .Sum();
-    }
+        => LoadData(lines).Sum(CalcFuel);
 
     public int RunB(string[] lines, bool isSample)
-    {
-        var items = LoadData(lines);
-
-        return items
-            .Select(CalcTotalFuel)
-            .Sum();
-    }
+        => LoadData(lines).Sum(CalcTotalFuel);
 
     static int CalcFuel(int n)
         => Math.Max(0, (n / 3) - 2);

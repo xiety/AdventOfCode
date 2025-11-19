@@ -47,6 +47,6 @@ public class Solver : ISolver<long>
 
         input1.AddRange(lastOutput);
 
-        return input1.Last();
+        return input1[^1];
     }
 }

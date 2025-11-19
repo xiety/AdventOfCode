@@ -11,7 +11,7 @@ public class Solver : ISolver<long>
         => Run(lines, 25);
 
     long Run(string[] lines, int num)
-        => lines.Select(a => long.Parse(a[..^1]) * Find(a, num)).Sum();
+        => lines.Sum(a => long.Parse(a[..^1]) * Find(a, num));
 
     long Find(string sequence, int num)
     {
@@ -24,8 +24,7 @@ public class Solver : ISolver<long>
             => num == level - 1
             ? seq.Length
             : FindOnMap(level == 0 ? mapPad : mapJoy, seq)
-                .Select(a => a.Select(b => memo(b, level + 1)).Sum())
-                .Min();
+                .Min(a => a.Sum(b => memo(b, level + 1)));
     }
 
     static string[][] FindOnMap(char[,] panel, string sequence)

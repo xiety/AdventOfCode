@@ -23,8 +23,7 @@ public class Solver : IProblemSolver<int>
         var result = starts
             .Select(a => SlopePathFinder.Find(map, a, end))
             .WhereNotNull()
-            .Select(a => a.Length)
-            .Min();
+            .Min(a => a.Length);
 
         return result;
     }
@@ -33,7 +32,7 @@ public class Solver : IProblemSolver<int>
     {
         var lines = File.ReadAllLines(filename);
 
-        var width = lines.First().Length;
+        var width = lines[0].Length;
         var height = lines.Length;
 
         var data = new int[width, height];

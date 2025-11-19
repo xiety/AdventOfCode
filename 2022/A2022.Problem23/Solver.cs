@@ -1,4 +1,5 @@
-﻿using Advent.Common;
+﻿#pragma warning disable RCS1213 // Remove unused member declaration
+using Advent.Common;
 
 namespace A2022.Problem23;
 

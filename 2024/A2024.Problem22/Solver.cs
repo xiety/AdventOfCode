@@ -58,8 +58,7 @@ public class Solver : ISolver<long>
 
         return lists.SelectMany(a => a)
             .GroupBy(a => a.Key)
-            .Select(a => a.Sum(b => b.Value))
-            .Max();
+            .Max(a => a.Sum(b => b.Value));
     }
 
     static int LastDigit(long n)

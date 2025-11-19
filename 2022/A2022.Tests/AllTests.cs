@@ -108,7 +108,7 @@ public class AllTests : BaseProblemTest
         => Test(2022, 25, new Problem25.Solver(), filename, first, valueA, valueB);
 }
 
-class Data
+static class Data
 {
     public const string Result09A = """
         ##..##..##..##..##..##..##..##..##..##..

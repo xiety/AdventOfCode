@@ -6,18 +6,18 @@ public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
     {
-        var data = MapData.ParseMap(File.ReadAllLines(filename));
+        var data = LoadData(filename);
 
         var lowestPoints = LowestPoints(data);
 
-        var result = lowestPoints.Select(a => a.item + 1).Sum();
+        var result = lowestPoints.Sum(a => a.item + 1);
 
         return result;
     }
 
     public long RunB(string filename)
     {
-        var data = MapData.ParseMap(File.ReadAllLines(filename));
+        var data = LoadData(filename);
 
         var lowestPoints = LowestPoints(data);
 
@@ -59,4 +59,8 @@ public class Solver : IProblemSolver<long>
 
         return list.Count;
     }
+
+    //TODO:
+    private static int[,] LoadData(string filename)
+        => MapData.ParseMap(File.ReadAllLines(filename));
 }

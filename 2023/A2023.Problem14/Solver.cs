@@ -10,11 +10,8 @@ public class Solver : IProblemSolver<long>
 
         North(map);
 
-        var result = map.EnumeratePositionsOf('O')
-                        .Select(a => map.Width - a.Y)
-                        .Sum();
-
-        return result;
+        return map.EnumeratePositionsOf('O')
+                  .Sum(a => map.Width - a.Y);
     }
 
     public long RunB(string filename)
@@ -50,15 +47,12 @@ public class Solver : IProblemSolver<long>
             }
         }
 
-        var result = CalcResult(map);
-
-        return result;
+        return CalcResult(map);
     }
 
     static int CalcResult(char[,] map)
         => map.EnumeratePositionsOf('O')
-              .Select(a => map.Width - a.Y)
-              .Sum();
+              .Sum(a => map.Width - a.Y);
 
     static char[,] LoadFile(string filename)
         => MapData.ParseMap(File.ReadAllLines(filename), c => c);

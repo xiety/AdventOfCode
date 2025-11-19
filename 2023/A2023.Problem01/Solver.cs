@@ -7,15 +7,13 @@ public class Solver : IProblemSolver<int>
     public int RunA(string filename)
     {
         var lines = File.ReadAllLines(filename);
-        var result = lines.Select(ProcessA).Sum();
-        return result;
+        return lines.Sum(ProcessA);
     }
 
     public int RunB(string filename)
     {
         var lines = File.ReadAllLines(filename);
-        var result = lines.Select(ProcessB).Sum();
-        return result;
+        return lines.Sum(ProcessB);
     }
 
     static int ProcessA(string line)

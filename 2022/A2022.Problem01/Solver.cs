@@ -25,7 +25,7 @@ public class Solver : IProblemSolver<int>
     }
 
     static IEnumerable<int> Parse(IEnumerable<IEnumerable<string>> chunks)
-        => chunks.Select(a => a.Select(int.Parse).Sum());
+        => chunks.Select(a => a.Sum(int.Parse));
 
     static IEnumerable<IEnumerable<string>> LoadFile(string filename)
     {

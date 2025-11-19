@@ -12,12 +12,9 @@ public class Solver : IProblemSolver<long>
 
         const int maximumSize = 100000;
 
-        var result = flattenDirs
-            .Where(a => a != root)
-            .Where(a => a.CalculatedSize < maximumSize)
+        return flattenDirs
+            .Where(a => a != root && a.CalculatedSize < maximumSize)
             .Sum(a => a.CalculatedSize);
-
-        return result;
     }
 
     public long RunB(string filename)

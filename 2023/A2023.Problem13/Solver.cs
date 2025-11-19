@@ -40,7 +40,7 @@ public class Solver : IProblemSolver<long>
             {
                 for (var dx = 0; dx < map.Width; ++dx)
                 {
-                    if (x - dx - 1 < 0)
+                    if (x - dx < 1)
                         break;
 
                     if (x + dx >= map.Width)
@@ -74,7 +74,7 @@ public class Solver : IProblemSolver<long>
             {
                 for (var dy = 0; dy < map.Height; ++dy)
                 {
-                    if (y - dy - 1 < 0)
+                    if (y - dy < 1)
                         break;
 
                     if (y + dy >= map.Height)

@@ -29,7 +29,7 @@ public class Solver : IProblemSolver<string>
     }
 
     static string CollectLetters(Stack<char>[] crates)
-        => new(Enumerable.Range(1, crates.Length - 1).ToArray(a => crates[a].First()));
+        => new(Enumerable.Range(1, crates.Length - 1).ToArray(a => crates[a].Peek()));
 
     static (Stack<char>[] crates, IEnumerable<Item> commands) LoadFile(string filename)
     {
@@ -37,7 +37,7 @@ public class Solver : IProblemSolver<string>
         var parts = lines.SplitBy(String.Empty).ToArray();
 
         var cratesLines = parts[0].ToArray();
-        var last = cratesLines.Last();
+        var last = cratesLines[^1];
         var numberOfColumns = (last.Length + 1) / 4;
         var crates = new Stack<char>[numberOfColumns + 1];
 

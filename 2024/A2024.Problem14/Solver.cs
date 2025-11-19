@@ -111,7 +111,7 @@ static partial class CompiledRegs
     public static partial Regex Regex();
 }
 
-class Data
+static class Data
 {
     public const string Tree = """
         ###############################

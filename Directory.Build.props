@@ -4,7 +4,6 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <NoWarn>CS1998,CS8509,CS8524,CA1860,CS0162</NoWarn>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <RunWorkingDirectory>.</RunWorkingDirectory>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
@@ -15,8 +14,5 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
-
-  <ItemGroup>
-  </ItemGroup>
 
 </Project>

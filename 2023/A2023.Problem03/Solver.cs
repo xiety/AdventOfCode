@@ -13,6 +13,7 @@ public class Solver : IProblemSolver<int>
         var width = lines[0].Length;
         var height = lines.Length;
 
+#pragma warning disable RCS1077 // Optimize LINQ method call
         var result = lines.Index()
             .SelectMany(a =>
                 CompiledRegs.Regex().Matches(a.Item)
@@ -24,6 +25,7 @@ public class Solver : IProblemSolver<int>
                     .Select(m => int.Parse(m.Value))
             )
             .Sum();
+#pragma warning restore RCS1077 // Optimize LINQ method call
 
         return result;
     }
@@ -46,8 +48,7 @@ public class Solver : IProblemSolver<int>
                             .Select(pos => (pos, value: int.Parse(m.Value)))))
             .GroupBy(a => a.pos)
             .Where(a => a.Count() == 2)
-            .Select(a => a.Mul(b => b.value))
-            .Sum();
+            .Sum(a => a.Mul(b => b.value));
 
         return result;
     }

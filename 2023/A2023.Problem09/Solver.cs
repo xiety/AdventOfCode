@@ -11,7 +11,7 @@ public class Solver : IProblemSolver<long>
         => Run(filename, false);
 
     static long Run(string filename, bool next)
-        => LoadFiles(filename).Select(a => CalcRecurse(a, next)).Sum();
+        => LoadFiles(filename).Sum(a => CalcRecurse(a, next));
 
     static IEnumerable<long[]> LoadFiles(string filename)
         => File.ReadAllLines(filename)
@@ -22,7 +22,7 @@ public class Solver : IProblemSolver<long>
         var diffs = items.Chain().ToArray(a => a.Second - a.First);
         var done = diffs.Distinct().Count() == 1;
         var delta = done ? diffs[0] : CalcRecurse(diffs, next);
-        var result = next ? items.Last() + delta : items.First() - delta;
+        var result = next ? items[^1] + delta : items[0] - delta;
         return result;
     }
 }

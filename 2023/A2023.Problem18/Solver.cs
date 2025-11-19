@@ -50,10 +50,9 @@ public class Solver : IProblemSolver<long>
 
         //Shoelace and Pick
         return Math.Abs(points.Chain()
-            .Select(a =>
+            .Sum(a =>
                 (long)a.First.X * a.Second.Y - (long)a.First.Y * a.Second.X
-              + Math.Abs(new Rect(a.First, a.Second).Volume))
-            .Sum()) / 2L + 1L;
+              + Math.Abs(new Rect(a.First, a.Second).Volume))) / 2L + 1L;
     }
 
     public long RunB(string filename)

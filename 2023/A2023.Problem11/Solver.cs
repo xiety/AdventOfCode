@@ -19,7 +19,7 @@ public class Solver : IProblemSolver<long>
 
         var stars = GetStars(map, resize, emptyCols, emptyRows).ToArray();
 
-        return stars.EnumeratePairs().Select(a => Distance(a.Item1, a.Item2)).Sum();
+        return stars.EnumeratePairs().Sum(a => Distance(a.Item1, a.Item2));
     }
 
     static IEnumerable<Pos> GetStars(bool[,] map, int resize, List<int> emptyCols, List<int> emptyRows)

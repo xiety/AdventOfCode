@@ -13,7 +13,7 @@ public class Solver : ISolver<int>
         => Run(lines, CheckB);
 
     static int Run(string[] lines, Func<Item, bool> predicate)
-        => LoadData(lines).Where(predicate).Count();
+        => LoadData(lines).Count(predicate);
 
     static bool CheckA(Item item)
     {

@@ -29,7 +29,7 @@ public static class CubicPathFinder
                 {
                     var newStep = currentStep + delta;
 
-                    if (star.IsInBounds(newStep) && map[newStep] == false && star.Get(newStep) == -1)
+                    if (star.IsInBounds(newStep) && !map[newStep] && star.Get(newStep) == -1)
                     {
                         star.Set(newStep, currentDistance);
 

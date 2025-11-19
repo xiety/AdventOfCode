@@ -41,11 +41,10 @@ public class Solver : ISolver<string, long>
         {
             var patternsAll = CreatePatterns();
 
-            var start = "000000000";
+            const string start = "000000000";
             var target = ops.Reverse().ToArray();
-            var index = 0;
 
-            var binary = Recurse(patternsAll, target, index, start).Order().First();
+            var binary = Recurse(patternsAll, target, 0, start).Order().First();
 
             return Convert.ToInt64(binary, 2);
         }
@@ -136,7 +135,7 @@ public class Solver : ISolver<string, long>
     }
 }
 
-class Cpu
+static class Cpu
 {
     public static IEnumerable<long> Run(long[] ops, State state)
     {

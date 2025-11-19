@@ -23,16 +23,9 @@ public class Solver : IProblemSolver<int>
     }
 
     public int RunB(string filename)
-    {
-        var games = LoadFile(filename);
-
-        var result = games
-            .Select(g => Enumerable.Range(0, Colors.Length)
-                .Select(i => g.Balls.Select(b => b[i]).Max()).Mul())
-            .Sum();
-
-        return result;
-    }
+        => LoadFile(filename)
+            .Sum(g => Enumerable.Range(0, Colors.Length)
+                .Select(i => g.Balls.Max<int[], int>(b => b[i])).Mul());
 
     static Game[] LoadFile(string filename)
         => CompiledRegs

@@ -6,7 +6,7 @@ public class Solver : ISolver<int>
 {
     public int RunA(string[] lines, bool isSample)
     {
-        var map = MapData.ParseMap(lines, a => a switch { '#' => -1, _ => 1 });
+        var map = LoadData(lines);
         var start = MapData.FindPos(lines, 'S');
         var end = MapData.FindPos(lines, 'E');
         var target = isSample ? 2 : 100;
@@ -14,13 +14,12 @@ public class Solver : ISolver<int>
         var path = PathFinder.Find(map, start, end)!;
 
         return Run(map, start, end, path)
-            .Where(a => path.Length - a.Value >= target)
-            .Count();
+            .Count(a => path.Length - a.Value >= target);
     }
 
     public int RunB(string[] lines, bool isSample)
     {
-        var map = MapData.ParseMap(lines, a => a switch { '#' => -1, _ => 1 });
+        var map = LoadData(lines);
         var start = MapData.FindPos(lines, 'S');
         var end = MapData.FindPos(lines, 'E');
         var target = isSample ? 50 : 100;
@@ -28,8 +27,7 @@ public class Solver : ISolver<int>
         var path = PathFinder.Find(map, start, end)!;
 
         return RunB(map, start, end, path)
-            .Where(a => path.Length - a.Value >= target)
-            .Count();
+            .Count(a => path.Length - a.Value >= target);
     }
 
     static Dictionary<(Pos, Pos), int> Run(int[,] map, Pos start, Pos end, Pos[] path)
@@ -67,7 +65,7 @@ public class Solver : ISolver<int>
     {
         var dic = new Dictionary<(Pos, Pos), int>();
         var index = -1;
-        var cheat = 20;
+        const int cheat = 20;
 
         foreach (var p in path.Prepend(start))
         {
@@ -102,4 +100,7 @@ public class Solver : ISolver<int>
 
         return dic;
     }
+
+    static int[,] LoadData(string[] lines)
+        => MapData.ParseMap(lines, a => a switch { '#' => -1, _ => 1 });
 }

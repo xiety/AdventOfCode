@@ -14,7 +14,7 @@ public class Solver : ISolver<long>
 
     public long RunB(string[] lines, bool isSample)
     {
-        var offset = 10000000000000L;
+        const long offset = 10000000000000L;
         var items = LoadData(lines).Select(a => a with { X = a.X + offset, Y = a.Y + offset });
         return Run(items);
     }

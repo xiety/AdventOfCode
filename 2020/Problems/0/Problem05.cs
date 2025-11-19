@@ -7,7 +7,7 @@ namespace A2020.Problem05;
 public class Solver : ISolver<int>
 {
     public int RunA(string[] lines, bool isSample)
-        => lines.Select(GetId).Max();
+        => lines.Max(GetId);
 
     public int RunB(string[] lines, bool isSample)
     {

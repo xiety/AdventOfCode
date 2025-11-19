@@ -60,12 +60,9 @@ public class Solver : IProblemSolver<long>
 
             if (Process(currentList, newList, dic, conjDic, true, buttonPress))
                 break;
-
-            if (conjDic.Count(a => prev.Contains(a.Key)) == prev.Count
-             && conjDic.Where(a => prev.Contains(a.Key)).All(a => a.Value.Count > 1))
-                break;
         }
-        while (true);
+        while (conjDic.Count(a => prev.Contains(a.Key)) != prev.Count
+            || !conjDic.Where(a => prev.Contains(a.Key)).All(a => a.Value.Count > 1));
 
         return MathExtensions.Lcm(conjDic.Where(a => prev.Contains(a.Key))
             .Select(a => (int)(a.Value[1] - a.Value[0])));
@@ -102,8 +99,9 @@ public class Solver : IProblemSolver<long>
                         {
                             var (_, pulse) = radio.PulseQueue.Dequeue();
 
-                            if (pulse == false && exit)
+                            if (!pulse && exit)
                                 return true;
+
                             break;
                         }
                 }
@@ -125,7 +123,7 @@ public class Solver : IProblemSolver<long>
 
         connection.PulseMemory = pulse;
 
-        if (pulse == false)
+        if (!pulse)
         {
             flipflop.Turn = !flipflop.Turn;
 
@@ -251,26 +249,18 @@ abstract class Radio
     public readonly Queue<(Connection, bool)> PulseQueue = [];
 }
 
-class RadioButton : Radio
-{
-}
+class RadioButton : Radio;
 
-class RadioBroadcaster : Radio
-{
-}
+class RadioBroadcaster : Radio;
 
-class RadioDeadend : Radio
-{
-}
+class RadioDeadend : Radio;
 
 class RadioFlipflop : Radio
 {
     public bool Turn;
 }
 
-class RadioConjunction : Radio
-{
-}
+class RadioConjunction : Radio;
 
 class Connection
 {

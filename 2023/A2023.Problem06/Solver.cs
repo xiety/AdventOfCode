@@ -37,5 +37,5 @@ public class Solver : IProblemSolver<long>
             .Count(b => ((time - b) * b) > distance);
 
     static long ParseB(string line)
-        => long.Parse(String.Join("", line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1)));
+        => long.Parse(String.Concat(line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1)));
 }

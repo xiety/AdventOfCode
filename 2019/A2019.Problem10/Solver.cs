@@ -20,7 +20,7 @@ public class Solver : ISolver<long>
         var asteroids = map.EnumeratePositionsOf(true).ToList();
         var rect = Rect.CreateBoundingBox(asteroids);
         var observatory = FindObservatory(rect, asteroids).Pos;
-        var target = 200;
+        const int target = 200;
 
         return EnumerateVaporized(asteroids, rect, observatory)
             .Skip(target - 1)
@@ -85,9 +85,12 @@ public class Solver : ISolver<long>
         if (observatory == asteroid)
             return false;
 
+#pragma warning disable RCS1077 // Optimize LINQ method call
         return !asteroids
             .Where(other => other != asteroid && other != observatory)
-            .Any(other => CastShadow(rect, observatory, other).Any(a => a == asteroid));
+            .Any(other => CastShadow(rect, observatory, other)
+                .Any(a => a == asteroid));
+#pragma warning restore RCS1077 // Optimize LINQ method call
     }
 
     static bool[,] LoadData(string[] lines)

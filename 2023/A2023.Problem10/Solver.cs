@@ -156,11 +156,8 @@ public class Solver : IProblemSolver<long>
                     break;
 
                 path.Add((currentPos, currentChar));
-
-                if (foundWhole)
-                    break;
             }
-            while (true);
+            while (!foundWhole);
 
             if (foundWhole)
             {

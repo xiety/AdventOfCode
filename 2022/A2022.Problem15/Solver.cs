@@ -18,8 +18,7 @@ public class Solver : IProblemSolver<long>
             var pos = new Pos(x, targetY);
 
             var collide = items
-                .Where(a => a.Beacon != pos)
-                .Any(a => a.Collide(pos));
+                .Any(a => a.Beacon != pos && a.Collide(pos));
 
             return collide ? 1 : 0;
         }).Sum();

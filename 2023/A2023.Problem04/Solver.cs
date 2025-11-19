@@ -7,14 +7,11 @@ namespace A2023.Problem04;
 public class Solver : IProblemSolver<int>
 {
     public int RunA(string filename)
-    {
-        var cards = CompiledRegs.Regex().FromFile<Card>(filename);
-        return cards.Select(CalcPoints).Sum();
-    }
+        => LoadItems(filename).Sum(CalcPoints);
 
     public int RunB(string filename)
     {
-        var cards = CompiledRegs.Regex().FromFile<Card>(filename);
+        var cards = LoadItems(filename);
 
         var calculates = cards.ToArray(a => (a.Number, Win: CalcWin(a), Copies: 1));
 
@@ -22,17 +19,20 @@ public class Solver : IProblemSolver<int>
             for (var j = i + 1; j < Math.Min(i + 1 + calculates[i].Win, calculates.Length); ++j)
                 calculates[j].Copies += calculates[i].Copies;
 
-        return calculates.Select(a => a.Copies).Sum();
+        return calculates.Sum(a => a.Copies);
     }
 
     static int CalcWin(Card card)
-        => card.Left.Select(a => card.Right.Contains(a) ? 1 : 0).Sum();
+        => card.Left.Sum(a => card.Right.Contains(a) ? 1 : 0);
 
     static int CalcPoints(Card card)
     {
         var win = CalcWin(card);
         return win == 0 ? 0 : (int)Math.Pow(2, win - 1);
     }
+
+    static Card[] LoadItems(string filename)
+        => CompiledRegs.Regex().FromFile<Card>(filename);
 }
 
 record Card(int Number, int[] Left, int[] Right);

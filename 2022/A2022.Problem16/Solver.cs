@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿#pragma warning disable CS0162 // Unreachable code detected
+using System.Text.RegularExpressions;
 
 using Advent.Common;
 
@@ -36,9 +37,7 @@ public class Solver2
 
     public int Run(Graph graph)
     {
-        var currentTime = 0;
-
-        var parent = graph.Nodes.First(); //first must be AA
+        var parent = graph.Nodes[0]; //first must be AA
 
         availableWorkingVaults = graph.Nodes.Where(a => a.Rate > 0).ToArray();
 
@@ -49,7 +48,7 @@ public class Solver2
 
         path1 = path1.AddBefore(parent.Name);
         var maximum = parent.Connections.AsParallel()
-            .Max(child => RecurseElephant(path1, path2, releases, released, currentTime, child, parent, false, false));
+            .Max(child => RecurseElephant(path1, path2, releases, released, 0, child, parent, false, false));
 
         return maximum;
     }

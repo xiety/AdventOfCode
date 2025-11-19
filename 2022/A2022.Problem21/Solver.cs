@@ -113,10 +113,10 @@ public class Solver : IProblemSolver<long>
         {
             var result = false;
 
-            if (result == false)
+            if (!result)
                 result = Contains(mo.Left!, search);
 
-            if (result == false)
+            if (!result)
                 result = Contains(mo.Right!, search);
 
             return result;

@@ -9,9 +9,7 @@ public sealed class Solver1
     //2.5 min
     public int Run(Graph graph)
     {
-        var currentTime = 0;
-
-        var parent = graph.Nodes.First(); //first must be AA
+        var parent = graph.Nodes[0]; //first must be AA
 
         availableWorkingVaults = graph.Nodes.Count(a => a.Rate > 0);
 
@@ -19,7 +17,7 @@ public sealed class Solver1
         var releases = Linked.Empty<int>();
         var released = Linked.Empty<Release>();
 
-        var maximum = Recurse(path, releases, released, currentTime, parent, false);
+        var maximum = Recurse(path, releases, released, 0, parent, false);
 
         return maximum;
     }

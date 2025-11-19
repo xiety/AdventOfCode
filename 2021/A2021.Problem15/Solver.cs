@@ -6,28 +6,24 @@ public class Solver : IProblemSolver<long>
 {
     public long RunA(string filename)
     {
-        var map = MapData.ParseMap(File.ReadAllLines(filename));
+        var map = LoadData(filename);
 
         var path = PathFinder.Find(map, new(0, 0), new(map.Width - 1, map.Height - 1))
             ?? throw new();
 
-        var result = path.Select(map.Get).Sum();
-
-        return result;
+        return path.Sum(map.Get);
     }
 
     public long RunB(string filename)
     {
-        var map = MapData.ParseMap(File.ReadAllLines(filename));
+        var map = LoadData(filename);
 
         var bigMap = CreateBigMap(map);
 
         var path = PathFinder.Find(bigMap, new(0, 0), new(bigMap.Width - 1, bigMap.Height - 1))
             ?? throw new();
 
-        var result = path.Select(bigMap.Get).Sum();
-
-        return result;
+        return path.Sum(bigMap.Get);
     }
 
     static int[,] CreateBigMap(int[,] map)
@@ -45,4 +41,7 @@ public class Solver : IProblemSolver<long>
 
     static int Rotate(int n, int d, int max)
         => ((n + d - 1) % (max - 1)) + 1;
+
+    static int[,] LoadData(string filename)
+        => MapData.ParseMap(File.ReadAllLines(filename));
 }

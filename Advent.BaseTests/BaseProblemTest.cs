@@ -91,6 +91,7 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
         this.resultA = resultA;
     }
 
+#pragma warning disable RCS1032 // Remove redundant parentheses
     public IEnumerable<object?[]> GetData(MethodInfo methodInfo)
     {
         var list = new List<object?[]>
@@ -103,6 +104,7 @@ public class ProblemTestAttribute<TR> : TestMethodAttribute, ITestDataSource
 
         return list;
     }
+#pragma warning restore RCS1032 // Remove redundant parentheses
 
     public string GetDisplayName(MethodInfo methodInfo, object?[]? data)
     {

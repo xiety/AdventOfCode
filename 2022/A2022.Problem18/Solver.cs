@@ -64,9 +64,9 @@ class Cube(int width, int height, int depth)
         => data[square.X, square.Y, square.Z] = true;
 
     public bool IsInside(Pos3 square)
-        => (square.X >= 0 && square.X < Size.X)
-        && (square.Y >= 0 && square.Y < Size.Y)
-        && (square.Z >= 0 && square.Z < Size.Z);
+        => square.X >= 0 && square.X < Size.X
+        && square.Y >= 0 && square.Y < Size.Y
+        && square.Z >= 0 && square.Z < Size.Z;
 
     public bool HasSquare(Pos3 square)
         => data[square.X, square.Y, square.Z];
@@ -97,7 +97,7 @@ class Cube(int width, int height, int depth)
         for (var x = 0; x < Size.X; ++x)
             for (var y = 0; y < Size.Y; ++y)
                 for (var z = 0; z < Size.Z; ++z)
-                    if (water[x, y, z] == false)
+                    if (!water[x, y, z])
                         data[x, y, z] = true;
     }
 }

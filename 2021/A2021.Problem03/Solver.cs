@@ -70,8 +70,8 @@ public class Solver : IProblemSolver<int>
             }
         }
 
-        var r1 = ToDec(copy1.First());
-        var r2 = ToDec(copy2.First());
+        var r1 = ToDec(copy1[0]);
+        var r2 = ToDec(copy2[0]);
 
         var result = r1 * r2;
 

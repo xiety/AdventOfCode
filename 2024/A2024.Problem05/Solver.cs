@@ -21,7 +21,7 @@ public class Solver : ISolver<int>
     }
 
     static int SumMid(IEnumerable<int[]> items)
-        => items.Select(a => a[a.Length / 2]).Sum();
+        => items.Sum(a => a[a.Length / 2]);
 
     static int[] Order(Rule[] rules, int[] array)
         => array.Order(Comparer<int>.Create((x, y) => Compare(rules, x, y))).ToArray();

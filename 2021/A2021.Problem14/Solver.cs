@@ -17,7 +17,7 @@ public class Solver : IProblemSolver<long>
         var rules = CompiledRegs.Regex().FromLines<Item>(secondPart)
             .ToDictionary(a => a.A, a => a.B);
 
-        var seq = new LinkedList<char>(firstPart.First());
+        var seq = new LinkedList<char>(firstPart[0]);
 
         const int steps = 10;
 
@@ -57,13 +57,13 @@ public class Solver : IProblemSolver<long>
         var rules = CompiledRegs.Regex().FromLines<Item>(secondPart)
             .ToDictionary(a => (a.A[0], a.A[1]), a => a.B);
 
-        var text = firstPart.First();
+        var text = firstPart[0];
 
         const int maxSteps = 40;
 
         var groups = new Dic();
 
-        MyFunc memo = null!;
+        MyFunc memo = null!; //#pragma warning disable RCS1212 // Remove redundant assignment
 
         memo = Memoization.Wrap((MyFunc)Recurse);
 

@@ -93,7 +93,7 @@ public class Solver : ISolver<long>
 
         var map = MapData.ParseMap(parts[0], a => a switch { '#' => NodeType.Wall, 'O' => NodeType.Box, '@' => NodeType.Unit, _ => NodeType.None });
 
-        var moves = String.Join(String.Empty, parts[1])
+        var moves = String.Concat(parts[1])
             .ToArray(c => c switch { '^' => new Pos(0, -1), '>' => new Pos(1, 0), '<' => new Pos(-1, 0), 'v' => new Pos(0, 1) });
 
         return (map, moves);

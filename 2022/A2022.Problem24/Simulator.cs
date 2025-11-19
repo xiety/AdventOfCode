@@ -1,6 +1,6 @@
 ﻿namespace A2022.Problem24;
 
-public class Simulator
+public static class Simulator
 {
     public static Map3d Create3dMap(string[] data, int sizeZ)
     {
