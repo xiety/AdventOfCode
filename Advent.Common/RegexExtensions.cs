@@ -100,6 +100,8 @@ public static class RegexExtensions
     {
         if (type == typeof(BigInteger))
             return BigInteger.Parse(value);
+        else if (type.IsEnum)
+            return Enum.Parse(type, value, true);
 
         return Convert.ChangeType(value, type);
     }
@@ -107,7 +109,7 @@ public static class RegexExtensions
     extension(string text)
     {
         public T MapTo<T>(Regex regex)
-        => regex.Match(text).MapTo<T>(regex, text);
+            => regex.Match(text).MapTo<T>(regex, text);
 
         public T MapTo<T, T1, T2>(Regex mr1, Regex mr2)
             where T1 : T
