@@ -31,4 +31,7 @@ public class AllTests : FolderSolverTest
 
     [ProblemData<long>(127, 552655238, 62, 70672245)]
     public void Problem09(ITestParameter p) => Test(new Problem09.Solver(), p);
+
+    [ProblemData<long>(220, 1848, 19208, 8099130339328)]
+    public void Problem10(ITestParameter p) => Test(new Problem10.Solver(), p);
 }
