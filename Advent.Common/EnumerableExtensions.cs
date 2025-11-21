@@ -5,6 +5,12 @@ namespace System.Linq;
 
 public static class EnumerableExtensions
 {
+    extension(Enumerable)
+    {
+        public static IEnumerable<int> RangeTo(int startIncl, int endExcl)
+            => Enumerable.Range(startIncl, endExcl - startIncl);
+    }
+
     extension<T>(IEnumerable<T?> source)
         where T : class
     {

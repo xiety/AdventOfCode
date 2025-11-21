@@ -386,3 +386,9 @@ public static class ArrayEx
         }
     }
 }
+
+public static class ArraySegment
+{
+    public static ArraySegment<T> From<T>(T[] array, int start, int count)
+        => new(array, start, count);
+}
