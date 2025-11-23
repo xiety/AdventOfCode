@@ -26,6 +26,9 @@ public static class ArrayEx
 
     extension<T>(T[,] array)
     {
+        public T[,] CloneArray()
+            => (T[,])array.Clone();
+
         public T[,] Transposed()
         {
             var rows = array.GetLength(0);
@@ -189,7 +192,7 @@ public static class ArrayEx
         public Pos Size()
             => new(array.Width, array.Height);
 
-        public IEnumerable<Pos> Delted(Pos c)
+        public IEnumerable<Pos> Deltas(Pos c)
         {
             for (var dx = -1; dx <= 1; ++dx)
             {
@@ -198,13 +201,16 @@ public static class ArrayEx
                     if (dx == 0 && dy == 0)
                         continue;
 
-                    var k = new Pos(dx, dy) + c;
-
-                    if (array.IsInBounds(k))
-                        yield return k;
+                    yield return new(dx, dy);
                 }
             }
         }
+
+        public IEnumerable<Pos> Delted(Pos c)
+            => array.Deltas(c).Select(a => a + c).Where(array.IsInBounds);
+
+        public IEnumerable<(Pos Pos, T Item)> EnumerateDelted(Pos c)
+            => array.Delted(c).Select(a => (a, array.Get(a)));
     }
 
     extension<T>(T[] array)
@@ -213,13 +219,6 @@ public static class ArrayEx
         {
             for (var i = 0; i < array.Length; ++i)
                 action(array[i]);
-        }
-
-        public T[] With(int index, T newValue)
-        {
-            var newArray = array.ToArray();
-            newArray[index] = newValue;
-            return newArray;
         }
 
         public IEnumerable<int> FindAllIndexes(T search)

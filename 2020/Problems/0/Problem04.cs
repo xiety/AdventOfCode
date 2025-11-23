@@ -17,7 +17,7 @@ public class Solver : ISolver<int>
     static bool ValidateRequired(Item[] items)
         => items
         .Select(a => a.Key)
-        .ContainsAll(["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]); //TODO: remove array
+        .ContainsAll("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid");
 
     static bool Validate(Item item)
         => item.Key switch

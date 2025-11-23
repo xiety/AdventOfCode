@@ -5,6 +5,9 @@ namespace System.Linq;
 
 public static class EnumerableExtensions
 {
+    public static bool ContainsAll<T>(this IEnumerable<T> source, params IEnumerable<T> items)
+        => items.All(source.Contains);
+
     extension(Enumerable)
     {
         public static IEnumerable<int> RangeTo(int startIncl, int endExcl)
@@ -20,6 +23,9 @@ public static class EnumerableExtensions
 
     extension<T>(IEnumerable<T> source)
     {
+        public static IEnumerable<T> operator +(IEnumerable<T> a, IEnumerable<T> b)
+            => a.Concat(b);
+
         public TR[] ToArray<TR>(Func<T, TR> selector)
             => source.Select(selector).ToArray();
 
@@ -29,8 +35,9 @@ public static class EnumerableExtensions
         public TR[] ToArray<TR>(Func<T, int, TR> selector)
             => source.Select(selector).ToArray();
 
-        public bool ContainsAll(params IEnumerable<T> items)
-            => items.All(source.Contains);
+        //Warning: Argument of type 'string' cannot be used for parameter 'items' of type 'IEnumerable<string>' in 'bool extension<string>(IEnumerable<string>).ContainsAll(params IEnumerable<string> items)' due to differences in the nullability of reference types.
+        //public bool ContainsAll(params IEnumerable<T> items)
+        //    => items.All(source.Contains);
 
         public ValueTuple<T, T> ToTuple2()
         {

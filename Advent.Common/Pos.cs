@@ -108,3 +108,19 @@ public readonly record struct Rect(Pos From, Pos To)
         return new(new(minX, minY), new(maxX, maxY));
     }
 }
+
+public static class PosExtensions
+{
+    extension(Pos p)
+    {
+        public IEnumerable<Pos> EnumerateRay(Pos dir)
+        {
+            var current = p + dir;
+            while (true)
+            {
+                yield return current;
+                current += dir;
+            }
+        }
+    }
+}
