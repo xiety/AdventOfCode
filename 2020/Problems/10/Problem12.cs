@@ -1,0 +1,74 @@
+﻿using Advent.Common;
+
+using System.Text.RegularExpressions;
+
+namespace A2020.Problem12;
+
+public class Solver : ISolver<int>
+{
+    public int RunA(string[] lines, bool isSample)
+        => Solve(lines, new(new(0, 0), new(1, 0)), false);
+
+    public int RunB(string[] lines, bool isSample)
+        => Solve(lines, new(new(0, 0), new(10, 1)), true);
+
+    static int Solve(string[] lines, State initial, bool moveWaypoint)
+        => Load(lines)
+        .Aggregate(initial, (state, item) => Step(state, item, moveWaypoint))
+        .Ship.ManhattanLength;
+
+    static State Step(State state, Item item, bool moveWaypoint)
+        => item.Mode switch
+        {
+            Mode.Left => state with { Waypoint = state.Waypoint.Rotate(-item.Value) },
+            Mode.Right => state with { Waypoint = state.Waypoint.Rotate(item.Value) },
+            Mode.Forward => state with { Ship = state.Ship + state.Waypoint * item.Value },
+            _ => Move(state, item, moveWaypoint),
+        };
+
+    static State Move(State state, Item item, bool moveWaypoint)
+    {
+        var delta = ToDir(item.Mode) * item.Value;
+
+        return moveWaypoint
+            ? state with { Waypoint = state.Waypoint + delta }
+            : state with { Ship = state.Ship + delta };
+    }
+
+    static Pos ToDir(Mode mode)
+        => mode switch
+        {
+            Mode.North => new Pos(0, 1),
+            Mode.South => new Pos(0, -1),
+            Mode.East => new Pos(1, 0),
+            Mode.West => new Pos(-1, 0),
+        };
+
+    static Item[] Load(string[] lines)
+        => CompiledRegs.RegexItem().FromLines<ItemRaw>(lines)
+            .ToArray(a => new Item(ParseMode(a.Mode), a.Value));
+
+    static Mode ParseMode(string mode)
+        => mode switch
+        {
+            "N" => Mode.North,
+            "S" => Mode.South,
+            "E" => Mode.East,
+            "W" => Mode.West,
+            "L" => Mode.Left,
+            "R" => Mode.Right,
+            "F" => Mode.Forward,
+        };
+}
+
+enum Mode { North, South, East, West, Left, Right, Forward }
+record struct State(Pos Ship, Pos Waypoint);
+//[Parser<ParseMode>]
+record struct Item(Mode Mode, int Value);
+record ItemRaw(string Mode, int Value);
+
+public static partial class CompiledRegs
+{
+    [GeneratedRegex(@$"^(?<{nameof(ItemRaw.Mode)}>.)(?<{nameof(ItemRaw.Value)}>\d+)$")]
+    public static partial Regex RegexItem();
+}

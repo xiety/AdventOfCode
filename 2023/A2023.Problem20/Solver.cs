@@ -64,7 +64,7 @@ public class Solver : IProblemSolver<long>
         while (conjDic.Count(a => prev.Contains(a.Key)) != prev.Count
             || !conjDic.Where(a => prev.Contains(a.Key)).All(a => a.Value.Count > 1));
 
-        return MathExtensions.Lcm(conjDic.Where(a => prev.Contains(a.Key))
+        return Math.Lcm(conjDic.Where(a => prev.Contains(a.Key))
             .Select(a => (int)(a.Value[1] - a.Value[0])));
     }
 

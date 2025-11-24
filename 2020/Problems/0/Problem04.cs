@@ -48,7 +48,7 @@ public class Solver : ISolver<int>
         => CompiledRegs.RegexColor().IsMatch(value);
 
     static bool ValidateEye(string value)
-        => value.Inside(["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]); //TODO: remove array
+        => value.Inside("amb", "blu", "brn", "gry", "grn", "hzl", "oth");
 
     static bool ValidatePassword(string value)
         => value.Length == 9 && value.All(char.IsNumber);

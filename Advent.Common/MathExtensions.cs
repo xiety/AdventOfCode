@@ -1,33 +1,42 @@
-﻿namespace Advent.Common;
+﻿namespace System;
 
 public static class MathExtensions
 {
-    public static long Lcm(IEnumerable<int> values)
+    extension(Math)
     {
-        var primes = values.Select(Primes);
-        var list = new List<int>();
-
-        foreach (var ps in primes)
-            list.AddRange(ps.Where(a => !list.Contains(a)));
-
-        return list.MulLong();
-    }
-
-    public static IEnumerable<int> Primes(int value)
-    {
-        var current = value;
-
-        do
+        public static int Mod(int x, int m)
         {
-            for (var i = 2; i <= current; ++i)
+            var r = x % m;
+            return r < 0 ? r + m : r;
+        }
+
+        public static long Lcm(IEnumerable<int> values)
+        {
+            var primes = values.Select(Primes);
+            var list = new List<int>();
+
+            foreach (var ps in primes)
+                list.AddRange(ps.Where(a => !list.Contains(a)));
+
+            return list.MulLong();
+        }
+
+        public static IEnumerable<int> Primes(int value)
+        {
+            var current = value;
+
+            do
             {
-                if ((current % i) == 0)
+                for (var i = 2; i <= current; ++i)
                 {
-                    yield return i;
-                    current /= i;
+                    if ((current % i) == 0)
+                    {
+                        yield return i;
+                        current /= i;
+                    }
                 }
             }
+            while (current > 1);
         }
-        while (current > 1);
     }
 }

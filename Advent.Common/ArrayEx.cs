@@ -18,11 +18,16 @@ public static class ArrayEx
                     yield return new(x, y);
     }
 
-    extension<T>(T obj)
-    {
-        public bool Inside(params IEnumerable<T> items)
-            => items.Contains(obj);
-    }
+    //TODO: to extension
+    public static bool Inside<T>(this T obj, params IEnumerable<T> items)
+        => items.Contains(obj);
+
+    //extension<T>(T obj)
+    //{
+    //    //Argument of type 'string' cannot be used for parameter 'items' of type 'IEnumerable<string>' in 'bool extension<string>(string).Inside(params IEnumerable<string> items)' due to differences in the nullability of reference types.
+    //    public bool Inside(params IEnumerable<T> items)
+    //        => items.Contains(obj);
+    //}
 
     extension<T>(T[,] array)
     {
