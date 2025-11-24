@@ -45,11 +45,23 @@ public class Solver : ISolver<int>
         };
 
     static Item[] Load(string[] lines)
-        => CompiledRegs.RegexItem().FromLines<ItemRaw>(lines)
-            .ToArray(a => new Item(ParseMode(a.Mode), a.Value));
+        => CompiledRegs.RegexItem().FromLines<Item>(lines);
+}
 
-    static Mode ParseMode(string mode)
-        => mode switch
+enum Mode { North, South, East, West, Left, Right, Forward }
+record struct State(Pos Ship, Pos Waypoint);
+record struct Item([RegexParser<ParseMode, Mode>] Mode Mode, int Value);
+
+static partial class CompiledRegs
+{
+    [GeneratedRegex(@$"^(?<{nameof(Item.Mode)}>.)(?<{nameof(Item.Value)}>\d+)$")]
+    public static partial Regex RegexItem();
+}
+
+class ParseMode : IRegexParser<Mode>
+{
+    public Mode Parse(string text)
+        => text switch
         {
             "N" => Mode.North,
             "S" => Mode.South,
@@ -59,16 +71,4 @@ public class Solver : ISolver<int>
             "R" => Mode.Right,
             "F" => Mode.Forward,
         };
-}
-
-enum Mode { North, South, East, West, Left, Right, Forward }
-record struct State(Pos Ship, Pos Waypoint);
-//[Parser<ParseMode>]
-record struct Item(Mode Mode, int Value);
-record ItemRaw(string Mode, int Value);
-
-public static partial class CompiledRegs
-{
-    [GeneratedRegex(@$"^(?<{nameof(ItemRaw.Mode)}>.)(?<{nameof(ItemRaw.Value)}>\d+)$")]
-    public static partial Regex RegexItem();
 }

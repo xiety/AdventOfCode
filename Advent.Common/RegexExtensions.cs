@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System.Dynamic;
+using System.Numerics;
+using System.Reflection;
 
 namespace System.Text.RegularExpressions;
 
@@ -39,7 +41,7 @@ public static class RegexExtensions
                 throw new ArgumentOutOfRangeException(paramName: nameof(match), message: $"Regex groups not found: {String.Join(", ", wrong)}");
             }
 
-            var parametersValues = parameters.ToArray(a => Parse(groups[a.Name!], a.ParameterType));
+            var parametersValues = parameters.ToArray(a => ParseParameter(groups[a.Name!], a));
 
             var obj = (T)constructor.Invoke(parametersValues);
 
@@ -49,7 +51,6 @@ public static class RegexExtensions
             return obj;
         }
 
-#pragma warning disable CA2208 // Instantiate argument exceptions correctly
         public T MapTo<T>(Regex debugRegex, string debugText)
         {
             if (!match.Success)
@@ -57,7 +58,6 @@ public static class RegexExtensions
 
             return match.MapTo<T>();
         }
-#pragma warning restore CA2208 // Instantiate argument exceptions correctly
 
         public bool TryMapTo<T>(Regex debugRegex, string debugText, out T? result)
         {
@@ -72,14 +72,33 @@ public static class RegexExtensions
         }
     }
 
-    static object Parse(Group group, Type type)
+    static object ParseParameter(Group group, ParameterInfo pi)
     {
+        var type = pi.ParameterType;
+
+        var attr = pi.GetCustomAttribute(typeof(RegexParserAttribute<,>));
+
+        if (attr is not null)
+        {
+            dynamic attrDynamic = new ReflectionDynamic(attr);
+            dynamic parserDynamic = attrDynamic.CreateParser();
+            return parserDynamic.Parse(group.Value);
+
+            //The `dynamic` doesn't work with non-public types
+            //dynamic parserDynamic = ((dynamic)attr).CreateParser();
+            //return parserDynamic.Parse(group.Value);
+
+            //var attrType = attr.GetType();
+            //var parser = attrType.GetMethod(nameof(RegexParserAttribute<,>.CreateParser))!.Invoke(attr, null)!;
+            //return parser.GetType().GetMethod(nameof(IRegexParser<>.Parse))!.Invoke(parser, [group.Value])!;
+        }
+
         if (type.IsArray)
         {
             var elementType = type.GetElementType()!;
 
             return group.Captures
-                .Select(a => Parse(a.Value, elementType))
+                .Select(a => ParseValue(a.Value, elementType))
                 .ToArray(elementType);
         }
         else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
@@ -87,16 +106,16 @@ public static class RegexExtensions
             var elementType = type.GetGenericArguments()[0];
 
             return group.Captures
-                .Select(a => Parse(a.Value, elementType))
+                .Select(a => ParseValue(a.Value, elementType))
                 .ToList(elementType);
         }
         else
         {
-            return Parse(group.Value, type);
+            return ParseValue(group.Value, type);
         }
     }
 
-    static object Parse(string value, Type type)
+    static object ParseValue(string value, Type type)
     {
         if (type == typeof(BigInteger))
             return BigInteger.Parse(value);
@@ -128,4 +147,17 @@ public static class RegexExtensions
             throw new ArgumentOutOfRangeException($"Can not parse: {text}");
         }
     }
+}
+
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter)]
+public sealed class RegexParserAttribute<T, TR> : Attribute
+    where T : IRegexParser<TR>, new()
+{
+    public T CreateParser()
+        => new();
+}
+
+public interface IRegexParser<out T>
+{
+    T Parse(string text);
 }
