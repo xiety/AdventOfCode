@@ -65,7 +65,7 @@ public class Solver : ISolver<long>
     static IEnumerable<Pos> CastShadow(Rect rect, Pos observatory, Pos asteroid)
     {
         var distance = asteroid - observatory;
-        var g = distance.X.GCD(distance.Y);
+        var g = Math.GCD(distance.X, distance.Y);
         var step = new Pos(distance.X / g, distance.Y / g);
         var pos = asteroid;
 

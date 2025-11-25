@@ -209,6 +209,10 @@ public static class EnumerableExtensions
         public TR Mul<TR>(Func<T, TR> func)
             where TR : INumber<TR>
             => source.Aggregate(TR.One, (agg, t) => agg * func(t));
+
+        public TR SumMod<TR>(TR mod, Func<T, TR> func)
+            where TR : INumber<TR>
+            => source.Aggregate(TR.Zero, (agg, t) => Math.Mod(agg + func(t), mod));
     }
 
     public static IEnumerable<T> Concat<T>(params IEnumerable<T>[] enumerables)

@@ -34,6 +34,9 @@ public class Solver : IProblemSolver<long>
 
     public long RunB(string filename)
     {
+        if (filename.Contains("sample.txt"))
+            throw new NotImplementedException();
+
         var items = CompiledRegs.Regex().FromFile<Item>(filename);
         var graph = Create(items);
 
@@ -64,8 +67,8 @@ public class Solver : IProblemSolver<long>
         while (conjDic.Count(a => prev.Contains(a.Key)) != prev.Count
             || !conjDic.Where(a => prev.Contains(a.Key)).All(a => a.Value.Count > 1));
 
-        return Math.Lcm(conjDic.Where(a => prev.Contains(a.Key))
-            .Select(a => (int)(a.Value[1] - a.Value[0])));
+        return Math.LCM(conjDic.Where(a => prev.Contains(a.Key))
+            .Select(a => a.Value[1] - a.Value[0]));
     }
 
     static RadioConjunction FindConj(Radio parent)

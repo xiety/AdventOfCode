@@ -27,7 +27,7 @@ public class Calculator(Graph graph, bool singleStep)
             if (already)
             {
                 var forbidden = path.Where(a => a.CaveType == CaveType.Small)
-                    .GroupBy(a => a).Any(a => a.Count() > 1);
+                    .CountBy(a => a).Any(a => a.Value > 1);
 
                 if (forbidden)
                     return 0;

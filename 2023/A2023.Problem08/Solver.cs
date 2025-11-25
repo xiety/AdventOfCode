@@ -56,7 +56,7 @@ public class Solver : IProblemSolver<long>
             all.Add(list);
         }
 
-        return Math.Lcm(all.Select(a => a.Max())); //little cheat with max
+        return Math.LCM(all.Select(a => (long)a.Max())); //little cheat with max
     }
 
     static (int[] path, Node[]) LoadFile(string filename)

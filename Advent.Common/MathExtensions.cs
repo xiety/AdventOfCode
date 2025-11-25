@@ -1,42 +1,62 @@
-﻿namespace System;
+﻿using System.Numerics;
+
+namespace System;
 
 public static class MathExtensions
 {
     extension(Math)
     {
-        public static int Mod(int x, int m)
+        public static T Mod<T>(T x, T m)
+            where T : INumber<T>
         {
             var r = x % m;
-            return r < 0 ? r + m : r;
+            return r < T.Zero ? r + m : r;
         }
 
-        public static long Lcm(IEnumerable<int> values)
+        public static T GCD<T>(T a, T b)
+            where T : INumber<T>
         {
-            var primes = values.Select(Primes);
-            var list = new List<int>();
+            while (b != T.Zero)
+                (a, b) = (b, a % b);
 
-            foreach (var ps in primes)
-                list.AddRange(ps.Where(a => !list.Contains(a)));
-
-            return list.MulLong();
+            return T.Abs(a);
         }
 
-        public static IEnumerable<int> Primes(int value)
-        {
-            var current = value;
+        public static T GCD<T>(params IEnumerable<T> numbers)
+            where T : INumber<T>
+            => numbers.Aggregate(GCD);
 
-            do
+        public static T LCM<T>(T a, T b)
+            where T : INumber<T>
+        {
+            if (a == T.Zero || b == T.Zero)
+                return T.Zero;
+
+            return T.Abs(a / GCD(a, b) * b);
+        }
+
+        public static T LCM<T>(params IEnumerable<T> numbers)
+            where T : INumber<T>
+            => numbers.Aggregate(LCM);
+
+        public static T ModPow<T>(T value, T exponent, T modulus)
+            where T : INumber<T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, int, T>
+        {
+            var result = T.One;
+
+            value = Math.Mod(value, modulus);
+
+            while (exponent > T.Zero)
             {
-                for (var i = 2; i <= current; ++i)
-                {
-                    if ((current % i) == 0)
-                    {
-                        yield return i;
-                        current /= i;
-                    }
-                }
+                if ((exponent & T.One) == T.One)
+                    result = Math.Mod(result * value, modulus);
+
+                value = Math.Mod(value * value, modulus);
+
+                exponent >>= 1;
             }
-            while (current > 1);
+
+            return result;
         }
     }
 }

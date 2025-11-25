@@ -66,18 +66,17 @@ public class Solver : IProblemSolver<long>
 
         var times = item.Input
             .SelectMany(a => a)
-            .GroupBy(a => a)
-            .Select(a => new { Position = a.Key, Count = a.Count() })
+            .CountBy(a => a)
             .ToArray();
 
-        var times02 = times.Where(a => a.Count == 8).ToArray(a => a.Position); //0 or 2
-        var times36 = times.Where(a => a.Count == 7).ToArray(a => a.Position); //3 or 6
+        var times02 = times.Where(a => a.Value == 8).ToArray(a => a.Key); //0 or 2
+        var times36 = times.Where(a => a.Value == 7).ToArray(a => a.Key); //3 or 6
 
         var left = new int[8];
 
-        left[1] = times.First(a => a.Count == 6).Position;
-        left[4] = times.First(a => a.Count == 4).Position;
-        left[5] = times.First(a => a.Count == 9).Position;
+        left[1] = times.First(a => a.Value == 6).Key;
+        left[4] = times.First(a => a.Value == 4).Key;
+        left[5] = times.First(a => a.Value == 9).Key;
 
         //1 of 2,5
         left[2] = one.First(a => a != left[5]);

@@ -28,8 +28,8 @@ public class Solver : IProblemSolver<long>
             return CalcA([.. Enumerable.Repeat(Card.Ace, 5)]);
 
         var most = cards.Where(a => a != Card.Jack)
-            .GroupBy(a => a)
-            .OrderByDescending(a => a.Count())
+            .CountBy(a => a)
+            .OrderByDescending(a => a.Value)
             .Select(a => a.Key)
             .First();
 
@@ -38,7 +38,7 @@ public class Solver : IProblemSolver<long>
 
     static Combo CalcA(Card[] cards)
     {
-        var grouped = cards.GroupBy(a => a).Select(a => a.Count()).OrderDescending().ToArray();
+        var grouped = cards.CountBy(a => a).Select(a => a.Value).OrderDescending().ToArray();
 
         return grouped switch
         {
