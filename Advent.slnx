@@ -161,6 +161,11 @@
     <Project Path="2024\A2024.Problem24\A2024.Problem24.csproj" />
     <Project Path="2024\A2024.Problem25\A2024.Problem25.csproj" />
   </Folder>
+  <Folder Name="/Analyzers/">
+    <Project Path="Analyzers/Advent.Analyzer.CodeFixes/Advent.Analyzer.CodeFixes.csproj" />
+    <Project Path="Analyzers/Advent.Analyzer.Test/Advent.Analyzer.Test.csproj" />
+    <Project Path="Analyzers/Advent.Analyzer/Advent.Analyzer.csproj" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />

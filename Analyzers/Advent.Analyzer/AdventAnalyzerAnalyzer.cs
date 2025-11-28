@@ -1,0 +1,90 @@
+﻿#pragma warning disable RS2008 // Enable analyzer release tracking
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Diagnostics;
+
+using System.Collections.Immutable;
+
+namespace Advent.Analyzers;
+
+[DiagnosticAnalyzer(LanguageNames.CSharp)]
+public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
+{
+    public const string DiagnosticId = "ADVENT001";
+
+    static readonly DiagnosticDescriptor Rule = new(
+        id: DiagnosticId,
+        title: "Prefer ToArray extension method over Select(...).ToArray()",
+        messageFormat: "Use 'nodes.ToArray(a => a.Value)' instead of 'nodes.Select(a => a.Value).ToArray()'",
+        category: "Performance",
+        DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: "Using the ToArray<TSource,TResult>(selector) extension improves readability and performance.");
+
+    static readonly string[] TargetMethods = ["ToArray", "ToList"];
+
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
+
+    public override void Initialize(AnalysisContext context)
+    {
+        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+        context.EnableConcurrentExecution();
+
+        context.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
+    }
+
+    void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
+    {
+        var invocation = (InvocationExpressionSyntax)context.Node;
+
+        if (TryMatchSelectToTargetMethod(
+                invocation,
+                out _,
+                out _,
+                out var methodName))
+        {
+            var diagnostic = Diagnostic.Create(Rule, invocation.GetLocation(),
+                messageArgs: new[] { methodName });
+            context.ReportDiagnostic(diagnostic);
+        }
+    }
+
+    public static bool TryMatchSelectToTargetMethod(
+        InvocationExpressionSyntax invocation,
+        out ExpressionSyntax? collection,
+        out LambdaExpressionSyntax? selectorLambda,
+        out string? targetMethodName)
+    {
+        collection = null;
+        selectorLambda = null;
+        targetMethodName = null;
+
+        if (invocation.Expression is not MemberAccessExpressionSyntax outerAccess ||
+            invocation.ArgumentList.Arguments.Count != 0)
+            return false;
+
+        targetMethodName = outerAccess.Name.Identifier.ValueText;
+        if (!TargetMethods.Contains(targetMethodName))
+            return false;
+
+        if (outerAccess.Expression is not InvocationExpressionSyntax selectCall ||
+            selectCall.Expression is not MemberAccessExpressionSyntax selectAccess ||
+            selectAccess.Name.Identifier.ValueText != "Select" ||
+            selectCall.ArgumentList.Arguments.Count != 1)
+            return false;
+
+        if (selectCall.ArgumentList.Arguments[0].Expression is not LambdaExpressionSyntax lambda)
+            return false;
+
+        if (lambda is ParenthesizedLambdaExpressionSyntax p &&
+            p.ParameterList.Parameters.Count != 1)
+        {
+            return false;
+        }
+
+        collection = selectAccess.Expression;
+        selectorLambda = lambda;
+        return true;
+    }
+}
