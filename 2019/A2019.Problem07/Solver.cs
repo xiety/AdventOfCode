@@ -8,8 +8,8 @@ public class Solver : ISolver<long>
     {
         var codes = CpuCodeLoader.Load(lines);
 
-        return Enumerable.Range(0, 5).Select(a => (long)a)
-            .ToArray()
+        return Enumerable.Range(0, 5)
+            .ToArray(a => (long)a)
             .Permutations(5)
             .Max(a => a.Aggregate(0L, (phase, input) => RunCpu([.. codes], [input, phase])));
     }

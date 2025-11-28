@@ -44,5 +44,5 @@ public class Solver : ISolver<long>
     }
 
     static long[] LoadItems(string[] lines)
-        => lines.Select(long.Parse).ToArray();
+        => lines.ToArray(long.Parse);
 }

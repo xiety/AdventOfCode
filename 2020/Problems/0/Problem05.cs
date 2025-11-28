@@ -17,8 +17,8 @@ public class Solver : ISolver<int>
 
     static int GetId(string line)
     {
-        var p1 = line[..7].Select(a => a == 'B').ToArray();
-        var p2 = line[7..].Select(a => a == 'R').ToArray();
+        var p1 = line[..7].ToArray(a => a == 'B');
+        var p2 = line[7..].ToArray(a => a == 'R');
 
         return Parse(p1) * 8 + Parse(p2);
     }

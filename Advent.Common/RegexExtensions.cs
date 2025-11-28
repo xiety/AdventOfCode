@@ -9,7 +9,7 @@ public static class RegexExtensions
     extension(Regex regex)
     {
         public T[] FromFile<T>(string filename)
-        => regex.FromLines<T>(File.ReadAllLines(filename));
+            => regex.FromLines<T>(File.ReadAllLines(filename));
 
         public T[] FromLines<T>(IEnumerable<string> lines)
             => lines.ToArray(regex.MapTo<T>);

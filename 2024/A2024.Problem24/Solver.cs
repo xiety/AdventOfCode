@@ -195,9 +195,9 @@ public class Solver : ISolver<long, string>
     {
         var parts = lines.SplitBy(String.Empty).ToArray();
         var inputs = parts[0].Select(ParseInput).ToDictionary(a => a.Item1, a => a.Item2);
-        var connections = parts[1].Select(ParseConnection).ToArray();
+        var connections = parts[1].ToArray(ParseConnection);
         return (inputs, connections);
     }
-
-    record struct Connection(string Input1, string Input2, string Operation, string Output);
 }
+
+record struct Connection(string Input1, string Input2, string Operation, string Output);

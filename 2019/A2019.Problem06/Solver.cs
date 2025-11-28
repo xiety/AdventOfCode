@@ -30,8 +30,7 @@ public class Solver : ISolver<int>
     {
         var nodes = connections.Select(a => a.Center)
             .Concat(connections.Select(a => a.Moon))
-            .Select(a => new GraphNode { Name = a })
-            .ToArray();
+            .ToArray(a => new GraphNode { Name = a });
 
         foreach (var connection in connections)
         {

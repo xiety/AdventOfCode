@@ -29,6 +29,9 @@ public static class EnumerableExtensions
         public TR[] ToArray<TR>(Func<T, TR> selector)
             => source.Select(selector).ToArray();
 
+        public List<TR> ToList<TR>(Func<T, TR> selector)
+            => source.Select(selector).ToList();
+
         public TR[] ToArrayMany<TR>(Func<T, IEnumerable<TR>> selector)
             => source.SelectMany(selector).ToArray();
 

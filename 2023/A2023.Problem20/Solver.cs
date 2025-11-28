@@ -53,7 +53,7 @@ public class Solver : IProblemSolver<long>
 
         var conjDic = new Dictionary<string, List<long>>();
 
-        var prev = FindConj(deadend).Inputs.Select(a => a.From.Name).ToList();
+        var prev = FindConj(deadend).Inputs.ToList(a => a.From.Name);
 
         do
         {

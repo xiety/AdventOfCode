@@ -37,7 +37,7 @@ public class Solver : ISolver<long, string>
 
     static (HashSet<(string, string)>, string[]) LoadData(string[] lines)
     {
-        var list = lines.Select(a => a.Split('-')).ToArray();
+        var list = lines.ToArray(a => a.Split('-'));
         var connections = new HashSet<(string, string)>(list.Select(a => (a[0], a[1])).Concat(list.Select(a => (a[1], a[0]))));
         var nodes = list.Select(a => a[0]).Concat(list.Select(a => a[1])).Distinct().Order().ToArray();
         return (connections, nodes);

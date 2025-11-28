@@ -199,7 +199,7 @@ public class Solver : IProblemSolver<long>
         return true;
     }
 
-    Item ParseB(Item item)
+    static Item ParseB(Item item)
     {
         var length = int.Parse(item.Color[..5], System.Globalization.NumberStyles.HexNumber);
 

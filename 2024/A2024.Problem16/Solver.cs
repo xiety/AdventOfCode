@@ -43,8 +43,7 @@ public class Solver : ISolver<long>
 
         var currentSteps = allStepsEnd
             .Where(a => a.Value == minEnd)
-            .Select(a => (a.Key.Item1, a.Key.Item2))
-            .ToList();
+            .ToList(a => (a.Key.Item1, a.Key.Item2));
 
         List<(Pos, Pos)> newSteps = [];
         HashSet<Pos> paths = [start, end];

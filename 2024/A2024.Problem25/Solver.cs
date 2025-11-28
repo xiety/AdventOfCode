@@ -27,13 +27,13 @@ public class Solver : ISolver<long>
     static IEnumerable<int[]> ParseLocks(int[][,] items)
         => from item in items
             where item.GetRow(0).All(b => b == 1)
-            select item.GetColumns().Select(a => Array.IndexOf(a, 0) - 1).ToArray();
+            select item.GetColumns().ToArray(a => Array.IndexOf(a, 0) - 1);
 
     static IEnumerable<int[]> ParseKeys(int[][,] items)
         => from item in items
             where item.GetRow(item.Height - 1).All(b => b == 1)
-            select item.GetColumns().Select(a => a.Length - Array.IndexOf(a, 1) - 1).ToArray();
+            select item.GetColumns().ToArray(a => a.Length - Array.IndexOf(a, 1) - 1);
 
     static int[][,] LoadData(string[] lines)
-        => lines.SplitBy(String.Empty).Select(a => MapData.ParseMap(a, b => b == '#' ? 1 : 0)).ToArray();
+        => lines.SplitBy(String.Empty).ToArray(a => MapData.ParseMap(a, b => b == '#' ? 1 : 0));
 }

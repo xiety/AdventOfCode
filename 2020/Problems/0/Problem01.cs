@@ -21,5 +21,5 @@ public class Solver : ISolver<int>
             .First();
 
     static int[] LoadData(string[] lines)
-        => lines.Select(Int32.Parse).ToArray();
+        => lines.ToArray(Int32.Parse);
 }

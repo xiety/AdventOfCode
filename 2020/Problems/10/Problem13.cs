@@ -1,4 +1,6 @@
-﻿using Advent.Common;
+﻿using System.Numerics;
+
+using Advent.Common;
 
 namespace A2020.Problem13;
 
@@ -24,32 +26,32 @@ public class Solver : ISolver<long>
                     acc.Step * bus.Value))
             .N;
 
-    // Another way using Chinese Remainder Theorem
-    //public long RunB(string[] lines, bool isSample)
-    //{
-    //    var (_, items) = LoadData(lines);
-    //    var busses = ToBusses(items);
-    //    var M = busses.Mul(a => (long)a.Value);
+    // Using Chinese Remainder Theorem
+    public long RunBAlternative(string[] lines, bool isSample)
+    {
+        var (_, items) = LoadData(lines);
+        var busses = ToBusses(items);
+        var M = busses.Mul(a => (long)a.Value);
 
-    //    return busses.Skip(1).SumMod(M, bus =>
-    //    {
-    //        var Mi = M / bus.Value;
-    //        var inverse = (int)BigInteger.ModPow(Mi, bus.Value - 2, bus.Value);
-    //        return -bus.Index * Mi * inverse;
-    //    });
-    //}
+        return busses.Skip(1).SumMod(M, bus =>
+        {
+            var Mi = M / bus.Value;
+            var inverse = (int)BigInteger.ModPow(Mi, bus.Value - 2, bus.Value);
+            return -bus.Index * Mi * inverse;
+        });
+    }
 
     static Bus[] ToBusses(int?[] items)
-        => items
-            .Index()
-            .Where(a => a.Item is int)
-            .Select(a => (Item: a.Item!.Value, a.Index))
-            .ToArray(a => new Bus(a.Item, a.Index));
+            => items
+                .Index()
+                .Where(a => a.Item is int)
+                .Select(a => (Item: a.Item!.Value, a.Index))
+                .ToArray(a => new Bus(a.Item, a.Index));
 
     static Data LoadData(string[] lines)
     {
         var target = int.Parse(lines[0]);
-        var items = lines[1].Split(',').Select(a => a == "x" ? (int?)null : int.Parse(a)).ToArray();
+        var items = lines[1].Split(',').ToArray(a => a == "x" ? (int?)null : int.Parse(a));
         return new(target, items);
     }
 }
