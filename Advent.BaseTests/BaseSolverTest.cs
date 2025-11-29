@@ -34,14 +34,6 @@ public abstract class BaseSolverTest
             throw new();
     }
 
-    static (int, int) Parse(Type type)
-    {
-        var ns = type.Namespace!;
-        var year = int.Parse(ns[1..5]);
-        var number = int.Parse(ns[13..15]);
-        return (year, number);
-    }
-
     protected void Test<TR>(int year, int number, TestParameter<TR> p, Func<string[], TR> execute)
     {
         try
@@ -55,6 +47,14 @@ public abstract class BaseSolverTest
         {
             Assert.Inconclusive("Not implemented");
         }
+    }
+
+    static (int, int) Parse(Type type)
+    {
+        var ns = type.Namespace!;
+        var year = int.Parse(ns[1..5]);
+        var number = int.Parse(ns[13..15]);
+        return (year, number);
     }
 
     string GetPath(int year, int number, bool isA, bool isSample)

@@ -2,12 +2,14 @@
 
 namespace A2020.Problem01;
 
-public class Solver : ISolver<int>
+public static class Solver
 {
-    public int RunA(string[] lines, bool isSample)
+    [GeneratedTest<int>(514579, 997899)]
+    public static int RunA(string[] lines)
         => Run(lines, 2);
 
-    public int RunB(string[] lines, bool isSample)
+    [GeneratedTest<int>(241861950, 131248694)]
+    public static int RunB(string[] lines)
         => Run(lines, 3);
 
     static int Run(string[] lines, int num)
@@ -21,5 +23,5 @@ public class Solver : ISolver<int>
             .First();
 
     static int[] LoadData(string[] lines)
-        => lines.ToArray(Int32.Parse);
+        => lines.ToArray(int.Parse);
 }

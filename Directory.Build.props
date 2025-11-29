@@ -17,7 +17,7 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
-  <ItemGroup Condition="!$(MSBuildProjectFullPath.Contains('Analyzers')) AND !$(MSBuildProjectFullPath.Contains('Advent.Common'))">
+  <ItemGroup Condition="!$(MSBuildProjectFullPath.Contains('Analyzers')) AND !$(MSBuildProjectFullPath.Contains('Advent.Common')) AND !$(MSBuildProjectFullPath.Contains('Generators'))">
     <ProjectReference Include="$(SolutionDir)Analyzers\Advent.Analyzer\Advent.Analyzer.csproj"
                       OutputItemType="Analyzer"
                       ReferenceOutputAssembly="false"

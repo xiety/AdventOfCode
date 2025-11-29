@@ -5,8 +5,8 @@ namespace A2020.Tests;
 [TestClass]
 public class AllTests : FolderSolverTest
 {
-    [ProblemData<int>(514579, 997899, 241861950, 131248694)]
-    public void Problem01(ITestParameter p) => Test(new Problem01.Solver(), p);
+    //[ProblemData<int>(514579, 997899, 241861950, 131248694)]
+    //public void Problem01(ITestParameter p) => Test(new Problem01.Solver(), p);
 
     [ProblemData<int>(2, 638, 1, 699)]
     public void Problem02(ITestParameter p) => Test(new Problem02.Solver(), p);
@@ -43,4 +43,7 @@ public class AllTests : FolderSolverTest
 
     [ProblemData<long>(295, 203, 1068781, 905694340256752)]
     public void Problem13(ITestParameter p) => Test(new Problem13.Solver(), p);
+
+    [ProblemData<long>(165, -1, -1, -1)]
+    public void Problem14(ITestParameter p) => Test(new Problem14.Solver(), p);
 }

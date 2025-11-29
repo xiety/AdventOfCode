@@ -166,6 +166,9 @@
     <Project Path="Analyzers/Advent.Analyzer.Test/Advent.Analyzer.Test.csproj" />
     <Project Path="Analyzers/Advent.Analyzer/Advent.Analyzer.csproj" />
   </Folder>
+  <Folder Name="/Generators/">
+    <Project Path="Generators/Advent.TestGeneration/Advent.TestGeneration.csproj" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
