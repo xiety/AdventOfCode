@@ -4,12 +4,14 @@ using Advent.Common;
 
 namespace A2020.Problem02;
 
-public class Solver : ISolver<int>
+public static class Solver
 {
-    public int RunA(string[] lines, bool isSample)
+    [GeneratedTest<int>(2, 638)]
+    public static int RunA(string[] lines)
         => Run(lines, CheckA);
 
-    public int RunB(string[] lines, bool isSample)
+    [GeneratedTest<int>(1, 699)]
+    public static int RunB(string[] lines)
         => Run(lines, CheckB);
 
     static int Run(string[] lines, Func<Item, bool> predicate)

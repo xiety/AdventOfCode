@@ -4,12 +4,14 @@ using Advent.Common;
 
 namespace A2020.Problem04;
 
-public class Solver : ISolver<int>
+public static class Solver
 {
-    public int RunA(string[] lines, bool isSample)
+    [GeneratedTest<int>(2, 254)]
+    public static int RunA(string[] lines)
         => LoadData(lines).Count(ValidateRequired);
 
-    public int RunB(string[] lines, bool isSample)
+    [GeneratedTest<int>(2, 184)]
+    public static int RunB(string[] lines)
         => LoadData(lines)
             .Where(ValidateRequired)
             .Count(a => a.All(Validate));

@@ -4,12 +4,14 @@ using System.Text.RegularExpressions;
 
 namespace A2020.Problem12;
 
-public class Solver : ISolver<int>
+public static class Solver
 {
-    public int RunA(string[] lines, bool isSample)
+    [GeneratedTest<int>(25, 1687)]
+    public static int RunA(string[] lines)
         => Solve(lines, new(new(0, 0), new(1, 0)), false);
 
-    public int RunB(string[] lines, bool isSample)
+    [GeneratedTest<int>(286, 20873)]
+    public static int RunB(string[] lines)
         => Solve(lines, new(new(0, 0), new(10, 1)), true);
 
     static int Solve(string[] lines, State initial, bool moveWaypoint)

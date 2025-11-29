@@ -2,16 +2,18 @@
 
 namespace A2020.Problem06;
 
-public class Solver : ISolver<int>
+public static class Solver
 {
-    public int RunA(string[] lines, bool isSample)
+    [GeneratedTest<int>(11, 6457)]
+    public static int RunA(string[] lines)
         => lines
             .SplitBy(string.Empty)
             .Sum(a => a.SelectMany(b => b)
                 .Distinct()
                 .Count());
 
-    public int RunB(string[] lines, bool isSample)
+    [GeneratedTest<int>(6, 3260)]
+    public static int RunB(string[] lines)
         => lines
             .SplitBy(string.Empty)
             .Sum(a => a.SelectMany(b => b)

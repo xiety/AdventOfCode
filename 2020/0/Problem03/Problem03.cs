@@ -2,15 +2,17 @@
 
 namespace A2020.Problem03;
 
-public class Solver : ISolver<long>
+public static class Solver
 {
-    public long RunA(string[] lines, bool isSample)
+    [GeneratedTest<long>(7, 187)]
+    public static long RunA(string[] lines)
     {
         var map = LoadData(lines);
         return CountTrees(map, new(3, 1));
     }
 
-    public long RunB(string[] lines, bool isSample)
+    [GeneratedTest<long>(336, 4723283400)]
+    public static long RunB(string[] lines)
     {
         var map = LoadData(lines);
         Pos[] slopes = [new(1, 1), new(3, 1), new(5, 1), new(7, 1), new(1, 2)];

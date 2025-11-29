@@ -4,9 +4,10 @@ using Advent.Common;
 
 namespace A2020.Problem13;
 
-public class Solver : ISolver<long>
+public static class Solver
 {
-    public long RunA(string[] lines, bool isSample)
+    [GeneratedTest<long>(295, 203)]
+    public static long RunA(string[] lines)
     {
         var (target, items) = LoadData(lines);
 
@@ -18,7 +19,8 @@ public class Solver : ISolver<long>
             .Result;
     }
 
-    public long RunB(string[] lines, bool isSample)
+    [GeneratedTest<long>(1068781, 905694340256752)]
+    public static long RunB(string[] lines)
         => ToBusses(LoadData(lines).Items)
             .Aggregate((N: 0L, Step: 1L),
                 (acc, bus) => (Enumerable.InfiniteSequence(acc.N, acc.Step)
@@ -26,8 +28,8 @@ public class Solver : ISolver<long>
                     acc.Step * bus.Value))
             .N;
 
-    // Using Chinese Remainder Theorem
-    public long RunBAlternative(string[] lines, bool isSample)
+    [GeneratedTest<long>(1068781, 905694340256752)]
+    public static long RunB_CRT(string[] lines)
     {
         var (_, items) = LoadData(lines);
         var busses = ToBusses(items);

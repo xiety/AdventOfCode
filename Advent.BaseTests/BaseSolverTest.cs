@@ -4,12 +4,6 @@ using System.Runtime.Serialization;
 
 namespace Advent.Common;
 
-public abstract class FolderSolverTest : BaseSolverTest
-{
-    protected override string GetFolder(int year, int number)
-        => @$"..\..\..\..\Data\{(number - 1) / 10 * 10}\Problem{number:00}\";
-}
-
 public abstract class BaseSolverTest
 {
     protected void Test<TR>(ISolver<TR> solver, ITestParameter p)

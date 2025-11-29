@@ -4,12 +4,14 @@ using Advent.Common;
 
 namespace A2020.Problem05;
 
-public class Solver : ISolver<int>
+public static class Solver
 {
-    public int RunA(string[] lines, bool isSample)
+    [GeneratedTest<int>(820, 938)]
+    public static int RunA(string[] lines)
         => lines.Max(GetId);
 
-    public int RunB(string[] lines, bool isSample)
+    [GeneratedTest<int>(356, 696)]
+    public static int RunB(string[] lines)
     {
         var ids = lines.Select(GetId).Order().ToArray();
         return ids.Skip(1).Where((a, i) => a != ids[i] + 1).Select(a => a - 1).First();

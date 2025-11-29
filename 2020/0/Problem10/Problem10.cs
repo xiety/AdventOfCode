@@ -2,21 +2,19 @@
 
 namespace A2020.Problem10;
 
-public class Solver : ISolver<long>
+public static class Solver
 {
-    public long RunA(string[] lines, bool isSample)
-    {
-        var items = LoadItems(lines);
-
-        return items
+    [GeneratedTest<long>(220, 1848)]
+    public static long RunA(string[] lines)
+        => LoadItems(lines)
             .Chain()
             .Select(a => a.Second - a.First)
             .GroupBy(a => a)
             .Where(g => g.Key is (1 or 3))
             .Aggregate(1L, (acc, a) => acc * a.Count());
-    }
 
-    public long RunB(string[] lines, bool isSample)
+    [GeneratedTest<long>(19208, 8099130339328)]
+    public static long RunB(string[] lines)
     {
         var items = LoadItems(lines);
 

@@ -4,14 +4,16 @@ using Advent.Common;
 
 namespace A2020.Problem07;
 
-public class Solver : ISolver<int>
+public static class Solver
 {
     const string rootName = "shiny gold";
 
-    public int RunA(string[] lines, bool isSample)
+    [GeneratedTest<int>(4, 124)]
+    public static int RunA(string[] lines)
         => LoadItems(lines).Values.Count(CheckRecurse);
 
-    public int RunB(string[] lines, bool isSample)
+    [GeneratedTest<int>(126, 34862)]
+    public static int RunB(string[] lines)
         => CountRecurse(LoadItems(lines)[rootName]) - 1;
 
     static bool CheckRecurse(Item parent)

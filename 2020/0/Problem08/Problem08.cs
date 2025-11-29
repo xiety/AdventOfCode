@@ -4,12 +4,14 @@ using Advent.Common;
 
 namespace A2020.Problem08;
 
-public class Solver : ISolver<int>
+public static class Solver
 {
-    public int RunA(string[] lines, bool isSample)
+    [GeneratedTest<int>(5, 1451)]
+    public static int RunA(string[] lines)
         => Simulate(LoadItems(lines)).Acc;
 
-    public int RunB(string[] lines, bool isSample)
+    [GeneratedTest<int>(8, 1160)]
+    public static int RunB(string[] lines)
     {
         var items = LoadItems(lines);
 

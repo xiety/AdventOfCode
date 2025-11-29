@@ -2,12 +2,14 @@
 
 namespace A2020.Problem11;
 
-public class Solver : ISolver<int>
+public static class Solver
 {
-    public int RunA(string[] lines, bool isSample)
+    [GeneratedTest<int>(37, 2289)]
+    public static int RunA(string[] lines)
         => Run(lines, 4, CountOccupiedA);
 
-    public int RunB(string[] lines, bool isSample)
+    [GeneratedTest<int>(26, 2059)]
+    public static int RunB(string[] lines)
         => Run(lines, 5, CountOccupiedB);
 
     static int Run(string[] lines, int max, CountFunc countFunc)

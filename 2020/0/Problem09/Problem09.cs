@@ -5,16 +5,18 @@ using Advent.Common;
 
 namespace A2020.Problem09;
 
-public class Solver : ISolver<long>
+public static class Solver
 {
-    public long RunA(string[] lines, bool isSample)
+    [GeneratedTest<long>(127, 552655238)]
+    public static long RunA(string[] lines, bool isSample)
     {
         var items = LoadItems(lines);
         var size = isSample ? 5 : 25;
         return FindBadNumber(items, size).Item;
     }
 
-    public long RunB(string[] lines, bool isSample)
+    [GeneratedTest<long>(62, 70672245)]
+    public static long RunB(string[] lines, bool isSample)
     {
         var items = LoadItems(lines);
         var size = isSample ? 5 : 25;
