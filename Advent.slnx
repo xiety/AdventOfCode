@@ -157,12 +157,9 @@
     <Project Path="2024\A2024.Problem25\A2024.Problem25.csproj" />
   </Folder>
   <Folder Name="/Analyzers/">
-    <Project Path="Analyzers/Advent.Analyzer.CodeFixes/Advent.Analyzer.CodeFixes.csproj" />
-    <Project Path="Analyzers/Advent.Analyzer.Test/Advent.Analyzer.Test.csproj" />
-    <Project Path="Analyzers/Advent.Analyzer/Advent.Analyzer.csproj" />
-  </Folder>
-  <Folder Name="/Generators/">
-    <Project Path="Generators/Advent.TestGeneration/Advent.TestGeneration.csproj" />
+    <Project Path="Analyzers/Advent.Analyzers.CodeFixes/Advent.Analyzers.CodeFixes.csproj" />
+    <Project Path="Analyzers/Advent.Analyzers.Test/Advent.Analyzers.Test.csproj" />
+    <Project Path="Analyzers/Advent.Analyzers/Advent.Analyzers.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />

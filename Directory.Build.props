@@ -17,15 +17,15 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
-  <ItemGroup Condition="!$(MSBuildProjectFullPath.Contains('Analyzers')) AND !$(MSBuildProjectFullPath.Contains('Advent.Common')) AND !$(MSBuildProjectFullPath.Contains('Generators'))">
-    <ProjectReference Include="$(SolutionDir)Analyzers\Advent.Analyzer\Advent.Analyzer.csproj"
-                      OutputItemType="Analyzer"
+  <ItemGroup Condition="!$(MSBuildProjectFullPath.Contains('Analyzers')) AND !$(MSBuildProjectFullPath.Contains('Advent.Common'))">
+    <ProjectReference Include="$(SolutionDir)Analyzers\Advent.Analyzers\Advent.Analyzers.csproj"
+                      PrivateAssets="all"
                       ReferenceOutputAssembly="false"
-                      PrivateAssets="all" />
-    <ProjectReference Include="$(SolutionDir)Analyzers\Advent.Analyzer.CodeFixes\Advent.Analyzer.CodeFixes.csproj"
-                      OutputItemType="Analyzer"
+                      OutputItemType="Analyzer" />
+    <ProjectReference Include="$(SolutionDir)Analyzers\Advent.Analyzers.CodeFixes\Advent.Analyzers.CodeFixes.csproj"
+                      PrivateAssets="all"
                       ReferenceOutputAssembly="false"
-                      PrivateAssets="all"/>
+                      OutputItemType="Analyzer" />
   </ItemGroup>
 
 </Project>

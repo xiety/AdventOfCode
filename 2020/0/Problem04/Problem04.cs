@@ -38,7 +38,7 @@ public static class Solver
         => int.TryParse(value, out var n) && n >= from && n <= to;
 
     static bool ValidateHeight(string value)
-        => CompiledRegs.RegexHeight().TryMapTo<Height>(value, out var height)
+        => CompiledRegs.TryMapToRegexHeight(value, out var height)
         && height switch
         {
             { Unit: "cm", Value: >= 150 and <= 193 } => true,
@@ -58,7 +58,7 @@ public static class Solver
     static Item[][] LoadData(string[] lines)
         => lines.SplitBy(string.Empty)
             .ToArray(a => a.ToArrayMany(d => d.Split(" ")
-                .Select(b => CompiledRegs.RegexItem().MapTo<Item>(b))));
+                .Select(b => CompiledRegs.MapToRegexItem(b))));
 }
 
 record Item(string Key, string Value);
@@ -67,11 +67,13 @@ record Height(int Value, string Unit);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.Key)}>.+)\:(?<{nameof(Item.Value)}>.+)$")]
+    [MapTo<Item>]
     public static partial Regex RegexItem();
 
     [GeneratedRegex(@"^\#[0-9a-f]{6}$")]
     public static partial Regex RegexColor();
 
     [GeneratedRegex(@$"^(?<{nameof(Height.Value)}>\d+)(?<{nameof(Height.Unit)}>(in|cm))$")]
+    [MapTo<Height>]
     public static partial Regex RegexHeight();
 }

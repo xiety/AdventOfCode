@@ -7,9 +7,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Advent.Common\Advent.Common.csproj" />
     <ProjectReference Include="..\Advent.BaseTests\Advent.BaseTests.csproj" />
-    <ProjectReference Include="..\Generators\Advent.TestGeneration\Advent.TestGeneration.csproj"
-                      OutputItemType="Analyzer"
-                      ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

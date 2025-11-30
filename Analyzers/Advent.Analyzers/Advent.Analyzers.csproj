@@ -2,12 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
-    <IsRoslynComponent>true</IsRoslynComponent>
+    <IsPackable>false</IsPackable>
+    <PackageId>*$(MSBuildProjectFile)*</PackageId>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <NoWarn>RS2008</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

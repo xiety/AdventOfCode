@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Advent.Analyzer.CodeFixes\Advent.Analyzer.CodeFixes.csproj" />
-    <ProjectReference Include="..\Advent.Analyzer\Advent.Analyzer.csproj" />
+    <ProjectReference Include="..\Advent.Analyzers.CodeFixes\Advent.Analyzers.CodeFixes.csproj" />
+    <ProjectReference Include="..\Advent.Analyzers\Advent.Analyzers.csproj" />
   </ItemGroup>
 
 </Project>

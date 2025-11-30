@@ -84,14 +84,6 @@ public static class RegexExtensions
             dynamic attrDynamic = new ReflectionDynamic(attr);
             dynamic parserDynamic = attrDynamic.CreateParser();
             return parserDynamic.Parse(group.Value);
-
-            //The `dynamic` doesn't work with non-public types
-            //dynamic parserDynamic = ((dynamic)attr).CreateParser();
-            //return parserDynamic.Parse(group.Value);
-
-            //var attrType = attr.GetType();
-            //var parser = attrType.GetMethod(nameof(RegexParserAttribute<,>.CreateParser))!.Invoke(attr, null)!;
-            //return parser.GetType().GetMethod(nameof(IRegexParser<>.Parse))!.Invoke(parser, [group.Value])!;
         }
 
         if (type.IsArray)
@@ -162,3 +154,6 @@ public interface IRegexParser<out T>
 {
     T Parse(string text);
 }
+
+[AttributeUsage(AttributeTargets.Method)]
+public sealed class MapToAttribute<T> : Attribute;

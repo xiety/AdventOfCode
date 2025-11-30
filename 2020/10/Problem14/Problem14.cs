@@ -32,9 +32,9 @@ public static class Solver
             .GroupByHeader(a => a as ItemMask, a => a as ItemSet);
 
     static Item ParseLine(string line)
-        => CompiledRegs.RegexMask().TryMapTo<ItemMaskRaw>(line, out var itemMaskRaw)
+        => CompiledRegs.TryMapToRegexMask(line, out var itemMaskRaw)
             ? new ItemMask(itemMaskRaw.Mask.Select(a => a switch { 'X' => (bool?)null, '1' => true, '0' => false }).Reverse().ToArray())
-            : CompiledRegs.RegexSet().MapTo<ItemSet>(line);
+            : CompiledRegs.MapToRegexSet(line);
 }
 
 record Item();
@@ -45,8 +45,10 @@ record ItemMaskRaw(string Mask);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^mask = (?<{nameof(ItemMaskRaw.Mask)}>.+)$")]
+    [MapTo<ItemMaskRaw>]
     public static partial Regex RegexMask();
 
     [GeneratedRegex(@$"^mem\[(?<{nameof(ItemSet.Address)}>\d+)\] = (?<{nameof(ItemSet.Value)}>\d+)$")]
+    [MapTo<ItemSet>]
     public static partial Regex RegexSet();
 }

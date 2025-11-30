@@ -2,12 +2,12 @@
 
 using CSharpTest = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixTest<
     Advent.Analyzers.PreferToArrayExtensionAnalyzer,
-    Advent.Analyzers.PreferToArrayExtensionCodeFixProvider,
+    Advent.Analyzers.PreferToArrayExtensionCodeFix,
     Microsoft.CodeAnalysis.Testing.DefaultVerifier>;
 
 using VerifyCS = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
     Advent.Analyzers.PreferToArrayExtensionAnalyzer,
-    Advent.Analyzers.PreferToArrayExtensionCodeFixProvider,
+    Advent.Analyzers.PreferToArrayExtensionCodeFix,
     Microsoft.CodeAnalysis.Testing.DefaultVerifier>;
 
 namespace Advent.Analyzers.Tests;

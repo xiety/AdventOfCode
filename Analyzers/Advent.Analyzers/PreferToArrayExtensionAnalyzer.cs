@@ -1,10 +1,11 @@
-﻿#pragma warning disable RS2008 // Enable analyzer release tracking
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Advent.Analyzers;
 
@@ -24,7 +25,8 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
 
     static readonly string[] TargetMethods = ["ToArray", "ToList"];
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
+        => ImmutableArray.Create(Rule);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -38,11 +40,8 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
     {
         var invocation = (InvocationExpressionSyntax)context.Node;
 
-        if (TryMatchSelectToTargetMethod(
-                invocation,
-                out _,
-                out _,
-                out var methodName))
+        if (TryMatchSelectToTargetMethod(invocation, context.SemanticModel, context.CancellationToken,
+            out _, out _, out var methodName))
         {
             var diagnostic = Diagnostic.Create(Rule, invocation.GetLocation(),
                 messageArgs: new[] { methodName });
@@ -52,12 +51,14 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
 
     public static bool TryMatchSelectToTargetMethod(
         InvocationExpressionSyntax invocation,
-        out ExpressionSyntax? collection,
-        out LambdaExpressionSyntax? selectorLambda,
-        out string? targetMethodName)
+        SemanticModel semanticModel,
+        CancellationToken ct,
+        [NotNullWhen(true)] out ExpressionSyntax? collection,
+        [NotNullWhen(true)] out ExpressionSyntax? selector,
+        [NotNullWhen(true)] out string? targetMethodName)
     {
         collection = null;
-        selectorLambda = null;
+        selector = null;
         targetMethodName = null;
 
         if (invocation.Expression is not MemberAccessExpressionSyntax outerAccess ||
@@ -70,21 +71,31 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
 
         if (outerAccess.Expression is not InvocationExpressionSyntax selectCall ||
             selectCall.Expression is not MemberAccessExpressionSyntax selectAccess ||
-            selectAccess.Name.Identifier.ValueText != "Select" ||
             selectCall.ArgumentList.Arguments.Count != 1)
             return false;
 
-        if (selectCall.ArgumentList.Arguments[0].Expression is not LambdaExpressionSyntax lambda)
+        if (selectAccess.Name.Identifier.ValueText != "Select")
             return false;
 
-        if (lambda is ParenthesizedLambdaExpressionSyntax p &&
-            p.ParameterList.Parameters.Count != 1)
-        {
+        var arg = selectCall.ArgumentList.Arguments[0].Expression;
+
+        if (arg is LambdaExpressionSyntax l && !HasSingleParameter(l))
             return false;
-        }
+
+        var convertedType = semanticModel.GetTypeInfo(arg, ct).ConvertedType as INamedTypeSymbol;
+        if (convertedType?.DelegateInvokeMethod?.Parameters.Length != 1)
+            return false;
 
         collection = selectAccess.Expression;
-        selectorLambda = lambda;
+        selector = arg;
         return true;
     }
+
+    static bool HasSingleParameter(LambdaExpressionSyntax lambda)
+        => lambda switch
+        {
+            SimpleLambdaExpressionSyntax s => true,
+            ParenthesizedLambdaExpressionSyntax p => p.ParameterList.Parameters.Count == 1,
+            _ => false
+        };
 }

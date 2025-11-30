@@ -1,17 +1,17 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Immutable;
+using System.Composition;
+
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 
-using System.Collections.Immutable;
-using System.Composition;
-
 namespace Advent.Analyzers;
 
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(PreferToArrayExtensionCodeFixProvider)), Shared]
-public sealed class PreferToArrayExtensionCodeFixProvider : CodeFixProvider
+[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(PreferToArrayExtensionCodeFix)), Shared]
+public sealed class PreferToArrayExtensionCodeFix : CodeFixProvider
 {
     private const string Title = "Use ToArray(selector) / ToList(selector) extension";
 
@@ -26,29 +26,34 @@ public sealed class PreferToArrayExtensionCodeFixProvider : CodeFixProvider
         if (root is null)
             return;
 
-        var diagnostic = context.Diagnostics.First();
-        var diagnosticSpan = diagnostic.Location.SourceSpan;
-
-        var invocation = root.FindToken(diagnosticSpan.Start).Parent?
-            .AncestorsAndSelf()
-            .OfType<InvocationExpressionSyntax>()
-            .FirstOrDefault(i => i.Span.Contains(diagnosticSpan));
+        var diagnostic = context.Diagnostics[0];
+        var invocation = root.FindToken(diagnostic.Location.SourceSpan.Start)
+                             .Parent?
+                             .AncestorsAndSelf()
+                             .OfType<InvocationExpressionSyntax>()
+                             .FirstOrDefault(i => i.Span.Contains(diagnostic.Location.SourceSpan));
 
         if (invocation is null)
             return;
 
+        var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
+        if (semanticModel is null)
+            return;
+
         if (PreferToArrayExtensionAnalyzer.TryMatchSelectToTargetMethod(
                 invocation,
+                semanticModel,
+                context.CancellationToken,
                 out var collection,
-                out var selectorLambda,
+                out var selector,
                 out var methodName))
         {
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    title: Title,
-                    createChangedDocument: ct => ApplyFixAsync(context.Document, invocation, collection!, selectorLambda!, methodName!, ct),
-                    equivalenceKey: Title),
-                context.Diagnostics.First());
+                    Title,
+                    ct => ApplyFixAsync(context.Document, invocation, collection, selector, methodName, ct),
+                    Title),
+                diagnostic);
         }
     }
 
@@ -56,7 +61,7 @@ public sealed class PreferToArrayExtensionCodeFixProvider : CodeFixProvider
         Document document,
         InvocationExpressionSyntax oldInvocation,
         ExpressionSyntax collection,
-        LambdaExpressionSyntax selectorLambda,
+        ExpressionSyntax selector,
         string methodName,
         CancellationToken ct)
     {
@@ -66,7 +71,7 @@ public sealed class PreferToArrayExtensionCodeFixProvider : CodeFixProvider
                 collection,
                 SyntaxFactory.IdentifierName(methodName)))
             .WithArgumentList(SyntaxFactory.ArgumentList(
-                SyntaxFactory.SingletonSeparatedList(SyntaxFactory.Argument(selectorLambda))))
+                SyntaxFactory.SingletonSeparatedList(SyntaxFactory.Argument(selector))))
             .WithAdditionalAnnotations(Formatter.Annotation);
 
         var root = await document.GetSyntaxRootAsync(ct).ConfigureAwait(false);
