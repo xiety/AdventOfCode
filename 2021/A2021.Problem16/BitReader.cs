@@ -5,7 +5,7 @@ namespace A2021.Problem16;
 
 public sealed class BitReader(byte[] array)
 {
-    readonly BitArray bits = BitArrayExtensions.MostSignificantFirst(array);
+    readonly BitArray bits = BitArray.MostSignificantFirst(array);
 
     //mutable
 

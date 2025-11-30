@@ -5,9 +5,6 @@ namespace System.Linq;
 
 public static class EnumerableExtensions
 {
-    public static bool ContainsAll<T>(this IEnumerable<T> source, params IEnumerable<T> items)
-        => items.All(source.Contains);
-
     extension(Enumerable)
     {
         public static IEnumerable<int> RangeTo(int startIncl, int endExcl)
@@ -23,6 +20,34 @@ public static class EnumerableExtensions
 
     extension<T>(IEnumerable<T> source)
     {
+        public IEnumerable<HeaderGrouping<TKey, TValue>> GroupByHeader<TKey, TValue>(Func<T, TKey?> keySelector, Func<T, TValue?> valueSelector)
+            where TKey : class
+            where TValue : class
+        {
+            TKey? currentHeader = null;
+            var currentItems = new List<TValue>();
+
+            foreach (var item in source)
+            {
+                if (keySelector(item) is { } newHeader)
+                {
+                    if (currentHeader is not null)
+                        yield return new(currentHeader, [.. currentItems]);
+
+                    currentHeader = newHeader;
+                    currentItems.Clear();
+                }
+                else
+                {
+                    if (valueSelector(item) is { } v)
+                        currentItems.Add(v);
+                }
+            }
+
+            if (currentHeader is not null)
+                yield return new(currentHeader, [.. currentItems]);
+        }
+
         public static IEnumerable<T> operator +(IEnumerable<T> a, IEnumerable<T> b)
             => a.Concat(b);
 
@@ -38,9 +63,8 @@ public static class EnumerableExtensions
         public TR[] ToArray<TR>(Func<T, int, TR> selector)
             => source.Select(selector).ToArray();
 
-        //Warning: Argument of type 'string' cannot be used for parameter 'items' of type 'IEnumerable<string>' in 'bool extension<string>(IEnumerable<string>).ContainsAll(params IEnumerable<string> items)' due to differences in the nullability of reference types.
-        //public bool ContainsAll(params IEnumerable<T> items)
-        //    => items.All(source.Contains);
+        public bool ContainsAll(params IEnumerable<T> items)
+            => items.All(source.Contains);
 
         public ValueTuple<T, T> ToTuple2()
         {
@@ -218,12 +242,12 @@ public static class EnumerableExtensions
             => source.Aggregate(TR.Zero, (agg, t) => Math.Mod(agg + func(t), mod));
     }
 
-    public static IEnumerable<T> Concat<T>(params IEnumerable<T>[] enumerables)
-    {
-        foreach (var enumerable in enumerables)
-            foreach (var item in enumerable)
-                yield return item;
-    }
+    //public static IEnumerable<T> Concat<T>(params IEnumerable<T>[] enumerables)
+    //{
+    //    foreach (var enumerable in enumerables)
+    //        foreach (var item in enumerable)
+    //            yield return item;
+    //}
 
     extension<T>(IReadOnlyList<T> collection)
     {
@@ -280,7 +304,7 @@ public static class EnumerableExtensions
         }
     }
 
-     public static IEnumerable<long> LongRange(long start, long length)
+    public static IEnumerable<long> LongRange(long start, long length)
     {
         for (var i = start; i < start + length; ++i)
             yield return i;
@@ -290,7 +314,7 @@ public static class EnumerableExtensions
         where T : notnull
     {
         public IEnumerable<T[]> SplitBy(T separator)
-            //where TV : IEqualityOperators<TV, TV, bool>
+        //where TV : IEqualityOperators<TV, TV, bool>
         {
             var list = new List<T>();
 
@@ -362,12 +386,12 @@ public static class EnumerableExtensions
             => source.Cast<T?>().FirstOrDefault();
     }
 
-    public static IEnumerable<Pos> Range2d(int n1, int n2)
-    {
-        for (var i1 = 0; i1 < n1; ++i1)
-            for (var i2 = 0; i2 < n2; ++i2)
-                yield return new(i1, i2);
-    }
+    //public static IEnumerable<Pos> Range2d(int n1, int n2)
+    //{
+    //    for (var i1 = 0; i1 < n1; ++i1)
+    //        for (var i2 = 0; i2 < n2; ++i2)
+    //            yield return new(i1, i2);
+    //}
 
     //public static void Deconstruct(source IEnumerable<int> @source, out Pos pos)
     //{
@@ -402,3 +426,5 @@ public static class EnumerableExtensions
             => source.Aggregate(long.CreateChecked(T.One), (agg, t) => checked(agg * long.CreateChecked(t)));
     }
 }
+
+public record HeaderGrouping<TKey, TValue>(TKey Key, TValue[] Values);

@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Dynamic;
 using System.Numerics;
 using System.Reflection;
 
@@ -17,7 +18,7 @@ public static class RegexExtensions
         public T MapTo<T>(string text)
             => regex.Match(text).MapTo<T>(regex, text);
 
-        public bool TryMapTo<T>(string text, out T? result)
+        public bool TryMapTo<T>(string text, [NotNullWhen(true)] out T? result)
             => regex.Match(text).TryMapTo(regex, text, out result);
     }
 
@@ -59,7 +60,7 @@ public static class RegexExtensions
             return match.MapTo<T>();
         }
 
-        public bool TryMapTo<T>(Regex debugRegex, string debugText, out T? result)
+        public bool TryMapTo<T>(Regex debugRegex, string debugText, [NotNullWhen(true)] out T? result)
         {
             if (!match.Success)
             {
@@ -67,7 +68,7 @@ public static class RegexExtensions
                 return false;
             }
 
-            result = match.MapTo<T>();
+            result = match.MapTo<T>()!; //bang
             return true;
         }
     }

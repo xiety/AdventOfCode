@@ -44,17 +44,54 @@ public static class BitArrayExtensions
 
             return result;
         }
-    }
 
-    public static BitArray MostSignificantFirst(byte[] array)
-    {
-        var temp = new BitArray(array);
-        var bits = new BitArray(temp.Count);
+        public ulong ToUInt64()
+        {
+            var result = (ulong)0;
+            var slider = (uint)(1) << @this.Length;
 
-        for (var i = 0; i < array.Length; ++i)
-            for (var b = 0; b < 8; ++b)
-                bits[i * 8 + b] = temp[i * 8 + 7 - b];
+            for (var n = 0; n < @this.Length; ++n)
+            {
+                if (@this[n])
+                    result |= slider;
 
-        return bits;
+                slider >>= 1;
+            }
+
+            return result;
+        }
+
+        //public byte[] ToBytes()
+        //{
+        //    var numBytes = (@this.Length + 7) / 8;
+        //    var bytes = new byte[numBytes];
+
+        //    for (var i = 0; i < @this.Length; i++)
+        //    {
+        //        if (@this[i])
+        //            bytes[i / 8] |= (byte)(1 << (i % 8));
+        //    }
+
+        //    return bytes;
+        //}
+
+        public byte[] ToBytes()
+        {
+            var bytes = new byte[(@this.Length + 7) / 8];
+            @this.CopyTo(bytes, 0);
+            return bytes;
+        }
+
+        public static BitArray MostSignificantFirst(byte[] array)
+        {
+            var temp = new BitArray(array);
+            var bits = new BitArray(temp.Count);
+
+            for (var i = 0; i < array.Length; ++i)
+                for (var b = 0; b < 8; ++b)
+                    bits[i * 8 + b] = temp[i * 8 + 7 - b];
+
+            return bits;
+        }
     }
 }
