@@ -9,6 +9,21 @@ public static class EnumerableExtensions
     {
         public static IEnumerable<int> RangeTo(int startIncl, int endExcl)
             => Enumerable.Range(startIncl, endExcl - startIncl);
+
+        public static IEnumerable<T[]> BinaryCounting<T>(int n)
+        {
+            var comb = (long)Math.Pow(2, n);
+
+            for (var i = 0L; i < comb; ++i)
+            {
+                var array = new T[n];
+
+                for (var j = 0; j < n; ++j)
+                    array[j] = (T)Convert.ChangeType(((i & 1L << j) >> j), typeof(T));
+
+                yield return array;
+            }
+        }
     }
 
     extension<T>(IEnumerable<T?> source)

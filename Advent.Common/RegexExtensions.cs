@@ -30,6 +30,10 @@ public static class RegexExtensions
                 throw new ArgumentOutOfRangeException(nameof(match), match, message: "Fail");
 
             var type = typeof(T);
+
+            if (type == typeof(string) || type == typeof(int))
+                return (T)Convert.ChangeType(match.Groups[1].Value, type);
+
             var constructor = type.GetConstructors()[0];
             var parameters = constructor.GetParameters();
 

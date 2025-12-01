@@ -5,47 +5,67 @@ using Advent.Common;
 
 namespace A2020.Problem14;
 
+using Mask = bool?[];
+
 public static class Solver
 {
     [GeneratedTest<long>(165, 17028179706934)]
     public static long RunA(string[] lines)
         => ParseGroups(lines)
-            .SelectMany(a => a.Values.Select(b => (a.Key.Mask, b.Address, b.Value)))
+            .SelectMany(a => a.Values.Select(b => (Mask: a.Key, b.Address, b.Value)))
             .GroupBy(a => a.Address)
             .Select(a => a.Last())
-            .Sum(a => ApplyMask(a.Mask, a.Value));
+            .Sum(a => ApplyMask(a.Value, a.Mask, a => a is not false));
 
-    static long ApplyMask(bool?[] mask, long value)
-    {
-        var valueBits = new BitArray(BitConverter.GetBytes(value));
+    [GeneratedTest<long>(208, 3683236147222)]
+    public static long RunB(string[] lines)
+        => ParseGroups(lines)
+            .SelectMany(a => Spread(a.Key, a.Values))
+            .GroupBy(a => a.Address)
+            .Select(a => a.Last())
+            .Sum(a => a.Value);
 
-        for (var i = 0; i < mask.Length; ++i)
-            if (mask[i] is bool m)
-                valueBits.Set(i, m);
+    static IEnumerable<ItemSet> Spread(Mask mask, ItemSet[] values)
+        => Spread(mask, values, mask.Index().Where(a => a.Item is null).ToArray(a => a.Index));
 
-        return BitConverter.ToInt64(valueBits.ToBytes());
-    }
+    static IEnumerable<ItemSet> Spread(Mask mask, ItemSet[] values, int[] indexes)
+        => values
+            .Select(a => (a.Value, Masked: ApplyMask(a.Address, mask, a => a is not null)))
+            .SelectMany(a => Enumerable.BinaryCounting<long>(indexes.Length)
+                .Select(b => new ItemSet(GenerateAddress(a.Masked, indexes, b), a.Value)));
 
-    static IEnumerable<HeaderGrouping<ItemMask, ItemSet>> ParseGroups(string[] lines)
+    static long GenerateAddress(long masked, int[] indexes, long[] bits)
+        => bits
+            .Zip(indexes)
+            .Select(a => a.First << a.Second)
+            .Aggregate(masked, (acc, a) => acc | a);
+
+    static long CreateLong(Mask mask, Func<bool?, bool> predicate)
+        => mask.Index().Aggregate(0L, (acc, a) => predicate(a.Item) ? acc | (1L << a.Index) : acc);
+
+    static long ApplyMask(long value, Mask mask, Func<bool?, bool> predicate)
+        => (value | CreateLong(mask, a => a is true)) & CreateLong(mask, predicate);
+
+    static IEnumerable<HeaderGrouping<Mask, ItemSet>> ParseGroups(string[] lines)
         => lines
             .Select(ParseLine)
-            .GroupByHeader(a => a as ItemMask, a => a as ItemSet);
+            .GroupByHeader(a => a as Mask, a => a as ItemSet);
 
-    static Item ParseLine(string line)
+    static object ParseLine(string line)
         => CompiledRegs.TryMapToRegexMask(line, out var itemMaskRaw)
-            ? new ItemMask(itemMaskRaw.Mask.Select(a => a switch { 'X' => (bool?)null, '1' => true, '0' => false }).Reverse().ToArray())
+            ? ParseMask(itemMaskRaw)
             : CompiledRegs.MapToRegexSet(line);
+
+    static Mask ParseMask(string text)
+        => text.Select(a => a switch { 'X' => (bool?)null, '1' => true, '0' => false }).Reverse().ToArray();
 }
 
-record Item();
-record ItemMask(bool?[] Mask) : Item;
-record ItemSet(long Address, long Value) : Item;
-record ItemMaskRaw(string Mask);
+record ItemSet(long Address, long Value);
 
 static partial class CompiledRegs
 {
-    [GeneratedRegex(@$"^mask = (?<{nameof(ItemMaskRaw.Mask)}>.+)$")]
-    [MapTo<ItemMaskRaw>]
+    [GeneratedRegex(@$"^mask = (.+)$")]
+    [MapTo<string>]
     public static partial Regex RegexMask();
 
     [GeneratedRegex(@$"^mem\[(?<{nameof(ItemSet.Address)}>\d+)\] = (?<{nameof(ItemSet.Value)}>\d+)$")]
