@@ -20,6 +20,18 @@ public static class EnumerableExtensions
 
     extension<T>(IEnumerable<T> source)
     {
+        public IEnumerable<TR> Accumulate<TR>(TR seed, Func<TR, T, TR> acc)
+        {
+            var current = seed;
+            yield return current;
+
+            foreach (var item in source)
+            {
+                current = acc(current, item);
+                yield return current;
+            }
+        }
+
         public IEnumerable<HeaderGrouping<TKey, TValue>> GroupByHeader<TKey, TValue>(Func<T, TKey?> keySelector, Func<T, TValue?> valueSelector)
             where TKey : class
             where TValue : class

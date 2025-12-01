@@ -168,6 +168,7 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="2020/A2020.Problems.csproj" />
+  <Project Path="2025/A2025.Problems.csproj" />
   <Project Path="Advent.BaseTests\Advent.BaseTests.csproj" />
   <Project Path="Advent.Common\Advent.Common.csproj" />
 </Solution>
