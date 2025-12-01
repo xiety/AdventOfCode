@@ -44,7 +44,7 @@ public static class Solver
     }
 
     static Item[] LoadItems(string[] lines)
-        => CompiledRegs.Regex().FromLines<Item>(lines);
+        => CompiledRegs.FromLinesRegex(lines);
 }
 
 class Program(Item[] items)
@@ -75,5 +75,6 @@ record Item(Ops Op, int Value);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.Op)}>.+) (?<{nameof(Item.Value)}>[\+\-]\d+)$")]
+    [MapTo<Item>]
     public static partial Regex Regex();
 }

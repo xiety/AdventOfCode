@@ -30,7 +30,7 @@ public static class Solver
     }
 
     static Item[] LoadData(string[] lines)
-        => CompiledRegs.Regex().FromLines<Item>(lines);
+        => CompiledRegs.FromLinesRegex(lines);
 }
 
 record Item(int From, int To, char Letter, string Text);
@@ -38,5 +38,6 @@ record Item(int From, int To, char Letter, string Text);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.From)}>\d+)-(?<{nameof(Item.To)}>\d+)\s(?<{nameof(Item.Letter)}>.)\:\s(?<{nameof(Item.Text)}>.+)$")]
+    [MapTo<Item>]
     public static partial Regex Regex();
 }

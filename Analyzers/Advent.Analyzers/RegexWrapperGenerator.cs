@@ -14,19 +14,20 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
         var methods = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (node, _) => node is MethodDeclarationSyntax { AttributeLists.Count: > 0 },
-                transform: static (ctx, _) => TryGetModel(ctx))
+                transform: static (ctx, _) => GetMethodInfo(ctx))
             .Where(static m => m is not null);
 
         context.RegisterSourceOutput(
             context.CompilationProvider.Combine(methods.Collect()),
-            static (spc, tuple) => Emit(spc, tuple.Right));
+            static (spc, tuple) => Execute(spc, tuple.Right));
     }
 
-    private sealed record Model(string Method, string Target, string Class, string? Ns);
+    private sealed record Model(string Method, string Target, string Class, string? Ns, bool CanBeNull);
 
-    private static Model? TryGetModel(GeneratorSyntaxContext ctx)
+    private static Model? GetMethodInfo(GeneratorSyntaxContext ctx)
     {
-        var symbol = ctx.SemanticModel.GetDeclaredSymbol(ctx.Node) as IMethodSymbol;
+        var method = (MethodDeclarationSyntax)ctx.Node;
+        var symbol = ctx.SemanticModel.GetDeclaredSymbol(method) as IMethodSymbol;
         if (symbol is not { IsStatic: true })
             return null;
 
@@ -45,14 +46,18 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
             ? null
             : symbol.ContainingType.ContainingNamespace.ToDisplayString();
 
+        var target = attrClass.TypeArguments[0];
+        var canBeNull = target.IsReferenceType || IsNullableValueType(target);
+
         return new Model(
             symbol.Name,
-            attrClass.TypeArguments[0].ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            target.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             symbol.ContainingType.Name,
-            ns);
+            ns,
+            canBeNull);
     }
 
-    private static void Emit(SourceProductionContext spc, ImmutableArray<Model?> methods)
+    private static void Execute(SourceProductionContext spc, ImmutableArray<Model?> methods)
     {
         if (methods.IsDefaultOrEmpty)
             return;
@@ -76,7 +81,7 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
         {
             var (ns, className) = g.Key;
 
-            if (ns is not null)
+            if (!string.IsNullOrEmpty(ns))
             {
                 w.WriteLine($"namespace {ns}");
                 w.WriteLine("{");
@@ -89,8 +94,10 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
 
             foreach (var m in g)
             {
+                var suffix = m.CanBeNull ? "?" : string.Empty;
+
                 w.WriteIndentedRaw($"""
-                    public static bool TryMapTo{m.Method}(string input, [NotNullWhen(true)] out {m.Target}? result)
+                    public static bool TryMapTo{m.Method}(string input, [NotNullWhen(true)] out {m.Target}{suffix} result)
                         => {m.Method}().TryMapTo<{m.Target}>(input, out result);
 
                     public static {m.Target} MapTo{m.Method}(string input)
@@ -105,15 +112,17 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
             w.Indent--;
             w.WriteLine("}");
 
-            if (ns is not null)
+            if (!string.IsNullOrEmpty(ns))
             {
                 w.Indent--;
                 w.WriteLine("}");
+                w.WriteLine();
             }
-
-            w.WriteLine();
         }
 
         spc.AddSource("RegexWrappers.g.cs", sw.ToString());
     }
+
+    static bool IsNullableValueType(ITypeSymbol type)
+        => type.IsValueType && type.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T;
 }

@@ -47,7 +47,7 @@ public static class Solver
         };
 
     static Item[] Load(string[] lines)
-        => CompiledRegs.RegexItem().FromLines<Item>(lines);
+        => CompiledRegs.FromLinesRegexItem(lines);
 }
 
 enum Mode { North, South, East, West, Left, Right, Forward }
@@ -57,6 +57,7 @@ record struct Item([RegexParser<ParseMode, Mode>] Mode Mode, int Value);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.Mode)}>.)(?<{nameof(Item.Value)}>\d+)$")]
+    [MapTo<Item>]
     public static partial Regex RegexItem();
 }
 
