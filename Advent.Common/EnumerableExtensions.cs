@@ -7,8 +7,43 @@ public static class EnumerableExtensions
 {
     extension(Enumerable)
     {
-        public static IEnumerable<int> RangeTo(int startIncl, int endExcl)
-            => Enumerable.Range(startIncl, endExcl - startIncl);
+        public static IEnumerable<T> Primes<T>(T maxExcl)
+            where T : INumber<T>
+        {
+            var two = T.One + T.One;
+
+            if (maxExcl <= two)
+                yield break;
+
+            yield return two;
+
+            HashSet<T> notPrimes = [];
+
+            for (var i = two + T.One; i < maxExcl; i += two)
+            {
+                if (!notPrimes.Contains(i))
+                {
+                    yield return i;
+
+                    for (var j = i + i; j < maxExcl; j += i)
+                        notPrimes.Add(j);
+                }
+            }
+        }
+
+        public static IEnumerable<T> RangeTo<T>(T startIncl, T endExcl)
+            where T : INumber<T>
+        {
+            for (var i = startIncl; i < endExcl; ++i)
+                yield return i;
+        }
+
+        public static IEnumerable<T> RangeTo<T>(T startIncl, T endExcl, T step)
+            where T : INumber<T>
+        {
+            for (var i = startIncl; i < endExcl; i += step)
+                yield return i;
+        }
 
         public static IEnumerable<T[]> BinaryCounting<T>(int n)
         {
@@ -77,6 +112,12 @@ public static class EnumerableExtensions
 
         public static IEnumerable<T> operator +(IEnumerable<T> a, IEnumerable<T> b)
             => a.Concat(b);
+
+        public static IEnumerable<T> operator +(T a, IEnumerable<T> b)
+            => b.Prepend(a);
+
+        public static IEnumerable<T> operator +(IEnumerable<T> a, T b)
+            => a.Append(b);
 
         public TR[] ToArray<TR>(Func<T, TR> selector)
             => source.Select(selector).ToArray();
