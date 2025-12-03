@@ -70,6 +70,21 @@ public static class EnumerableExtensions
 
     extension<T>(IEnumerable<T> source)
     {
+        public IEnumerable<T> Slice(int start, int length)
+            => source.Skip(start).Take(length);
+
+        public IEnumerable<T> SliceTo(int fromIncl, int toExcl)
+            => source.Skip(fromIncl).Take(toExcl - fromIncl);
+
+        public IEnumerable<T> Slice(Range range)
+        {
+            if (range.Start.IsFromEnd || range.End.IsFromEnd)
+                throw new ArgumentOutOfRangeException(paramName: nameof(range));
+
+            var (start, length) = range.GetOffsetAndLength(int.MaxValue);
+            return source.Slice(start, length);
+        }
+
         public IEnumerable<TR> Accumulate<TR>(TR seed, Func<TR, T, TR> acc)
         {
             var current = seed;

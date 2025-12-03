@@ -26,7 +26,7 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
     static readonly string[] TargetMethods = ["ToArray", "ToList"];
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
-        => ImmutableArray.Create(Rule);
+        => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {

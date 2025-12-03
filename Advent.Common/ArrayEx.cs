@@ -8,26 +8,11 @@ public static class ArrayEx
     public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
     public static readonly Pos[] DiagOffsets = [new(-1, -1), new(1, -1), new(1, 1), new(-1, 1)];
 
-    //TODO: to extension
-    //warning CS8620: Argument of type 'Solver.NodeType' cannot be used for parameter 'values' of type 'Solver.NodeType[]' in 'IEnumerable<Pos> extension<NodeType>(NodeType[,]).EnumeratePositionsOf(params NodeType[] values)' due to differences in the nullability of reference types.
-    public static IEnumerable<Pos> EnumeratePositionsOf<T>(this T[,] array, params T[] values)
+    extension<T>(T obj)
     {
-        for (var y = 0; y < array.GetLength(1); ++y)
-            for (var x = 0; x < array.GetLength(0); ++x)
-                if (values.Contains(array[x, y]))
-                    yield return new(x, y);
+        public bool Inside(params IEnumerable<T> items)
+            => items.Contains(obj);
     }
-
-    //TODO: to extension
-    public static bool Inside<T>(this T obj, params IEnumerable<T> items)
-        => items.Contains(obj);
-
-    //extension<T>(T obj)
-    //{
-    //    //Argument of type 'string' cannot be used for parameter 'items' of type 'IEnumerable<string>' in 'bool extension<string>(string).Inside(params IEnumerable<string> items)' due to differences in the nullability of reference types.
-    //    public bool Inside(params IEnumerable<T> items)
-    //        => items.Contains(obj);
-    //}
 
     extension<T>(T[,] array)
     {
@@ -155,13 +140,13 @@ public static class ArrayEx
                         yield return new(x, y);
         }
 
-        //public IEnumerable<Pos> EnumeratePositionsOf(params T[] values)
-        //{
-        //    for (var y = 0; y < array.GetLength(1); ++y)
-        //        for (var x = 0; x < array.GetLength(0); ++x)
-        //            if (values.Contains(array[x, y]))
-        //                yield return new(x, y);
-        //}
+        public IEnumerable<Pos> EnumeratePositionsOf(params T[] values)
+        {
+            for (var y = 0; y < array.GetLength(1); ++y)
+                for (var x = 0; x < array.GetLength(0); ++x)
+                    if (values.Contains(array[x, y]))
+                        yield return new(x, y);
+        }
 
         public Pos FindValue(T value)
         {
