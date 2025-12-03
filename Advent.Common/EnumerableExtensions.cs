@@ -78,10 +78,15 @@ public static class EnumerableExtensions
 
         public IEnumerable<T> Slice(Range range)
         {
-            if (range.Start.IsFromEnd || range.End.IsFromEnd)
-                throw new ArgumentOutOfRangeException(paramName: nameof(range));
+            var count = int.MaxValue;
 
-            var (start, length) = range.GetOffsetAndLength(int.MaxValue);
+            if (range.Start.IsFromEnd || range.End.IsFromEnd)
+            {
+                if (!source.TryGetNonEnumeratedCount(out count))
+                    throw new ArgumentOutOfRangeException(nameof(range));
+            }
+
+            var (start, length) = range.GetOffsetAndLength(count);
             return source.Slice(start, length);
         }
 
