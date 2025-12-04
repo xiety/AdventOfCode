@@ -112,8 +112,11 @@ public static class ArrayEx
         public ref T GetRef(Pos p)
             => ref array[p.X, p.Y];
 
-        public T Set(Pos p, T value)
-            => array[p.X, p.Y] = value;
+        public bool Set(Pos p, T value)
+        {
+            array[p.X, p.Y] = value;
+            return true;
+        }
 
         public bool IsInBounds(Pos p)
             => p.X >= 0 && p.X < array.GetLength(0) && p.Y >= 0 && p.Y < array.GetLength(1);
