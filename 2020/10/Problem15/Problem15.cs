@@ -1,5 +1,4 @@
-﻿
-using Advent.Common;
+﻿using Advent.Common;
 
 namespace A2020.Problem15;
 

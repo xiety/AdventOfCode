@@ -54,7 +54,7 @@ public class Solver : ISolver<int>
     }
 
     static Connection[] LoadData(string[] lines)
-        => CompiledRegs.Regex().FromLines<Connection>(lines);
+        => CompiledRegs.FromLinesRegex(lines);
 }
 
 record Connection(string Center, string Moon);
@@ -62,5 +62,6 @@ record Connection(string Center, string Moon);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Connection.Center)}>.+)\)(?<{nameof(Connection.Moon)}>.+)$")]
+    [MapTo<Connection>]
     public static partial Regex Regex();
 }
