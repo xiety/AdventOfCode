@@ -5,14 +5,14 @@ namespace A2025.Problem04;
 public static class Solver
 {
     [GeneratedTest<int>(13, 1474)]
-    public static long RunA(string[] lines)
+    public static int RunA(string[] lines)
         => Run(lines, true);
 
     [GeneratedTest<int>(43, 8910)]
-    public static long RunB(string[] lines)
+    public static int RunB(string[] lines)
         => Run(lines, false);
 
-    static long Run(string[] lines, bool limit)
+    static int Run(string[] lines, bool limit)
     {
         var map = LoadData(lines);
         return Enumerable.InfiniteSequence(0, 1)

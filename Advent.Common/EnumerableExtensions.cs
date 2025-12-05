@@ -216,6 +216,15 @@ public static class EnumerableExtensions
             return -1;
         }
 
+        public IEnumerable<T> Debug()
+        {
+            foreach (var item in source)
+            {
+                Console.WriteLine(item);
+                yield return item;
+            }
+        }
+
         public IEnumerable<T> Debug(Action<T> action)
         {
             foreach (var item in source)
