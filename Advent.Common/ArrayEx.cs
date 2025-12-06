@@ -8,6 +8,15 @@ public static class ArrayEx
     public static readonly Pos[] Offsets = [new(-1, 0), new(0, -1), new(1, 0), new(0, 1)];
     public static readonly Pos[] DiagOffsets = [new(-1, -1), new(1, -1), new(1, 1), new(-1, 1)];
 
+    extension(string[] array)
+    {
+        public string[] Transposed()
+            => array
+                .ToArray(s => s.ToCharArray())
+                .Transposed()
+                .ToArray(chars => new string(chars));
+    }
+
     extension<T>(T obj)
     {
         public bool Inside(params IEnumerable<T> items)
@@ -204,6 +213,19 @@ public static class ArrayEx
 
         public IEnumerable<(Pos Pos, T Item)> EnumerateDelted(Pos c)
             => array.Delted(c).Select(a => (a, array.Get(a)));
+    }
+
+    extension<T>(T[][] array)
+    {
+        public T[][] Transposed()
+        {
+            var maxCol = array.Max(r => r.Length);
+
+            return Enumerable.Range(0, maxCol)
+                .ToArray(index => array
+                    .Where(row => index < row.Length)
+                    .ToArray(row => row[index]));
+        }
     }
 
     extension<T>(T[] array)
