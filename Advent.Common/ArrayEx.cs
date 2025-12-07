@@ -25,6 +25,11 @@ public static class ArrayEx
 
     extension<T>(T[,] array)
     {
+        public bool SequenceEquals(T[,] b)
+            => array.Rank == b.Rank
+                && Enumerable.Range(0, array.Rank).All(d => array.GetLength(d) == b.GetLength(d))
+                && array.Cast<T>().SequenceEqual(b.Cast<T>());
+
         public T[,] CloneArray()
             => (T[,])array.Clone();
 
@@ -230,6 +235,21 @@ public static class ArrayEx
 
     extension<T>(T[] array)
     {
+        public TResult[] SelectPrevCurrNext<TResult>(
+            Func<(T? Prev, T Curr, T? Next), TResult> selector)
+        {
+            var result = new TResult[array.Length];
+
+            for (var i = 0; i < array.Length; i++)
+            {
+                var prev = i > 0 ? array[i - 1] : default;
+                var next = i < array.Length - 1 ? array[i + 1] : default;
+                result[i] = selector((prev, array[i], next));
+            }
+
+            return result;
+        }
+
         public void ForEach(Action<T> action)
         {
             for (var i = 0; i < array.Length; ++i)
@@ -292,14 +312,6 @@ public static class ArrayEx
 
             return false;
         }
-    }
-
-    extension<T>(T[,] array)
-    {
-        public bool SequenceEquals(T[,] b)
-            => array.Rank == b.Rank
-                && Enumerable.Range(0, array.Rank).All(d => array.GetLength(d) == b.GetLength(d))
-                && array.Cast<T>().SequenceEqual(b.Cast<T>());
     }
 
     extension(Array)

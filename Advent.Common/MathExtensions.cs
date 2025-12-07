@@ -59,4 +59,46 @@ public static class MathExtensions
             return result;
         }
     }
+
+    extension(Enumerable)
+    {
+        public static IEnumerable<T> Primes<T>(T maxExcl)
+            where T : INumber<T>
+        {
+            var two = T.One + T.One;
+
+            if (maxExcl <= two)
+                yield break;
+
+            yield return two;
+
+            HashSet<T> notPrimes = [];
+
+            for (var i = two + T.One; i < maxExcl; i += two)
+            {
+                if (!notPrimes.Contains(i))
+                {
+                    yield return i;
+
+                    for (var j = i + i; j < maxExcl; j += i)
+                        notPrimes.Add(j);
+                }
+            }
+        }
+
+        public static IEnumerable<T[]> BinaryCounting<T>(int n)
+        {
+            var comb = (long)Math.Pow(2, n);
+
+            for (var i = 0L; i < comb; ++i)
+            {
+                var array = new T[n];
+
+                for (var j = 0; j < n; ++j)
+                    array[j] = (T)Convert.ChangeType((i & 1L << j) >> j, typeof(T));
+
+                yield return array;
+            }
+        }
+    }
 }

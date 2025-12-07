@@ -7,30 +7,6 @@ public static class EnumerableExtensions
 {
     extension(Enumerable)
     {
-        public static IEnumerable<T> Primes<T>(T maxExcl)
-            where T : INumber<T>
-        {
-            var two = T.One + T.One;
-
-            if (maxExcl <= two)
-                yield break;
-
-            yield return two;
-
-            HashSet<T> notPrimes = [];
-
-            for (var i = two + T.One; i < maxExcl; i += two)
-            {
-                if (!notPrimes.Contains(i))
-                {
-                    yield return i;
-
-                    for (var j = i + i; j < maxExcl; j += i)
-                        notPrimes.Add(j);
-                }
-            }
-        }
-
         public static IEnumerable<T> RangeTo<T>(T startIncl, T endExcl)
             where T : INumber<T>
         {
@@ -44,21 +20,6 @@ public static class EnumerableExtensions
             for (var i = startIncl; i < endExcl; i += step)
                 yield return i;
         }
-
-        public static IEnumerable<T[]> BinaryCounting<T>(int n)
-        {
-            var comb = (long)Math.Pow(2, n);
-
-            for (var i = 0L; i < comb; ++i)
-            {
-                var array = new T[n];
-
-                for (var j = 0; j < n; ++j)
-                    array[j] = (T)Convert.ChangeType(((i & 1L << j) >> j), typeof(T));
-
-                yield return array;
-            }
-        }
     }
 
     extension<T>(IEnumerable<T?> source)
@@ -70,6 +31,27 @@ public static class EnumerableExtensions
 
     extension<T>(IEnumerable<T> source)
     {
+        public IEnumerable<TResult> SelectPrevCurrNext<TResult>(
+            Func<T?, T, T?, TResult> selector)
+        {
+            using var e = source.GetEnumerator();
+            if (!e.MoveNext())
+                yield break;
+
+            T? prev = default;
+            T curr = e.Current;
+
+            while (e.MoveNext())
+            {
+                T next = e.Current;
+                yield return selector(prev, curr, next);
+                prev = curr;
+                curr = next;
+            }
+
+            yield return selector(prev, curr, default);
+        }
+
         public IEnumerable<T> Slice(int start, int length)
             => source.Skip(start).Take(length);
 
@@ -479,6 +461,26 @@ public static class EnumerableExtensions
     extension<T>(IEnumerable<T> source)
         where T : struct
     {
+        //public IEnumerable<TResult> SelectPrevCurrNext<TResult>(Func<(T? Prev, T Curr, T? Next), TResult> selector)
+        //{
+        //    using var e = source.GetEnumerator();
+        //    if (!e.MoveNext())
+        //        yield break;
+
+        //    var prev = default(T);
+        //    var curr = e.Current;
+
+        //    while (e.MoveNext())
+        //    {
+        //        var next = e.Current;
+        //        yield return selector((prev, curr, next));
+        //        prev = curr;
+        //        curr = next;
+        //    }
+
+        //    yield return selector((prev, curr, default));
+        //}
+
         public T? FirstOrNull()
             => source.Cast<T?>().FirstOrDefault();
     }
