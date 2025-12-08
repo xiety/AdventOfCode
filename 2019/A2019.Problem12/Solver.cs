@@ -63,7 +63,7 @@ public class Solver : ISolver<long>
         => items.Sum(a => a.Pos.ManhattanLength * a.Velocity.ManhattanLength);
 
     static Planet[] LoadData(string[] lines)
-        => CompiledRegs.Regex().FromLines<Pos3>(lines)
+        => CompiledRegs.FromLinesRegex(lines)
                .ToArray(a => new Planet { Pos = a });
 }
 
@@ -76,5 +76,6 @@ record Planet
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^\<x=(?<{nameof(Pos3.X)}>-?\d+), y=(?<{nameof(Pos3.Y)}>-?\d+), z=(?<{nameof(Pos3.Z)}>-?\d+)\>$")]
+    [MapTo<Pos3>]
     public static partial Regex Regex();
 }

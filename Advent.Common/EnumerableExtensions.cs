@@ -31,6 +31,35 @@ public static class EnumerableExtensions
 
     extension<T>(IEnumerable<T> source)
     {
+        public void Foreach(Action<T> action)
+        {
+            foreach (var item in source)
+            {
+                action(item);
+            }
+        }
+
+        public IEnumerable<T> Do(Action<T> action)
+            => source.Select(a => { action(a); return a; });
+
+        public IEnumerable<T> TakeNLowest<TPriority>(Func<T, TPriority> prioritySelector, int n)
+        {
+            var comparer = Comparer<TPriority>.Default;
+            var maxHeap = new PriorityQueue<T, TPriority>(n, Comparer<TPriority>.Create((p1, p2) => comparer.Compare(p2, p1)));
+
+            foreach (var item in source)
+            {
+                var priority = prioritySelector(item);
+
+                if (maxHeap.Count < n)
+                    maxHeap.Enqueue(item, priority);
+                else if (maxHeap.TryPeek(out _, out var highestPriorityInHeap) && comparer.Compare(priority, highestPriorityInHeap) < 0)
+                    maxHeap.EnqueueDequeue(item, priority);
+            }
+
+            return maxHeap.UnorderedItems.Select(x => x.Element);
+        }
+
         public IEnumerable<TResult> SelectPrevCurrNext<TResult>(
             Func<T?, T, T?, TResult> selector)
         {

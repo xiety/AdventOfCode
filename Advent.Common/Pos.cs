@@ -48,11 +48,20 @@ public readonly record struct Pos3(int X, int Y, int Z)
     public static bool operator >=(Pos3 a, Pos3 b)
         => a.X >= b.X && a.Y >= b.Y && a.Z >= b.Z;
 
+    public static Pos3 operator /(Pos3 a, int num)
+        => new(a.X / num, a.Y / num, a.Z / num);
+
     public static bool operator <=(Pos3 a, Pos3 b)
         => a.X <= b.X && a.Y <= b.Y && a.Z <= b.Z;
 
     public int ManhattanLength
         => Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z);
+
+    public long LengthSquared
+        => (long)X * X + (long)Y * Y + (long)Z * Z;
+
+    public double Length
+        => Math.Sqrt(LengthSquared);
 }
 
 public readonly record struct Rect3(Pos3 From, Pos3 To)
