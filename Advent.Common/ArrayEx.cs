@@ -57,6 +57,17 @@ public static class ArrayEx
             return result;
         }
 
+        public TR[,] ToArray<TR>(Func<T, Pos, TR> map)
+        {
+            var result = new TR[array.GetLength(0), array.GetLength(1)];
+
+            for (var x = 0; x < array.GetLength(0); ++x)
+                for (var y = 0; y < array.GetLength(1); ++y)
+                    result[x, y] = map(array[x, y], new(x, y));
+
+            return result;
+        }
+
         public void Fill(T value)
         {
             for (var x = 0; x < array.GetLength(0); ++x)
@@ -199,7 +210,7 @@ public static class ArrayEx
         public Pos Size()
             => new(array.Width, array.Height);
 
-        public IEnumerable<Pos> Deltas(Pos c)
+        public IEnumerable<Pos> Deltas()
         {
             for (var dx = -1; dx <= 1; ++dx)
             {
@@ -214,7 +225,7 @@ public static class ArrayEx
         }
 
         public IEnumerable<Pos> Delted(Pos c)
-            => array.Deltas(c).Select(a => a + c).Where(array.IsInBounds);
+            => array.Deltas().Select(a => a + c).Where(array.IsInBounds);
 
         public IEnumerable<(Pos Pos, T Item)> EnumerateDelted(Pos c)
             => array.Delted(c).Select(a => (a, array.Get(a)));
@@ -386,6 +397,16 @@ public static class ArrayEx
 
     extension(bool[,] array)
     {
+        public void Dump()
+            => array.Dump(Environment.NewLine, "", a => a ? "#" : ".");
+
+        public bool[,] Flooded(Pos pos)
+        {
+            var flooded = array.CloneArray();
+            flooded.Flood(pos);
+            return flooded;
+        }
+
         public void Flood(Pos pos)
         {
             List<Pos> floodPoints = [pos];
@@ -409,6 +430,43 @@ public static class ArrayEx
                 nextPoints.Clear();
             }
             while (floodPoints.Count > 0);
+        }
+
+        public bool IsInside(Pos pos)
+        {
+            if (array.Get(pos))
+                return true;
+
+            var copy = (bool[,])array.Clone();
+
+            List<Pos> floodPoints = [pos];
+            List<Pos> nextPoints = [];
+
+            do
+            {
+                var items =
+                    from p in floodPoints
+                    from p2 in copy.Deltas().Select(a => a + p)
+                    select p2;
+
+                foreach (var p2 in items)
+                {
+                    if (!copy.IsInBounds(p2))
+                        return false;
+
+                    if (!copy.Get(p2))
+                    {
+                        copy.Set(p2, true);
+                        nextPoints.Add(p2);
+                    }
+                }
+
+                (nextPoints, floodPoints) = (floodPoints, nextPoints);
+                nextPoints.Clear();
+            }
+            while (floodPoints.Count > 0);
+
+            return true;
         }
     }
 }

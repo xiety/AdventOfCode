@@ -31,12 +31,13 @@ public static class EnumerableExtensions
 
     extension<T>(IEnumerable<T> source)
     {
+        public IEnumerable<(T First, T Second)> EnumeratePairs()
+            => source.SelectMany((a, i) => source.Skip(i + 1).Select(b => (a, b)));
+
         public void Foreach(Action<T> action)
         {
             foreach (var item in source)
-            {
                 action(item);
-            }
         }
 
         public IEnumerable<T> Do(Action<T> action)
@@ -207,9 +208,6 @@ public static class EnumerableExtensions
             return result;
         }
 
-        public IEnumerable<(T, T)> EnumeratePairs()
-            => source.ToArray().EnumeratePairs();
-
         public int FindLoopIndex()
         {
             var hashSet = new HashSet<T>();
@@ -357,22 +355,22 @@ public static class EnumerableExtensions
     //            yield return item;
     //}
 
-    extension<T>(IReadOnlyList<T> collection)
-    {
-        public IEnumerable<(T, T)> EnumeratePairs()
-        {
-            for (var i = 0; i < collection.Count - 1; ++i)
-            {
-                for (var j = i + 1; j < collection.Count; ++j)
-                {
-                    var a = collection[i];
-                    var b = collection[j];
+    //extension<T>(IReadOnlyList<T> collection)
+    //{
+    //    public IEnumerable<(T First, T Second)> EnumeratePairs()
+    //    {
+    //        for (var i = 0; i < collection.Count - 1; ++i)
+    //        {
+    //            for (var j = i + 1; j < collection.Count; ++j)
+    //            {
+    //                var a = collection[i];
+    //                var b = collection[j];
 
-                    yield return (a, b);
-                }
-            }
-        }
-    }
+    //                yield return (a, b);
+    //            }
+    //        }
+    //    }
+    //}
 
     extension<T>(IEnumerable<T> source)
         where T : IEqualityOperators<T, T, bool>

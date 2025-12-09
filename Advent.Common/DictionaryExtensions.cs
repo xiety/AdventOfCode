@@ -6,6 +6,14 @@ public static class DictionaryExtensions
 {
     extension<TK, TV>(Dictionary<TK, TV> dic)
         where TK : notnull
+        where TV : notnull
+    {
+        public Dictionary<TV, TK> Invert()
+            => dic.ToDictionary(x => x.Value, x => x.Key);
+    }
+
+    extension<TK, TV>(Dictionary<TK, TV> dic)
+        where TK : notnull
     {
         public void AddOrReplace(TK key, TV initialValue, Func<TV, TV> replaceFunc)
         {

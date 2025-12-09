@@ -50,7 +50,7 @@ public class Solver : IProblemSolver<long>
         return Math.Abs(points.Chain()
             .Sum(a =>
                 (long)a.First.X * a.Second.Y - (long)a.First.Y * a.Second.X
-              + Math.Abs(new Rect(a.First, a.Second).Volume))) / 2L + 1L;
+              + Math.Abs(new Rect(a.First, a.Second).Area))) / 2L + 1L;
     }
 
     public long RunB(string filename)
@@ -115,7 +115,7 @@ public class Solver : IProblemSolver<long>
                 var inside = intersectionsX % 2 == 1 && intersectionsY % 2 == 1;
 
                 if (inside)
-                    volume += square.Volume;
+                    volume += square.Area;
 
                 fillMap[ix, iy] = inside;
             }

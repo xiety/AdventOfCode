@@ -17,7 +17,7 @@ public class Solver : IProblemSolver<long>
 
         return lines
             .EnumeratePairs()
-            .Count(x => Check(@from, to, x.Item1, x.Item2));
+            .Count(x => Check(@from, to, x.First, x.Second));
     }
 
     static bool Check(long from, long to, Line line1, Line line2)

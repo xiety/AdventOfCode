@@ -42,7 +42,7 @@ public static class Solver
         => map.EnumerateDelted(pos).Count(a => a.Item == Seat.Occupied);
 
     static int CountOccupiedB(Seat[,] map, Pos pos)
-        => map.Deltas(pos).Count(a => CheckB(map, pos, a));
+        => map.Deltas().Count(a => CheckB(map, pos, a));
 
     static bool CheckB(Seat[,] map, Pos start, Pos dir)
         => start.EnumerateRay(dir)

@@ -15,7 +15,7 @@ public class Solver : ISolver<int>
         var map = MapData.ParseMap(lines, a => $"{a}");
 
         return map.Enumerate().Where(a => a.Item != ".").Select(a => a.Item).Distinct()
-            .SelectMany(x => map.EnumeratePositionsOf(x).EnumeratePairs())
+            .SelectMany(x => map.EnumeratePositionsOf(x).ToArray().EnumeratePairs())
             .SelectMany(b => Inspect(map, b.Item1, b.Item2, maxSteps, includeSelf))
             .Distinct()
             .Count();
