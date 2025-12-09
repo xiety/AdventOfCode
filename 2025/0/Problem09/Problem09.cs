@@ -21,13 +21,17 @@ public static class Solver
         var points = LoadData(lines);
         var edges = points.Append(points[0])
             .Chain()
-            .ToList(p => new Line(p.First, p.Second));
+            .ToArray(p => new Line(p.First, p.Second));
 
         return points.EnumeratePairs()
             .Select(p => new Rect(p.First, p.Second))
             .Where(rect => !edges.Any(edge => rect.Intersects(edge)))
+            .Where(rect => IsInside(edges, rect.From))
             .Max(a => a.Area);
     }
+
+    static bool IsInside(Line[] edges, Pos p)
+        => edges.Count(a => a.IsVertical && a.Start.X > p.X && a.Min.Y <= p.Y && a.Max.Y > p.Y) % 2 == 1;
 
     static Pos[] LoadData(string[] lines)
         => lines.ToArray(Pos.Parse);

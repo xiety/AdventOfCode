@@ -17,12 +17,12 @@ public readonly record struct Rect(Pos P1, Pos P2)
     public bool Intersects(Pos pos)
         => From.X <= pos.X && To.X >= pos.X && From.Y <= pos.Y && To.Y >= pos.Y;
 
-    public bool Intersects(Line edge)
-        => edge.IsVertical
-            ? edge.Start.X > From.X && edge.Start.X < To.X &&
-              !(From.Y >= edge.Max.Y || To.Y <= edge.Min.Y)
-            : edge.Start.Y > From.Y && edge.Start.Y < To.Y &&
-              !(From.X >= edge.Max.X || To.X <= edge.Min.X);
+    public bool Intersects(Line line)
+        => line.IsVertical
+            ? line.Start.X > From.X && line.Start.X < To.X &&
+              !(From.Y >= line.Max.Y || To.Y <= line.Min.Y)
+            : line.Start.Y > From.Y && line.Start.Y < To.Y &&
+              !(From.X >= line.Max.X || To.X <= line.Min.X);
 
     public static Rect CreateBoundingBox(IReadOnlyCollection<Pos> items)
     {
