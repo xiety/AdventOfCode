@@ -27,8 +27,7 @@ public class Solver : IProblemSolver<int>
 
     static Game[] LoadFile(string filename)
         => CompiledRegs
-            .Regex()
-            .FromFile<Step1>(filename)
+            .FromLinesRegex(File.ReadAllLines(filename))
             .ToArray(Parse);
 
     static Game Parse(Step1 step)
@@ -43,9 +42,7 @@ public class Solver : IProblemSolver<int>
             {
                 var data = new int[3];
 
-#pragma warning disable RCS1124 // Inline local variable
-                var parts = CompiledRegs.ColorRegex().FromLines<Step2>(part.Split(", "));
-#pragma warning restore RCS1124 // Inline local variable
+                var parts = CompiledRegs.FromLinesColorRegex(part.Split(", "));
 
                 foreach (var part2 in parts)
                 {
@@ -66,8 +63,10 @@ record Game(int GameNumber, int[][] Balls);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^Game (?<{nameof(Step1.GameNumber)}>\d+): (?<{nameof(Step1.GameData)}>.*)$")]
+    [MapTo<Step1>]
     public static partial Regex Regex();
 
     [GeneratedRegex(@$"^(?<{nameof(Step2.Num)}>\d+) (?<{nameof(Step2.Color)}>\w+)$")]
+    [MapTo<Step2>]
     public static partial Regex ColorRegex();
 }

@@ -93,7 +93,7 @@ public class Solver : ISolver<long>
     }
 
     static Robot[] LoadData(string[] lines)
-        => CompiledRegs.Regex().FromLines<Item>(lines)
+        => CompiledRegs.FromLinesRegex(lines)
             .ToArray(a => new Robot { Pos = new(a.Px, a.Py), Velocity = new(a.Vx, a.Vy) });
 }
 
@@ -108,6 +108,7 @@ record Item(int Px, int Py, int Vx, int Vy);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^p=(?<{nameof(Item.Px)}>\-?\d+),(?<{nameof(Item.Py)}>\-?\d+) v=(?<{nameof(Item.Vx)}>\-?\d+),(?<{nameof(Item.Vy)}>\-?\d+)$")]
+    [MapTo<Item>]
     public static partial Regex Regex();
 }
 

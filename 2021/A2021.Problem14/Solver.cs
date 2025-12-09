@@ -14,7 +14,7 @@ public class Solver : IProblemSolver<long>
     {
         var (firstPart, secondPart) = File.ReadAllLines(filename).SplitBy(String.Empty);
 
-        var rules = CompiledRegs.Regex().FromLines<Item>(secondPart)
+        var rules = CompiledRegs.FromLinesRegex(secondPart)
             .ToDictionary(a => a.A, a => a.B);
 
         var seq = new LinkedList<char>(firstPart[0]);
@@ -52,7 +52,7 @@ public class Solver : IProblemSolver<long>
     {
         var (firstPart, secondPart) = File.ReadAllLines(filename).SplitBy(String.Empty);
 
-        var rules = CompiledRegs.Regex().FromLines<Item>(secondPart)
+        var rules = CompiledRegs.FromLinesRegex(secondPart)
             .ToDictionary(a => (a.A[0], a.A[1]), a => a.B);
 
         var text = firstPart[0];
@@ -95,5 +95,6 @@ record Item(string A, char B);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.A)}>\w+) -> (?<{nameof(Item.B)}>\w+)$")]
+    [MapTo<Item>]
     public static partial Regex Regex();
 }

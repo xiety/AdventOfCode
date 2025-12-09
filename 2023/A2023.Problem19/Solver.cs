@@ -10,10 +10,10 @@ public class Solver : IProblemSolver<long>
     {
         var chunks = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
 
-        var workflows = CompiledRegs.Regex1().FromLines<ItemRaw1>([.. chunks[0]])
-            .ToArray(a => new Item1(a.Name, a.Conditions.ToArray(b => CompiledRegs.Regex2().MapTo<Item1Condition>(b)), a.LastCondition));
+        var workflows = CompiledRegs.FromLinesRegex1([.. chunks[0]])
+            .ToArray(a => new Item1(a.Name, a.Conditions.ToArray(CompiledRegs.MapToRegex2), a.LastCondition));
 
-        var items = CompiledRegs.Regex3().FromLines<Item2>(chunks[1]);
+        var items = CompiledRegs.FromLinesRegex3(chunks[1]);
 
         var result = 0L;
 
@@ -57,8 +57,8 @@ public class Solver : IProblemSolver<long>
     {
         var chunks = File.ReadAllLines(filename).SplitBy(String.Empty).ToArray();
 
-        var workflows = CompiledRegs.Regex1().FromLines<ItemRaw1>([.. chunks[0]])
-            .ToArray(a => new Item1(a.Name, a.Conditions.ToArray(b => CompiledRegs.Regex2().MapTo<Item1Condition>(b)), a.LastCondition));
+        var workflows = CompiledRegs.FromLinesRegex1([.. chunks[0]])
+            .ToArray(a => new Item1(a.Name, a.Conditions.ToArray(CompiledRegs.MapToRegex2), a.LastCondition));
 
         var dic = new Dictionary<string, Range[]>
         {
@@ -165,11 +165,14 @@ record Item2(string[] Variables, int[] Values);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(ItemRaw1.Name)}>\w+)\{{((?<{nameof(ItemRaw1.Conditions)}>\w[\<\>]\d+\:\w+)\,)+(?<{nameof(ItemRaw1.LastCondition)}>\w+)\}}$")]
+    [MapTo<ItemRaw1>]
     public static partial Regex Regex1();
 
     [GeneratedRegex(@$"^(?<{nameof(Item1Condition.Variable)}>\w)(?<{nameof(Item1Condition.Operation)}>[\<\>])(?<{nameof(Item1Condition.Number)}>\d+)\:(?<{nameof(Item1Condition.Output)}>\w+)$")]
+    [MapTo<Item1Condition>]
     public static partial Regex Regex2();
 
     [GeneratedRegex(@$"^\{{((?<{nameof(Item2.Variables)}>\w)=(?<{nameof(Item2.Values)}>\d+)\,?)+\}}$")]
+    [MapTo<Item2>]
     public static partial Regex Regex3();
 }

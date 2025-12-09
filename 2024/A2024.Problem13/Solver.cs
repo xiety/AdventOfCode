@@ -39,9 +39,9 @@ public class Solver : ISolver<long>
     static Item[] LoadData(string[] lines)
         => lines.SplitBy(String.Empty).ToArray(a =>
         {
-            var line1 = CompiledRegs.Line1().MapTo<ItemLine1>(a[0]);
-            var line2 = CompiledRegs.Line2().MapTo<ItemLine2>(a[1]);
-            var line3 = CompiledRegs.Line3().MapTo<ItemLine3>(a[2]);
+            var line1 = CompiledRegs.MapToLine1(a[0]);
+            var line2 = CompiledRegs.MapToLine2(a[1]);
+            var line3 = CompiledRegs.MapToLine3(a[2]);
             return new Item(line1.Ax, line1.Ay, line2.Bx, line2.By, line3.X, line3.Y);
         });
 }
@@ -54,10 +54,15 @@ record ItemLine3(int X, int Y);
 
 static partial class CompiledRegs
 {
-    [GeneratedRegex(@$"^Button A: X\+(?<{nameof(Item.Ax)}>\d+), Y\+(?<{nameof(Item.Ay)}>\d+)$")]
+    [GeneratedRegex(@$"^Button A: X\+(?<{nameof(ItemLine1.Ax)}>\d+), Y\+(?<{nameof(ItemLine1.Ay)}>\d+)$")]
+    [MapTo<ItemLine1>]
     public static partial Regex Line1();
-    [GeneratedRegex(@$"^Button B: X\+(?<{nameof(Item.Bx)}>\d+), Y\+(?<{nameof(Item.By)}>\d+)$")]
+
+    [GeneratedRegex(@$"^Button B: X\+(?<{nameof(ItemLine2.Bx)}>\d+), Y\+(?<{nameof(ItemLine2.By)}>\d+)$")]
+    [MapTo<ItemLine2>]
     public static partial Regex Line2();
-    [GeneratedRegex(@$"^Prize: X=(?<{nameof(Item.X)}>\d+), Y=(?<{nameof(Item.Y)}>\d+)$")]
+
+    [GeneratedRegex(@$"^Prize: X=(?<{nameof(ItemLine3.X)}>\d+), Y=(?<{nameof(ItemLine3.Y)}>\d+)$")]
+    [MapTo<ItemLine3>]
     public static partial Regex Line3();
 }

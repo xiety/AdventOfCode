@@ -41,7 +41,7 @@ public class Solver : ISolver<long>
             : ops.Any(a => Recurse(ops, item, a(value, item.Values[index]), index + 1));
 
     static Item[] LoadData(string[] lines)
-        => CompiledRegs.Regex().FromLines<Item>(lines);
+        => CompiledRegs.FromLinesRegex(lines);
 }
 
 record Item(long Result, long[] Values);
@@ -49,5 +49,6 @@ record Item(long Result, long[] Values);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"(?<{nameof(Item.Result)}>\d+)\: (?<{nameof(Item.Values)}>\d+)( (?<{nameof(Item.Values)}>\d+))*")]
+    [MapTo<Item>]
     public static partial Regex Regex();
 }

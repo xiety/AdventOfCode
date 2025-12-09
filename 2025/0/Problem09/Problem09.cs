@@ -30,12 +30,5 @@ public static class Solver
     }
 
     static Pos[] LoadData(string[] lines)
-        => CompiledRegs.FromLinesRegex(lines);
-}
-
-static partial class CompiledRegs
-{
-    [GeneratedRegex(@$"^(?<{nameof(Pos.X)}>\d+),(?<{nameof(Pos.Y)}>\d+)$")]
-    [MapTo<Pos>]
-    public static partial Regex Regex();
+        => lines.ToArray(Pos.Parse);
 }

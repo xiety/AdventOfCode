@@ -1,4 +1,6 @@
-﻿namespace System;
+﻿using System.Text.RegularExpressions;
+
+namespace System;
 
 public readonly record struct Pos(int X, int Y)
 {
@@ -36,6 +38,9 @@ public readonly record struct Pos(int X, int Y)
 
     public static Pos Max(Pos a, Pos b)
         => new(Math.Max(a.X, b.X), Math.Max(a.Y, b.Y));
+
+    public static Pos Parse(string text)
+        => CompiledPosRegex.PosRegex().MapTo<Pos>(text);
 }
 
 public readonly record struct Pos3(int X, int Y, int Z)
@@ -68,6 +73,9 @@ public readonly record struct Pos3(int X, int Y, int Z)
 
     public double Length
         => Math.Sqrt(LengthSquared);
+
+    public static Pos3 Parse(string text)
+        => CompiledPosRegex.Pos3Regex().MapTo<Pos3>(text);
 }
 
 public static class PosExtensions
@@ -96,4 +104,13 @@ public static class PosExtensions
             };
         }
     }
+}
+
+static partial class CompiledPosRegex
+{
+    [GeneratedRegex(@$"^(?<{nameof(Pos.X)}>-?\d+),(?<{nameof(Pos.Y)}>-?\d+)$")]
+    public static partial Regex PosRegex();
+
+    [GeneratedRegex(@$"^(?<{nameof(Pos3.X)}>-?\d+),(?<{nameof(Pos3.Y)}>-?\d+),(?<{nameof(Pos3.Z)}>-?\d+)$")]
+    public static partial Regex Pos3Regex();
 }

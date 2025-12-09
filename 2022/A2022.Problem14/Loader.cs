@@ -9,11 +9,5 @@ static class Loader
 
     static Pos[] ParseLine(string line)
         => line.Split(" -> ")
-               .ToArray(CompiledRegs.Regex().MapTo<Pos>);
-}
-
-static partial class CompiledRegs
-{
-    [GeneratedRegex(@$"^(?<{nameof(Pos.X)}>\d+),(?<{nameof(Pos.Y)}>\d+)$")]
-    public static partial Regex Regex();
+               .ToArray(Pos.Parse);
 }

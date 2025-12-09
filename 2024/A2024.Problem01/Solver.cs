@@ -24,7 +24,7 @@ public class Solver : ISolver<int>
 
     static (int[], int[]) LoadData(string[] lines)
     {
-        var items = CompiledRegs.Regex().FromLines<Item>(lines);
+        var items = CompiledRegs.FromLinesRegex(lines);
         var left = items.Select(a => a.Left);
         var right = items.Select(a => a.Right);
         return ([.. left], [.. right]);
@@ -36,5 +36,6 @@ record Item(int Left, int Right);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.Left)}>\d+)   (?<{nameof(Item.Right)}>\d+)$")]
+    [MapTo<Item>]
     public static partial Regex Regex();
 }

@@ -63,7 +63,7 @@ public class Solver : IProblemSolver<long>
     {
         var lines = File.ReadAllLines(filename);
         var path = lines[0].ToArray(a => a switch { 'L' => 0, 'R' => 1 });
-        var nodes = CompiledRegs.Regex().FromLines<Node>(lines[2..]);
+        var nodes = CompiledRegs.FromLinesRegex(lines[2..]);
         return (path, nodes);
     }
 }
@@ -73,5 +73,6 @@ public record Node(string Name, string[] Outputs);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Node.Name)}>\w+) = \(((?<{nameof(Node.Outputs)}>\w+), )*(?<{nameof(Node.Outputs)}>\w+)\)$")]
+    [MapTo<Node>]
     public static partial Regex Regex();
 }

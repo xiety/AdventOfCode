@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-using Advent.Common;
+﻿using Advent.Common;
 
 namespace A2025.Problem08;
 
@@ -40,14 +38,7 @@ public static class Solver
     }
 
     static Pos3[] LoadData(string[] lines)
-        => CompiledRegs.FromLinesRegex(lines);
+        => lines.ToArray(Pos3.Parse);
 }
 
 record Pair(int Index1, int Index2, long D2);
-
-static partial class CompiledRegs
-{
-    [GeneratedRegex(@$"^(?<{nameof(Pos3.X)}>\d+),(?<{nameof(Pos3.Y)}>\d+),(?<{nameof(Pos3.Z)}>\d+)$")]
-    [MapTo<Pos3>]
-    public static partial Regex Regex();
-}

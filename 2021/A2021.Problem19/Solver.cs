@@ -34,7 +34,7 @@ public class Solver : IProblemSolver<long>
 
         var dic = CalcDic(scanners);
 
-        var max = Int32.MinValue;
+        var max = int.MinValue;
 
         for (var a = 0; a < scanners.Length - 1; ++a)
         {
@@ -150,7 +150,8 @@ public class Solver : IProblemSolver<long>
                         }
                     }
 
-                labelOut: ;
+                labelOut:
+                    ;
                 }
             }
         }
@@ -162,7 +163,7 @@ public class Solver : IProblemSolver<long>
     static Scanner[] LoadFile(string filename)
     {
         var chunks = File.ReadAllLines(filename).SplitBy(String.Empty);
-        return chunks.ToArray(a => new Scanner([.. CompiledRegs.MapRegEx().FromLines<Pos3>(a.Skip(1))]));
+        return chunks.ToArray(a => new Scanner([.. a.Skip(1).Select(Pos3.Parse)]));
     }
 
     static Pos3 ApplyTransformPos(Pos3 v, Transform transform)
@@ -255,9 +256,3 @@ readonly record struct AxisConvert(Orientation AxisX, Orientation AxisY, Orienta
 }
 
 enum Axis { X, Y, Z }
-
-static partial class CompiledRegs
-{
-    [GeneratedRegex(@$"^(?<{nameof(Pos3.X)}>-?\d+),(?<{nameof(Pos3.Y)}>-?\d+),(?<{nameof(Pos3.Z)}>-?\d+)$")]
-    public static partial Regex MapRegEx();
-}

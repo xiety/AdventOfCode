@@ -55,7 +55,7 @@ public class Solver : IProblemSolver<string>
         }
 
         var commands = parts[1]
-            .Select(CompiledRegs.Line().MapTo<Item>);
+            .Select(CompiledRegs.MapToLine);
 
         return (crates, commands);
     }
@@ -66,5 +66,6 @@ record Item(int Quantity, int From, int To);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"move (?<{nameof(Item.Quantity)}>\d*) from (?<{nameof(Item.From)}>\d*) to (?<{nameof(Item.To)}>\d*)")]
+    [MapTo<Item>]
     public static partial Regex Line();
 }

@@ -46,7 +46,7 @@ public class Solver : ISolver<long>
     }
 
     static Item[] LoadData(string[] lines)
-        => CompiledRegs.Regex().FromLines<ItemRaw>(lines)
+        => CompiledRegs.FromLinesRegex(lines)
             .ToArray(a => new Item([.. a.InNum.Zip(a.InName).Select(b => new Info(b.First, b.Second))], new(a.OutNum, a.OutName)));
 }
 
@@ -57,5 +57,6 @@ record Item(Info[] Input, Info Output);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^((?<{nameof(ItemRaw.InNum)}>\d+)\s(?<{nameof(ItemRaw.InName)}>[A-Z]+)(,\s)?)+\s=\>\s(?<{nameof(ItemRaw.OutNum)}>\d+)\s(?<{nameof(ItemRaw.OutName)}>[A-Z]+)$")]
+    [MapTo<ItemRaw>]
     public static partial Regex Regex();
 }

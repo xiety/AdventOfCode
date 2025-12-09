@@ -47,7 +47,7 @@ public class Solver : ISolver<int>
     }
 
     static Item LoadData(string[] lines)
-        => CompiledRegs.Regex().FromLines<Item>(lines)[0];
+        => CompiledRegs.FromLinesRegex(lines)[0];
 }
 
 record Item(int Min, int Max);
@@ -55,5 +55,6 @@ record Item(int Min, int Max);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.Min)}>\d+)\-(?<{nameof(Item.Max)}>\d+)$")]
+    [MapTo<Item>]
     public static partial Regex Regex();
 }

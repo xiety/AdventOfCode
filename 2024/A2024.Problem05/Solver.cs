@@ -32,7 +32,7 @@ public class Solver : ISolver<int>
     static (Rule[], int[][]) LoadData(string[] lines)
     {
         var (chunk1, chunk2) = lines.SplitBy(String.Empty);
-        var rules = CompiledRegs.Regex().FromLines<Rule>(chunk1);
+        var rules = CompiledRegs.FromLinesRegex(chunk1);
         var items = chunk2.ToArray(a => a.Split(",").ToArray(int.Parse));
         return (rules, items);
     }
@@ -43,5 +43,6 @@ record Rule(int Left, int Right);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"(?<{nameof(Rule.Left)}>\d+)\|(?<{nameof(Rule.Right)}>\d+)")]
+    [MapTo<Rule>]
     public static partial Regex Regex();
 }
