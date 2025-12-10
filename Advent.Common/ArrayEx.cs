@@ -25,7 +25,7 @@ public static class ArrayEx
 
     extension<T>(T[,] array)
     {
-        public bool SequenceEquals(T[,] b)
+        public bool SequenceEqual(T[,] b)
             => array.Rank == b.Rank
                 && Enumerable.Range(0, array.Rank).All(d => array.GetLength(d) == b.GetLength(d))
                 && array.Cast<T>().SequenceEqual(b.Cast<T>());
@@ -90,6 +90,9 @@ public static class ArrayEx
 
             return sb.ToString();
         }
+
+        public void Dump()
+            => array.Dump(Environment.NewLine, "", static a => a?.ToString() ?? "");
 
         public void Dump(Func<T, string> format)
             => array.Dump(Environment.NewLine, "", format);
@@ -233,6 +236,25 @@ public static class ArrayEx
 
     extension<T>(T[][] array)
     {
+        public void Dump()
+        {
+            foreach (var rows in array)
+                Console.WriteLine(rows.StringJoin(", "));
+        }
+
+        public T[,] ToArray2d()
+        {
+            var h = array.Length;
+            var w = array[0].Length;
+            var matrix = new T[h, w];
+
+            for (var r = 0; r < h; ++r)
+                for (var c = 0; c < w; ++c)
+                    matrix[r, c] = array[r][c];
+
+            return matrix;
+        }
+
         public T[][] Transposed()
         {
             var maxCol = array.Max(r => r.Length);
