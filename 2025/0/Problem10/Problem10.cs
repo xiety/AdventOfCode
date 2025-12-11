@@ -7,66 +7,61 @@ namespace A2025.Problem10;
 public static class Solver
 {
     [GeneratedTest<long>(7, 505)]
+    public static long RunARecursion(string[] lines)
+        => LoadData(lines).Sum(CalcRecursion);
+
+    static int CalcRecursion(Item item)
+    {
+        var target = item.Lights
+            .Select((c, i) => c == '#' ? 1 << i : 0)
+            .Aggregate(0, (acc, bit) => acc | bit);
+
+        var buttons = item.Buttons
+            .ToArray(b => b.Aggregate(0, (mask, lightIdx) => mask | (1 << lightIdx)));
+
+        return Memoization.RunRecursive<int, int, int>(0, 0,
+            (recurse, index, mask) => index == buttons.Length
+                    ? ((mask == target) ? 0 : short.MaxValue)
+                    : Math.Min(
+                        recurse(index + 1, mask),
+                        recurse(index + 1, mask ^ buttons[index]) + 1));
+    }
+
+    [GeneratedTest<long>(7, 505)]
     public static long RunA(string[] lines)
         => LoadData(lines).Sum(CalcA);
 
     static int CalcA(Item item)
     {
-        var best = int.MaxValue;
-        var start = new string('.', item.Lights.Length);
-        return RecurseA(item, new bool[item.Lights.Length], [], [start], [], -1, 0, ref best);
+        var target = item.Lights.Index()
+            .Where(x => x.Item == '#').Select(x => x.Index).ToHashSet();
+
+        return Enumerable.Range(0, 1 << item.Buttons.Length)
+            .Select(index => item.Buttons
+                .Where((_, i) => (index & (1 << i)) != 0)
+                .ToList())
+            .Select(subset => (
+                subset.Count,
+                Lights: subset
+                    .SelectMany(b => b)
+                    .GroupBy(i => i)
+                    .Where(g => g.Count() % 2 != 0)
+                    .Select(g => g.Key)
+                    .ToHashSet()))
+            .Where(x => x.Lights.SetEquals(target))
+            .Min(x => x.Count);
     }
 
-    static int RecurseA(Item item, bool[] lights, Dictionary<string, int> history, string[] direct, int[] path, int lastButton, int depth, ref int currentBest)
+    [GeneratedTest<long>(33, 20002)]
+    public static long RunB(string[] lines)
+        => LoadData(lines).Sum(CalcB);
+
+    static long CalcB(Item item)
     {
-        if (depth + 1 > currentBest)
-            return int.MaxValue;
+        var matrix = item.Jolts.ToArray((_, index) => item.Buttons
+            .ToArray(b => b.Contains(index) ? 1 : 0));
 
-        var min = int.MaxValue;
-
-        foreach (var (index, switches) in item.Buttons.Index())
-        {
-            if (index == lastButton)
-                continue;
-
-            bool[] copy = [.. lights];
-
-            foreach (var s in switches)
-                copy[s] = !copy[s];
-
-            var key = copy.Select(a => a ? '#' : '.').StringJoin();
-
-            if (direct.Contains(key))
-                continue;
-
-            if (key == item.Lights)
-            {
-                currentBest = depth + 1;
-                return currentBest;
-            }
-
-            if (!history.TryGetValue(key, out var towin))
-            {
-                var cur = RecurseA(item, copy, history, [.. direct, key], [.. path, index], index, depth + 1, ref currentBest);
-
-                history[key] = cur == int.MaxValue ? cur : cur - depth - 1;
-
-                if (cur < min)
-                    min = cur;
-            }
-            else if (towin != int.MaxValue)
-            {
-                var cur = depth + 1 + towin;
-
-                if (cur < currentBest)
-                    currentBest = cur;
-
-                if (cur < min)
-                    min = cur;
-            }
-        }
-
-        return min;
+        return LinearSolver.Run(item)!.Sum();
     }
 
     static Item[] LoadData(string[] lines)

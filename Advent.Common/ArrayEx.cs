@@ -98,9 +98,7 @@ public static class ArrayEx
             => array.Dump(Environment.NewLine, "", format);
 
         public void Dump(string lineSeparator, string itemSeparator, Func<T, string> format)
-        {
-            Console.WriteLine(ToString(array, lineSeparator, itemSeparator, format));
-        }
+            => Console.WriteLine(ToString(array, lineSeparator, itemSeparator, format));
 
         public IEnumerable<T> GetRow(int row)
         {
@@ -239,7 +237,7 @@ public static class ArrayEx
         public void Dump()
         {
             foreach (var rows in array)
-                Console.WriteLine(rows.StringJoin(", "));
+                Console.WriteLine("{ " + rows.StringJoin(", ") + " },");
         }
 
         public T[,] ToArray2d()
@@ -268,6 +266,9 @@ public static class ArrayEx
 
     extension<T>(T[] array)
     {
+        public void Dump()
+            => Console.WriteLine(array.StringJoin(", "));
+
         public TResult[] SelectPrevCurrNext<TResult>(
             Func<(T? Prev, T Curr, T? Next), TResult> selector)
         {

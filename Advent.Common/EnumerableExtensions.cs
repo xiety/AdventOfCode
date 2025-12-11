@@ -289,19 +289,6 @@ public static class EnumerableExtensions
                 yield return list;
         }
 
-        public IEnumerable<T> Dump()
-        {
-            Console.WriteLine("Begin");
-
-            foreach (var (index, item) in source.Index())
-            {
-                Console.WriteLine($"{index}: {item}");
-                yield return item;
-            }
-
-            Console.WriteLine("End");
-        }
-
         //public static void Deconstruct<TV>(source IEnumerable<TV> source, out TV a0, out IEnumerable<TV> a1)
         //{
         //    a0 = source.First();
