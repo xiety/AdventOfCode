@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using Advent.Common;
 
 using Dic = System.Collections.Generic.Dictionary<char, long>;
-using MyFunc = System.Func<(char, char, int), System.Collections.Generic.Dictionary<char, long>>;
 
 namespace A2021.Problem14;
 
@@ -61,21 +60,7 @@ public class Solver : IProblemSolver<long>
 
         var groups = new Dic();
 
-#pragma warning disable RCS1212 // Remove redundant assignment
-        MyFunc memo = null!;
-#pragma warning restore RCS1212 // Remove redundant assignment
-
-        memo = Memoization.Wrap((MyFunc)Recurse);
-
-        for (var i = 0; i < text.Length - 1; ++i)
-            groups = groups.Merge(memo((text[i], text[i + 1], 0)));
-
-        var min = groups.Min(a => a.Value);
-        var max = groups.Max(a => a.Value);
-
-        return max - min;
-
-        Dic Recurse((char a, char b, int level) p)
+        var memo = Memoization.WrapRecursive<(char a, char b, int level), Dic>((memo, p) =>
         {
             if (p.level < maxSteps && rules.TryGetValue((p.a, p.b), out var insert))
             {
@@ -86,7 +71,15 @@ public class Solver : IProblemSolver<long>
             }
 
             return new() { [p.b] = 1 };
-        }
+        });
+
+        for (var i = 0; i < text.Length - 1; ++i)
+            groups = groups.Merge(memo((text[i], text[i + 1], 0)));
+
+        var min = groups.Min(a => a.Value);
+        var max = groups.Max(a => a.Value);
+
+        return max - min;
     }
 }
 

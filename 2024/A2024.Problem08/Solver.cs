@@ -16,7 +16,7 @@ public class Solver : ISolver<int>
 
         return map.Enumerate().Where(a => a.Item != ".").Select(a => a.Item).Distinct()
             .SelectMany(x => map.EnumeratePositionsOf(x).ToArray().EnumeratePairs())
-            .SelectMany(b => Inspect(map, b.Item1, b.Item2, maxSteps, includeSelf))
+            .SelectMany(b => Inspect(map, b.First, b.Second, maxSteps, includeSelf))
             .Distinct()
             .Count();
     }

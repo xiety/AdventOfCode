@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Advent.Common;
 
 public abstract class BaseProblemTest

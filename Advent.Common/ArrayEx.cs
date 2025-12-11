@@ -349,6 +349,9 @@ public static class ArrayEx
 
     extension(Array)
     {
+        public static T[] Create<T>(params T[] values)
+            => values;
+
         public static T[] CreateAndInitialize<T>(int number, Func<int, T> creator)
                 => Enumerable.Range(0, number).ToArray(creator);
 
@@ -378,20 +381,6 @@ public static class ArrayEx
             var array = new T[d1, d2, d3];
             array.Fill(value);
             return array;
-        }
-
-        public static IEnumerable<Pos> EnumerateDeltas()
-        {
-            for (var dx = -1; dx <= 1; ++dx)
-            {
-                for (var dy = -1; dy <= 1; ++dy)
-                {
-                    if (dx == 0 && dy == 0)
-                        continue;
-
-                    yield return new(dx, dy);
-                }
-            }
         }
     }
 

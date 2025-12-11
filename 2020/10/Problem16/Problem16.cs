@@ -44,35 +44,31 @@ public static class Solver
             .Append(data.YourTicket)
             .ToArray();
 
-        Func<string, int, string[]?> memo = null!;
-        memo = Memoization.Wrap((Func<string, int, string[]?>)Recursion);
-
-        return memo(new('1', data.Regions.Length), 0)!;
-
-        string[]? Recursion(string available, int depth)
-        {
-            for (var i = 0; i < data.Regions.Length; ++i)
+        return Memoization.RunRecursive<string, int, string[]?>(new('1', data.Regions.Length), 0,
+            (memo, available, depth) =>
             {
-                if (available[i] == '0')
-                    continue;
-
-                var region = data.Regions[i];
-                var good = tickets.All(a => CheckRegion(region, a[depth]));
-
-                if (good)
+                for (var i = 0; i < data.Regions.Length; ++i)
                 {
-                    if (depth == data.Regions.Length - 1)
-                        return [region.Name];
+                    if (available[i] == '0')
+                        continue;
 
-                    var newAvailable = available[..i] + '0' + available[(i + 1)..];
-                    var child = memo(newAvailable, depth + 1);
-                    if (child is not null)
-                        return [region.Name, .. child];
+                    var region = data.Regions[i];
+                    var good = tickets.All(a => CheckRegion(region, a[depth]));
+
+                    if (good)
+                    {
+                        if (depth == data.Regions.Length - 1)
+                            return [region.Name];
+
+                        var newAvailable = available[..i] + '0' + available[(i + 1)..];
+                        var child = memo(newAvailable, depth + 1);
+                        if (child is not null)
+                            return [region.Name, .. child];
+                    }
                 }
-            }
 
-            return null;
-        }
+                return null;
+            })!;
     }
 
     static bool CheckRegions(ItemRegion[] regions, int n)

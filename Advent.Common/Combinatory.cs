@@ -14,6 +14,9 @@ public static class CombinatoryExtensions
                             (a, b) => a.Append(b));
         }
 
+        public IEnumerable<IEnumerable<T>> Combinations()
+            => source.Combinations(source.Length);
+
         public IEnumerable<IEnumerable<T>> Combinations(int num)
         {
             return CombinationsRecurse(source, num);

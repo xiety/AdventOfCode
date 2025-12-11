@@ -12,7 +12,7 @@ public class Solver : ISolver<int>
         var map = MapData.ParseMap(lines, a => $"{a}");
 
         var query = from p in map.EnumeratePositions()
-                    from d in Array.EnumerateDeltas()
+                    from d in map.Deltas()
                     let s = Get(map, p, d, TargetA.Length)
                     where s == TargetA
                     select 1;

@@ -10,22 +10,15 @@ public class Solver : ISolver<long>
     public long RunB(string[] lines, bool isSample)
         => Run(lines, 25);
 
-    long Run(string[] lines, int num)
+    static long Run(string[] lines, int num)
         => lines.Sum(a => long.Parse(a[..^1]) * Find(a, num));
 
-    long Find(string sequence, int num)
-    {
-        Func<string, int, long> memo = null!;
-        var recurse = Recurse;
-        memo = Memoization.Wrap(recurse);
-        return memo(sequence, 0);
-
-        long Recurse(string seq, int level)
-            => num == level - 1
-            ? seq.Length
-            : FindOnMap(level == 0 ? mapPad : mapJoy, seq)
-                .Min(a => a.Sum(b => memo(b, level + 1)));
-    }
+    static long Find(string sequence, int num)
+        => Memoization.RunRecursive<string, int, long>(sequence, 0,
+            (memo, seq, level) => num == level - 1
+                ? seq.Length
+                : FindOnMap(level == 0 ? mapPad : mapJoy, seq)
+                    .Min(a => a.Sum(b => memo(b, level + 1))));
 
     static string[][] FindOnMap(char[,] panel, string sequence)
     {
