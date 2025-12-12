@@ -21,7 +21,7 @@ public class Solver : IProblemSolver<long, string>
 
         var folded = folds.Aggregate(map, Fold);
 
-        return folded.ToString(Environment.NewLine, "", a => a ? "#" : ".")
+        return folded.ToDump(Environment.NewLine, "", a => a ? "#" : ".")
             .TrimEnd();
     }
 

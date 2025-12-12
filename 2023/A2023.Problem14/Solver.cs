@@ -24,7 +24,7 @@ public class Solver : IProblemSolver<long>
 
         for (var i = 0L; i < total; ++i)
         {
-            var key = map.ToString(a => a.ToString()).TrimEnd();
+            var key = map.ToDump(a => a.ToString()).TrimEnd();
 
             if (history.TryGetValue(key, out var index))
             {

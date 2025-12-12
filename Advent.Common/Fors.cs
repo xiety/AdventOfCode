@@ -1,4 +1,4 @@
-﻿namespace System;
+﻿namespace Advent.Common;
 
 public static class Fors
 {

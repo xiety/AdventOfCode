@@ -26,7 +26,7 @@ public class Solver : ISolver<int, string>
         foreach (var pos in result.EnumeratePositions())
             result.Set(pos, layers.SkipWhile(a => a.Get(pos) == 2).Select(a => a.Get(pos)).FirstOrDefault());
 
-        return result.ToString(Environment.NewLine, "", a => a == 1 ? "#" : ".").TrimEnd();
+        return result.ToDump(Environment.NewLine, "", a => a == 1 ? "#" : ".").TrimEnd();
     }
 
     static int[][,] LoadData(string[] lines, int width, int height)

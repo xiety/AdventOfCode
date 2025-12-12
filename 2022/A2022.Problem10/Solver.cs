@@ -67,7 +67,7 @@ public class Solver : IProblemSolver<int, string>
             }
         }
 
-        return screen.ToString(Environment.NewLine, "", a => a == 0 ? " " : $"{a}")
+        return screen.ToDump(Environment.NewLine, "", a => a == 0 ? " " : $"{a}")
             .TrimEnd();
     }
 

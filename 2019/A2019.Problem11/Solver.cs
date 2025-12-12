@@ -20,7 +20,7 @@ public class Solver : ISolver<long, string>
         foreach (var (pos, value) in map)
             c.Set(pos - bbox.From, (int)value);
 
-        return c.ToString(Environment.NewLine, "", a => a == 1 ? "#" : ".").TrimEnd();
+        return c.ToDump(Environment.NewLine, "", a => a == 1 ? "#" : ".").TrimEnd();
     }
 
     static Dictionary<Pos, long> Run(string[] lines, int start, bool paintStart)

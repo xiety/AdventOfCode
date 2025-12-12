@@ -46,6 +46,17 @@ public static class ArrayEx
             return result;
         }
 
+        public T[,] RotatedRight()
+        {
+            var dst = new T[array.Height, array.Width];
+
+            for (var r = 0; r < array.Width; ++r)
+                for (var c = 0; c < array.Height; ++c)
+                    dst[c, array.Width - 1 - r] = array[r, c];
+
+            return dst;
+        }
+
         public TR[,] ToArray<TR>(Func<T, TR> map)
         {
             var result = new TR[array.GetLength(0), array.GetLength(1)];
@@ -75,10 +86,10 @@ public static class ArrayEx
                     array[x, y] = value;
         }
 
-        public string ToString(Func<T, string> format)
-            => array.ToString(Environment.NewLine, "", format);
+        public string ToDump(Func<T, string> format)
+            => array.ToDump(Environment.NewLine, "", format);
 
-        public string ToString(string lineSeparator, string itemSeparator, Func<T, string> format)
+        public string ToDump(string lineSeparator, string itemSeparator, Func<T, string> format)
         {
             var sb = new StringBuilder();
 
@@ -98,7 +109,7 @@ public static class ArrayEx
             => array.Dump(Environment.NewLine, "", format);
 
         public void Dump(string lineSeparator, string itemSeparator, Func<T, string> format)
-            => Console.WriteLine(ToString(array, lineSeparator, itemSeparator, format));
+            => Console.WriteLine(ToDump(array, lineSeparator, itemSeparator, format));
 
         public IEnumerable<T> GetRow(int row)
         {
@@ -409,8 +420,11 @@ public static class ArrayEx
 
     extension(bool[,] array)
     {
+        public string ToDump()
+            => array.ToDump(Environment.NewLine, "", a => a ? "#" : ".");
+
         public void Dump()
-            => array.Dump(Environment.NewLine, "", a => a ? "#" : ".");
+            => Console.WriteLine(array.ToDump());
 
         public bool[,] Flooded(Pos pos)
         {
