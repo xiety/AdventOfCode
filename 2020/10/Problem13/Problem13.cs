@@ -29,7 +29,7 @@ public static class Solver
             .N;
 
     [GeneratedTest<long>(1068781, 905694340256752)]
-    public static long RunB_CRT(string[] lines)
+    public static long RunBCRT(string[] lines)
     {
         var (_, items) = LoadData(lines);
         var busses = ToBusses(items);
