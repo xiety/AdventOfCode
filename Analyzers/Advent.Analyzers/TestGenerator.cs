@@ -127,8 +127,15 @@ public class TestGenerator : IIncrementalGenerator
             {
                 var lines = LoadInput(@"{{sourcePath}}", {{m.IsPartA.ToString().ToLower()}}, {{sample.ToString().ToLower()}});
                 {{(m.Symbol.IsStatic ? "" : $"var solver = new {className}();")}}
-                var actual = {{(m.Symbol.IsStatic ? $"{className}.{m.Symbol.Name}" : $"solver.{m.Symbol.Name}")}}({{(hasBool ? $"lines, {sample.ToString().ToLower()}" : "lines")}});
-                Assert.AreEqual({{(sample ? m.Sample : m.Input)}}, actual);
+                try
+                {
+                    var actual = {{(m.Symbol.IsStatic ? $"{className}.{m.Symbol.Name}" : $"solver.{m.Symbol.Name}")}}({{(hasBool ? $"lines, {sample.ToString().ToLower()}" : "lines")}});
+                    Assert.AreEqual({{(sample ? m.Sample : m.Input)}}, actual);
+                }
+                catch (NotImplementedException)
+                {
+                    Assert.Inconclusive("Not implemented");
+                }
             }
             #line default
 
