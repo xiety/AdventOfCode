@@ -1,8 +1,6 @@
 ﻿#pragma warning disable CS0162 // Unreachable code detected
 using System.Diagnostics;
 
-using Advent.Common;
-
 namespace A2021.Problem23;
 
 public static class Solver
@@ -91,7 +89,7 @@ public static class Solver
 
         var occupied = units.ToArray(a => a.Node);
 
-        return new([..foreigners], occupied);
+        return new([.. foreigners], occupied);
     }
 
     static IEnumerable<GraphConnection> GetPossibleMoves(Unit unit, Situation situation)

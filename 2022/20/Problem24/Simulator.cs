@@ -1,6 +1,4 @@
-﻿using Advent.Common;
-
-namespace A2022.Problem24;
+﻿namespace A2022.Problem24;
 
 public static class Simulator
 {

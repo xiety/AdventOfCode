@@ -1,7 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 
-using Advent.Common;
-
 namespace A2023.Problem24;
 
 public static class Solver

@@ -1,7 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using static System.Linq.Enumerable;
 
-using Advent.Common;
+using static System.Linq.Enumerable;
 
 namespace A2020.Problem09;
 

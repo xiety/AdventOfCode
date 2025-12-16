@@ -1,7 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 
-using Advent.Common;
-
 namespace A2022.Problem22;
 
 public static class Solver
@@ -104,23 +102,23 @@ public static class Solver
 
     static (Pos, Rotation) CalcPositionCube(Pos pos, Rotation rotation)
         => pos switch
-           {
-               { X: 49, Y: >= 0 and <= 49 } => (new(0, 149 - pos.Y), Rotation.Right),
-               { X: -1, Y: >= 100 and <= 149 } => (new(50, 149 - pos.Y), Rotation.Right),
-               { X: >= 50 and <= 99, Y: -1 } => (new(0, pos.X + 100), Rotation.Right),
-               { X: -1, Y: >= 150 and <= 199 } => (new(pos.Y - 100, 0), Rotation.Down),
-               { X: >= 100 and <= 149, Y: 50 } => (new(99, pos.X - 50), Rotation.Left),
-               { X: 100, Y: >= 50 and <= 99 } => (new(pos.Y + 50, 49), Rotation.Up),
-               { X: 150, Y: >= 0 and <= 49 } => (new(99, 149 - pos.Y), Rotation.Left),
-               { X: 100, Y: >= 100 and <= 149 } => (new(149, 149 - pos.Y), Rotation.Left),
-               { X: >= 100 and <= 149, Y: -1 } => (new(pos.X - 100, 199), Rotation.Up),
-               { X: >= 0 and <= 49, Y: 200 } => (new(pos.X + 100, 0), Rotation.Down),
-               { X: 49, Y: >= 50 and <= 99 } => (new(pos.Y - 50, 100), Rotation.Down),
-               { X: >= 0 and <= 49, Y: 99 } => (new(50, pos.X + 50), Rotation.Right),
-               { X: >= 50 and <= 99, Y: 150 } => (new(49, pos.X + 100), Rotation.Left),
-               { X: 50, Y: >= 150 and <= 199 } => (new(pos.Y - 100, 149), Rotation.Up),
-               _ => (pos, rotation)
-           };
+        {
+            { X: 49, Y: >= 0 and <= 49 } => (new(0, 149 - pos.Y), Rotation.Right),
+            { X: -1, Y: >= 100 and <= 149 } => (new(50, 149 - pos.Y), Rotation.Right),
+            { X: >= 50 and <= 99, Y: -1 } => (new(0, pos.X + 100), Rotation.Right),
+            { X: -1, Y: >= 150 and <= 199 } => (new(pos.Y - 100, 0), Rotation.Down),
+            { X: >= 100 and <= 149, Y: 50 } => (new(99, pos.X - 50), Rotation.Left),
+            { X: 100, Y: >= 50 and <= 99 } => (new(pos.Y + 50, 49), Rotation.Up),
+            { X: 150, Y: >= 0 and <= 49 } => (new(99, 149 - pos.Y), Rotation.Left),
+            { X: 100, Y: >= 100 and <= 149 } => (new(149, 149 - pos.Y), Rotation.Left),
+            { X: >= 100 and <= 149, Y: -1 } => (new(pos.X - 100, 199), Rotation.Up),
+            { X: >= 0 and <= 49, Y: 200 } => (new(pos.X + 100, 0), Rotation.Down),
+            { X: 49, Y: >= 50 and <= 99 } => (new(pos.Y - 50, 100), Rotation.Down),
+            { X: >= 0 and <= 49, Y: 99 } => (new(50, pos.X + 50), Rotation.Right),
+            { X: >= 50 and <= 99, Y: 150 } => (new(49, pos.X + 100), Rotation.Left),
+            { X: 50, Y: >= 150 and <= 199 } => (new(pos.Y - 100, 149), Rotation.Up),
+            _ => (pos, rotation)
+        };
 
     static Pos FindPosition(Map map)
     {

@@ -1,8 +1,4 @@
-﻿using Advent.Common;
-
-using System.Linq;
-
-namespace A2024.Problem25;
+﻿namespace A2024.Problem25;
 
 public static class Solver
 {
@@ -27,13 +23,13 @@ public static class Solver
 
     static IEnumerable<int[]> ParseLocks(int[][,] items)
         => from item in items
-            where item.GetRow(0).All(b => b == 1)
-            select item.GetColumns().ToArray(a => Array.IndexOf(a, 0) - 1);
+           where item.GetRow(0).All(b => b == 1)
+           select item.GetColumns().ToArray(a => Array.IndexOf(a, 0) - 1);
 
     static IEnumerable<int[]> ParseKeys(int[][,] items)
         => from item in items
-            where item.GetRow(item.Height - 1).All(b => b == 1)
-            select item.GetColumns().ToArray(a => a.Length - Array.IndexOf(a, 1) - 1);
+           where item.GetRow(item.Height - 1).All(b => b == 1)
+           select item.GetColumns().ToArray(a => a.Length - Array.IndexOf(a, 1) - 1);
 
     static int[][,] LoadData(string[] lines)
         => lines.SplitBy(String.Empty).ToArray(a => MapData.ParseMap(a, b => b == '#' ? 1 : 0));

@@ -1,6 +1,4 @@
-﻿using Advent.Common;
-
-namespace A2022.Problem14;
+﻿namespace A2022.Problem14;
 
 class Sandbox(int width, int height)
 {

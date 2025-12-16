@@ -1,8 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-using Advent.Common;
-
 using Dic = System.Collections.Generic.Dictionary<char, long>;
 
 namespace A2021.Problem14;

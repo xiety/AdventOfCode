@@ -1,6 +1,4 @@
-﻿using Advent.Common;
-
-namespace A2022.Problem19;
+﻿namespace A2022.Problem19;
 
 class Calculator(int maxLevel)
 {

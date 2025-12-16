@@ -1,6 +1,4 @@
 ﻿#pragma warning disable RCS1213 // Remove unused member declaration
-using Advent.Common;
-
 namespace A2024.Problem24;
 
 public static class Solver

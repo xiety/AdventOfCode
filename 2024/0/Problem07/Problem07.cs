@@ -1,7 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 
-using Advent.Common;
-
 namespace A2024.Problem07;
 
 delegate long Op(long a, long b);

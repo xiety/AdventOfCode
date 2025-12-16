@@ -1,6 +1,4 @@
-﻿using Advent.Common;
-
-namespace A2021.Problem24;
+﻿namespace A2021.Problem24;
 
 public static class Flow
 {

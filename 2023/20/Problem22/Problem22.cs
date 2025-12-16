@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
-using Advent.Common;
-
 namespace A2023.Problem22;
 
 public static class Solver

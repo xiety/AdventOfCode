@@ -2,8 +2,6 @@
 using System.Numerics;
 using System.Text.RegularExpressions;
 
-using Advent.Common;
-
 namespace A2022.Problem11;
 
 public static class Solver

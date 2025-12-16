@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Text.RegularExpressions;
 
-using Advent.Common;
-
 namespace A2020.Problem14;
 
 using Mask = bool?[];

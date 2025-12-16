@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 
-using Advent.Common;
-
 namespace A2021.Problem20;
 
 public static class Solver

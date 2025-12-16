@@ -1,8 +1,6 @@
 ﻿#pragma warning disable CS0162 // Unreachable code detected
 using System.Text.RegularExpressions;
 
-using Advent.Common;
-
 namespace A2021.Problem22;
 
 public static class Solver

@@ -28,7 +28,7 @@ public static class RangeExtensions
     }
 
     extension<T>(T number)
-        where T: INumber<T>
+        where T : INumber<T>
     {
         public IEnumerator<T> GetEnumerator()
         {

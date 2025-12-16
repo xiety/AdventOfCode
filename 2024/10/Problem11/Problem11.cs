@@ -1,6 +1,4 @@
-﻿using Advent.Common;
-
-namespace A2024.Problem11;
+﻿namespace A2024.Problem11;
 
 using Cache = Dictionary<long, TreeNode>;
 using CacheCount = Dictionary<(long, int), long>;

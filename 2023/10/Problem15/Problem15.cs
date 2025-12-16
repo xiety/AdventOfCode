@@ -1,6 +1,4 @@
-﻿using Advent.Common;
-
-namespace A2023.Problem15;
+﻿namespace A2023.Problem15;
 
 public static class Solver
 {

@@ -6,7 +6,7 @@ public static class ConsoleExtensions
 {
     extension(Console)
     {
-        public static void Debug(object value, [CallerArgumentExpression(nameof(value))]string valueExpression = "")
+        public static void Debug(object value, [CallerArgumentExpression(nameof(value))] string valueExpression = "")
             => Console.WriteLine($"{valueExpression}: {value}");
 
         public static void Debug<T>(IEnumerable<T> value, [CallerArgumentExpression(nameof(value))] string valueExpression = "")
