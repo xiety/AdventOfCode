@@ -18,12 +18,12 @@ public static class Solver
 
         var result = 0;
 
-        for (var i = 0; i < items.Length - window; ++i)
+        foreach (var i in (items.Length - window))
         {
             var m1 = 0;
             var m2 = 0;
 
-            for (var j = 0; j < window; ++j)
+            foreach (var j in window)
             {
                 m1 += items[i + j];
                 m2 += items[i + j + 1];

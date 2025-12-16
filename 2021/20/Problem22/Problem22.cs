@@ -64,9 +64,9 @@ public static class Solver
             var nz1 = Array.IndexOf(allZ, rect.From.Z);
             var nz2 = Array.IndexOf(allZ, rect.To.Z + 1);
 
-            for (var nx = nx1; nx <= Math.Min(nx2, allX.Length - 2); ++nx)
-                for (var ny = ny1; ny <= Math.Min(ny2, allY.Length - 2); ++ny)
-                    for (var nz = nz1; nz <= Math.Min(nz2, allZ.Length - 2); ++nz)
+            foreach (var nx in nx1..(Math.Min(nx2, allX.Length - 2) + 1))
+                foreach (var ny in ny1..(Math.Min(ny2, allY.Length - 2) + 1))
+                    foreach (var nz in nz1..(Math.Min(nz2, allZ.Length - 2) + 1))
                         yield return (nx, ny, nz);
         }
     }

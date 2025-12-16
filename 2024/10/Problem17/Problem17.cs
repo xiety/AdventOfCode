@@ -57,11 +57,11 @@ public static class Solver
     {
         var list = new List<List<string>>();
 
-        for (var i = 0; i < 8; ++i)
+        foreach (var i in 8)
         {
             var sublist = new List<string>();
 
-            for (var j = 0; j < 8; ++j)
+            foreach (var j in 8)
             {
                 var a1 = i ^ j;
                 var a2 = j ^ 0b110;
@@ -116,7 +116,7 @@ public static class Solver
 
             var found = true;
 
-            for (var i = 0; i < body.Length; ++i)
+            foreach (var i in body.Length)
             {
                 var b = body[body.Length - 1 - i];
                 var s = start[start.Length - 1 - i];

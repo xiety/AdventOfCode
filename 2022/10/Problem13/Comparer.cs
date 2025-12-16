@@ -1,4 +1,6 @@
-﻿namespace A2022.Problem13;
+﻿using Advent.Common;
+
+namespace A2022.Problem13;
 
 static class Comparer
 {
@@ -24,7 +26,7 @@ static class Comparer
             {
                 var max = Math.Max(f.Items.Length, s.Items.Length);
 
-                for (var i = 0; i < max; ++i)
+                foreach (var i in max)
                 {
                     if (i < f.Items.Length && i < s.Items.Length)
                     {

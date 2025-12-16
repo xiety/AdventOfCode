@@ -24,7 +24,7 @@ public static class Solver
         var currentList = new List<Radio>();
         var newList = new List<Radio>();
 
-        for (var i = 0L; i < total; ++i)
+        foreach (var i in total)
         {
             currentList.Add(button);
             Process(currentList, newList, dic, conjDic, false, i + 1L);
@@ -160,7 +160,7 @@ public static class Solver
     {
         var size = radio.Outputs.Length;
 
-        for (var i = 0; i < size; ++i)
+        foreach (var i in size)
         {
             var connection = radio.Outputs[i];
             connection.To.PulseQueue.Enqueue((connection, pulse));

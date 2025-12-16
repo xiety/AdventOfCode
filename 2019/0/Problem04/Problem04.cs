@@ -33,12 +33,12 @@ public static class Solver
 
         var count = 0;
 
-        for (var a1 = fmin; a1 <= fmax; ++a1)
-            for (var a2 = a1; a2 <= 9; ++a2)
-                for (var a3 = a2; a3 <= 9; ++a3)
-                    for (var a4 = a3; a4 <= 9; ++a4)
-                        for (var a5 = a4; a5 <= 9; ++a5)
-                            for (var a6 = a5; a6 <= 9; ++a6)
+        foreach (var a1 in fmin..(fmax + 1))
+            foreach (var a2 in a1..10)
+                foreach (var a3 in a2..10)
+                    foreach (var a4 in a3..10)
+                        foreach (var a5 in a4..10)
+                            foreach (var a6 in a5..10)
                             {
                                 var n = a6 + a5 * 10 + a4 * 100 + a3 * 1_000 + a2 * 10_000 + a1 * 100_000;
                                 if (n >= min && n <= max && check(a1, a2, a3, a4, a5, a6))

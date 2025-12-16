@@ -1,4 +1,6 @@
-﻿namespace Advent.Common;
+﻿using System.Numerics;
+
+namespace Advent.Common;
 
 public static class RangeExtensions
 {
@@ -22,6 +24,16 @@ public static class RangeExtensions
                 for (var i = start; i > end; --i)
                     yield return i;
             }
+        }
+    }
+
+    extension<T>(T number)
+        where T: INumber<T>
+    {
+        public IEnumerator<T> GetEnumerator()
+        {
+            for (var i = T.Zero; i < number; i += T.One)
+                yield return i;
         }
     }
 }

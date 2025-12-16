@@ -96,9 +96,9 @@ class Cube(int width, int height, int depth)
         }
         while (points.Count > 0);
 
-        for (var x = 0; x < Size.X; ++x)
-            for (var y = 0; y < Size.Y; ++y)
-                for (var z = 0; z < Size.Z; ++z)
+        foreach (var x in Size.X)
+            foreach (var y in Size.Y)
+                foreach (var z in Size.Z)
                     if (!water[x, y, z])
                         data[x, y, z] = true;
     }

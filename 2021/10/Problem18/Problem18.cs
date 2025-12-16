@@ -68,7 +68,7 @@ public static class Solver
     {
         var depth = 1;
 
-        for (var index = startingIndex; index < inner.Length; ++index)
+        foreach (var index in startingIndex..inner.Length)
         {
             if (inner[index] == new TokenOpenBranch())
             {
@@ -126,7 +126,7 @@ public static class Solver
 
     static bool Split(Node input)
     {
-        for (var i = 0; i < input.Tokens.Count; ++i)
+        foreach (var i in input.Tokens.Count)
         {
             var token = input.Tokens[i];
 
@@ -158,7 +158,7 @@ public static class Solver
     {
         var depth = 0;
 
-        for (var i = 0; i < input.Tokens.Count; ++i)
+        foreach (var i in input.Tokens.Count)
         {
             var token = input.Tokens[i];
 
@@ -189,7 +189,7 @@ public static class Solver
                         }
                     }
 
-                    for (var j = i + 1; j < input.Tokens.Count; ++j)
+                    foreach (var j in (i + 1)..input.Tokens.Count)
                     {
                         if (input.Tokens[j] is TokenValue tv)
                         {
@@ -212,7 +212,7 @@ public static class Solver
 
         IEnumerable<Token> Internal()
         {
-            for (var i = 0; i < text.Length; ++i)
+            foreach (var i in text.Length)
             {
                 switch (text[i])
                 {

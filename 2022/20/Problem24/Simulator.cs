@@ -1,4 +1,6 @@
-﻿namespace A2022.Problem24;
+﻿using Advent.Common;
+
+namespace A2022.Problem24;
 
 public static class Simulator
 {
@@ -10,7 +12,7 @@ public static class Simulator
 
         RenderSlice(map, 0, blizzards);
 
-        for (var z = 1; z < size.Z; ++z)
+        foreach (var z in 1..size.Z)
         {
             Simulate(map, blizzards);
             RenderSlice(map, z, blizzards);
@@ -49,13 +51,13 @@ public static class Simulator
             map[blizzard.Pos.X, blizzard.Pos.Y, z] = true;
         }
 
-        for (var x = 0; x < map.Size.X; ++x)
+        foreach (var x in map.Size.X)
         {
             map[x, 0, z] = true;
             map[x, map.Size.Y - 1, z] = true;
         }
 
-        for (var y = 0; y < map.Size.Y; ++y)
+        foreach (var y in map.Size.Y)
         {
             map[0, y, z] = true;
             map[map.Size.X - 1, y, z] = true;
@@ -64,9 +66,9 @@ public static class Simulator
 
     static IEnumerable<Blizzard> ParseBlizzards(string[] data)
     {
-        for (var y = 1; y < data.Length - 1; ++y)
+        foreach (var y in 1..(data.Length - 1))
         {
-            for (var x = 1; x < data[y].Length - 1; ++x)
+            foreach (var x in 1..(data[y].Length - 1))
             {
                 switch (data[y][x])
                 {

@@ -1,4 +1,6 @@
-﻿namespace A2021.Problem24;
+﻿using Advent.Common;
+
+namespace A2021.Problem24;
 
 public static class Flow
 {
@@ -8,7 +10,7 @@ public static class Flow
     {
         var data = new List<Item>[4];
 
-        for (var i = 0; i < data.Length; ++i)
+        foreach (var i in data.Length)
             data[i] = [new(0, input_str)];
 
         var inputIndex = 1;
@@ -89,7 +91,7 @@ public static class Flow
     {
         //return !a.Where((t, i) => t != '0' && b[i] != '0' && t != b[i]).Any();
 
-        for (var i = 0; i < a.Length; ++i)
+        foreach (var i in a.Length)
         {
             if (a[i] != '0' && b[i] != '0' && a[i] != b[i])
                 return false;
@@ -102,7 +104,7 @@ public static class Flow
     {
         var r = "";
 
-        for (var i = 0; i < a.Length; ++i)
+        foreach (var i in a.Length)
         {
             r += a[i] > b[i] ? a[i] : b[i];
         }

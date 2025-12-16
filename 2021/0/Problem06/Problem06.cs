@@ -26,11 +26,11 @@ public static class Solver
         foreach (var item in items)
             array[item]++;
 
-        for (var i = 0; i < days; ++i)
+        foreach (var i in days)
         {
             var temp = array[0];
 
-            for (var j = 1; j < array.Length; ++j)
+            foreach (var j in 1..array.Length)
                 array[j - 1] = array[j];
 
             array[period - 1] += temp;

@@ -38,7 +38,7 @@ public static class Solver
 
     static bool Check(ReadOnlySpan<long> items, long number)
     {
-        for (var i = 0; i < items.Length - 1; ++i)
+        foreach (var i in (items.Length - 1))
             if (items[(i + 1)..].Contains(number - items[i]))
                 return true;
 

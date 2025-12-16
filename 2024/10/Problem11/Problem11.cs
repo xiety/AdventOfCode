@@ -21,7 +21,7 @@ public static class Solver
 
         var tree = CreateRoot(items);
 
-        for (var i = 0; i < total; ++i)
+        foreach (var i in total)
             Change(tree, i);
 
         return Count(tree, total);

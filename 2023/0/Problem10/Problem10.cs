@@ -52,8 +52,8 @@ public static class Solver
             var c = map.Get(pos);
             var pattern = patterns[c];
 
-            for (var x = 0; x < 3; ++x)
-                for (var y = 0; y < 3; ++y)
+            foreach (var x in 3)
+                foreach (var y in 3)
                     if (pattern[y][x] == '#')
                         large[x + pos.X * 3 + 1, y + pos.Y * 3 + 1] = true;
         });

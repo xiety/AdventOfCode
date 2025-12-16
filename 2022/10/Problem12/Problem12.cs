@@ -38,9 +38,9 @@ public static class Solver
         var start = new Pos(0, 0);
         var end = new Pos(0, 0);
 
-        for (var y = 0; y < height; ++y)
+        foreach (var y in height)
         {
-            for (var x = 0; x < width; ++x)
+            foreach (var x in width)
             {
                 var c = lines[y][x];
 

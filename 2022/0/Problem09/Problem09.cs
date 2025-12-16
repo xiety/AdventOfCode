@@ -45,7 +45,7 @@ public static class Solver
         {
             tailList[0] += step;
 
-            for (var i = 1; i < ropeLength; ++i)
+            foreach (var i in 1..ropeLength)
                 tailList[i] = CalculateNewPos(tailList[i - 1], tailList[i]);
 
             visitedByTail.Add(tailList[^1]);
@@ -69,7 +69,7 @@ public static class Solver
 
         foreach (var item in items)
         {
-            for (var i = 0; i < item.Number; ++i)
+            foreach (var i in item.Number)
             {
                 yield return item.Dir switch
                 {

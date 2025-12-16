@@ -49,8 +49,8 @@ public static class Solver
 
     static bool CanPut(bool[,] space, bool[,] shape, int x, int y)
     {
-        for (var tx = 0; tx < shape.Width; ++tx)
-            for (var ty = 0; ty < shape.Height; ++ty)
+        foreach (var tx in shape.Width)
+            foreach (var ty in shape.Height)
                 if (shape[tx, ty] && space[tx + x, ty + y])
                     return false;
         return true;
@@ -60,8 +60,8 @@ public static class Solver
     {
         var copy = space.CloneArray();
 
-        for (var tx = 0; tx < shape.Width; ++tx)
-            for (var ty = 0; ty < shape.Height; ++ty)
+        foreach (var tx in shape.Width)
+            foreach (var ty in shape.Height)
                 if (shape[tx, ty])
                     copy[tx + x, ty + y] = true;
 

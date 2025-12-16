@@ -33,9 +33,9 @@ public static class Solver
         {
             var map = new bool[fold.Num, parent.Height];
 
-            for (var y = 0; y < parent.Height; ++y)
+            foreach (var y in parent.Height)
             {
-                for (var x = 0; x < fold.Num; ++x)
+                foreach (var x in fold.Num)
                 {
                     map[x, y] = parent[x, y];
 
@@ -52,9 +52,9 @@ public static class Solver
         {
             var map = new bool[parent.Width, fold.Num];
 
-            for (var x = 0; x < parent.Width; ++x)
+            foreach (var x in parent.Width)
             {
-                for (var y = 0; y < fold.Num; ++y)
+                foreach (var y in fold.Num)
                 {
                     map[x, y] = parent[x, y];
 

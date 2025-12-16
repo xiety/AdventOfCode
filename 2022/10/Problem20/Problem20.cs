@@ -22,9 +22,9 @@ public static class Solver
 
         var total = items.Count;
 
-        for (var m = 0; m < mixes; ++m)
+        foreach (var m in mixes)
         {
-            for (var i = 0; i < total; ++i)
+            foreach (var i in total)
             {
                 var oldPosition = items.FindIndex(a => a.Order == i);
                 var item = items[oldPosition];

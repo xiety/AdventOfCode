@@ -40,7 +40,7 @@ public static class Solver
         var result = 0L;
 
         //bag is mutated in every iteration
-        for (var i = 0; i < howManyIterations; ++i)
+        foreach (var i in howManyIterations)
             result += item.Input.Sum(a => Recurse(items, bag, a.Name, a.Num, level + 1));
 
         return result;

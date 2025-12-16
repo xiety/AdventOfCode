@@ -14,7 +14,7 @@ public static class Solver
 
         var path = PathFinder.Find(map, start, end)!;
 
-        return Run(map, start, end, path)
+        return Run(map, start, path)
             .Count(a => path.Length - a.Value >= target);
     }
 
@@ -28,11 +28,11 @@ public static class Solver
 
         var path = PathFinder.Find(map, start, end)!;
 
-        return RunB(map, start, end, path)
+        return RunB(map, start, path)
             .Count(a => path.Length - a.Value >= target);
     }
 
-    static Dictionary<(Pos, Pos), int> Run(int[,] map, Pos start, Pos end, Pos[] path)
+    static Dictionary<(Pos, Pos), int> Run(int[,] map, Pos start, Pos[] path)
     {
         var dic = new Dictionary<(Pos, Pos), int>();
 
@@ -63,7 +63,7 @@ public static class Solver
         return dic;
     }
 
-    static Dictionary<(Pos, Pos), int> RunB(int[,] map, Pos start, Pos end, Pos[] path)
+    static Dictionary<(Pos, Pos), int> RunB(int[,] map, Pos start, Pos[] path)
     {
         var dic = new Dictionary<(Pos, Pos), int>();
         var index = -1;

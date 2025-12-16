@@ -88,13 +88,13 @@ public static class Solver
             var offset = -1;
             var notBusy = 0;
 
-            for (var i = 0; i < 4; ++i)
+            foreach (var i in 4)
             {
                 var busy = false;
 
                 var index = (start + i) % 4;
 
-                for (var j = 0; j < 3; ++j)
+                foreach (var j in 3)
                 {
                     if (dwarfs.Contains(offsets[index, j] + dwarf))
                     {
@@ -151,8 +151,8 @@ public static class Solver
     {
         var dwarfs = new HashSet<Pos>();
 
-        for (var y = 0; y < data.Length; ++y)
-            for (var x = 0; x < data[y].Length; ++x)
+        foreach (var y in data.Length)
+            foreach (var x in data[y].Length)
                 if (data[y][x] == '#')
                     dwarfs.Add(new(x, y));
 

@@ -13,7 +13,7 @@ public static class Solver
 
         var (width, height) = isSample ? (11, 7) : (101, 103);
 
-        for (var i = 0; i < 100; ++i)
+        foreach (var i in 100)
             MoveRobots(robots, width, height);
 
         return Count(width, height, robots);

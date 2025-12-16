@@ -50,7 +50,7 @@ public static class Solver
         {
             var next = new long[counts.Length];
 
-            for (var i = 0; i < line.Length; ++i)
+            foreach (var i in line.Length)
             {
                 var count = counts[i];
 

@@ -42,7 +42,7 @@ public static class Solver
 
         var situation = CalcSituation(units);
 
-        for (var unitIndex = 0; unitIndex < units.Length; ++unitIndex)
+        foreach (var unitIndex in units.Length)
         {
             if (unitIndex == lastUnitIndex)
                 continue;
@@ -238,9 +238,9 @@ public static class Solver
 
         GraphNode[] rooms = [roomA1, roomA2, roomB1, roomB2, roomC1, roomC2, roomD1, roomD2];
 
-        for (var y = 0; y < lines.Length; ++y)
+        foreach (var y in lines.Length)
         {
-            for (var x = 0; x < lines[0].Length; ++x)
+            foreach (var x in lines[0].Length)
             {
                 var room = rooms.FirstOrDefault(a => a.Coordinates.X == x - 1 && a.Coordinates.Y == y - 1);
 

@@ -56,7 +56,7 @@ public static class Solver
             t -= 1;
             g = t / 10;
 
-            for (var w = 2; w <= 14-4; ++w)
+            foreach (var w in 2..(14 - 3))
             {
                 if (g % 10 == 0)
                 {

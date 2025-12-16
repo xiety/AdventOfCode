@@ -19,7 +19,7 @@ public static class Solver
         var max = -1;
         var value = 0;
 
-        for (var x = 0; x < map.Width; ++x)
+        foreach (var x in map.Width)
         {
             value = Calculate(map, new(x, -1), new(0, 1));
 
@@ -32,7 +32,7 @@ public static class Solver
                 max = value;
         }
 
-        for (var y = 0; y < map.Height; ++y)
+        foreach (var y in map.Height)
         {
             value = Calculate(map, new(-1, y), new(1, 0));
 

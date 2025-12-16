@@ -41,7 +41,7 @@ public static class Solver
         {
             ret[z] = new int[width, height];
 
-            for (var y = 0; y < height; ++y)
+            foreach (var y in height)
                 for (var x = 0; x < width; ++x, ++i)
                     ret[z][x, y] = text[i] - '0';
         }

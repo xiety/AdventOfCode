@@ -27,9 +27,9 @@ public static class Solver
 
         var target = !isSample ? 19690720 : 100;
 
-        for (var a = 0; a <= 99; ++a)
+        foreach (var a in 100)
         {
-            for (var b = 0; b <= 99; ++b)
+            foreach (var b in 100)
             {
                 codes[1] = a;
                 codes[2] = b;

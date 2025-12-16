@@ -1,4 +1,6 @@
-﻿namespace A2022.Problem17;
+﻿using Advent.Common;
+
+namespace A2022.Problem17;
 
 public class Tetris(int width, int left, int topOffset)
 {
@@ -133,7 +135,7 @@ public class Tetris(int width, int left, int topOffset)
         {
             var line = glass[i];
 
-            for (var j = 0; j < line.Length; ++j)
+            foreach (var j in line.Length)
                 if (line[j] == '@')
                     if (j == limit || line[j + offset] == '#')
                         return false;
@@ -150,7 +152,7 @@ public class Tetris(int width, int left, int topOffset)
 
             if (movement == Movement.Left)
             {
-                for (var index = 1; index < line.Length; ++index)
+                foreach (var index in 1..line.Length)
                 {
                     if (line[index] == '@')
                     {
@@ -179,7 +181,7 @@ public class Tetris(int width, int left, int topOffset)
         {
             var line = glass[i];
 
-            for (var j = 0; j < line.Length; ++j)
+            foreach (var j in line.Length)
             {
                 if (line[j] == '@')
                 {
@@ -198,11 +200,11 @@ public class Tetris(int width, int left, int topOffset)
     void Fall(int from, int size)
     {
         //normal direction
-        for (var i = from - size + 1; i <= from; ++i)
+        foreach (var i in (from - size + 1)..(from + 1))
         {
             var line = glass[i];
 
-            for (var j = 0; j < line.Length; ++j)
+            foreach (var j in line.Length)
             {
                 if (line[j] == '@')
                 {
@@ -219,7 +221,7 @@ public class Tetris(int width, int left, int topOffset)
         {
             var line = glass[i];
 
-            for (var index = 0; index < line.Length; ++index)
+            foreach (var index in line.Length)
                 if (line[index] == '@')
                     line[index] = '#';
         }
@@ -258,7 +260,7 @@ public class Tetris(int width, int left, int topOffset)
 
         for (var i = figure.Length - 1; i >= 0; --i)
         {
-            for (var j = 0; j < figure[i].Length; ++j)
+            foreach (var j in figure[i].Length)
             {
                 if (figure[i][j] == '#')
                     glass[highest + requiredHeight - i][j + left] = '@';
@@ -283,7 +285,7 @@ public class Tetris(int width, int left, int topOffset)
         {
             var full = true;
 
-            for (var x = 0; x < glass[y].Length; ++x)
+            foreach (var x in glass[y].Length)
             {
                 if (glass[y][x] != '#' && glass[y - 1][x] != '#')
                 {

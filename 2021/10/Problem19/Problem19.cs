@@ -14,7 +14,7 @@ public static class Solver
 
         var globalBeams = scanners[0].Beams.ToHashSet();
 
-        for (var a = 1; a < scanners.Length; ++a)
+        foreach (var a in 1..scanners.Length)
         {
             var scanner = scanners[a];
             var transform = dic[a];
@@ -38,9 +38,9 @@ public static class Solver
 
         var max = int.MinValue;
 
-        for (var a = 0; a < scanners.Length - 1; ++a)
+        foreach (var a in (scanners.Length - 1))
         {
-            for (var b = a + 1; b < scanners.Length; ++b)
+            foreach (var b in (a + 1)..scanners.Length)
             {
                 var ta = dic[a].Translate;
                 var tb = dic[b].Translate;
@@ -70,18 +70,18 @@ public static class Solver
         {
             unknown = false;
 
-            for (var sa = 0; sa < scanners.Length - 1; ++sa)
+            foreach (var sa in (scanners.Length - 1))
             {
-                for (var sb = sa + 1; sb < scanners.Length; ++sb)
+                foreach (var sb in (sa + 1)..scanners.Length)
                 {
                     var scannerA = scanners[sa];
                     var scannerB = scanners[sb];
 
-                    for (var i = 0; i < scannerA.Beams.Length; ++i)
+                    foreach (var i in scannerA.Beams.Length)
                     {
                         var distancesI = CalcDistances(scannerA.Beams, i);
 
-                        for (var j = 0; j < scannerB.Beams.Length; ++j)
+                        foreach (var j in scannerB.Beams.Length)
                         {
                             var distancesJ = CalcDistances(scannerB.Beams, j);
 

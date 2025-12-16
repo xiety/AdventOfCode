@@ -1,4 +1,6 @@
-﻿namespace A2022.Problem25;
+﻿using Advent.Common;
+
+namespace A2022.Problem25;
 
 public static class SnafuConverter
 {
@@ -7,7 +9,7 @@ public static class SnafuConverter
         var result = 0L;
         var b = 1L;
 
-        for (var i = 0; i < snafu.Length; ++i)
+        foreach (var i in snafu.Length)
         {
             var c = snafu[^(i + 1)];
             var cv = digits[c];

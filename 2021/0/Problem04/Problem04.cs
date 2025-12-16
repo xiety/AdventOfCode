@@ -17,7 +17,7 @@ public static class Solver
 
         foreach (var number in numbers)
         {
-            for (var i = 0; i < boards.Length; ++i)
+            foreach (var i in boards.Length)
             {
                 MarkBoardCell(boards[i], marks[i], number);
 
@@ -46,7 +46,7 @@ public static class Solver
 
         foreach (var number in numbers)
         {
-            for (var i = 0; i < boards.Length; ++i)
+            foreach (var i in boards.Length)
             {
                 MarkBoardCell(boards[i], marks[i], number);
 
@@ -73,7 +73,7 @@ public static class Solver
     {
         var marks = new bool[boards.Length][,];
 
-        for (var i = 0; i < marks.Length; ++i)
+        foreach (var i in marks.Length)
             marks[i] = new bool[SizeX, SizeY];
 
         return marks;
@@ -81,8 +81,8 @@ public static class Solver
 
     static void MarkBoardCell(int[,] boards, bool[,] marks, int number)
     {
-        for (var y = 0; y < SizeY; ++y)
-            for (var x = 0; x < SizeX; ++x)
+        foreach (var y in SizeY)
+            foreach (var x in SizeX)
                 if (boards[x, y] == number)
                     marks[x, y] = true;
     }
@@ -95,7 +95,7 @@ public static class Solver
         {
             var array = new int[SizeX, SizeY];
 
-            for (var y = 0; y < SizeY; ++y)
+            foreach (var y in SizeY)
             {
                 var line = part[y]
                     .Split(" ", StringSplitOptions.RemoveEmptyEntries)
@@ -114,8 +114,8 @@ public static class Solver
     {
         var sum = 0;
 
-        for (var y = 0; y < SizeY; ++y)
-            for (var x = 0; x < SizeX; ++x)
+        foreach (var y in SizeY)
+            foreach (var x in SizeX)
                 if (!mark[x, y])
                     sum += board[x, y];
 
@@ -126,11 +126,11 @@ public static class Solver
     {
         var bingo = false;
 
-        for (var y = 0; y < SizeY; ++y)
+        foreach (var y in SizeY)
         {
             var lineBingo = true;
 
-            for (var x = 0; x < SizeX; ++x)
+            foreach (var x in SizeX)
             {
                 if (!mark[x, y])
                 {
@@ -148,11 +148,11 @@ public static class Solver
 
         if (!bingo)
         {
-            for (var x = 0; x < SizeX; ++x)
+            foreach (var x in SizeX)
             {
                 var lineBingo = true;
 
-                for (var y = 0; y < SizeY; ++y)
+                foreach (var y in SizeY)
                 {
                     if (!mark[x, y])
                     {

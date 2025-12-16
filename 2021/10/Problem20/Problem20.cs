@@ -26,8 +26,8 @@ public static class Solver
         var offsetX = totalSteps + 1;
         var offsetY = totalSteps + 1;
 
-        for (var y = 0; y < height; ++y)
-            for (var x = 0; x < width; ++x)
+        foreach (var y in height)
+            foreach (var x in width)
                 space[x + offsetX, y + offsetY] = map[x, y];
 
         var tempArray = new int[1];
@@ -35,11 +35,11 @@ public static class Solver
 
         var output = new bool[space.Width, space.Height];
 
-        for (var step = 0; step < totalSteps; ++step)
+        foreach (var step in totalSteps)
         {
-            for (var y = 1; y < space.Height - 1; ++y)
+            foreach (var y in 1..(space.Height - 1))
             {
-                for (var x = 1; x < space.Width - 1; ++x)
+                foreach (var x in 1..(space.Width - 1))
                 {
                     var bit = 8;
 

@@ -34,13 +34,13 @@ public static class Solver
 
     static IEnumerable<int> ProcessVertical(bool[,] map, int min)
     {
-        for (var x = 1; x < map.Width; ++x)
+        foreach (var x in 1..map.Width)
         {
             var bad = 0;
 
-            for (var y = 0; y < map.Height; ++y)
+            foreach (var y in map.Height)
             {
-                for (var dx = 0; dx < map.Width; ++dx)
+                foreach (var dx in map.Width)
                 {
                     if (x - dx < 1)
                         break;
@@ -68,13 +68,13 @@ public static class Solver
 
     static IEnumerable<int> ProcessHorizontal(bool[,] map, int min)
     {
-        for (var y = 1; y < map.Height; ++y)
+        foreach (var y in 1..map.Height)
         {
             var bad = 0;
 
-            for (var x = 0; x < map.Width; ++x)
+            foreach (var x in map.Width)
             {
-                for (var dy = 0; dy < map.Height; ++dy)
+                foreach (var dy in map.Height)
                 {
                     if (y - dy < 1)
                         break;

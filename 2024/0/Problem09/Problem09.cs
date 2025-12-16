@@ -77,7 +77,7 @@ public static class Solver
     {
         Array.Copy(disk, from, disk, to, length);
 
-        for (var i = from; i < from + length; ++i)
+        foreach (var i in from..(from + length))
             disk[i] = -1;
     }
 
@@ -119,14 +119,14 @@ public static class Solver
         {
             if (isFile)
             {
-                for (var i = 0; i < n; ++i)
+                foreach (var i in n)
                     yield return index;
 
                 index++;
             }
             else
             {
-                for (var i = 0; i < n; ++i)
+                foreach (var i in n)
                     yield return -1;
             }
 

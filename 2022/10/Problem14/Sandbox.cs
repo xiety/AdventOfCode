@@ -1,4 +1,6 @@
-﻿namespace A2022.Problem14;
+﻿using Advent.Common;
+
+namespace A2022.Problem14;
 
 class Sandbox(int width, int height)
 {
@@ -34,7 +36,7 @@ class Sandbox(int width, int height)
             var min = Math.Min(a.X, b.X);
             var max = Math.Max(a.X, b.X);
 
-            for (var x = min; x <= max; ++x)
+            foreach (var x in min..(max + 1))
                 data[x, a.Y] = UnitType.Wall;
         }
         else
@@ -42,7 +44,7 @@ class Sandbox(int width, int height)
             var min = Math.Min(a.Y, b.Y);
             var max = Math.Max(a.Y, b.Y);
 
-            for (var y = min; y <= max; ++y)
+            foreach (var y in min..(max + 1))
                 data[a.X, y] = UnitType.Wall;
         }
     }

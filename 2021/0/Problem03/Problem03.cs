@@ -12,7 +12,7 @@ public static class Solver
         var output1 = "";
         var output2 = "";
 
-        for (var i = 0; i < length; ++i)
+        foreach (var i in length)
         {
             var numZero = lines.Select(a => a[i]).Count(a => a == '0');
             var numOne = lines.Select(a => a[i]).Count(a => a == '1');
@@ -35,7 +35,7 @@ public static class Solver
         var copy1 = lines.ToList();
         var copy2 = lines.ToList();
 
-        for (var i = 0; i < length; ++i)
+        foreach (var i in length)
         {
             var numZero1 = copy1.Select(a => a[i]).Count(a => a == '0');
             var numOne1 = copy1.Select(a => a[i]).Count(a => a == '1');

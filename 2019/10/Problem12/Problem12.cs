@@ -13,7 +13,7 @@ public static class Solver
 
         var items = LoadData(lines);
 
-        for (var i = 0; i < total; ++i)
+        foreach (var i in total)
             SimulateStep(items);
 
         return Energy(items);

@@ -1,4 +1,6 @@
-﻿namespace A2022.Problem13;
+﻿using Advent.Common;
+
+namespace A2022.Problem13;
 
 static class Loader
 {
@@ -35,7 +37,7 @@ static class Loader
         var deep = 0;
         var current = "";
 
-        for (var i = 1; i < line.Length - 1; ++i)
+        foreach (var i in 1..(line.Length - 1))
         {
             var c = line[i];
 

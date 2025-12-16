@@ -12,7 +12,7 @@ public static class Solver
         var (crates, commands) = LoadData(lines);
 
         foreach (var command in commands)
-            for (var p = 0; p < command.Quantity; ++p)
+            foreach (var p in command.Quantity)
                 crates[command.To].Push(crates[command.From].Pop());
 
         return CollectLetters(crates);
@@ -42,11 +42,11 @@ public static class Solver
         var numberOfColumns = (last.Length + 1) / 4;
         var crates = new Stack<char>[numberOfColumns + 1];
 
-        for (var i = 0; i < numberOfColumns; ++i)
+        foreach (var i in numberOfColumns)
         {
             crates[i + 1] = [];
 
-            for (var j = 0; j < cratesLines.Length - 1; ++j)
+            foreach (var j in (cratesLines.Length - 1))
             {
                 var letter = cratesLines[cratesLines.Length - 2 - j][i * 4 + 1];
 

@@ -33,7 +33,7 @@ public static class Solver
 
         var map = Simulator.Create3dMap(lines, 2000);
 
-        for (var z = 0; z < map.Size.Z; ++z)
+        foreach (var z in map.Size.Z)
         {
             map[start, 0, z] = false;
             map[finish, map.Size.Y - 1, z] = false;

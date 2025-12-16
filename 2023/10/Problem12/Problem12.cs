@@ -67,7 +67,7 @@ public class Calculator
 
             var ret = 0L;
 
-            for (var g = 0; g <= 1; ++g)
+            foreach (var g in 2)
             {
                 if (parentPredict != 2 && parentPredict != g)
                     continue;
@@ -108,7 +108,7 @@ public class Calculator
         var lastIndex = fromIndex;
         var hit = false;
 
-        for (var i = fromIndex; i < pattern.Length + 1; ++i)
+        foreach (var i in fromIndex..(pattern.Length + 1))
         {
             if (i == pattern.Length || pattern[i] is 0 or 2)
             {

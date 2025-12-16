@@ -47,7 +47,7 @@ public static class Solver
         return Memoization.RunRecursive<string, int, string[]?>(new('1', data.Regions.Length), 0,
             (memo, available, depth) =>
             {
-                for (var i = 0; i < data.Regions.Length; ++i)
+                foreach (var i in data.Regions.Length)
                 {
                     if (available[i] == '0')
                         continue;

@@ -34,11 +34,11 @@ public static class Solver
     {
         var emptyRows = new List<int>();
 
-        for (var y = 0; y < map.Height; ++y)
+        foreach (var y in map.Height)
         {
             var empty = true;
 
-            for (var x = 0; x < map.Width; ++x)
+            foreach (var x in map.Width)
             {
                 if (map[x, y])
                 {
@@ -58,11 +58,11 @@ public static class Solver
     {
         var emptyCols = new List<int>();
 
-        for (var x = 0; x < map.Width; ++x)
+        foreach (var x in map.Width)
         {
             var empty = true;
 
-            for (var y = 0; y < map.Height; ++y)
+            foreach (var y in map.Height)
             {
                 if (map[x, y])
                 {

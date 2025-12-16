@@ -9,8 +9,8 @@ public static class Solver
     {
         var items = lines.ToArray(long.Parse);
 
-        for (var j = 0; j < items.Length; ++j)
-            for (var i = 0; i < 2000; ++i)
+        foreach (var j in items.Length)
+            foreach (var i in 2000)
                 items[j] = Pseudo(items[j]);
 
         return items.Sum();
@@ -22,7 +22,7 @@ public static class Solver
         var items = lines.ToArray(long.Parse).ToArray();
         var lists = new List<Dictionary<string, int>>();
 
-        for (var j = 0; j < items.Length; ++j)
+        foreach (var j in items.Length)
         {
             var dic = new Dictionary<string, int>();
 
@@ -30,7 +30,7 @@ public static class Solver
             var n = items[j];
             var prev = LastDigit(n);
 
-            for (var i = 0; i < 2000; ++i)
+            foreach (var i in 2000)
             {
                 n = Pseudo(n);
                 var m = LastDigit(n);

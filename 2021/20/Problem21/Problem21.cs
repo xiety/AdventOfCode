@@ -16,11 +16,11 @@ public static class Solver
 
         do
         {
-            for (var i = 0; i < players.Length; ++i)
+            foreach (var i in players.Length)
             {
                 var sum = 0;
 
-                for (var j = 0; j < 3; ++j)
+                foreach (var j in 3)
                 {
                     sum += ((step + 1) % 100);
                     step++;

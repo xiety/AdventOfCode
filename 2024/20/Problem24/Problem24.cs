@@ -31,17 +31,17 @@ public static class Solver
 
         var workingNodes = new HashSet<string>();
 
-        for (var i = 1; i < outputNodes.Length - 1; ++i)
+        foreach (var i in 1..(outputNodes.Length - 1))
         {
             var p = i - 1;
 
-            for (var a1 = 0; a1 <= 1; ++a1)
+            foreach (var a1 in 2)
             {
-                for (var a2 = 0; a2 <= 1; ++a2)
+                foreach (var a2 in 2)
                 {
-                    for (var a3 = 0; a3 <= 1; ++a3)
+                    foreach (var a3 in 2)
                     {
-                        for (var a4 = 0; a4 <= 1; ++a4)
+                        foreach (var a4 in 2)
                         {
                             var tempInputs = new Dictionary<string, int>
                             {
@@ -51,7 +51,7 @@ public static class Solver
                                 [$"y{i:00}"] = a4
                             };
 
-                            for (var w = 0; w < i - 1; ++w)
+                            foreach (var w in (i - 1))
                             {
                                 tempInputs[$"x{w:00}"] = 0;
                                 tempInputs[$"y{w:00}"] = 0;

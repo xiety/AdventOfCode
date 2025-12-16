@@ -23,7 +23,7 @@ public static class Solver
 
         var multi = monkeys.Select(a => a.Test).Mul();
 
-        for (var round = 0; round < totalRounds; ++round)
+        foreach (var round in totalRounds)
         {
             foreach (var monkey in monkeys)
             {

@@ -38,7 +38,7 @@ public static class Solver
             switch (command)
             {
                 case Distance d:
-                    for (var i = 0; i < d.Value; ++i)
+                    foreach (var i in d.Value)
                     {
                         var offset = offsets[(int)rotation];
 

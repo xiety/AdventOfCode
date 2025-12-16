@@ -24,7 +24,7 @@ public static class Solver
 
         const long total = 1_000_000_000L;
 
-        for (var i = 0L; i < total; ++i)
+        foreach (var i in total)
         {
             var key = map.ToDump(a => a.ToString()).TrimEnd();
 
@@ -58,9 +58,9 @@ public static class Solver
     {
         var border = new int[map.Width];
 
-        for (var y = 0; y < map.Height; ++y)
+        foreach (var y in map.Height)
         {
-            for (var x = 0; x < map.Width; ++x)
+            foreach (var x in map.Width)
             {
                 var c = map[x, y];
 
@@ -84,7 +84,7 @@ public static class Solver
 
         for (var y = map.Height - 1; y >= 0; --y)
         {
-            for (var x = 0; x < map.Width; ++x)
+            foreach (var x in map.Width)
             {
                 var c = map[x, y];
 
@@ -106,9 +106,9 @@ public static class Solver
     {
         var border = new int[map.Height];
 
-        for (var x = 0; x < map.Width; ++x)
+        foreach (var x in map.Width)
         {
-            for (var y = 0; y < map.Height; ++y)
+            foreach (var y in map.Height)
             {
                 var c = map[x, y];
 
@@ -132,7 +132,7 @@ public static class Solver
 
         for (var x = map.Width - 1; x >= 0; --x)
         {
-            for (var y = 0; y < map.Height; ++y)
+            foreach (var y in map.Height)
             {
                 var c = map[x, y];
 

@@ -42,7 +42,7 @@ public static class Solver
 
         var max = Math.Max(item.FromX, item.ToX) - Math.Min(item.FromX, item.ToX) + 1;
 
-        for (var i = 0; i < max; ++i)
+        foreach (var i in max)
             array[item.FromX + (i * signX), item.FromY + (i * signY)]++;
     }
 
@@ -50,7 +50,7 @@ public static class Solver
     {
         var (from, to) = item.FromX < item.ToX ? (item.FromX, item.ToX) : (item.ToX, item.FromX);
 
-        for (var x = from; x <= to; ++x)
+        foreach (var x in from..(to + 1))
             array[x, item.FromY]++;
     }
 
@@ -58,7 +58,7 @@ public static class Solver
     {
         var (from, to) = item.FromY < item.ToY ? (item.FromY, item.ToY) : (item.ToY, item.FromY);
 
-        for (var y = from; y <= to; ++y)
+        foreach (var y in from..(to + 1))
             array[item.FromX, y]++;
     }
 

@@ -31,7 +31,7 @@ public static class Solver
 
         var result = "";
 
-        for (var i = total; i < items.Length; ++i)
+        foreach (var i in total..items.Length)
         {
             map.Set(items[i], -1);
 
@@ -51,7 +51,7 @@ public static class Solver
     {
         var map = Array.CreateAndInitialize(size, size, 1);
 
-        for (var i = 0; i < total; ++i)
+        foreach (var i in total)
             map.Set(items[i], -1);
 
         return map;

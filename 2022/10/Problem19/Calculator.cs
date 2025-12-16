@@ -1,4 +1,6 @@
-﻿namespace A2022.Problem19;
+﻿using Advent.Common;
+
+namespace A2022.Problem19;
 
 class Calculator(int maxLevel)
 {
@@ -86,7 +88,7 @@ class Calculator(int maxLevel)
 
         var geodeRobotDelta = 0;
 
-        for (var i = level; i < maxLevel; ++i)
+        foreach (var i in level..maxLevel)
         {
             oreRobot++;
             obsidianRobot++;

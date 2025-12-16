@@ -22,8 +22,8 @@ public static class Solver
 
         foreach (var newpos in items.Select(item => pos + GetOffset(item)))
         {
-            for (var y = Math.Min(pos.Y, newpos.Y); y <= Math.Max(pos.Y, newpos.Y); ++y)
-                for (var x = Math.Min(pos.X, newpos.X); x <= Math.Max(pos.X, newpos.X); ++x)
+            for (var y = Math.Min(pos.Y, newpos.Y); y < (Math.Max(pos.Y, newpos.Y) + 1); ++y)
+                for (var x = Math.Min(pos.X, newpos.X); x < (Math.Max(pos.X, newpos.X) + 1); ++x)
                     map[x - minX + 1, y - minY + 1] = true;
 
             pos = newpos;
@@ -39,7 +39,7 @@ public static class Solver
     }
 
     [GeneratedTest<long>(952408144115, 63806916814808)]
-    public static long RunBAlternativeOrig(string[] lines)
+    public static long RunBAlternative(string[] lines)
     {
         var items = CompiledRegs.FromLinesRegex(lines);
 
@@ -96,9 +96,9 @@ public static class Solver
 
         var fillMap = new bool[possibleX.Count, possibleY.Count];
 
-        for (var iy = 0; iy < possibleY.Count - 1; ++iy)
+        foreach (var iy in (possibleY.Count - 1))
         {
-            for (var ix = 0; ix < possibleX.Count - 1; ++ix)
+            foreach (var ix in (possibleX.Count - 1))
             {
                 var square = new Rect(
                     new(possibleX[ix],
@@ -128,9 +128,9 @@ public static class Solver
 
     static long PixelHunting(List<int> possibleX, List<int> possibleY, long volume, bool[,] fillMap)
     {
-        for (var iy = 0; iy < possibleY.Count; ++iy)
+        foreach (var iy in possibleY.Count)
         {
-            for (var ix = 0; ix < possibleX.Count; ++ix)
+            foreach (var ix in possibleX.Count)
             {
                 if (!fillMap[ix, iy])
                 {
