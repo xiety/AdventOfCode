@@ -1,38 +1,4 @@
 <Solution>
-  <Folder Name="/2024/">
-    <Project Path="2024\A2024.Tests\A2024.Tests.csproj" />
-  </Folder>
-  <Folder Name="/2024/0/">
-    <Project Path="2024\A2024.Problem01\A2024.Problem01.csproj" />
-    <Project Path="2024\A2024.Problem02\A2024.Problem02.csproj" />
-    <Project Path="2024\A2024.Problem03\A2024.Problem03.csproj" />
-    <Project Path="2024\A2024.Problem04\A2024.Problem04.csproj" />
-    <Project Path="2024\A2024.Problem05\A2024.Problem05.csproj" />
-    <Project Path="2024\A2024.Problem06\A2024.Problem06.csproj" />
-    <Project Path="2024\A2024.Problem07\A2024.Problem07.csproj" />
-    <Project Path="2024\A2024.Problem08\A2024.Problem08.csproj" />
-    <Project Path="2024\A2024.Problem09\A2024.Problem09.csproj" />
-    <Project Path="2024\A2024.Problem10\A2024.Problem10.csproj" />
-  </Folder>
-  <Folder Name="/2024/10/">
-    <Project Path="2024\A2024.Problem11\A2024.Problem11.csproj" />
-    <Project Path="2024\A2024.Problem12\A2024.Problem12.csproj" />
-    <Project Path="2024\A2024.Problem13\A2024.Problem13.csproj" />
-    <Project Path="2024\A2024.Problem14\A2024.Problem14.csproj" />
-    <Project Path="2024\A2024.Problem15\A2024.Problem15.csproj" />
-    <Project Path="2024\A2024.Problem16\A2024.Problem16.csproj" />
-    <Project Path="2024\A2024.Problem17\A2024.Problem17.csproj" />
-    <Project Path="2024\A2024.Problem18\A2024.Problem18.csproj" />
-    <Project Path="2024\A2024.Problem19\A2024.Problem19.csproj" />
-    <Project Path="2024\A2024.Problem20\A2024.Problem20.csproj" />
-  </Folder>
-  <Folder Name="/2024/20/">
-    <Project Path="2024\A2024.Problem21\A2024.Problem21.csproj" />
-    <Project Path="2024\A2024.Problem22\A2024.Problem22.csproj" />
-    <Project Path="2024\A2024.Problem23\A2024.Problem23.csproj" />
-    <Project Path="2024\A2024.Problem24\A2024.Problem24.csproj" />
-    <Project Path="2024\A2024.Problem25\A2024.Problem25.csproj" />
-  </Folder>
   <Folder Name="/Analyzers/">
     <Project Path="Analyzers/Advent.Analyzers.CodeFixes/Advent.Analyzers.CodeFixes.csproj" />
     <Project Path="Analyzers/Advent.Analyzers.Test/Advent.Analyzers.Test.csproj" />
@@ -49,6 +15,7 @@
   <Project Path="2021/A2021.Problems.csproj" />
   <Project Path="2022/A2022.Problems.csproj" />
   <Project Path="2023/A2023.Problems.csproj" />
+  <Project Path="2024/A2024.Problems.csproj" />
   <Project Path="2025/A2025.Problems.csproj" />
   <Project Path="Advent.BaseTests\Advent.BaseTests.csproj" />
   <Project Path="Advent.Common\Advent.Common.csproj" />
