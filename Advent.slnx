@@ -1,38 +1,4 @@
 <Solution>
-  <Folder Name="/2023/">
-    <Project Path="2023\A2023.Tests\A2023.Tests.csproj" />
-  </Folder>
-  <Folder Name="/2023/0/">
-    <Project Path="2023\A2023.Problem01\A2023.Problem01.csproj" />
-    <Project Path="2023\A2023.Problem02\A2023.Problem02.csproj" />
-    <Project Path="2023\A2023.Problem03\A2023.Problem03.csproj" />
-    <Project Path="2023\A2023.Problem04\A2023.Problem04.csproj" />
-    <Project Path="2023\A2023.Problem05\A2023.Problem05.csproj" />
-    <Project Path="2023\A2023.Problem06\A2023.Problem06.csproj" />
-    <Project Path="2023\A2023.Problem07\A2023.Problem07.csproj" />
-    <Project Path="2023\A2023.Problem08\A2023.Problem08.csproj" />
-    <Project Path="2023\A2023.Problem09\A2023.Problem09.csproj" />
-    <Project Path="2023\A2023.Problem10\A2023.Problem10.csproj" />
-  </Folder>
-  <Folder Name="/2023/10/">
-    <Project Path="2023\A2023.Problem11\A2023.Problem11.csproj" />
-    <Project Path="2023\A2023.Problem12\A2023.Problem12.csproj" />
-    <Project Path="2023\A2023.Problem13\A2023.Problem13.csproj" />
-    <Project Path="2023\A2023.Problem14\A2023.Problem14.csproj" />
-    <Project Path="2023\A2023.Problem15\A2023.Problem15.csproj" />
-    <Project Path="2023\A2023.Problem16\A2023.Problem16.csproj" />
-    <Project Path="2023\A2023.Problem17\A2023.Problem17.csproj" />
-    <Project Path="2023\A2023.Problem18\A2023.Problem18.csproj" />
-    <Project Path="2023\A2023.Problem19\A2023.Problem19.csproj" />
-    <Project Path="2023\A2023.Problem20\A2023.Problem20.csproj" />
-  </Folder>
-  <Folder Name="/2023/20/">
-    <Project Path="2023\A2023.Problem21\A2023.Problem21.csproj" />
-    <Project Path="2023\A2023.Problem22\A2023.Problem22.csproj" />
-    <Project Path="2023\A2023.Problem23\A2023.Problem23.csproj" />
-    <Project Path="2023\A2023.Problem24\A2023.Problem24.csproj" />
-    <Project Path="2023\A2023.Problem25\A2023.Problem25.csproj" />
-  </Folder>
   <Folder Name="/2024/">
     <Project Path="2024\A2024.Tests\A2024.Tests.csproj" />
   </Folder>
@@ -82,6 +48,7 @@
   <Project Path="2020/A2020.Problems.csproj" />
   <Project Path="2021/A2021.Problems.csproj" />
   <Project Path="2022/A2022.Problems.csproj" />
+  <Project Path="2023/A2023.Problems.csproj" />
   <Project Path="2025/A2025.Problems.csproj" />
   <Project Path="Advent.BaseTests\Advent.BaseTests.csproj" />
   <Project Path="Advent.Common\Advent.Common.csproj" />
