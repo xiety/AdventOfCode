@@ -5,7 +5,6 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace Advent.Analyzers;
 
