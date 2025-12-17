@@ -48,7 +48,7 @@ public static class Solver
 class Program(Item[] items)
 {
     public virtual Item this[int index] => items[index];
-    public virtual int Length => items.Length;
+    public int Length => items.Length;
     public static implicit operator Program(Item[] items) => new(items);
 }
 

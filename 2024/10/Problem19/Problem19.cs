@@ -42,7 +42,7 @@ public static class Solver
 
     static (string[], string[]) LoadData(string[] lines)
     {
-        var towels = lines[0].Split(", ").ToArray();
+        var towels = lines[0].Split(", ");
         var patterns = lines[2..];
         return (towels, patterns);
     }

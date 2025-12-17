@@ -100,7 +100,7 @@ public static class Solver
 
 class TreeNode(long value, Cache cache)
 {
-    public TreeNode[] Children { get; set; } = [];
+    public TreeNode[] Children { get; private set; } = [];
     public long Value => value;
     public int Calculation { get; set; } = -1;
 

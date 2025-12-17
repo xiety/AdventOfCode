@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace A2020.Problem14;
 
@@ -13,7 +12,7 @@ public static class Solver
             .SelectMany(a => a.Values.Select(b => (Mask: a.Key, b.Address, b.Value)))
             .GroupBy(a => a.Address)
             .Select(a => a.Last())
-            .Sum(a => ApplyMask(a.Value, a.Mask, a => a is not false));
+            .Sum(a => ApplyMask(a.Value, a.Mask, b => b is not false));
 
     [GeneratedTest<long>(208, 3683236147222)]
     public static long RunB(string[] lines)
@@ -28,7 +27,7 @@ public static class Solver
 
     static IEnumerable<ItemSet> Spread(Mask mask, ItemSet[] values, int[] indexes)
         => values
-            .Select(a => (a.Value, Masked: ApplyMask(a.Address, mask, a => a is not null)))
+            .Select(a => (a.Value, Masked: ApplyMask(a.Address, mask, b => b is not null)))
             .SelectMany(a => Enumerable.BinaryCounting<long>(indexes.Length)
                 .Select(b => new ItemSet(GenerateAddress(a.Masked, indexes, b), a.Value)));
 

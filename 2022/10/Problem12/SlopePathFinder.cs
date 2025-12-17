@@ -6,10 +6,8 @@ static class SlopePathFinder
     {
         var star = CalculateStar(map, start, end);
 
-        if (star is null)
-            return null;
-
-        return CalculatePath(map, star, start, end);
+        return star is null ? null
+            : CalculatePath(map, star, start, end);
     }
 
     static Pos[] CalculatePath(int[,] map, int[,] star, Pos start, Pos end)

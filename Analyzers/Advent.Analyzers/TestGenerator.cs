@@ -14,7 +14,7 @@ public class TestGenerator : IIncrementalGenerator
     {
         var methods = context.SyntaxProvider
             .CreateSyntaxProvider(
-                predicate: static (s, _) => s is MethodDeclarationSyntax m && m.AttributeLists.Count > 0,
+                predicate: static (s, _) => s is MethodDeclarationSyntax { AttributeLists.Count: > 0 },
                 transform: static (ctx, _) => GetMethodContext(ctx))
             .Where(static m => m != null);
 
@@ -23,7 +23,7 @@ public class TestGenerator : IIncrementalGenerator
             static (spc, tuple) => Emit(spc, tuple.Right));
     }
 
-    private sealed record MethodData(
+    sealed record MethodData(
         MethodDeclarationSyntax Syntax,
         IMethodSymbol Symbol,
         string Sample,
@@ -32,7 +32,7 @@ public class TestGenerator : IIncrementalGenerator
         string Ns,
         string Class);
 
-    private static MethodData? GetMethodContext(GeneratorSyntaxContext ctx)
+    static MethodData? GetMethodContext(GeneratorSyntaxContext ctx)
     {
         var decl = (MethodDeclarationSyntax)ctx.Node;
         var symbol = ctx.SemanticModel.GetDeclaredSymbol(decl);
@@ -52,10 +52,10 @@ public class TestGenerator : IIncrementalGenerator
             : symbol.ContainingType.ContainingNamespace.ToDisplayString();
         var cls = symbol.ContainingType.Name;
 
-        return new MethodData(decl, symbol, sample, input, isA, ns, cls);
+        return new(decl, symbol, sample, input, isA, ns, cls);
     }
 
-    private static void Emit(SourceProductionContext spc, ImmutableArray<MethodData?> methods)
+    static void Emit(SourceProductionContext spc, ImmutableArray<MethodData?> methods)
     {
         if (methods.IsDefaultOrEmpty)
             return;
@@ -112,7 +112,7 @@ public class TestGenerator : IIncrementalGenerator
         spc.AddSource("GeneratedTests.g.cs", sw.ToString());
     }
 
-    private static string GenerateTests(MethodData m, INamedTypeSymbol solver)
+    static string GenerateTests(MethodData m, INamedTypeSymbol solver)
     {
         var sourcePath = m.Syntax.SyntaxTree.FilePath.Replace(@"\", @"\\");
         var line = m.Syntax.GetLocation().GetLineSpan().StartLinePosition.Line + 1;
@@ -120,6 +120,8 @@ public class TestGenerator : IIncrementalGenerator
         var hasBool = m.Symbol.Parameters.Length == 2;
         var className = solver.ToDisplayString();
 
+        return Test(true) + "\n" + Test(false);
+        
         string Test(bool sample) => $$"""
             #line {{line}} "{{displayPath}}"
             [TestMethod]
@@ -140,7 +142,5 @@ public class TestGenerator : IIncrementalGenerator
             #line default
 
             """;
-
-        return Test(true) + "\n" + Test(false);
     }
 }

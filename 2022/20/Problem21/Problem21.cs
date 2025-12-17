@@ -31,35 +31,40 @@ public static class Solver
 
     static BigInteger CalculateInverse(Monkey resultMonkey, Monkey variableMonkey, BigInteger awaitingResult)
     {
-        switch (resultMonkey)
+        while (true)
         {
-            case MonkeyOperation mo:
-                var (ourSide, theirSide) = FindSide(mo, variableMonkey);
+            switch (resultMonkey)
+            {
+                case MonkeyOperation mo:
+                    var (ourSide, theirSide) = FindSide(mo, variableMonkey);
 
-                var isLeft = ourSide == mo.Left;
+                    var isLeft = ourSide == mo.Left;
 
-                var otherSideResult = CalculateRecurse(theirSide);
+                    var otherSideResult = CalculateRecurse(theirSide);
 
-                var outSideResult = (mo.Operation, isLeft) switch
-                {
-                    ("+", _) => awaitingResult - otherSideResult,
+                    var outSideResult = (mo.Operation, isLeft) switch
+                    {
+                        ("+", _) => awaitingResult - otherSideResult,
 
-                    ("-", true) => awaitingResult + otherSideResult,
-                    ("-", false) => otherSideResult - awaitingResult,
+                        ("-", true) => awaitingResult + otherSideResult,
+                        ("-", false) => otherSideResult - awaitingResult,
 
-                    ("*", _) => awaitingResult / otherSideResult,
+                        ("*", _) => awaitingResult / otherSideResult,
 
-                    ("/", true) => awaitingResult * otherSideResult,
-                    ("/", false) => otherSideResult / awaitingResult,
-                };
+                        ("/", true) => awaitingResult * otherSideResult,
+                        ("/", false) => otherSideResult / awaitingResult,
+                    };
 
-                return CalculateInverse(ourSide, variableMonkey, outSideResult);
+                    resultMonkey = ourSide;
+                    awaitingResult = outSideResult;
+                    continue;
 
-            case MonkeyValue mv when mv == variableMonkey:
-                return awaitingResult;
+                case MonkeyValue mv when mv == variableMonkey:
+                    return awaitingResult;
+            }
+
+            throw new();
         }
-
-        throw new();
     }
 
     static BigInteger CalculateRecurse(Monkey monkey)
@@ -146,18 +151,16 @@ abstract class Monkey(string name)
     public string Name { get; } = name;
 }
 
-class MonkeyOperation : Monkey
+class MonkeyOperation(string name, string leftName, string rightName, string operation)
+    : Monkey(name)
 {
-    public string LeftName { get; }
-    public string RightName { get; }
-    public string Operation { get; }
+    public string LeftName { get; } = leftName;
+    public string RightName { get; } = rightName;
+    public string Operation { get; } = operation;
 
     public Monkey? Left { get; set; }
     public Monkey? Right { get; set; }
     public BigInteger? Result { get; set; }
-
-    public MonkeyOperation(string name, string leftName, string rightName, string operation) : base(name)
-        => (LeftName, RightName, Operation) = (leftName, rightName, operation);
 }
 
 class MonkeyValue(string name, int value) : Monkey(name)

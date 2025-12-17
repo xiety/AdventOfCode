@@ -28,11 +28,9 @@ public static class Solver
                 .Select(a => a.Item2)
                 .Aggregate(0, (acc, a) => acc * 10 + a);
         }
-        else
-        {
-            return positions.Index().Where(a => a.Item.Contains("departure"))
-                .Mul(a => (long)data.YourTicket[a.Index]);
-        }
+
+        return positions.Index().Where(a => a.Item.Contains("departure"))
+            .Mul(a => (long)data.YourTicket[a.Index]);
     }
 
     static string[] FindPositions(Data data)

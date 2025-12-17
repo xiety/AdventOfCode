@@ -65,55 +65,48 @@ public static class Solver
                 {
                     var newPos = ray.Pos + ray.Dir;
 
-                    if (!map.IsInBounds(newPos))
+                    if (!map.IsInBounds(newPos) || !ray.Path.Add((newPos, ray.Dir)))
                     {
                         ray.Stopped = true;
                     }
                     else
                     {
-                        if (!ray.Path.Add((newPos, ray.Dir)))
+                        energy.Set(newPos, energy.Get(newPos) + 1);
+
+                        var c = map.Get(newPos);
+                        var newDir = ray.Dir;
+
+                        if (c == '\\')
                         {
-                            ray.Stopped = true;
+                            newDir = new(ray.Dir.Y, ray.Dir.X);
                         }
-                        else
+                        else if (c == '/')
                         {
-                            energy.Set(newPos, energy.Get(newPos) + 1);
-
-                            var c = map.Get(newPos);
-                            var newDir = ray.Dir;
-
-                            if (c == '\\')
-                            {
-                                newDir = new(ray.Dir.Y, ray.Dir.X);
-                            }
-                            else if (c == '/')
-                            {
-                                newDir = new(-ray.Dir.Y, -ray.Dir.X);
-                            }
-                            else if (c == '-')
-                            {
-                                if (ray.Dir == new Pos(0, 1) || ray.Dir == new Pos(0, -1))
-                                {
-                                    newDir = new(-1, 0);
-
-                                    var newRay = new MutableRay(newPos, new Pos(1, 0), ray.Path);
-                                    rays.Add(newRay);
-                                }
-                            }
-                            else if (c == '|')
-                            {
-                                if (ray.Dir == new Pos(1, 0) || ray.Dir == new Pos(-1, 0))
-                                {
-                                    newDir = new(0, -1);
-
-                                    var newRay = new MutableRay(newPos, new Pos(0, 1), ray.Path);
-                                    rays.Add(newRay);
-                                }
-                            }
-
-                            ray.Dir = newDir;
-                            ray.Pos = newPos;
+                            newDir = new(-ray.Dir.Y, -ray.Dir.X);
                         }
+                        else if (c == '-')
+                        {
+                            if (ray.Dir == new Pos(0, 1) || ray.Dir == new Pos(0, -1))
+                            {
+                                newDir = new(-1, 0);
+
+                                var newRay = new MutableRay(newPos, new(1, 0), ray.Path);
+                                rays.Add(newRay);
+                            }
+                        }
+                        else if (c == '|')
+                        {
+                            if (ray.Dir == new Pos(1, 0) || ray.Dir == new Pos(-1, 0))
+                            {
+                                newDir = new(0, -1);
+
+                                var newRay = new MutableRay(newPos, new(0, 1), ray.Path);
+                                rays.Add(newRay);
+                            }
+                        }
+
+                        ray.Dir = newDir;
+                        ray.Pos = newPos;
                     }
                 }
             }

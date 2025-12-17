@@ -32,7 +32,7 @@ public static class BitArrayExtensions
         public BigInteger GetBigInteger(int offset, int length)
         {
             var result = (BigInteger)0;
-            var slider = ((BigInteger)1) << (length - 1);
+            var slider = (BigInteger)1 << (length - 1);
 
             for (var n = 0; n < length; ++n)
             {
@@ -48,7 +48,7 @@ public static class BitArrayExtensions
         public ulong ToUInt64()
         {
             var result = (ulong)0;
-            var slider = (uint)(1) << @this.Length;
+            var slider = (uint)1 << @this.Length;
 
             for (var n = 0; n < @this.Length; ++n)
             {

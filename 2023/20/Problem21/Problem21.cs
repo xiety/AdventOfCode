@@ -13,7 +13,7 @@ public static class Solver
 
         var total = isSample ? 6 : 64;
 
-        foreach (var i in total)
+        foreach (var _ in total)
         {
             foreach (var currentStep in currentSteps)
             {

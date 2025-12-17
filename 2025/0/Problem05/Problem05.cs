@@ -27,7 +27,7 @@ public static class Solver
     static (ItemRange[], long[]) LoadData(string[] lines)
     {
         var parts = lines.SplitBy(String.Empty).ToArray();
-        var ranges = parts[0].ToArray(a => a.Split('-').ToArray(long.Parse).Apply(a => new ItemRange(a[0], a[1])));
+        var ranges = parts[0].ToArray(a => a.Split('-').ToArray(long.Parse).Apply(b => new ItemRange(b[0], b[1])));
         var items = parts[1].ToArray(long.Parse);
         return (ranges, items);
     }

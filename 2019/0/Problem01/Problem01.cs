@@ -11,7 +11,7 @@ public static class Solver
         => LoadData(lines).Sum(CalcTotalFuel);
 
     static int CalcFuel(int n)
-        => Math.Max(0, (n / 3) - 2);
+        => Math.Max(0, n / 3 - 2);
 
     static int CalcTotalFuel(int n)
     {

@@ -125,9 +125,6 @@ public class Calculator
                     if (lastByUnknown && a < b)
                         return (true, partsCombos, lastIndex, 1);
 
-                    if (lastByLength && a != b)
-                        return (false, 0, 0, 0);
-
                     if (a != b)
                         return (false, 0, 0, 0);
 

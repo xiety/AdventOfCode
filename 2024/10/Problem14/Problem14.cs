@@ -11,7 +11,7 @@ public static class Solver
 
         var (width, height) = isSample ? (11, 7) : (101, 103);
 
-        foreach (var i in 100)
+        foreach (var _ in 100)
             MoveRobots(robots, width, height);
 
         return Count(width, height, robots);
@@ -39,7 +39,7 @@ public static class Solver
             {
                 var map = ToMap(robots, width, height);
 
-                if (map.TryFindSubarray(tree, out var _))
+                if (map.TryFindSubarray(tree, out _))
                     break;
             }
         }
@@ -72,7 +72,7 @@ public static class Solver
         {
             < 0 => Wrap(x + max, max),
             _ when x >= max => Wrap(x - max, max),
-            _ => x
+            _ => x,
         };
 
     static long Count(int width, int height, Robot[] robots)
@@ -88,7 +88,7 @@ public static class Solver
             new(new(0, 0), new(widthHalf - 1, heightHalf - 1)),
             new(new(0, heightHalf + 1), new(widthHalf - 1, height - 1)),
             new(new(widthHalf + 1, 0), new(width - 1, heightHalf - 1)),
-            new(new(widthHalf + 1, heightHalf + 1), new(width - 1, height - 1))
+            new(new(widthHalf + 1, heightHalf + 1), new(width - 1, height - 1)),
         ];
     }
 

@@ -20,13 +20,13 @@ public static class TreeExtensions
 
             var sourceLocal = source;
 
-            TNode Resolve(TKey key)
-                => cache.GetOrCreate(key, () => factory(sourceLocal[key], Resolve));
-
             foreach (var key in sourceLocal.Keys)
                 Resolve(key);
 
             return cache;
+
+            TNode Resolve(TKey key)
+                => cache.GetOrCreate(key, () => factory(sourceLocal[key], Resolve));
         }
     }
 }

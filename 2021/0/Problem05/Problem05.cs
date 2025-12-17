@@ -41,7 +41,7 @@ public static class Solver
         var max = Math.Max(item.FromX, item.ToX) - Math.Min(item.FromX, item.ToX) + 1;
 
         foreach (var i in max)
-            array[item.FromX + (i * signX), item.FromY + (i * signY)]++;
+            array[item.FromX + i * signX, item.FromY + i * signY]++;
     }
 
     static void DrawHorizontal(int[,] array, Item item)

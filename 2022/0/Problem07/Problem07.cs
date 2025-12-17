@@ -144,7 +144,7 @@ public static class Solver
 
         var n = line.IndexOf(' ');
 
-        return new CommandLsFile(line[(n + 1)..], long.Parse(line[0..n]));
+        return new CommandLsFile(line[(n + 1)..], long.Parse(line[..n]));
     }
 
     static FileSystemDir LoadData(string[] lines)

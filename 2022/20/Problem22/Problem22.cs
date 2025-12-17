@@ -36,7 +36,7 @@ public static class Solver
             switch (command)
             {
                 case Distance d:
-                    foreach (var i in d.Value)
+                    foreach (var _ in d.Value)
                     {
                         var offset = offsets[(int)rotation];
 
@@ -117,7 +117,7 @@ public static class Solver
             { X: >= 0 and <= 49, Y: 99 } => (new(50, pos.X + 50), Rotation.Right),
             { X: >= 50 and <= 99, Y: 150 } => (new(49, pos.X + 100), Rotation.Left),
             { X: 50, Y: >= 150 and <= 199 } => (new(pos.Y - 100, 149), Rotation.Up),
-            _ => (pos, rotation)
+            _ => (pos, rotation),
         };
 
     static Pos FindPosition(Map map)

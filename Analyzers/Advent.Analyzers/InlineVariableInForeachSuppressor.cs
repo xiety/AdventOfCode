@@ -9,7 +9,7 @@ namespace Advent.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class InlineVariableInForeachSuppressor : DiagnosticSuppressor
 {
-    private static readonly SuppressionDescriptor suppression = new(
+    static readonly SuppressionDescriptor suppression = new(
         id: "SPR1001",
         suppressedDiagnosticId: "RCS1124",
         justification: "Don't inline before foreach");
@@ -27,22 +27,12 @@ public class InlineVariableInForeachSuppressor : DiagnosticSuppressor
 
             var node = root.FindNode(diagnostic.Location.SourceSpan);
 
-            VariableDeclaratorSyntax? variableDeclarator = null;
+            var variableDeclarator = node is LocalDeclarationStatementSyntax statement
+                ? statement.Declaration.Variables.FirstOrDefault()
+                : node.FirstAncestorOrSelf<VariableDeclaratorSyntax>();
 
-            if (node is LocalDeclarationStatementSyntax statement)
-                variableDeclarator = statement.Declaration.Variables.FirstOrDefault();
-            else
-                variableDeclarator = node.FirstAncestorOrSelf<VariableDeclaratorSyntax>();
-
-            if (variableDeclarator == null)
+            if (variableDeclarator?.Parent is not VariableDeclarationSyntax { Parent: LocalDeclarationStatementSyntax { Parent: BlockSyntax block } parentStatement })
                 continue;
-
-            if (variableDeclarator.Parent is not VariableDeclarationSyntax variableDeclaration ||
-                variableDeclaration.Parent is not LocalDeclarationStatementSyntax parentStatement ||
-                parentStatement.Parent is not BlockSyntax block)
-            {
-                continue;
-            }
 
             var declaredIndex = block.Statements.IndexOf(parentStatement);
 

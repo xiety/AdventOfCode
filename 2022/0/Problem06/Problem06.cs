@@ -15,7 +15,7 @@ public static class Solver
         var line = lines[0];
         var result = 0;
 
-        foreach (var i in (line.Length - len))
+        foreach (var i in line.Length - len)
         {
             var num = line[i..(i + len)].Distinct().Count();
 

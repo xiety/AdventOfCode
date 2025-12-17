@@ -30,7 +30,7 @@ public static class Solver
 
     static IEnumerable<Pair> GetPairs(Pos3[] items)
     {
-        foreach (var i in (items.Length - 1))
+        foreach (var i in items.Length - 1)
             foreach (var j in (i + 1)..items.Length)
                 yield return new(i, j, (items[i] - items[j]).LengthSquared);
     }

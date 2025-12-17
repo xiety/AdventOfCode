@@ -5,31 +5,22 @@ public static class PathFinder
     public static int? Length(int[,] map, Pos start, Pos end)
     {
         var star = CalculateStar(map, start, end);
-
-        if (star is null)
-            return null;
-
-        return star.Get(end);
+        return star?.Get(end);
     }
 
     public static Pos[]? Find(int[,] map, Pos start, Pos end)
     {
         var star = CalculateStar(map, start, end);
-
-        if (star is null)
-            return null;
-
-        return CalculatePath(map, star, start, end);
+        return star is null ? null
+            : CalculatePath(map, star, start, end);
     }
 
     public static Pos[][] FindAll(int[,] map, Pos start, Pos end)
     {
         var star = CalculateStar(map, start, end);
 
-        if (star is null)
-            return [];
-
-        return CalculatePaths(map, star, start, end);
+        return star is null ? []
+            : CalculatePaths(map, star, start, end);
     }
 
     static Pos[] CalculatePath(int[,] map, int[,] star, Pos start, Pos end)
@@ -75,7 +66,7 @@ public static class PathFinder
                         .MinAllBy(a => a.Value)
                         .Select(a => a.NewStep);
 
-                    foreach (var (index, currentStep) in currentSteps.Index())
+                    foreach (var currentStep in currentSteps)
                     {
                         var newPath = path.Append(currentStep).ToList();
                         newPaths.Add(newPath);

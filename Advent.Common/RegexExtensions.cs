@@ -58,10 +58,7 @@ public static class RegexExtensions
 
         public T MapTo<T>(Regex debugRegex, string debugText)
         {
-            if (!match.Success)
-                throw new ArgumentOutOfRangeException(nameof(match), match, message: $"Match failed on '{debugText}' with '{debugRegex}");
-
-            return match.MapTo<T>();
+            return !match.Success ? throw new ArgumentOutOfRangeException(nameof(match), match, message: $"Match failed on '{debugText}' with '{debugRegex}") : match.MapTo<T>();
         }
 
         public bool TryMapTo<T>(Regex debugRegex, string debugText, [NotNullWhen(true)] out T? result)
@@ -98,7 +95,8 @@ public static class RegexExtensions
                 .Select(a => ParseValue(a.Value, elementType))
                 .ToArray(elementType);
         }
-        else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
         {
             var elementType = type.GetGenericArguments()[0];
 
@@ -106,20 +104,17 @@ public static class RegexExtensions
                 .Select(a => ParseValue(a.Value, elementType))
                 .ToList(elementType);
         }
-        else
-        {
-            return ParseValue(group.Value, type);
-        }
+        
+        return ParseValue(group.Value, type);
     }
 
     static object ParseValue(string value, Type type)
     {
         if (type == typeof(BigInteger))
             return BigInteger.Parse(value);
-        else if (type.IsEnum)
-            return Enum.Parse(type, value, true);
-
-        return Convert.ChangeType(value, type);
+        return type.IsEnum
+            ? Enum.Parse(type, value, true)
+            : Convert.ChangeType(value, type);
     }
 
     extension(string text)
@@ -138,10 +133,8 @@ public static class RegexExtensions
 
             var m2 = mr2.Match(text);
 
-            if (m2.Success)
-                return m2.MapTo<T2>(mr2, text);
-
-            throw new ArgumentOutOfRangeException($"Can not parse: {text}");
+            return m2.Success ? m2.MapTo<T2>(mr2, text)
+                : throw new ArgumentOutOfRangeException($"Can not parse: {text}");
         }
     }
 }

@@ -70,7 +70,7 @@ public static class Solver
     {
         var parts = lines.SplitBy("").ToArray();
         var shapes = parts[..^1]
-            .ToArray(a => MapData.ParseMap(a[1..], a => a == '#'));
+            .ToArray(a => MapData.ParseMap(a[1..], b => b == '#'));
         var regions = CompiledRegs.FromLinesRegionRegex(parts[^1]);
         return (shapes, regions);
     }

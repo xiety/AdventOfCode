@@ -40,9 +40,8 @@ public sealed class ForLoopToRangeAnalyzer : DiagnosticAnalyzer
 
         var v = f.Declaration.Variables[0];
 
-        Optional<object?> cv = c.SemanticModel.GetConstantValue(v.Initializer!.Value, c.CancellationToken);
-        bool isZeroStart = cv is { HasValue: true, Value: var val } &&
-                           (val is 0 or 0L or 0F or 0D or 0M);
+        var cv = c.SemanticModel.GetConstantValue(v.Initializer!.Value, c.CancellationToken);
+        var isZeroStart = cv is { HasValue: true, Value: 0 or 0L or 0F or 0D or 0M };
 
         if (f.Condition is not BinaryExpressionSyntax cond)
             return;
@@ -59,7 +58,7 @@ public sealed class ForLoopToRangeAnalyzer : DiagnosticAnalyzer
             if (loopSym?.Type.SpecialType != SpecialType.System_Int32)
                 return;
 
-            if (cv is { HasValue: true, Value: int start } && start < 0)
+            if (cv is { HasValue: true, Value: < 0 })
                 return;
 
             var upperType = c.SemanticModel.GetTypeInfo(cond.Right, c.CancellationToken).Type;
@@ -78,7 +77,7 @@ public sealed class ForLoopToRangeAnalyzer : DiagnosticAnalyzer
         var inc = f.Incrementors[0];
         if (inc is not (PostfixUnaryExpressionSyntax or PrefixUnaryExpressionSyntax) &&
             !(inc is BinaryExpressionSyntax add && add.Kind() == SyntaxKind.AddAssignmentExpression &&
-              add.Right is LiteralExpressionSyntax addLit && addLit.Token.Value is 1))
+              add.Right is LiteralExpressionSyntax { Token.Value: 1 }))
             return;
 
         c.ReportDiagnostic(Diagnostic.Create(Rule, f.ForKeyword.GetLocation()));

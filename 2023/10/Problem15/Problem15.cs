@@ -12,7 +12,7 @@ public static class Solver
     [GeneratedTest<long>(145, 228508)]
     public static long RunB(string[] lines)
     {
-        var items = lines[0].TrimEnd().Split(",").ToArray();
+        var items = lines[0].TrimEnd().Split(",");
 
         var boxes = Array.CreateAndInitialize(256, _ => new List<(string label, int focal)>());
 

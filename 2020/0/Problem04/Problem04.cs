@@ -56,7 +56,7 @@ public static class Solver
     static Item[][] LoadData(string[] lines)
         => lines.SplitBy(string.Empty)
             .ToArray(a => a.ToArrayMany(d => d.Split(" ")
-                .Select(b => CompiledRegs.MapToRegexItem(b))));
+                .Select(CompiledRegs.MapToRegexItem)));
 }
 
 record Item(string Key, string Value);

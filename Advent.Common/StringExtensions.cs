@@ -11,7 +11,7 @@ public static class StringExtensions
 
             const string ellipsis = "...";
 
-            text = text[0..(n - ellipsis.Length)];
+            text = text[..(n - ellipsis.Length)];
 
             return text + ellipsis;
         }

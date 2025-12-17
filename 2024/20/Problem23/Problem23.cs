@@ -24,15 +24,15 @@ public static class Solver
     public static string RunB(string[] lines)
     {
         var (connections, nodes) = LoadData(lines);
-        var result = Recurse(nodes, connections, [], 0, 0);
+        var result = Recurse(nodes, connections, [], 0);
         return result.Order().ToArray().StringJoin(",");
     }
 
-    static string[] Recurse(string[] nodes, HashSet<(string, string)> connections, string[] current, int start, int level)
+    static string[] Recurse(string[] nodes, HashSet<(string, string)> connections, string[] current, int start)
         => nodes
             .Skip(start).Index()
             .Where(a => current.All(b => connections.Contains((b, a.Item))))
-            .Select(a => Recurse(nodes, connections, [.. current, a.Item], a.Index + start + 1, level + 1))
+            .Select(a => Recurse(nodes, connections, [.. current, a.Item], a.Index + start + 1))
             .MaxBy(a => a.Length) ?? current;
 
     static (HashSet<(string, string)>, string[]) LoadData(string[] lines)

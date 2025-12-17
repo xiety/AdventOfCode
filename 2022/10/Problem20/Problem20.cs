@@ -20,7 +20,7 @@ public static class Solver
 
         var total = items.Count;
 
-        foreach (var m in mixes)
+        foreach (var _ in mixes)
         {
             foreach (var i in total)
             {

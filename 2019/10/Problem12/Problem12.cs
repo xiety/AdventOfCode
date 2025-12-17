@@ -11,7 +11,7 @@ public static class Solver
 
         var items = LoadData(lines);
 
-        foreach (var i in total)
+        foreach (var _ in total)
             SimulateStep(items);
 
         return Energy(items);
@@ -29,7 +29,7 @@ public static class Solver
         var ry = simulation.Select(a => a[0].Pos.Y).FindRepeat();
         var rz = simulation.Select(a => a[0].Pos.Z).FindRepeat();
 
-        return Math.LCM((long)rx, (long)ry, (long)rz);
+        return Math.LCM((long)rx, ry, rz);
     }
 
     static IEnumerable<Planet[]> Simulate(Planet[] items)

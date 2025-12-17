@@ -69,7 +69,7 @@ public static class Solver
 
         do
         {
-            var item = new Log(currentPos, pos.Wall);
+            var item = pos with { Pos = currentPos };
 
             if (remainder.Contains(item))
                 yield return item;

@@ -56,7 +56,7 @@ class Cube(int width, int height, int depth)
         new(-1, 0, 0),
     ];
 
-    public Pos3 Size { get; } = new(width, height, depth);
+    Pos3 Size { get; } = new(width, height, depth);
 
     readonly bool[,,] data = new bool[width, height, depth];
 

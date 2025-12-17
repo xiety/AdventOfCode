@@ -24,7 +24,7 @@ public static class Solver
         foreach (var item in items)
             array[item]++;
 
-        foreach (var i in days)
+        foreach (var _ in days)
         {
             var temp = array[0];
 

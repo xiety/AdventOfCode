@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace A2025.Problem09;
+﻿namespace A2025.Problem09;
 
 public static class Solver
 {
@@ -23,7 +21,7 @@ public static class Solver
 
         return points.EnumeratePairs()
             .Select(p => new Rect(p.First, p.Second))
-            .Where(rect => !edges.Any(edge => rect.Intersects(edge)))
+            .Where(rect => !edges.Any(rect.Intersects))
             .Where(rect => IsInside(edges, rect.From))
             .Max(a => a.Area);
     }

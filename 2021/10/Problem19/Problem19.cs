@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-namespace A2021.Problem19;
+﻿namespace A2021.Problem19;
 
 public static class Solver
 {
@@ -36,7 +35,7 @@ public static class Solver
 
         var max = int.MinValue;
 
-        foreach (var a in (scanners.Length - 1))
+        foreach (var a in scanners.Length - 1)
         {
             foreach (var b in (a + 1)..scanners.Length)
             {
@@ -68,7 +67,7 @@ public static class Solver
         {
             unknown = false;
 
-            foreach (var sa in (scanners.Length - 1))
+            foreach (var sa in scanners.Length - 1)
             {
                 foreach (var sb in (sa + 1)..scanners.Length)
                 {
@@ -124,7 +123,8 @@ public static class Solver
 
                                     goto labelOut;
                                 }
-                                else if (dic.TryGetValue(sb, out var transformForParent2))
+
+                                if (dic.TryGetValue(sb, out var transformForParent2))
                                 {
                                     var convert = CalcAxisConvert(db, da);
                                     var sameA1Rotated = ApplyConvertPos(sameA1, convert);
@@ -142,10 +142,8 @@ public static class Solver
 
                                     goto labelOut;
                                 }
-                                else
-                                {
-                                    unknown = true;
-                                }
+
+                                unknown = true;
                             }
                         }
                     }

@@ -23,7 +23,7 @@ public static class Solver
                     break;
 
                 case CommandAddx addx:
-                    foreach (var i in 2)
+                    foreach (var _ in 2)
                     {
                         currentCycle++;
                         total += Check(currentCycle, x);

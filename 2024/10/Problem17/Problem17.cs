@@ -14,7 +14,7 @@ public static class Solver
     [GeneratedTest<long>(117440, 216148338630253)]
     public static long RunB(string[] lines, bool isSample)
     {
-        var (a, b, c, ops) = LoadData(lines);
+        var (_, b, c, ops) = LoadData(lines);
 
         if (isSample)
         {
@@ -37,17 +37,15 @@ public static class Solver
             }
             while (true);
         }
-        else
-        {
-            var patternsAll = CreatePatterns();
 
-            const string start = "000000000";
-            var target = ops.Reverse().ToArray();
+        var patternsAll = CreatePatterns();
 
-            var binary = Recurse(patternsAll, target, 0, start).Order().First();
+        const string start = "000000000";
+        var target = ops.Reverse().ToArray();
 
-            return Convert.ToInt64(binary, 2);
-        }
+        var binary = Recurse(patternsAll, target, 0, start).Order().First();
+
+        return Convert.ToInt64(binary, 2);
     }
 
     //TODO: works only with my input
@@ -64,12 +62,10 @@ public static class Solver
                 var a1 = i ^ j;
                 var a2 = j ^ 0b110;
                 var a3 = a2 ^ 0b11;
-                var a4 = a1 << a3;
-                var a5 = a4 | a2;
 
                 var a1bin = ToBin(a1);
                 var text = a1bin + new string('X', a3);
-                text = text[0..(text.Length - 3)] + ToBin(a2);
+                text = text[..^3] + ToBin(a2);
 
                 if (text[..3] == a1bin)
                     sublist.Add(text);
@@ -109,8 +105,8 @@ public static class Solver
 
         foreach (var pattern in patterns.Where(a => a != ""))
         {
-            var body = pattern[..(pattern.Length - 3)];
-            var end = pattern[(pattern.Length - 3)..];
+            var body = pattern[..^3];
+            var end = pattern[^3..];
 
             var found = true;
 
@@ -140,7 +136,6 @@ static class Cpu
     public static IEnumerable<long> Run(long[] ops, State state)
     {
         var pointer = 0;
-        var index = 0;
 
         do
         {
@@ -165,11 +160,6 @@ static class Cpu
                     7 => Cdv(state, p1, pointer),
                 };
             }
-
-            index++;
-
-            if (index > int.MaxValue)
-                break;
         }
         while (pointer < ops.Length - 1);
     }

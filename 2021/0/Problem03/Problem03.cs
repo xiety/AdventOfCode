@@ -15,8 +15,8 @@ public static class Solver
             var numZero = lines.Select(a => a[i]).Count(a => a == '0');
             var numOne = lines.Select(a => a[i]).Count(a => a == '1');
 
-            output1 += (numZero >= numOne) ? '0' : '1';
-            output2 += (numZero >= numOne) ? '1' : '0';
+            output1 += numZero >= numOne ? '0' : '1';
+            output2 += numZero >= numOne ? '1' : '0';
         }
 
         var r1 = ToDec(output1);

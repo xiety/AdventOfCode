@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-using static System.Linq.Enumerable;
+﻿using static System.Linq.Enumerable;
 
 namespace A2020.Problem09;
 
@@ -37,7 +35,7 @@ public static class Solver
 
     static bool Check(ReadOnlySpan<long> items, long number)
     {
-        foreach (var i in (items.Length - 1))
+        foreach (var i in items.Length - 1)
             if (items[(i + 1)..].Contains(number - items[i]))
                 return true;
 

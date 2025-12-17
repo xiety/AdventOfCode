@@ -26,9 +26,7 @@ public sealed class BitReader(byte[] array)
     }
 
     public void Skip(int length)
-    {
-        CurrentOffset += length;
-    }
+        => CurrentOffset += length;
 
     public BigInteger ReadToBigInteger(int length)
     {

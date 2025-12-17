@@ -97,10 +97,10 @@ public static class PosExtensions
             var steps = Math.Mod(degrees / 90, 4);
             return steps switch
             {
-                1 => new Pos(p.Y, -p.X),
-                2 => new Pos(-p.X, -p.Y),
-                3 => new Pos(-p.Y, p.X),
-                _ => p
+                1 => new(p.Y, -p.X),
+                2 => new(-p.X, -p.Y),
+                3 => new(-p.Y, p.X),
+                _ => p,
             };
         }
     }

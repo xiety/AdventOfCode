@@ -24,7 +24,7 @@ public static class Solver
         => lines
             .Select(ParseItem2)
             .ToRecursiveGraphBuilder(a => a.Name)
-            .Build<Item>((a, recurse) => new Item(a.Name, a.Receipts.ToArray(b => new Receipt(b.Value, recurse(b.Name)))));
+            .Build<Item>((a, recurse) => new(a.Name, a.Receipts.ToArray(b => new Receipt(b.Value, recurse(b.Name)))));
 
     static Item2 ParseItem2(string text)
     {

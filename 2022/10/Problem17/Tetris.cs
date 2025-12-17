@@ -34,10 +34,10 @@ public class Tetris(int width, int left, int topOffset)
         var figureNumber = 0;
         var cutted = 0L;
         var foundSame = false;
-        var cuttedDelta = 0L;
 
         for (var step = 0L; step < totalFigures; ++step)
         {
+            var cuttedDelta = 0L;
             (movementIndex, cuttedDelta) = Simulate(figureNumber, movements, movementIndex);
 
             cutted += cuttedDelta;
@@ -244,7 +244,7 @@ public class Tetris(int width, int left, int topOffset)
         //enlarge
         var highest = FindHighest();
         var requiredHeight = figureHeight + topOffset;
-        var difference = (highest + requiredHeight) - glass.Count + 1;
+        var difference = highest + requiredHeight - glass.Count + 1;
 
         if (difference > 0)
             glass.AddRange(Enumerable.Range(0, difference).Select(_ => emptyRow.ToArray()));

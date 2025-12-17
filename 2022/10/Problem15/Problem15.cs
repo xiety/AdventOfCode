@@ -58,7 +58,7 @@ public static class Solver
                new(d + 1 - n, n),
         ];
 
-    public static Item[] LoadData(string[] lines)
+    static Item[] LoadData(string[] lines)
         => lines
             .Select(CompiledRegs.MapToRegex)
             .ToArray(a => new Item(new(a.SensorX, a.SensorY), new(a.BeaconX, a.BeaconY)));

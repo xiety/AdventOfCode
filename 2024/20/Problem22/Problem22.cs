@@ -8,7 +8,7 @@ public static class Solver
         var items = lines.ToArray(long.Parse);
 
         foreach (var j in items.Length)
-            foreach (var i in 2000)
+            foreach (var _ in 2000)
                 items[j] = Pseudo(items[j]);
 
         return items.Sum();
@@ -28,7 +28,7 @@ public static class Solver
             var n = items[j];
             var prev = LastDigit(n);
 
-            foreach (var i in 2000)
+            foreach (var _ in 2000)
             {
                 n = Pseudo(n);
                 var m = LastDigit(n);

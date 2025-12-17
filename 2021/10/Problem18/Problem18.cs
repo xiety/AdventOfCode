@@ -49,7 +49,7 @@ public static class Solver
                     ? FindClosing(inner, 1)
                     : inner.IndexOf(new TokenComma());
 
-                var left = ToTree(inner[0..n]);
+                var left = ToTree(inner[..n]);
                 var right = ToTree(inner[(n + 1)..]);
 
                 return new TreeBranch(left, right);
@@ -86,6 +86,12 @@ public static class Solver
 
     static Node AddNodes(Node left, Node right)
     {
+        var result = new Node(Internal().ToList());
+
+        Reduce(result);
+
+        return result;
+
         IEnumerable<Token> Internal()
         {
             yield return new TokenOpenBranch();
@@ -100,12 +106,6 @@ public static class Solver
 
             yield return new TokenCloseBranch();
         }
-
-        var result = new Node(Internal().ToList());
-
-        Reduce(result);
-
-        return result;
     }
 
     static void Reduce(Node input)
@@ -128,7 +128,7 @@ public static class Solver
         {
             var token = input.Tokens[i];
 
-            if (token is TokenValue tv && tv.Value >= 10)
+            if (token is TokenValue { Value: >= 10 } tv)
             {
                 var nd = tv.Value / 2.0;
 

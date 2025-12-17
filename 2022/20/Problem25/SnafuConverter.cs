@@ -24,12 +24,13 @@ public static class SnafuConverter
     {
         var cur = dec;
         var result = "";
-        var a = 0L;
 
         do
         {
             var d = cur / 5;
             var r = cur % 5;
+
+            var a = 0L;
 
             if (r > 2)
             {

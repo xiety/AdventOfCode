@@ -69,11 +69,11 @@ public static class EnumerableExtensions
                 yield break;
 
             T? prev = default;
-            T curr = e.Current;
+            var curr = e.Current;
 
             while (e.MoveNext())
             {
-                T next = e.Current;
+                var next = e.Current;
                 yield return selector(prev, curr, next);
                 prev = curr;
                 curr = next;

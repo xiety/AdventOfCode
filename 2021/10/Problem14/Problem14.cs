@@ -21,7 +21,7 @@ public static class Solver
 
         var template = new StringBuilder("AA");
 
-        foreach (var step in steps)
+        foreach (var _ in steps)
         {
             var node = seq.First!;
 
@@ -73,7 +73,7 @@ public static class Solver
             return new() { [p.b] = 1 };
         });
 
-        foreach (var i in (text.Length - 1))
+        foreach (var i in text.Length - 1)
             groups = groups.Merge(memo((text[i], text[i + 1], 0)));
 
         var min = groups.Min(a => a.Value);

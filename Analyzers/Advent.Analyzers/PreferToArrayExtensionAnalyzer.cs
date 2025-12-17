@@ -43,7 +43,7 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
             out _, out _, out var methodName))
         {
             var diagnostic = Diagnostic.Create(Rule, invocation.GetLocation(),
-                messageArgs: new[] { methodName });
+                messageArgs: [methodName]);
             context.ReportDiagnostic(diagnostic);
         }
     }
@@ -68,9 +68,8 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
         if (!TargetMethods.Contains(targetMethodName))
             return false;
 
-        if (outerAccess.Expression is not InvocationExpressionSyntax selectCall ||
-            selectCall.Expression is not MemberAccessExpressionSyntax selectAccess ||
-            selectCall.ArgumentList.Arguments.Count != 1)
+        if (outerAccess.Expression is not InvocationExpressionSyntax { Expression: MemberAccessExpressionSyntax selectAccess } selectCall
+         || selectCall.ArgumentList.Arguments.Count != 1)
             return false;
 
         if (selectAccess.Name.Identifier.ValueText != "Select")
@@ -93,8 +92,8 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
     static bool HasSingleParameter(LambdaExpressionSyntax lambda)
         => lambda switch
         {
-            SimpleLambdaExpressionSyntax s => true,
+            SimpleLambdaExpressionSyntax => true,
             ParenthesizedLambdaExpressionSyntax p => p.ParameterList.Parameters.Count == 1,
-            _ => false
+            _ => false,
         };
 }

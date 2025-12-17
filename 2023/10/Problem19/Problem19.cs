@@ -68,10 +68,10 @@ public static class Solver
             ["s"] = [1..Num],
         };
 
-        return Recurse(workflows, "in", conditionNum: 0, depth: 0, dic);
+        return Recurse(workflows, "in", conditionNum: 0, dic);
     }
 
-    static long Recurse(Item1[] workflows, string workflowName, int conditionNum, int depth, Dictionary<string, Range[]> dic)
+    static long Recurse(Item1[] workflows, string workflowName, int conditionNum, Dictionary<string, Range[]> dic)
     {
         if (workflowName == "A")
             return dic.Values.Select(a => a.Sum(b => b.GetOffsetAndLength(Num).Length + 1L)).Mul();
@@ -82,7 +82,7 @@ public static class Solver
         var workflow = workflows.First(a => a.Name == workflowName);
 
         if (conditionNum >= workflow.Conditions.Length)
-            return Recurse(workflows, workflow.LastOutput, 0, depth + 1, dic);
+            return Recurse(workflows, workflow.LastOutput, 0, dic);
 
         var condition = workflow.Conditions[conditionNum];
 
@@ -100,11 +100,11 @@ public static class Solver
 
         var dicLeft = new Dictionary<string, Range[]>(dic) { [condition.Variable] = left };
 
-        result += Recurse(workflows, condition.Output, 0, depth + 1, dicLeft);
+        result += Recurse(workflows, condition.Output, 0, dicLeft);
 
         var dicRight = new Dictionary<string, Range[]>(dic) { [condition.Variable] = right };
 
-        result += Recurse(workflows, workflowName, conditionNum + 1, depth + 1, dicRight);
+        result += Recurse(workflows, workflowName, conditionNum + 1, dicRight);
 
         return result;
     }

@@ -13,7 +13,7 @@ public static class Solver
     static long Run(string[] lines, int min, int max)
     {
         var map = MapData.ParseMap(lines);
-        return CalculateDistance(map, Pos.Zero, new Pos(map.Width - 1, map.Height - 1), min, max);
+        return CalculateDistance(map, Pos.Zero, new(map.Width - 1, map.Height - 1), min, max);
     }
 
     static int CalculateDistance(int[,] map, Pos start, Pos end, int min, int max)

@@ -19,7 +19,7 @@ public static class Solver
 
         return Memoization.RunRecursive<int, int, int>(0, 0,
             (recurse, index, mask) => index == buttons.Length
-                    ? ((mask == target) ? 0 : short.MaxValue)
+                    ? (mask == target ? 0 : short.MaxValue)
                     : Math.Min(
                         recurse(index + 1, mask),
                         recurse(index + 1, mask ^ buttons[index]) + 1));
@@ -55,19 +55,14 @@ public static class Solver
         => LoadData(lines).Sum(CalcB);
 
     static long CalcB(Item item)
-    {
-        var matrix = item.Jolts.ToArray((_, index) => item.Buttons
-            .ToArray(b => b.Contains(index) ? 1 : 0));
-
-        return LinearSolver.Run(item)!.Sum();
-    }
+        => LinearSolver.Run(item)!.Sum();
 
     static Item[] LoadData(string[] lines)
         => lines.ToArray(a =>
         {
             var m = CompiledRegs.Regex().Match(a);
             var lights = m.Groups[nameof(Item.Lights)].Value;
-            var buttons = m.Groups[nameof(Item.Buttons)].Captures.ToArray(a => a.Value.Split(",").ToArray(int.Parse));
+            var buttons = m.Groups[nameof(Item.Buttons)].Captures.ToArray(b => b.Value.Split(",").ToArray(int.Parse));
             var jolts = m.Groups[nameof(Item.Jolts)].Value.Split(",").ToArray(int.Parse);
 
             return new Item(lights, buttons, jolts);

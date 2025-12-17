@@ -9,9 +9,8 @@ public static class Solver
 
         var start = map.FindValue("S");
         var end = map.FindValue("E");
-        var direction = new Pos(1, 0);
 
-        var star = CalculateStar(map, start, direction, end);
+        var star = CalculateStar(map, start, end);
 
         return star.Where(a => a.Key.Item1 == end).Min(a => a.Value);
     }
@@ -23,9 +22,8 @@ public static class Solver
 
         var start = map.FindValue("S");
         var end = map.FindValue("E");
-        var direction = new Pos(1, 0);
 
-        var star = CalculateStar(map, start, direction, end);
+        var star = CalculateStar(map, start, end);
 
         return CalculatePath(star, start, end);
     }
@@ -87,21 +85,21 @@ public static class Solver
         return paths.Count;
     }
 
-    static Dictionary<(Pos, Pos, Pos), int> CalculateStar(string[,] map, Pos start, Pos direction, Pos end)
+    static Dictionary<(Pos, Pos, Pos), int> CalculateStar(string[,] map, Pos start, Pos end)
     {
         var star = new Dictionary<(Pos, Pos, Pos), int>
         {
-            { (start, new Pos(1, 0), new Pos(1, 0)), 0 },
-            { (start, new Pos(1, 0), new Pos(0, -1)), 1000 },
-            { (start, new Pos(1, 0), new Pos(0, 1)), 1000 },
-            { (start, new Pos(1, 0), new Pos(-1, 0)), 2000 },
+            { (start, new(1, 0), new(1, 0)), 0 },
+            { (start, new(1, 0), new(0, -1)), 1000 },
+            { (start, new(1, 0), new(0, 1)), 1000 },
+            { (start, new(1, 0), new(-1, 0)), 2000 },
         };
 
         List<(Pos, Pos, int)> currentSteps = [
-            (start, new Pos(1, 0), 0),
-            (start, new Pos(0, -1), 1000),
-            (start, new Pos(0, 1), 1000),
-            (start, new Pos(-1, 0), 2000)
+            (start, new(1, 0), 0),
+            (start, new(0, -1), 1000),
+            (start, new(0, 1), 1000),
+            (start, new(-1, 0), 2000),
         ];
 
         List<(Pos, Pos, int)> newSteps = [];

@@ -130,7 +130,7 @@ sealed class Brick : ICloneable
         {
             Name = $"B{index:0000}",
             From = new(item.X1, item.Y1, item.Z1),
-            To = new(item.X2, item.Y2, item.Z2)
+            To = new(item.X2, item.Y2, item.Z2),
         };
 }
 

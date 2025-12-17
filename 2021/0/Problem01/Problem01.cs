@@ -16,7 +16,7 @@ public static class Solver
 
         var result = 0;
 
-        foreach (var i in (items.Length - window))
+        foreach (var i in items.Length - window)
         {
             var m1 = 0;
             var m2 = 0;

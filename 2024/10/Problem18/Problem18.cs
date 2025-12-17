@@ -14,7 +14,7 @@ public static class Solver
 
         var path = PathFinder.Find(map, new(0, 0), new(size - 1, size - 1));
 
-        return path is null ? throw new() : path.Length;
+        return path?.Length ?? throw new();
     }
 
     [GeneratedTest<string>("6,1", "46,28")]

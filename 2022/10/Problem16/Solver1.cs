@@ -42,7 +42,7 @@ public sealed class Solver1
         if (parent.Rate > 0 && !released.Contains(parent.Id))
         {
             var newReleased = released.AddBefore(parent.Id);
-            var newReleases = releases.AddBefore(new(parent.Id, parent.Rate, currentTime + 1));
+            var newReleases = releases.AddBefore(new(parent.Rate, currentTime + 1));
 
             maximum = Math.Max(maximum, Recurse(path, newReleased, newReleases, currentTime + 1, parent, true));
         }
@@ -73,5 +73,5 @@ public sealed class Solver1
         return res;
     }
 
-    readonly record struct Release(int Id, int Rate, int FromTime);
+    readonly record struct Release(int Rate, int FromTime);
 }

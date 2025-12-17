@@ -19,7 +19,7 @@ public static class Solver
         var steps = new long[items.Length];
         steps[0] = 1;
 
-        foreach (var i in (items.Length - 1))
+        foreach (var i in items.Length - 1)
             for (var j = i + 1; j <= i + 3 && j < items.Length && items[j] - items[i] <= 3; ++j)
                 steps[j] += steps[i];
 

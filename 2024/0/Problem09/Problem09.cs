@@ -117,14 +117,14 @@ public static class Solver
         {
             if (isFile)
             {
-                foreach (var i in n)
+                foreach (var _ in n)
                     yield return index;
 
                 index++;
             }
             else
             {
-                foreach (var i in n)
+                foreach (var _ in n)
                     yield return -1;
             }
 

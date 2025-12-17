@@ -46,7 +46,7 @@ static class LinearSolver
                     TotalCost: b.Cost is int c ?
                         int.PopCount(a.pattern) + 2 * c :
                         (int?)null)))
-            .Where(a => a.TotalCost is int && a.SubResult.Solution is not null)
+            .Where(a => a.TotalCost is not null && a.SubResult.Solution is not null)
             .Select(a => new Result(
                 a.TotalCost!.Value,
                 CombineSolution(a.Pattern, a.SubResult.Solution!)

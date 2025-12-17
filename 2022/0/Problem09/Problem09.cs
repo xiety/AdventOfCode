@@ -54,7 +54,7 @@ public static class Solver
 
     static NonEuclideanPos CalculateNewPos(NonEuclideanPos h, NonEuclideanPos t)
     {
-        var diff = (h - t);
+        var diff = h - t;
 
         return diff.AbnormalLength > 1
             ? t + diff.Direction
@@ -67,14 +67,14 @@ public static class Solver
 
         foreach (var item in items)
         {
-            foreach (var i in item.Number)
+            foreach (var _ in item.Number)
             {
                 yield return item.Dir switch
                 {
-                    "U" => new NonEuclideanPos(0, 1),
-                    "D" => new NonEuclideanPos(0, -1),
-                    "L" => new NonEuclideanPos(-1, 0),
-                    "R" => new NonEuclideanPos(1, 0),
+                    "U" => new(0, 1),
+                    "D" => new(0, -1),
+                    "L" => new(-1, 0),
+                    "R" => new(1, 0),
                 };
             }
         }

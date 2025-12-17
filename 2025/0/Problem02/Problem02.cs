@@ -34,8 +34,8 @@ public static class Solver
             .Select(a => Math.DivRem(text.Length, a))
             .Where(a => a.Remainder == 0)
             .Select(a => a.Quotient)
-            .All(size => !Enumerable.RangeTo(size, text.Length - size + 1, size)
-                .All(a => text.Substring(a, size) == text[..size]));
+            .All(size => Enumerable.RangeTo(size, text.Length - size + 1, size)
+                .Any(a => text.Substring(a, size) != text[..size]));
 
     static Item[] LoadData(string[] lines)
         => lines.ToArrayMany(a => a.Split(",", StringSplitOptions.RemoveEmptyEntries)

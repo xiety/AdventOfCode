@@ -22,5 +22,5 @@ public static class Solver
             .Aggregate(0L, (acc, c) => acc * 10 + array[c]);
 
     static int[][] LoadData(string[] lines)
-        => lines.ToArray(a => a.ToArray(a => int.Parse(a.ToString())));
+        => lines.ToArray(a => a.ToArray(b => int.Parse(b.ToString())));
 }

@@ -13,11 +13,11 @@ public static class Interval
     {
         if (fromA >= fromB && toA <= toB)
             return (fromA, toA);
-        else if (fromA <= fromB && toA >= toB)
+        if (fromA <= fromB && toA >= toB)
             return (fromB, toB);
-        else if (fromA <= fromB && toA <= toB)
+        if (fromA <= fromB && toA <= toB)
             return (fromB, toA);
-        else if (fromA >= fromB && toA >= toB)
+        if (fromA >= fromB && toA >= toB)
             return (fromA, toB);
 
         return (-T.One, -T.One);

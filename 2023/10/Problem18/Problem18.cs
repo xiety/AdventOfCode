@@ -20,8 +20,8 @@ public static class Solver
 
         foreach (var newpos in items.Select(item => pos + GetOffset(item)))
         {
-            for (var y = Math.Min(pos.Y, newpos.Y); y < (Math.Max(pos.Y, newpos.Y) + 1); ++y)
-                for (var x = Math.Min(pos.X, newpos.X); x < (Math.Max(pos.X, newpos.X) + 1); ++x)
+            for (var y = Math.Min(pos.Y, newpos.Y); y < Math.Max(pos.Y, newpos.Y) + 1; ++y)
+                for (var x = Math.Min(pos.X, newpos.X); x < Math.Max(pos.X, newpos.X) + 1; ++x)
                     map[x - minX + 1, y - minY + 1] = true;
 
             pos = newpos;
@@ -33,7 +33,7 @@ public static class Solver
 
         var floodCount = map.EnumeratePositionsOf(true).Count();
 
-        return (map.Width * map.Height - floodCount) + borderCount;
+        return map.Width * map.Height - floodCount + borderCount;
     }
 
     [GeneratedTest<long>(952408144115, 63806916814808)]
@@ -94,9 +94,9 @@ public static class Solver
 
         var fillMap = new bool[possibleX.Count, possibleY.Count];
 
-        foreach (var iy in (possibleY.Count - 1))
+        foreach (var iy in possibleY.Count - 1)
         {
-            foreach (var ix in (possibleX.Count - 1))
+            foreach (var ix in possibleX.Count - 1)
             {
                 var square = new Rect(
                     new(possibleX[ix],

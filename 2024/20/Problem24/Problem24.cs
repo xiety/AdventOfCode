@@ -18,7 +18,7 @@ public static class Solver
         if (isSample)
             throw new NotImplementedException();
 
-        var (inputs, connections) = LoadData(lines);
+        var (_, connections) = LoadData(lines);
 
         var outputNodes = connections.Select(a => a.Output).Where(a => a.StartsWith('z')).Distinct().ToArray();
 
@@ -26,8 +26,6 @@ public static class Solver
         Flip(connections, "z14", "qbw");
         Flip(connections, "wjb", "cvp");
         Flip(connections, "z34", "wcb");
-
-        var workingNodes = new HashSet<string>();
 
         foreach (var i in 1..(outputNodes.Length - 1))
         {
@@ -46,10 +44,10 @@ public static class Solver
                                 [$"x{p:00}"] = a1,
                                 [$"x{i:00}"] = a2,
                                 [$"y{p:00}"] = a3,
-                                [$"y{i:00}"] = a4
+                                [$"y{i:00}"] = a4,
                             };
 
-                            foreach (var w in (i - 1))
+                            foreach (var w in i - 1)
                             {
                                 tempInputs[$"x{w:00}"] = 0;
                                 tempInputs[$"y{w:00}"] = 0;

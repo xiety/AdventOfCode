@@ -14,7 +14,7 @@ public static class Solver
         }
 
         var cpu = new Cpu(codes, codes);
-        var output = cpu.Interpret().ToArray();
+        _ = cpu.Interpret().ToArray();
         return cpu.ReadMemory(0);
     }
 
@@ -33,7 +33,7 @@ public static class Solver
                 codes[2] = b;
 
                 var cpu = new Cpu(codes, [.. codes]);
-                var output = cpu.Interpret().ToArray();
+                _ = cpu.Interpret().ToArray();
                 var result = cpu.ReadMemory(0);
 
                 if (result == target)

@@ -39,9 +39,9 @@ public static class Solver
         => mode switch
         {
             Mode.North => new Pos(0, 1),
-            Mode.South => new Pos(0, -1),
-            Mode.East => new Pos(1, 0),
-            Mode.West => new Pos(-1, 0),
+            Mode.South => new(0, -1),
+            Mode.East => new(1, 0),
+            Mode.West => new(-1, 0),
         };
 
     static Item[] Load(string[] lines)

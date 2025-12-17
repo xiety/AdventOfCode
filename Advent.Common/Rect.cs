@@ -42,7 +42,7 @@ public readonly record struct Rect3(Pos3 From, Pos3 To)
         get
         {
             var diag = new Pos3(To.X - From.X + 1, To.Y - From.Y + 1, To.Z - From.Z + 1);
-            return (long)diag.X * (long)diag.Y * (long)diag.Z;
+            return (long)diag.X * diag.Y * diag.Z;
         }
     }
 

@@ -35,7 +35,7 @@ public static class Solver
 
         for (var x = 2; x < enlarged.Width - 1; x += 3)
             for (var y = 2; y < enlarged.Height - 1; y += 3)
-                if (!enlarged.Get(new Pos(x, y)))
+                if (!enlarged.Get(new(x, y)))
                     square++;
 
         return square;
@@ -177,10 +177,10 @@ public static class Solver
     static Pos GetOffsetFromDir(Dirs dir)
         => dir switch
         {
-            Dirs.Top => new Pos(0, -1),
-            Dirs.Right => new Pos(1, 0),
-            Dirs.Left => new Pos(-1, 0),
-            Dirs.Bottom => new Pos(0, 1),
+            Dirs.Top => new(0, -1),
+            Dirs.Right => new(1, 0),
+            Dirs.Left => new(-1, 0),
+            Dirs.Bottom => new(0, 1),
         };
 
     static bool IsConnected(Dirs dir, char a, char b)

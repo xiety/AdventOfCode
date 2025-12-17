@@ -45,7 +45,7 @@ public static class GraphPathFinder
 
 public class GraphNode(string name)
 {
-    public string Name { get; init; } = name;
+    public string Name { get; } = name;
     public List<GraphNode> Connections { get; } = [];
 
     public static GraphNode Create(string name)

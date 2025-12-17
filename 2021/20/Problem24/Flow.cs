@@ -25,7 +25,7 @@ public static class Flow
 
                     data[index].AddRange(
                         Enumerable.Range(1, 9)
-                        .ToArray(x => new Item(x, input_str[..(inputIndex - 1)] + x + input_str[(inputIndex)..])));
+                        .ToArray(x => new Item(x, input_str[..(inputIndex - 1)] + x + input_str[inputIndex..])));
 
                     inputIndex++;
                     break;

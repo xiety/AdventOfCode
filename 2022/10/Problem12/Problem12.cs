@@ -26,7 +26,7 @@ public static class Solver
             .Min(a => a.Length);
     }
 
-    public static (int[,], Pos, Pos) LoadData(string[] lines)
+    static (int[,], Pos, Pos) LoadData(string[] lines)
     {
         var width = lines[0].Length;
         var height = lines.Length;
@@ -53,7 +53,7 @@ public static class Solver
                     c = 'z';
                 }
 
-                data[x, y] = (c - 'a');
+                data[x, y] = c - 'a';
             }
         }
 

@@ -18,9 +18,9 @@ public static class Solver
             {
                 var sum = 0;
 
-                foreach (var j in 3)
+                foreach (var _ in 3)
                 {
-                    sum += ((step + 1) % 100);
+                    sum += (step + 1) % 100;
                     step++;
                 }
 

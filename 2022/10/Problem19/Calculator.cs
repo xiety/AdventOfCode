@@ -86,7 +86,7 @@ class Calculator(int maxLevel)
 
         var geodeRobotDelta = 0;
 
-        foreach (var i in level..maxLevel)
+        foreach (var _ in level..maxLevel)
         {
             oreRobot++;
             obsidianRobot++;

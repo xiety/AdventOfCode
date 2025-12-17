@@ -1,6 +1,4 @@
 ﻿#pragma warning disable CS0162 // Unreachable code detected
-using System.Text.RegularExpressions;
-
 namespace A2022.Problem16;
 
 public class Solver2
@@ -10,7 +8,6 @@ public class Solver2
     GraphNode[] availableWorkingVaults = null!;
 
     long step;
-
 
     public int Run(Graph graph)
     {

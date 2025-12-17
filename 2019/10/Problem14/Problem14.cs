@@ -8,10 +8,10 @@ public static class Solver
     public static long RunA(string[] lines)
     {
         var items = LoadData(lines);
-        return Recurse(items, [], "FUEL", 1, 0);
+        return Recurse(items, [], "FUEL", 1);
     }
 
-    static long Recurse(Item[] items, Dictionary<string, long> bag, string outputName, long outputNum, int level)
+    static long Recurse(Item[] items, Dictionary<string, long> bag, string outputName, long outputNum)
     {
         if (outputName == "ORE")
             return outputNum;
@@ -30,7 +30,7 @@ public static class Solver
             return 0;
 
         var howManyIterations = (requiredNum + item.Output.Num - 1) / item.Output.Num;
-        var waste = (howManyIterations * item.Output.Num) - requiredNum;
+        var waste = howManyIterations * item.Output.Num - requiredNum;
 
         if (waste > 0)
             bag.AddOrReplace(outputName, waste, a => a + waste);
@@ -38,8 +38,8 @@ public static class Solver
         var result = 0L;
 
         //bag is mutated in every iteration
-        foreach (var i in howManyIterations)
-            result += item.Input.Sum(a => Recurse(items, bag, a.Name, a.Num, level + 1));
+        foreach (var _ in howManyIterations)
+            result += item.Input.Sum(a => Recurse(items, bag, a.Name, a.Num));
 
         return result;
     }

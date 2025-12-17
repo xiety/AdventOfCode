@@ -31,20 +31,20 @@ public static class Solver
     {
         var (_, items) = LoadData(lines);
         var busses = ToBusses(items);
-        var M = busses.Mul(a => (long)a.Value);
+        var m = busses.Mul(a => (long)a.Value);
 
-        return busses.Skip(1).SumMod(M, bus =>
+        return busses.Skip(1).SumMod(m, bus =>
         {
-            var Mi = M / bus.Value;
-            var inverse = (int)BigInteger.ModPow(Mi, bus.Value - 2, bus.Value);
-            return -bus.Index * Mi * inverse;
+            var mi = m / bus.Value;
+            var inverse = (int)BigInteger.ModPow(mi, bus.Value - 2, bus.Value);
+            return -bus.Index * mi * inverse;
         });
     }
 
     static Bus[] ToBusses(int?[] items)
             => items
                 .Index()
-                .Where(a => a.Item is int)
+                .Where(a => a.Item is not null)
                 .Select(a => (Item: a.Item!.Value, a.Index))
                 .ToArray(a => new Bus(a.Item, a.Index));
 

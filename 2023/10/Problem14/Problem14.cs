@@ -30,7 +30,7 @@ public static class Solver
             {
                 var required = index + (total - i) % (i - index);
                 var requiredKey = history.First(a => a.Value == required).Key;
-                var requiredData = requiredKey.Split(Environment.NewLine).ToArray();
+                var requiredData = requiredKey.Split(Environment.NewLine);
 
                 map = MapData.ParseMap(requiredData, c => c);
 

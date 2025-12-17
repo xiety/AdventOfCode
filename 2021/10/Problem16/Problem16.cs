@@ -75,7 +75,7 @@ public static class Solver
         {
             var num = (int)br.ReadToBigInteger(11);
 
-            foreach (var n in num)
+            foreach (var _ in num)
                 subPackets.Add(Parse(br));
         }
         else
@@ -102,7 +102,7 @@ public static class Solver
         {
             flag = br.ReadToBool();
 
-            foreach (var i in 4)
+            foreach (var _ in 4)
                 bools.Add(br.ReadToBool());
         }
         while (flag);

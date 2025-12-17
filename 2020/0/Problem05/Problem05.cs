@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace A2020.Problem05;
+﻿namespace A2020.Problem05;
 
 public static class Solver
 {

@@ -1,6 +1,6 @@
 ﻿using System.CodeDom.Compiler;
 
-internal static class IndentedTextWriterExtensions
+static class IndentedTextWriterExtensions
 {
     extension(IndentedTextWriter writer)
     {

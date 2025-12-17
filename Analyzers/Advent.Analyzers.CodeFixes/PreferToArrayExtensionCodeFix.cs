@@ -13,7 +13,7 @@ namespace Advent.Analyzers;
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(PreferToArrayExtensionCodeFix)), Shared]
 public sealed class PreferToArrayExtensionCodeFix : CodeFixProvider
 {
-    private const string Title = "Use ToArray(selector) / ToList(selector) extension";
+    const string Title = "Use ToArray(selector) / ToList(selector) extension";
 
     public override ImmutableArray<string> FixableDiagnosticIds
         => [PreferToArrayExtensionAnalyzer.DiagnosticId];
@@ -57,7 +57,7 @@ public sealed class PreferToArrayExtensionCodeFix : CodeFixProvider
         }
     }
 
-    private static async Task<Document> ApplyFixAsync(
+    static async Task<Document> ApplyFixAsync(
         Document document,
         InvocationExpressionSyntax oldInvocation,
         ExpressionSyntax collection,

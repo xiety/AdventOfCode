@@ -79,8 +79,6 @@ public static class Solver
 
     static bool Process(List<Radio> currentList, List<Radio> newList, Dictionary<bool, long> dic, Dictionary<string, List<long>> conjDic, bool exit, long buttonPress)
     {
-        var step = 1L;
-
         do
         {
             foreach (var radio in currentList)
@@ -108,8 +106,6 @@ public static class Solver
                             break;
                         }
                 }
-
-                step++;
             }
 
             (currentList, newList) = (newList, currentList);
@@ -231,12 +227,9 @@ public static class Solver
     {
         if (text == BroadcasterName)
             return text;
-        else if (text.StartsWith('%'))
+        if (text.StartsWith('%') || text.StartsWith('&'))
             return text[1..];
-        else if (text.StartsWith('&'))
-            return text[1..];
-        else
-            throw new();
+        throw new();
     }
 }
 

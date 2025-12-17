@@ -22,9 +22,9 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
             static (spc, tuple) => Execute(spc, tuple.Right));
     }
 
-    private sealed record Model(string Method, string Target, string Class, string? Ns, bool CanBeNull);
+    sealed record Model(string Method, string Target, string Class, string? Ns, bool CanBeNull);
 
-    private static Model? GetMethodInfo(GeneratorSyntaxContext ctx)
+    static Model? GetMethodInfo(GeneratorSyntaxContext ctx)
     {
         var method = (MethodDeclarationSyntax)ctx.Node;
         var symbol = ctx.SemanticModel.GetDeclaredSymbol(method) as IMethodSymbol;
@@ -34,7 +34,7 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
         var attr = symbol.GetAttributes()
             .FirstOrDefault(a => a.AttributeClass is
             {
-                Name: RegexConstants.AttributeName,
+                Name: "MapToAttribute",
                 IsGenericType: true,
                 TypeArguments.Length: > 0
             });
@@ -57,7 +57,7 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
             canBeNull);
     }
 
-    private static void Execute(SourceProductionContext spc, ImmutableArray<Model?> methods)
+    static void Execute(SourceProductionContext spc, ImmutableArray<Model?> methods)
     {
         if (methods.IsDefaultOrEmpty)
             return;

@@ -21,7 +21,7 @@ public static class Solver
 
         var multi = monkeys.Select(a => a.Test).Mul();
 
-        foreach (var round in totalRounds)
+        foreach (var _ in totalRounds)
         {
             foreach (var monkey in monkeys)
             {
@@ -75,7 +75,7 @@ record Monkey<T>(
 {
     public int StepsCount { get; set; }
 
-    Func<T, T> compiledCalculate = default!;
+    Func<T, T> compiledCalculate = null!;
 
     public void Initialize()
         => compiledCalculate = GenerateFunction();
@@ -87,13 +87,13 @@ record Monkey<T>(
         var left = OperationLeft switch
         {
             "old" => (Expression)old,
-            string a => Expression.Constant(T.Parse(a, null), typeof(T)),
+            string => Expression.Constant(T.Parse(OperationLeft, null), typeof(T)),
         };
 
         var right = OperationRight switch
         {
             "old" => (Expression)old,
-            string a => Expression.Constant(T.Parse(a, null), typeof(T)),
+            string => Expression.Constant(T.Parse(OperationRight, null), typeof(T)),
         };
 
         var operation = OperationOperator switch
@@ -118,12 +118,12 @@ record Monkey<T>(
 static partial class CompiledRegs
 {
     [GeneratedRegex($"""
-        Monkey (?<{nameof(Monkey<int>.Number)}>\d+):
-          Starting items: (?<{nameof(Monkey<int>.StartingItems)}>\d+)(?:, (?<{nameof(Monkey<int>.StartingItems)}>\d+))*
-          Operation: new = (?<{nameof(Monkey<int>.OperationLeft)}>.*) (?<{nameof(Monkey<int>.OperationOperator)}>.) (?<{nameof(Monkey<int>.OperationRight)}>.*)
-          Test: divisible by (?<{nameof(Monkey<int>.Test)}>.*)
-            If true: throw to monkey (?<{nameof(Monkey<int>.IfTrue)}>.*)
-            If false: throw to monkey (?<{nameof(Monkey<int>.IfFalse)}>.*)
+        Monkey (?<{nameof(Monkey<>.Number)}>\d+):
+          Starting items: (?<{nameof(Monkey<>.StartingItems)}>\d+)(?:, (?<{nameof(Monkey<>.StartingItems)}>\d+))*
+          Operation: new = (?<{nameof(Monkey<>.OperationLeft)}>.*) (?<{nameof(Monkey<>.OperationOperator)}>.) (?<{nameof(Monkey<>.OperationRight)}>.*)
+          Test: divisible by (?<{nameof(Monkey<>.Test)}>.*)
+            If true: throw to monkey (?<{nameof(Monkey<>.IfTrue)}>.*)
+            If false: throw to monkey (?<{nameof(Monkey<>.IfFalse)}>.*)
         """)]
     public static partial Regex Regex();
 }
