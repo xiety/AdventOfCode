@@ -10,6 +10,7 @@
     <File Path="Directory.Packages.props" />
     <File Path="README.md" />
   </Folder>
+  <Project Path="2015/A2015.Problems.csproj" />
   <Project Path="2019/A2019.Problems.csproj" />
   <Project Path="2020/A2020.Problems.csproj" />
   <Project Path="2021/A2021.Problems.csproj" />
