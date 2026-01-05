@@ -160,6 +160,9 @@ public static class EnumerableExtensions
         public TR[] ToArrayMany<TR>(Func<T, IEnumerable<TR>> selector)
             => source.SelectMany(selector).ToArray();
 
+        public TR[] ToArrayMany<TR>(Func<T, int, IEnumerable<TR>> selector)
+            => source.SelectMany(selector).ToArray();
+
         public TR[] ToArray<TR>(Func<T, int, TR> selector)
             => source.Select(selector).ToArray();
 
