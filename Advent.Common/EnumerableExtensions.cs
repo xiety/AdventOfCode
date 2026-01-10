@@ -418,6 +418,33 @@ public static class EnumerableExtensions
     extension<T>(IEnumerable<T> source)
         where T : notnull
     {
+        public T? MinByOrDefault<TR>(Func<T, TR> keySelector)
+        {
+            using var e = source.GetEnumerator();
+
+            if (!e.MoveNext())
+                return default;
+
+            var min = e.Current;
+            var minKey = keySelector(min);
+
+            var comparer = Comparer<TR>.Default;
+
+            while (e.MoveNext())
+            {
+                var current = e.Current;
+                var key = keySelector(current);
+
+                if (comparer.Compare(key, minKey) < 0)
+                {
+                    min = current;
+                    minKey = key;
+                }
+            }
+
+            return min;
+        }
+
         public IEnumerable<T[]> SplitBy(T separator)
         //where TV : IEqualityOperators<TV, TV, bool>
         {
@@ -487,6 +514,31 @@ public static class EnumerableExtensions
     extension<T>(IEnumerable<T> source)
         where T : struct
     {
+        public T? MinByOrNullable<TKey>(Func<T, TKey> keySelector)
+        {
+            using var e = source.GetEnumerator();
+            if (!e.MoveNext())
+                return null;
+
+            var best = e.Current;
+            var bestKey = keySelector(best);
+
+            var comparer = Comparer<TKey>.Default;
+
+            while (e.MoveNext())
+            {
+                var cur = e.Current;
+                var key = keySelector(cur);
+                if (comparer.Compare(key, bestKey) < 0)
+                {
+                    best = cur;
+                    bestKey = key;
+                }
+            }
+
+            return best;
+        }
+
         //public IEnumerable<TResult> SelectPrevCurrNext<TResult>(Func<(T? Prev, T Curr, T? Next), TResult> selector)
         //{
         //    using var e = source.GetEnumerator();

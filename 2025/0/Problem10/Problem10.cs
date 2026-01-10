@@ -55,7 +55,7 @@ public static class Solver
         => LoadData(lines).Sum(CalcB);
 
     static long CalcB(Item item)
-        => LinearSolver.Run(item)!.Sum();
+        => new LinearSolver(item.Buttons, item.Jolts).Run()!.Sum();
 
     static Item[] LoadData(string[] lines)
         => lines.ToArray(a =>

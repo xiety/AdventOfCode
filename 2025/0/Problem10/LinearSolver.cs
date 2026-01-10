@@ -1,75 +1,65 @@
 ﻿namespace A2025.Problem10;
 
-static class LinearSolver
+using ParityPatterns = ILookup<int, int>;
+
+class LinearSolver(int[][] vectors, int[] target)
 {
-    public static int[]? Run(Item item)
-    {
-        var parityPatterns = PrecomputeParityPatterns(item);
+    public int[]? Run()
+        => SolveStep(target, PrecomputeParityPatterns(ComputeBasis()))?.Solution;
 
-        return Memoization.RunRecursive<int[], Result>(
-            item.Jolts,
-            (recurse, target) => SolveRecursive(recurse, target, item, parityPatterns)).Solution;
-    }
-
-    static Dictionary<int, List<int>> PrecomputeParityPatterns(Item item)
-        => Enumerable.Range(0, 1 << item.Buttons.Length)
-            .GroupBy(mask => ComputeParity(mask, item))
-            .ToDictionary(a => a.Key, a => a.ToList());
-
-    static int ComputeParity(int buttonMask, Item item)
-        => Enumerable.Range(0, item.Jolts.Length)
-            .Select(j => item.Buttons
-                .Select((buttons, b) => ((buttonMask >> b) & 1) * buttons.Count(a => a == j))
-                .Sum() % 2)
-            .Select((bit, i) => bit << i)
-            .Sum();
-
-    static Result SolveRecursive(Func<int[], Result> recurse, int[] target, Item item, Dictionary<int, List<int>> parityPatterns)
+    Result? SolveStep(int[] target, ParityPatterns parityPatterns)
     {
         if (target.All(a => a == 0))
-            return new(0, new int[item.Buttons.Length]);
+            return new(0, new int[vectors.Length]);
 
-        var parity = target
-            .Index()
-            .Where(a => (a.Item & 1) == 1)
-            .Aggregate(0, (acc, a) => acc | (1 << a.Index));
+        var candidates = parityPatterns[GetVectorParity(target)];
 
-        if (!parityPatterns.TryGetValue(parity, out var patterns))
-            return new(null, null);
+        var query =
+            from mask in candidates
+            let next = TryReduce(target, mask)
+            where next is not null
+            let res = SolveStep(next, parityPatterns)
+            where res is not null
+            let totalCost = CalcTotalCost(mask, res.Cost)
+            select (TotalCost: totalCost, Mask: mask, res.Solution);
 
-        return patterns
-            .Select(pattern => (pattern, newTarget: ApplyPattern(pattern, target, item)))
-            .Where(a => a.newTarget is not null)
-            .Select(a => recurse(a.newTarget!).Apply(b => (
-                    Pattern: a.pattern,
-                    SubResult: b,
-                    TotalCost: b.Cost is int c ?
-                        int.PopCount(a.pattern) + 2 * c :
-                        (int?)null)))
-            .Where(a => a.TotalCost is not null && a.SubResult.Solution is not null)
-            .Select(a => new Result(
-                a.TotalCost!.Value,
-                CombineSolution(a.Pattern, a.SubResult.Solution!)
-            ))
-            .OrderBy(a => a.Cost)
-            .FirstOrDefault();
+        return query
+            .MinByOrNullable(a => a.TotalCost)
+            .ApplyIfNotNull(a => new Result(a.TotalCost, Reconstruct(a.Solution, a.Mask)));
     }
 
-    static int[]? ApplyPattern(int pattern, int[] target, Item item)
-    {
-        var newTarget = Enumerable.Range(0, target.Length)
-            .ToArray(j => target[j] - Enumerable.Range(0, item.Buttons.Length)
-                .Count(b => ((pattern >> b) & 1) == 1 && item.Buttons[b].Contains(j)));
+    int[]? TryReduce(int[] target, int mask)
+        => target.ToArray((a, i) => a - SumActive(i, mask)) is var diff && diff.All(a => a >= 0 && (a & 1) == 0)
+            ? diff.ToArray(a => a >> 1)
+            : null;
 
-        if (newTarget.Any(a => a < 0 || (a & 1) == 1))
-            return null;
+    int SumActive(int dim, int mask)
+        => vectors
+            .WhereIndex(i => ((mask >> i) & 1) != 0)
+            .Sum(a => a.Count(b => b == dim));
 
-        return newTarget.ToArray(x => x / 2);
-    }
+    ParityPatterns PrecomputeParityPatterns(int[] basis)
+        => Enumerable.Range(0, 1 << vectors.Length)
+            .ToLookup(a => Enumerable.Range(0, vectors.Length)
+                .Where(b => ((a >> b) & 1) != 0)
+                .Aggregate(0, (acc, i) => acc ^ basis[i]));
 
-    static int[] CombineSolution(int pattern, int[] subSolution)
-        => subSolution
-            .ToArray((value, b) => ((pattern >> b) & 1) == 1 ? value * 2 + 1 : value * 2);
+    int[] ComputeBasis()
+        => Enumerable.Range(0, vectors.Length)
+            .ToArray(a => ComputeParity(1 << a));
 
-    record struct Result(int? Cost, int[]? Solution);
+    int ComputeParity(int mask)
+        => Enumerable.Range(0, target.Length)
+            .Sum(a => (SumActive(a, mask) & 1) << a);
+
+    static int CalcTotalCost(int mask, int cost)
+        => int.PopCount(mask) + (cost << 1);
+
+    static int[] Reconstruct(int[] sub, int mask)
+        => sub.ToArray((a, i) => (a << 1) + ((mask >> i) & 1));
+
+    static int GetVectorParity(int[] v)
+        => v.Select((a, i) => (a & 1) << i).Sum();
+
+    record Result(int Cost, int[] Solution);
 }

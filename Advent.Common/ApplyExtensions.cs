@@ -6,6 +6,16 @@ public static class ApplyExtensions
     {
         public TR Apply<TR>(Func<T, TR> func)
             => func(obj);
+
+        public TR? ApplyIfNotNull<TR>(Func<T, TR> func)
+            => obj is null ? default : func(obj);
+    }
+
+    extension<T>(T? obj)
+        where T : struct
+    {
+        public TR? ApplyIfNotNull<TR>(Func<T, TR> func)
+            => !obj.HasValue ? default : func(obj.Value);
     }
 
     extension<T1, T2>((T1, T2) t)
