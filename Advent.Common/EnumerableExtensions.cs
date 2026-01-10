@@ -31,6 +31,15 @@ public static class EnumerableExtensions
 
     extension<T>(IEnumerable<T> source)
     {
+        public IEnumerable<T> Even
+            => source.WhereIndex(a => a % 2 == 0);
+
+        public IEnumerable<T> Odd
+            => source.WhereIndex(a => a % 2 == 1);
+
+        public IEnumerable<T> WhereIndex(Func<int, bool> predicate)
+            => source.Where((_, i) => predicate(i));
+
         public IEnumerable<(T First, T Second)> EnumeratePairs()
             => source.SelectMany((a, i) => source.Skip(i + 1).Select(b => (a, b)));
 
