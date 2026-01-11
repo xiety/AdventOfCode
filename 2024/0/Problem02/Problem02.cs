@@ -17,7 +17,7 @@ public static class Solver
     }
 
     static bool CheckRemove(int[] item)
-        => Check(item) || item.Where((_, i) => Check(item.Where((_, idx) => idx != i).ToArray())).Any();
+        => Check(item) || item.WhereIndex(i1 => Check(item.WhereIndex(i2 => i2 != i1).ToArray())).Any();
 
     static bool Check(int[] item)
     {

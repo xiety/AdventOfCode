@@ -36,10 +36,10 @@ public static class Solver
 
         return Enumerable.Range(0, 1 << item.Buttons.Length)
             .Select(index => item.Buttons
-                .Where((_, i) => (index & (1 << i)) != 0)
-                .ToList())
+                .WhereIndex(i => (index & (1 << i)) != 0)
+                .ToArray())
             .Select(subset => (
-                subset.Count,
+                subset.Length,
                 Lights: subset
                     .SelectMany(b => b)
                     .GroupBy(i => i)
@@ -47,7 +47,7 @@ public static class Solver
                     .Select(g => g.Key)
                     .ToHashSet()))
             .Where(x => x.Lights.SetEquals(target))
-            .Min(x => x.Count);
+            .Min(x => x.Length);
     }
 
     [GeneratedTest<long>(33, 20002)]

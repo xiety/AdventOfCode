@@ -7,16 +7,16 @@ class LinearSolver(int[][] vectors, int[] target)
     public int[]? Run()
         => SolveStep(target, PrecomputeParityPatterns(ComputeBasis()))?.Solution;
 
-    Result? SolveStep(int[] target, ParityPatterns parityPatterns)
+    Result? SolveStep(int[] currentTarget, ParityPatterns parityPatterns)
     {
-        if (target.All(a => a == 0))
+        if (currentTarget.All(a => a == 0))
             return new(0, new int[vectors.Length]);
 
-        var candidates = parityPatterns[GetVectorParity(target)];
+        var candidates = parityPatterns[GetVectorParity(currentTarget)];
 
         var query =
             from mask in candidates
-            let next = TryReduce(target, mask)
+            let next = TryReduce(currentTarget, mask)
             where next is not null
             let res = SolveStep(next, parityPatterns)
             where res is not null
@@ -28,8 +28,8 @@ class LinearSolver(int[][] vectors, int[] target)
             .ApplyIfNotNull(a => new Result(a.TotalCost, Reconstruct(a.Solution, a.Mask)));
     }
 
-    int[]? TryReduce(int[] target, int mask)
-        => target.ToArray((a, i) => a - SumActive(i, mask)) is var diff && diff.All(a => a >= 0 && (a & 1) == 0)
+    int[]? TryReduce(int[] currentTarget, int mask)
+        => currentTarget.ToArray((a, i) => a - SumActive(i, mask)) is var diff && diff.All(a => a >= 0 && (a & 1) == 0)
             ? diff.ToArray(a => a >> 1)
             : null;
 
