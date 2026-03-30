@@ -104,7 +104,7 @@ public static class RegexExtensions
                 .Select(a => ParseValue(a.Value, elementType))
                 .ToList(elementType);
         }
-        
+
         return ParseValue(group.Value, type);
     }
 
