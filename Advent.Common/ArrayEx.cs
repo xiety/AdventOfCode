@@ -172,6 +172,13 @@ public static class ArrayEx
                     yield return (new(x, y), array[x, y]);
         }
 
+        public IEnumerable<T> EnumerateItems()
+        {
+            for (var y = 0; y < array.GetLength(1); ++y)
+                for (var x = 0; x < array.GetLength(0); ++x)
+                    yield return array[x, y];
+        }
+
         public IEnumerable<Pos> EnumeratePositionsOf(T value)
         {
             for (var y = 0; y < array.GetLength(1); ++y)

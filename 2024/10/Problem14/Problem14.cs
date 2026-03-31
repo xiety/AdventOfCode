@@ -77,7 +77,7 @@ public static class Solver
 
     static long Count(int width, int height, Robot[] robots)
         => GetQuadrants(width, height)
-            .Select(a => robots.Count(b => a.Intersects(b.Pos))).MulLong();
+            .Select(a => robots.Count(b => a.InsideMe(b.Pos))).MulLong();
 
     static Rect[] GetQuadrants(int width, int height)
     {

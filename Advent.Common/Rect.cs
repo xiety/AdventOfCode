@@ -14,8 +14,11 @@ public readonly record struct Rect(Pos P1, Pos P2)
     public int Height
         => To.Y - From.Y + 1;
 
-    public bool Intersects(Pos pos)
+    public bool InsideMe(Pos pos)
         => From.X <= pos.X && To.X >= pos.X && From.Y <= pos.Y && To.Y >= pos.Y;
+
+    public bool InsideMe(Rect rect)
+        => InsideMe(rect.From) && InsideMe(rect.To);
 
     public bool Intersects(Line line)
         => line.IsVertical

@@ -41,7 +41,7 @@ public static class Solver
                 .SelectMany(offsets =>
                     offsets
                         .Select(offset => parent.Sensor + offset)
-                        .Where(pos => rect.Intersects(pos) && !items.Any(a => a.Collide(pos)))))
+                        .Where(pos => rect.InsideMe(pos) && !items.Any(a => a.Collide(pos)))))
             .FirstOrNull();
 
         if (result is Pos p)
@@ -81,7 +81,7 @@ public class Item
     }
 
     public bool Collide(Pos pos)
-        => Rect.Intersects(pos)
+        => Rect.InsideMe(pos)
         && (Beacon == pos || Sensor == pos || (Sensor - pos).ManhattanLength <= BeaconDistance);
 }
 

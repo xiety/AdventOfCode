@@ -72,7 +72,7 @@ public static class Solver
             pos += step;
             yield return pos;
         }
-        while (rect.Intersects(pos));
+        while (rect.InsideMe(pos));
     }
 
     static double Angle(Pos direction)
