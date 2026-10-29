@@ -53,6 +53,7 @@ public static class Solver
 
         IEnumerable<(int, int, int)> Populate(Rect3 rect)
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             var nx1 = Array.IndexOf(allX, rect.From.X);
             var nx2 = Array.IndexOf(allX, rect.To.X + 1);
 
@@ -61,6 +62,7 @@ public static class Solver
 
             var nz1 = Array.IndexOf(allZ, rect.From.Z);
             var nz2 = Array.IndexOf(allZ, rect.To.Z + 1);
+#pragma warning restore CS8604 // Possible null reference argument.
 
             foreach (var nx in nx1..(Math.Min(nx2, allX.Length - 2) + 1))
                 foreach (var ny in ny1..(Math.Min(ny2, allY.Length - 2) + 1))

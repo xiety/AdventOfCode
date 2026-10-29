@@ -56,10 +56,10 @@ public static class RegexExtensions
             return obj;
         }
 
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
         public T MapTo<T>(Regex debugRegex, string debugText)
-        {
-            return !match.Success ? throw new ArgumentOutOfRangeException(nameof(match), match, message: $"Match failed on '{debugText}' with '{debugRegex}") : match.MapTo<T>();
-        }
+            => !match.Success ? throw new ArgumentOutOfRangeException(nameof(match), match, message: $"Match failed on '{debugText}' with '{debugRegex}") : match.MapTo<T>();
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
 
         public bool TryMapTo<T>(Regex debugRegex, string debugText, [NotNullWhen(true)] out T? result)
         {
