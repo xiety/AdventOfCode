@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
+    <CentralPackageVersionOverrideEnabled>true</CentralPackageVersionOverrideEnabled>
   </PropertyGroup>
 
   <ItemGroup>
-    <GlobalPackageReference Include="Roslynator.Analyzers" Version="4.15.0">
+    <GlobalPackageReference Include="Roslynator.Analyzers" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </GlobalPackageReference>

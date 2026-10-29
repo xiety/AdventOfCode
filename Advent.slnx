@@ -8,6 +8,7 @@
     <File Path=".gitignore" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
     <File Path="README.md" />
   </Folder>
   <Project Path="2015/A2015.Problems.csproj" />
