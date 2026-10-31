@@ -23,7 +23,7 @@ public static class Solver
 
     static long Find(GraphNode start, string finish)
         => Memoization.RunRecursive<GraphNode, long>(start,
-            (memo, p) => p.Name == finish ? 1 : p.Connections.Sum(memo));
+            (memo, p) => p.Name == finish ? 1 : p.Connections.Select(a => a.Destination).Sum(memo));
 
     static Graph CreateGraph(Item[] items)
     {
@@ -33,7 +33,7 @@ public static class Solver
             .ToDictionary(a => a, GraphNode.Create);
 
         items.SelectMany(item => item.To.Select(to => (item.From, To: to)))
-             .Foreach(a => nodes[a.From].Connections.Add(nodes[a.To]));
+             .Foreach(a => nodes[a.From].Connections.Add(new(nodes[a.To], 1)));
 
         return nodes;
     }

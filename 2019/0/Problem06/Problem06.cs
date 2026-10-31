@@ -37,8 +37,8 @@ public static class Solver
             var from = nodes.First(a => a.Name == connection.Center);
             var to = nodes.First(a => a.Name == connection.Moon);
 
-            from.Connections.Add(to);
-            to.Connections.Add(from);
+            from.Connections.Add(new(to, 1));
+            to.Connections.Add(new(from, 1));
         }
 
         return nodes;

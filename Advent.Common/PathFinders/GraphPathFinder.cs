@@ -17,18 +17,18 @@ public static class GraphPathFinder
 
                 foreach (var newStep in currentStep.Connections)
                 {
-                    var oldStar = star.GetValueOrDefault(newStep, -1);
+                    var oldStar = star.GetValueOrDefault(newStep.Destination, -1);
 
-                    var newStar = currentDistance + 1;
+                    var newStar = currentDistance + newStep.Distance;
 
                     if (oldStar == -1 || oldStar > newStar)
                     {
-                        star[newStep] = newStar;
+                        star[newStep.Destination] = newStar;
 
-                        if (newStep == end)
+                        if (newStep.Destination == end)
                             return star;
 
-                        newSteps.Add(newStep);
+                        newSteps.Add(newStep.Destination);
                     }
                 }
             }
@@ -43,10 +43,12 @@ public static class GraphPathFinder
     }
 }
 
+public record GraphNodeConnection(GraphNode Destination, int Distance);
+
 public class GraphNode(string name)
 {
     public string Name { get; } = name;
-    public List<GraphNode> Connections { get; } = [];
+    public List<GraphNodeConnection> Connections { get; } = [];
 
     public static GraphNode Create(string name)
         => new(name);
