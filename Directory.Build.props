@@ -15,7 +15,12 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
+
+  <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Problems'))">
+    <Compile Include="$(MSBuildThisFileDirectory)GlobalMSTestSettings.cs" Link="GlobalMSTestSettings.cs" />
+  </ItemGroup>
 
   <ItemGroup Condition="!$(MSBuildProjectFullPath.Contains('Advent.Common'))">
     <ProjectReference Include="$(SolutionDir)Analyzers\Advent.Analyzers\Advent.Analyzers.csproj"

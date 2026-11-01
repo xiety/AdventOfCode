@@ -1,9 +1,5 @@
 ﻿<Project Sdk="MSTest.Sdk">
 
-  <PropertyGroup>
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-  </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Advent.Common\Advent.Common.csproj" />
     <ProjectReference Include="..\Advent.BaseTests\Advent.BaseTests.csproj" />
