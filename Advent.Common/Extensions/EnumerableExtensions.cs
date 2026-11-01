@@ -374,6 +374,32 @@ public static class EnumerableExtensions
     extension<T>(IEnumerable<T> source)
         where T : IEqualityOperators<T, T, bool>
     {
+        public IEnumerable<(T Value, int Count)> RunsWithCounts()
+        {
+            using var e = source.GetEnumerator();
+            if (!e.MoveNext())
+                yield break;
+
+            var current = e.Current;
+            var count = 1;
+
+            while (e.MoveNext())
+            {
+                if (current == e.Current)
+                {
+                    count++;
+                }
+                else
+                {
+                    yield return (current, count);
+                    current = e.Current;
+                    count = 1;
+                }
+            }
+
+            yield return (current, count);
+        }
+
         public int FindRepeat()
         {
             List<T> list = [];
