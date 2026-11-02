@@ -125,6 +125,7 @@ public class TestGenerator : IIncrementalGenerator
         string Test(bool sample) => $$"""
             #line {{line}} "{{displayPath}}"
             [TestMethod]
+            [BenchmarkDotNet.Attributes.Benchmark]
             public void {{m.Symbol.Name}}_{{(sample ? "Sample" : "Input")}}()
             {
                 var lines = LoadInput(@"{{sourcePath}}", {{m.IsPartA.ToString().ToLower()}}, {{sample.ToString().ToLower()}});

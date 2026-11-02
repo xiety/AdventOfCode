@@ -19,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Problems'))">
+    <PackageReference Include="BenchmarkDotNet" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalMSTestSettings.cs" Link="GlobalMSTestSettings.cs" />
   </ItemGroup>
 
