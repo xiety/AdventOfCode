@@ -40,6 +40,12 @@ public sealed class ForLoopToRangeAnalyzer : DiagnosticAnalyzer
 
         var v = f.Declaration.Variables[0];
 
+        if (c.SemanticModel.GetDeclaredSymbol(v, c.CancellationToken) is not ILocalSymbol loopSym)
+            return;
+
+        if (IsVariableMutatedInBody(c.SemanticModel, f.Statement, loopSym))
+            return;
+
         var cv = c.SemanticModel.GetConstantValue(v.Initializer!.Value, c.CancellationToken);
         var isZeroStart = cv is { HasValue: true, Value: 0 or 0L or 0F or 0D or 0M };
 
@@ -54,8 +60,7 @@ public sealed class ForLoopToRangeAnalyzer : DiagnosticAnalyzer
         }
         else
         {
-            var loopSym = c.SemanticModel.GetDeclaredSymbol(v, c.CancellationToken) as ILocalSymbol;
-            if (loopSym?.Type.SpecialType != SpecialType.System_Int32)
+            if (loopSym.Type.SpecialType != SpecialType.System_Int32)
                 return;
 
             if (cv is { HasValue: true, Value: < 0 })
@@ -81,6 +86,16 @@ public sealed class ForLoopToRangeAnalyzer : DiagnosticAnalyzer
             return;
 
         c.ReportDiagnostic(Diagnostic.Create(Rule, f.ForKeyword.GetLocation()));
+    }
+
+    static bool IsVariableMutatedInBody(SemanticModel semanticModel, StatementSyntax body, ILocalSymbol variableSymbol)
+    {
+        var dataFlow = semanticModel.AnalyzeDataFlow(body)!;
+
+        if (!dataFlow.Succeeded)
+            return true;
+
+        return dataFlow.WrittenInside.Contains(variableSymbol);
     }
 
     static bool IsNumeric(ITypeSymbol? t)
