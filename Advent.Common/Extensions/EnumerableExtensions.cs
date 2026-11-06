@@ -190,26 +190,38 @@ public static class EnumerableExtensions
             return (array[0], array[1], array[2]);
         }
 
-        public IEnumerable<T> MinAllBy<TKey>(Func<T, TKey> selector)
+        public List<T> MaxAllBy<TKey>(Func<T, TKey> selector, IComparer<TKey>? comparer = null)
+            => FindAllBy(source, selector, comparer, isMax: true);
+
+        public List<T> MinAllBy<TKey>(Func<T, TKey> selector, IComparer<TKey>? comparer = null)
+            => FindAllBy(source, selector, comparer, isMax: false);
+
+        List<T> FindAllBy<TKey>(Func<T, TKey> selector, IComparer<TKey>? comparer, bool isMax)
         {
-            var comparer = Comparer<TKey>.Default;
+            ArgumentNullException.ThrowIfNull(selector);
 
-            var first = true;
-            var minValue = default(TKey);
-            var result = new List<T>();
+            using var enumerator = source.GetEnumerator();
+            if (!enumerator.MoveNext())
+                return [];
 
-            foreach (var item in source)
+            var comp = comparer ?? Comparer<TKey>.Default;
+            var result = new List<T> { enumerator.Current };
+            var bestValue = selector(enumerator.Current);
+
+            var sign = isMax ? 1 : -1;
+
+            while (enumerator.MoveNext())
             {
+                var item = enumerator.Current;
                 var value = selector(item);
 
-                var c = first ? -1 : comparer.Compare(value, minValue);
+                var c = comp.Compare(value, bestValue) * sign;
 
-                if (c < 0)
+                if (c > 0)
                 {
-                    minValue = value;
+                    bestValue = value;
                     result.Clear();
                     result.Add(item);
-                    first = false;
                 }
                 else if (c == 0)
                 {
