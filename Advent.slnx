@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Analyzers/">
+    <File Path="Analyzers/Directory.Build.props" />
     <Project Path="Analyzers/Advent.Analyzers.CodeFixes/Advent.Analyzers.CodeFixes.csproj" />
     <Project Path="Analyzers/Advent.Analyzers.Test/Advent.Analyzers.Test.csproj" />
     <Project Path="Analyzers/Advent.Analyzers/Advent.Analyzers.csproj" />
