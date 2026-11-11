@@ -11,7 +11,6 @@ public static class Solver
         var (numbers, boards) = LoadData(lines);
 
         var marks = CreateEmptyMarks(boards);
-        var result = -1;
 
         foreach (var number in numbers)
         {
@@ -22,15 +21,11 @@ public static class Solver
                 var bingo = CheckBingos(marks[i]);
 
                 if (bingo)
-                {
-                    result = CalculateResult(boards[i], marks[i], number);
-                    goto end;
-                }
+                    return CalculateResult(boards[i], marks[i], number);
             }
         }
 
-    end:
-        return result;
+        throw new();
     }
 
     [GeneratedTest<int>(1924, 24628)]
@@ -40,7 +35,6 @@ public static class Solver
 
         var marks = CreateEmptyMarks(boards);
         var wins = new bool[boards.Length];
-        var result = -1;
 
         foreach (var number in numbers)
         {
@@ -55,16 +49,12 @@ public static class Solver
                     wins[i] = true;
 
                     if (wins.All(a => a))
-                    {
-                        result = CalculateResult(boards[i], marks[i], number);
-                        goto end;
-                    }
+                        return CalculateResult(boards[i], marks[i], number);
                 }
             }
         }
 
-    end:
-        return result;
+        throw new();
     }
 
     static bool[][,] CreateEmptyMarks(int[][,] boards)

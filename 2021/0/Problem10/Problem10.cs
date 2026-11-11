@@ -13,7 +13,7 @@ public static class Solver
 
             foreach (var c in line)
             {
-                if (DicCloses.ContainsValue(c))
+                if (dicCloses.ContainsValue(c))
                 {
                     stack.Push(c);
                 }
@@ -21,9 +21,9 @@ public static class Solver
                 {
                     var open = stack.Pop();
 
-                    if (open != DicCloses[c])
+                    if (open != dicCloses[c])
                     {
-                        score += DicScores1[c];
+                        score += dicScores1[c];
                         break;
                     }
                 }
@@ -46,7 +46,7 @@ public static class Solver
 
             foreach (var c in line)
             {
-                if (DicCloses.ContainsValue(c))
+                if (dicCloses.ContainsValue(c))
                 {
                     stack.Push(c);
                 }
@@ -54,7 +54,7 @@ public static class Solver
                 {
                     var open = stack.Pop();
 
-                    if (open != DicCloses[c])
+                    if (open != dicCloses[c])
                     {
                         isError = true;
                         break;
@@ -64,7 +64,7 @@ public static class Solver
 
             if (!isError)
             {
-                var scoreLine = stack.Aggregate(0L, (acc, item) => acc * 5 + DicScores2[item]);
+                var scoreLine = stack.Aggregate(0L, (acc, item) => acc * 5 + dicScores2[item]);
                 scores.Add(scoreLine);
             }
         }
@@ -72,7 +72,7 @@ public static class Solver
         return scores.Order().Skip(scores.Count / 2).First();
     }
 
-    static readonly Dictionary<char, int> DicScores1 = new()
+    static readonly Dictionary<char, int> dicScores1 = new()
     {
         [')'] = 3,
         [']'] = 57,
@@ -80,7 +80,7 @@ public static class Solver
         ['>'] = 25137,
     };
 
-    static readonly Dictionary<char, int> DicScores2 = new()
+    static readonly Dictionary<char, int> dicScores2 = new()
     {
         ['('] = 1,
         ['['] = 2,
@@ -88,7 +88,7 @@ public static class Solver
         ['<'] = 4,
     };
 
-    static readonly Dictionary<char, int> DicCloses = new()
+    static readonly Dictionary<char, int> dicCloses = new()
     {
         [')'] = '(',
         [']'] = '[',

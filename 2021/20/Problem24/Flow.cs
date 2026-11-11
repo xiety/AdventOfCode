@@ -2,14 +2,14 @@
 
 public static class Flow
 {
-    const string input_str = "00000000000000";
+    const string Input = "00000000000000";
 
     public static string Run(string[] lines)
     {
         var data = new List<Item>[4];
 
         foreach (var i in data.Length)
-            data[i] = [new(0, input_str)];
+            data[i] = [new(0, Input)];
 
         var inputIndex = 1;
 
@@ -25,7 +25,7 @@ public static class Flow
 
                     data[index].AddRange(
                         Enumerable.Range(1, 9)
-                        .ToArray(x => new Item(x, input_str[..(inputIndex - 1)] + x + input_str[inputIndex..])));
+                        .ToArray(x => new Item(x, Input[..(inputIndex - 1)] + x + Input[inputIndex..])));
 
                     inputIndex++;
                     break;
@@ -39,7 +39,7 @@ public static class Flow
                     if (ib >= 0)
                         right = [.. data[ib]];
                     else
-                        right = [new Item(int.Parse(b), input_str)];
+                        right = [new Item(int.Parse(b), Input)];
 
                     var result = new List<Item>();
 

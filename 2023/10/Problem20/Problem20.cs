@@ -130,7 +130,7 @@ public static class Solver
         }
     }
 
-    static readonly Predicate<Connection> Check1 = a => a.PulseMemory;
+    static readonly Predicate<Connection> check1 = a => a.PulseMemory;
 
     static void Conjunction(List<Radio> newList, Dictionary<bool, long> dic, RadioConjunction conjunction, Dictionary<string, List<long>> conjDic, bool exit, long buttonPress)
     {
@@ -138,7 +138,7 @@ public static class Solver
 
         connection.PulseMemory = pulse;
 
-        var allHigh = Array.TrueForAll(conjunction.Inputs, Check1);
+        var allHigh = Array.TrueForAll(conjunction.Inputs, check1);
         var nextPulse = !allHigh;
 
         if (nextPulse)

@@ -9,6 +9,6 @@ public static class Solver
     [GeneratedTest<int>(5, 1771)]
     public static int RunB(string[] lines)
         => lines[0]
-        .Accumulate((Sum: 0, Index: 0), (acc, a) => (acc.Sum + (a == '(' ? 1 : -1), acc.Index + 1))
-        .First(a => a.Sum < 0).Index;
+            .Accumulate((Sum: 0, Index: 0), (acc, a) => (acc.Sum + (a == '(' ? 1 : -1), acc.Index + 1))
+            .First(a => a.Sum < 0).Index;
 }

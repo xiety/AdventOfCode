@@ -84,9 +84,9 @@ public static class Solver
             return false;
 
         return !asteroids
-            .Where(other => other != asteroid && other != observatory)
-            .Any(other => CastShadow(rect, observatory, other)
-                .Any(a => a == asteroid));
+            .Any(other => other != asteroid && other != observatory
+                       && CastShadow(rect, observatory, other).Any(a => a == asteroid))
+;
     }
 
     static bool[,] LoadData(string[] lines)

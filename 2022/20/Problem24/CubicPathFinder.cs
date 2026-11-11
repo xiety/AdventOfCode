@@ -2,7 +2,7 @@
 
 public static class CubicPathFinder
 {
-    static readonly Pos3[] Deltas =
+    static readonly Pos3[] deltas =
     [
         new(-1, 0, 1),
         new(0, -1, 1),
@@ -25,7 +25,7 @@ public static class CubicPathFinder
         {
             foreach (var currentStep in currentSteps)
             {
-                foreach (var delta in Deltas)
+                foreach (var delta in deltas)
                 {
                     var newStep = currentStep + delta;
 

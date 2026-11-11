@@ -4,7 +4,7 @@ namespace Advent.Common;
 
 public class ObjFile
 {
-    static readonly Vector3[] CubeVertices = [
+    static readonly Vector3[] cubeVertices = [
         new(0, 0, 0), // 0
         new(1, 0, 0), // 1
         new(1, 1, 0), // 2
@@ -15,7 +15,7 @@ public class ObjFile
         new(0, 0, 1),  // 7
     ];
 
-    static readonly int[,] CubeFaces = new [,] {
+    static readonly int[,] cubeFaces = new [,] {
         {0, 1, 2, 3}, // left
         {4, 5, 6, 7}, // right
         {0, 4, 7, 1}, // bottom
@@ -35,10 +35,10 @@ public class ObjFile
         var size = pos2 - pos1;
 
         for (var i = 0; i < 8; ++i)
-            vList.Add(CubeVertices[i] * size + pos1);
+            vList.Add(cubeVertices[i] * size + pos1);
 
         for (var i = 0; i < 6; i++)
-            fList.Add([CubeFaces[i, 0] + offset, CubeFaces[i, 1] + offset, CubeFaces[i, 2] + offset, CubeFaces[i, 3] + offset]);
+            fList.Add([cubeFaces[i, 0] + offset, cubeFaces[i, 1] + offset, cubeFaces[i, 2] + offset, cubeFaces[i, 3] + offset]);
 
         offset += 8;
     }

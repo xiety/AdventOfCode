@@ -74,6 +74,7 @@ public static class Solver
                     var scannerA = scanners[sa];
                     var scannerB = scanners[sb];
 
+                loopScannerA:
                     foreach (var i in scannerA.Beams.Length)
                     {
                         var distancesI = CalcDistances(scannerA.Beams, i);
@@ -121,7 +122,7 @@ public static class Solver
 
                                     dic.TryAdd(sb, transform);
 
-                                    goto labelOut;
+                                    break loopScannerA;
                                 }
 
                                 if (dic.TryGetValue(sb, out var transformForParent2))
@@ -140,16 +141,13 @@ public static class Solver
 
                                     dic.TryAdd(sa, transform);
 
-                                    goto labelOut;
+                                    break loopScannerA;
                                 }
 
                                 unknown = true;
                             }
                         }
                     }
-
-                labelOut:
-                    ;
                 }
             }
         }

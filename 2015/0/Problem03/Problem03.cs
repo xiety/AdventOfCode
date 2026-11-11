@@ -12,7 +12,7 @@ public static class Solver
             .Concat(EnumerateHouses(a.Odd)).Distinct().Count());
 
     static IEnumerable<Pos> EnumerateHouses(IEnumerable<Pos> offsets)
-        => offsets.Accumulate(new Pos(0, 0), (prev, offset) => prev + offset);
+        => offsets.Accumulate(Pos.Zero, (prev, offset) => prev + offset);
 
     static Pos ToOffset(char c)
         => c switch

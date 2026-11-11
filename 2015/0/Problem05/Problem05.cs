@@ -10,19 +10,15 @@ public static class Solver
         char[] vowels = ['a', 'e', 'i', 'o', 'u'];
         string[] bads = ["ab", "cd", "pq", "xy"];
 
-        return lines
-            .Where(line => line.Count(vowels.Contains) >= 3)
-            .Where(line => line.Chain().Any(b => b.First == b.Second))
-            .Where(line => !bads.Any(line.Contains))
-            .Count();
+        return lines.Count(line => line.Count(vowels.Contains) >= 3
+                                && line.Chain().Any(b => b.First == b.Second)
+                                && !bads.Any(line.Contains));
     }
 
     [GeneratedTest<int>(2, 69)]
     public static int RunB(string[] lines)
-        => lines
-            .Where(line => line.Index().SkipLast(1).Any(x => line[(x.Index + 2)..].Contains(line[x.Index..(x.Index + 2)])))
-            .Where(line => line.Index().SkipLast(2).Any(x => x.Item == line[x.Index + 2]))
-            .Count();
+        => lines.Count(line => line.Index().SkipLast(1).Any(x => line[(x.Index + 2)..].Contains(line[x.Index..(x.Index + 2)]))
+                            && line.Index().SkipLast(2).Any(x => x.Item == line[x.Index + 2]));
 
     [GeneratedTest<int>(2, 238)]
     public static int RunARegex(string[] lines)

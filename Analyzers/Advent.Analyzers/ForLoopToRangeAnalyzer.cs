@@ -12,7 +12,7 @@ public sealed class ForLoopToRangeAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "ADVENT002";
 
-    static readonly DiagnosticDescriptor Rule = new(
+    static readonly DiagnosticDescriptor rule = new(
         DiagnosticId,
         "Use foreach with range instead of for-loop",
         "Replace 'for' loop with 'foreach' using a range",
@@ -20,7 +20,7 @@ public sealed class ForLoopToRangeAnalyzer : DiagnosticAnalyzer
         DiagnosticSeverity.Info,
         true);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [rule];
 
     public override void Initialize(AnalysisContext ctx)
     {
@@ -85,7 +85,7 @@ public sealed class ForLoopToRangeAnalyzer : DiagnosticAnalyzer
               add.Right is LiteralExpressionSyntax { Token.Value: 1 }))
             return;
 
-        c.ReportDiagnostic(Diagnostic.Create(Rule, f.ForKeyword.GetLocation()));
+        c.ReportDiagnostic(Diagnostic.Create(rule, f.ForKeyword.GetLocation()));
     }
 
     static bool IsVariableMutatedInBody(SemanticModel semanticModel, StatementSyntax body, ILocalSymbol variableSymbol)

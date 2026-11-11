@@ -4,7 +4,7 @@ namespace A2023.Problem02;
 
 public static class Solver
 {
-    static readonly string[] Colors = ["red", "green", "blue"];
+    static readonly string[] colors = ["red", "green", "blue"];
 
     [GeneratedTest<int>(8, 3059)]
     public static int RunA(string[] lines)
@@ -22,7 +22,7 @@ public static class Solver
     [GeneratedTest<int>(2286, 65371)]
     public static int RunB(string[] lines)
         => LoadData(lines)
-            .Sum(g => Enumerable.Range(0, Colors.Length)
+            .Sum(g => Enumerable.Range(0, colors.Length)
                 .Select(i => g.Balls.Max<int[], int>(b => b[i])).Mul());
 
     static Game[] LoadData(string[] lines)
@@ -46,7 +46,7 @@ public static class Solver
 
                 foreach (var part2 in parts)
                 {
-                    var index = Array.IndexOf(Colors, part2.Color);
+                    var index = Array.IndexOf(colors, part2.Color);
                     data[index] = part2.Num;
                 }
 

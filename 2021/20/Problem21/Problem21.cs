@@ -30,15 +30,10 @@ public static class Solver
                 scores[i] += players[i];
 
                 if (scores[i] >= target)
-                    goto end;
+                    return scores.Min() * step;
             }
         }
         while (true);
-
-    end:
-        var result = scores.Min() * step;
-
-        return result;
     }
 
     [GeneratedTest<long>(444356092776315, 138508043837521)]

@@ -13,7 +13,7 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "ADVENT001";
 
-    static readonly DiagnosticDescriptor Rule = new(
+    static readonly DiagnosticDescriptor rule = new(
         id: DiagnosticId,
         title: "Prefer ToArray extension method over Select(...).ToArray()",
         messageFormat: "Use 'nodes.ToArray(a => a.Value)' instead of 'nodes.Select(a => a.Value).ToArray()'",
@@ -22,10 +22,10 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: "Using the ToArray<TSource,TResult>(selector) extension improves readability and performance.");
 
-    static readonly string[] TargetMethods = ["ToArray", "ToList"];
+    static readonly string[] targetMethods = ["ToArray", "ToList"];
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
-        => [Rule];
+        => [rule];
 
     public override void Initialize(AnalysisContext context)
     {
@@ -42,7 +42,7 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
         if (TryMatchSelectToTargetMethod(invocation, context.SemanticModel, context.CancellationToken,
             out _, out _, out var methodName))
         {
-            var diagnostic = Diagnostic.Create(Rule, invocation.GetLocation(),
+            var diagnostic = Diagnostic.Create(rule, invocation.GetLocation(),
                 messageArgs: [methodName]);
             context.ReportDiagnostic(diagnostic);
         }
@@ -65,7 +65,7 @@ public class PreferToArrayExtensionAnalyzer : DiagnosticAnalyzer
             return false;
 
         targetMethodName = outerAccess.Name.Identifier.ValueText;
-        if (!TargetMethods.Contains(targetMethodName))
+        if (!targetMethods.Contains(targetMethodName))
             return false;
 
         if (outerAccess.Expression is not InvocationExpressionSyntax { Expression: MemberAccessExpressionSyntax selectAccess } selectCall

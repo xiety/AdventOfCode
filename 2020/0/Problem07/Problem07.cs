@@ -4,7 +4,7 @@ namespace A2020.Problem07;
 
 public static class Solver
 {
-    const string rootName = "shiny gold";
+    const string RootName = "shiny gold";
 
     [GeneratedTest<int>(4, 124)]
     public static int RunA(string[] lines)
@@ -12,10 +12,10 @@ public static class Solver
 
     [GeneratedTest<int>(126, 34862)]
     public static int RunB(string[] lines)
-        => CountRecurse(LoadItems(lines)[rootName]) - 1;
+        => CountRecurse(LoadItems(lines)[RootName]) - 1;
 
     static bool CheckRecurse(Item parent)
-        => parent.Receipts.Any(a => a.Item.Name == rootName || CheckRecurse(a.Item));
+        => parent.Receipts.Any(a => a.Item.Name == RootName || CheckRecurse(a.Item));
 
     static int CountRecurse(Item parent)
         => 1 + parent.Receipts.Sum(a => a.Value * CountRecurse(a.Item));
