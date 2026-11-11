@@ -7,6 +7,8 @@
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <RunWorkingDirectory>.</RunWorkingDirectory>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <ArtifactsPath>$(MSBuildThisFileDirectory).build</ArtifactsPath>
   </PropertyGroup>
 
   <PropertyGroup>
