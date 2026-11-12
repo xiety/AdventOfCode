@@ -190,13 +190,13 @@ public static class EnumerableExtensions
             return (array[0], array[1], array[2]);
         }
 
-        public List<T> MaxAllBy<TKey>(Func<T, TKey> selector, IComparer<TKey>? comparer = null)
+        public T[] MaxAllBy<TKey>(Func<T, TKey> selector, IComparer<TKey>? comparer = null)
             => FindAllBy(source, selector, comparer, isMax: true);
 
-        public List<T> MinAllBy<TKey>(Func<T, TKey> selector, IComparer<TKey>? comparer = null)
+        public T[] MinAllBy<TKey>(Func<T, TKey> selector, IComparer<TKey>? comparer = null)
             => FindAllBy(source, selector, comparer, isMax: false);
 
-        List<T> FindAllBy<TKey>(Func<T, TKey> selector, IComparer<TKey>? comparer, bool isMax)
+        T[] FindAllBy<TKey>(Func<T, TKey> selector, IComparer<TKey>? comparer, bool isMax)
         {
             ArgumentNullException.ThrowIfNull(selector);
 
@@ -229,7 +229,7 @@ public static class EnumerableExtensions
                 }
             }
 
-            return result;
+            return [.. result];
         }
 
         public int FindLoopIndex()
