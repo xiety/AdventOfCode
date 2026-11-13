@@ -155,6 +155,14 @@ public static class ArrayEx
             return true;
         }
 
+        public bool Set(Index x, Index y, T value)
+        {
+            var xp = x.GetOffset(array.Width);
+            var yp = y.GetOffset(array.Height);
+            array[xp, yp] = value;
+            return true;
+        }
+
         public bool IsInBounds(Pos p)
             => p.X >= 0 && p.X < array.GetLength(0) && p.Y >= 0 && p.Y < array.GetLength(1);
 
@@ -246,8 +254,8 @@ public static class ArrayEx
         public IEnumerable<Pos> Delted(Pos c)
             => array.Deltas().Select(a => a + c).Where(array.IsInBounds);
 
-        public IEnumerable<(Pos Pos, T Item)> EnumerateDelted(Pos c)
-            => array.Delted(c).Select(a => (a, array.Get(a)));
+        public IEnumerable<T> EnumerateDeltedItems(Pos c)
+            => array.Delted(c).Select(array.Get);
     }
 
     extension<T>(T[][] array)

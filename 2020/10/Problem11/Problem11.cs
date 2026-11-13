@@ -37,7 +37,7 @@ public static class Solver
            select (pos, toSeat);
 
     static int CountOccupiedA(Seat[,] map, Pos pos)
-        => map.EnumerateDelted(pos).Count(a => a.Item == Seat.Occupied);
+        => map.EnumerateDeltedItems(pos).Count(a => a == Seat.Occupied);
 
     static int CountOccupiedB(Seat[,] map, Pos pos)
         => map.Deltas().Count(a => CheckB(map, pos, a));
