@@ -89,5 +89,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.A)}>\w+) -> (?<{nameof(Item.B)}>\w+)$")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

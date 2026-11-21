@@ -29,7 +29,7 @@ public static class Solver
     static Item2 ParseItem2(string text)
     {
         var raw = CompiledRegs.MapToRegex1(text);
-        var receipts = CompiledRegs.Regex2().Matches(raw.To).ToArray(a => a.MapTo<Receipt2>());
+        var receipts = CompiledRegs.Regex2.Matches(raw.To).ToArray(a => a.MapTo<Receipt2>());
         return new(raw.From, receipts);
     }
 }
@@ -45,8 +45,8 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item1.From)}>.+) bags contain (?<{nameof(Item1.To)}>.+)$")]
     [MapTo<Item1>]
-    public static partial Regex Regex1();
+    public static partial Regex Regex1 { get; }
 
     [GeneratedRegex(@$"(?<{nameof(Receipt2.Value)}>\d+) (?<{nameof(Receipt2.Name)}>.+?) bags?")]
-    public static partial Regex Regex2();
+    public static partial Regex Regex2 { get; }
 }

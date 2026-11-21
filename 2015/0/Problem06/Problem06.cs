@@ -142,5 +142,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(ItemRaw.Mode)}>turn on|turn off|toggle) (?<{nameof(ItemRaw.X1)}>\d+),(?<{nameof(ItemRaw.Y1)}>\d+) through (?<{nameof(ItemRaw.X2)}>\d+),(?<{nameof(ItemRaw.Y2)}>\d+)$")]
     [MapTo<ItemRaw>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

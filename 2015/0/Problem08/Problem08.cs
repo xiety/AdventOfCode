@@ -39,10 +39,10 @@ public static class Solver
     }
 
     static string DecodeRegex(string input)
-        => CompiledRegs.Escapes().Replace(input[1..^1], match =>
+        => CompiledRegs.Escapes.Replace(input[1..^1], match =>
             match.Groups[1].Success
-            ? EncodeHex(match.Groups[1].Value).ToString()
-            : match.Groups[2].Value);
+            ? EncodeHex(match[1]).ToString()
+            : match[2]);
 
     static string Encode(string input) =>
         $"\"{input.Replace("\\", "\\\\").Replace("\"", "\\\"")}\"";
@@ -54,5 +54,5 @@ public static class Solver
 static partial class CompiledRegs
 {
     [GeneratedRegex(@"\\(?:x([0-9a-f]{2})|(\\|""))")]
-    public static partial Regex Escapes();
+    public static partial Regex Escapes { get; }
 }

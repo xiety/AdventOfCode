@@ -19,7 +19,7 @@ public static class Solver
     static long CalcRecurse(long[] items, bool next)
     {
         var diffs = items.Chain().ToArray(a => a.Second - a.First);
-        var done = diffs.Distinct().Count() == 1;
+        var done = diffs.Distinct().Take(2).Count() == 1;
         var delta = done ? diffs[0] : CalcRecurse(diffs, next);
         return next ? items[^1] + delta : items[0] - delta;
     }

@@ -77,5 +77,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^\<x=(?<{nameof(Pos3.X)}>-?\d+), y=(?<{nameof(Pos3.Y)}>-?\d+), z=(?<{nameof(Pos3.Z)}>-?\d+)\>$")]
     [MapTo<Pos3>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

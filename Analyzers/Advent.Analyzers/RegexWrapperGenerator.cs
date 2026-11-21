@@ -13,8 +13,8 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
     {
         var methods = context.SyntaxProvider
             .CreateSyntaxProvider(
-                predicate: static (node, _) => node is MethodDeclarationSyntax { AttributeLists.Count: > 0 },
-                transform: static (ctx, _) => GetMethodInfo(ctx))
+                predicate: static (node, _) => node is PropertyDeclarationSyntax { AttributeLists.Count: > 0 },
+                transform: static (ctx, _) => GetPropertyInfo(ctx))
             .Where(static m => m is not null);
 
         context.RegisterSourceOutput(
@@ -22,12 +22,12 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
             static (spc, tuple) => Execute(spc, tuple.Right));
     }
 
-    sealed record Model(string Method, string Target, string Class, string? Ns, bool CanBeNull);
+    sealed record Model(string Name, string Target, string Class, string? Ns, bool CanBeNull);
 
-    static Model? GetMethodInfo(GeneratorSyntaxContext ctx)
+    static Model? GetPropertyInfo(GeneratorSyntaxContext ctx)
     {
-        var method = (MethodDeclarationSyntax)ctx.Node;
-        var symbol = ctx.SemanticModel.GetDeclaredSymbol(method) as IMethodSymbol;
+        var property = (PropertyDeclarationSyntax)ctx.Node;
+        var symbol = ctx.SemanticModel.GetDeclaredSymbol(property) as IPropertySymbol;
         if (symbol is not { IsStatic: true })
             return null;
 
@@ -57,12 +57,12 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
             canBeNull);
     }
 
-    static void Execute(SourceProductionContext spc, ImmutableArray<Model?> methods)
+    static void Execute(SourceProductionContext spc, ImmutableArray<Model?> properties)
     {
-        if (methods.IsDefaultOrEmpty)
+        if (properties.IsDefaultOrEmpty)
             return;
 
-        var ordered = methods
+        var ordered = properties
             .Select(m => m!)
             .OrderBy(m => m.Ns ?? string.Empty)
             .ThenBy(m => m.Class)
@@ -97,14 +97,14 @@ public sealed class RegexWrapperGenerator : IIncrementalGenerator
                 var suffix = m.CanBeNull ? "?" : string.Empty;
 
                 w.WriteIndentedRaw($"""
-                    public static bool TryMapTo{m.Method}(string input, [NotNullWhen(true)] out {m.Target}{suffix} result)
-                        => {m.Method}().TryMapTo<{m.Target}>(input, out result);
+                    public static bool TryMapTo{m.Name}(string input, [NotNullWhen(true)] out {m.Target}{suffix} result)
+                        => {m.Name}.TryMapTo<{m.Target}>(input, out result);
 
-                    public static {m.Target} MapTo{m.Method}(string input)
-                        => {m.Method}().MapTo<{m.Target}>(input);
+                    public static {m.Target} MapTo{m.Name}(string input)
+                        => {m.Name}.MapTo<{m.Target}>(input);
 
-                    public static {m.Target}[] FromLines{m.Method}(System.Collections.Generic.IEnumerable<string> lines)
-                        => {m.Method}().FromLines<{m.Target}>(lines);
+                    public static {m.Target}[] FromLines{m.Name}(System.Collections.Generic.IEnumerable<string> lines)
+                        => {m.Name}.FromLines<{m.Target}>(lines);
 
                     """);
             }

@@ -53,5 +53,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^((?<{nameof(Item.Left)}>[a-z0-9]+) )?((?<{nameof(Item.Operation)}>[A-Z]+) )?(?<{nameof(Item.Right)}>[a-z0-9]+) -\> (?<{nameof(Item.Output)}>[a-z]+)")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

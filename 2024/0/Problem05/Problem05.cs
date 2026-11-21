@@ -44,5 +44,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"(?<{nameof(Rule.Left)}>\d+)\|(?<{nameof(Rule.Right)}>\d+)")]
     [MapTo<Rule>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

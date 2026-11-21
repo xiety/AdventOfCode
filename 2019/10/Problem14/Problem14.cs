@@ -57,5 +57,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^((?<{nameof(ItemRaw.InNum)}>\d+)\s(?<{nameof(ItemRaw.InName)}>[A-Z]+)(,\s)?)+\s=\>\s(?<{nameof(ItemRaw.OutNum)}>\d+)\s(?<{nameof(ItemRaw.OutName)}>[A-Z]+)$")]
     [MapTo<ItemRaw>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

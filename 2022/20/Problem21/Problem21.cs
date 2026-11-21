@@ -134,7 +134,7 @@ public static class Solver
     {
         var monkeys = lines
             .ToArray(a => a.MapTo<Monkey, MonkeyOperation, MonkeyValue>(
-                CompiledRegs.RegexOperation(), CompiledRegs.RegexValue()));
+                CompiledRegs.RegexOperation, CompiledRegs.RegexValue));
 
         foreach (var monkey in monkeys.OfType<MonkeyOperation>())
         {
@@ -171,8 +171,8 @@ class MonkeyValue(string name, int value) : Monkey(name)
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(MonkeyOperation.Name)}>[a-z]{{4}}): (?<{nameof(MonkeyOperation.LeftName)}>[a-z]{{4}}) (?<{nameof(MonkeyOperation.Operation)}>.) (?<{nameof(MonkeyOperation.RightName)}>[a-z]{{4}})")]
-    public static partial Regex RegexOperation();
+    public static partial Regex RegexOperation { get; }
 
     [GeneratedRegex(@$"^(?<{nameof(MonkeyValue.Name)}>[a-z]{{4}}): (?<{nameof(MonkeyValue.Value)}>\d+)")]
-    public static partial Regex RegexValue();
+    public static partial Regex RegexValue { get; }
 }

@@ -111,7 +111,7 @@ public static class Solver
                 }
             }
         }
-        while (rays.Any(a => !a.Stopped));
+        while (rays.Exists(a => !a.Stopped));
     }
 }
 

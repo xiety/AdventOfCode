@@ -32,5 +32,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^Valve (?<{nameof(Item.Valve)}>\w+) has flow rate=(?<{nameof(Item.Rate)}>\d+); tunnels? leads? to valves? (?<{nameof(Item.Targets)}>\w\w)(, (?<{nameof(Item.Targets)}>\w\w))*$")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

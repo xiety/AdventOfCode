@@ -66,5 +66,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(ItemRaw.From)}>.+) would (?<{nameof(ItemRaw.Mode)}>(lose|gain)) (?<{nameof(ItemRaw.Quantity)}>\d+) happiness units by sitting next to (?<{nameof(ItemRaw.To)}>.+)\.$")]
     [MapTo<ItemRaw>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

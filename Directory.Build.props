@@ -18,6 +18,7 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <TestingPlatformCommandLineArguments>$(TestingPlatformCommandLineArguments) --config-file "$(MSBuildThisFileDirectory)testconfig.json"</TestingPlatformCommandLineArguments>
   </PropertyGroup>
 
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Problems'))">
@@ -26,11 +27,11 @@
   </ItemGroup>
 
   <ItemGroup Condition="!$(MSBuildProjectFullPath.Contains('Advent.Common'))">
-    <ProjectReference Include="$(SolutionDir)Analyzers\Advent.Analyzers\Advent.Analyzers.csproj"
+    <ProjectReference Include="$(MSBuildThisFileDirectory)Analyzers\Advent.Analyzers\Advent.Analyzers.csproj"
                       PrivateAssets="all"
                       ReferenceOutputAssembly="false"
                       OutputItemType="Analyzer" />
-    <ProjectReference Include="$(SolutionDir)Analyzers\Advent.Analyzers.CodeFixes\Advent.Analyzers.CodeFixes.csproj"
+    <ProjectReference Include="$(MSBuildThisFileDirectory)Analyzers\Advent.Analyzers.CodeFixes\Advent.Analyzers.CodeFixes.csproj"
                       PrivateAssets="all"
                       ReferenceOutputAssembly="false"
                       OutputItemType="Analyzer" />

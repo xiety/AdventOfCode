@@ -64,9 +64,9 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^Game (?<{nameof(Step1.GameNumber)}>\d+): (?<{nameof(Step1.GameData)}>.*)$")]
     [MapTo<Step1>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 
     [GeneratedRegex(@$"^(?<{nameof(Step2.Num)}>\d+) (?<{nameof(Step2.Color)}>\w+)$")]
     [MapTo<Step2>]
-    public static partial Regex ColorRegex();
+    public static partial Regex ColorRegex { get; }
 }

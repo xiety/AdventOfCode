@@ -63,5 +63,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Connection.Center)}>.+)\)(?<{nameof(Connection.Moon)}>.+)$")]
     [MapTo<Connection>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

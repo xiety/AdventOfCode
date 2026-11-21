@@ -53,7 +53,7 @@ static class SlopePathFinder
                 let currentValue = map.Get(currentStep)
                 from newStep in map.Offsetted(currentStep)
                 where map.Get(newStep) <= currentValue + 1
-                where star.Get(newStep) == -1
+                   && star.Get(newStep) == -1
                 select newStep;
 
             foreach (var newStep in items)

@@ -85,5 +85,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(ItemRaw.Type)}>(on|off)) x=(?<{nameof(ItemRaw.FromX)}>-?\d+)..(?<{nameof(ItemRaw.ToX)}>-?\d+),y=(?<{nameof(ItemRaw.FromY)}>-?\d+)..(?<{nameof(ItemRaw.ToY)}>-?\d+),z=(?<{nameof(ItemRaw.FromZ)}>-?\d+)..(?<{nameof(ItemRaw.ToZ)}>-?\d+)$")]
     [MapTo<ItemRaw>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

@@ -114,7 +114,7 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"addx (?<{nameof(ParsedAddx.V)}>-?\d+)")]
     [MapTo<ParsedAddx>]
-    public static partial Regex RegexAddx();
+    public static partial Regex RegexAddx { get; }
 }
 
 static class ResultData

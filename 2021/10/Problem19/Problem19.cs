@@ -92,7 +92,7 @@ public static class Solver
 
                             if (intersection.Length == 11)
                             {
-                                if (intersection.Distinct().Count() != 11)
+                                if (intersection.Distinct().Take(12).Count() != 11)
                                     throw new();
 
                                 var sameA1 = scannerA.Beams[i];

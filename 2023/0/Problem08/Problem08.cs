@@ -73,5 +73,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Node.Name)}>\w+) = \(((?<{nameof(Node.Outputs)}>\w+), )*(?<{nameof(Node.Outputs)}>\w+)\)$")]
     [MapTo<Node>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

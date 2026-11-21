@@ -40,13 +40,13 @@ public class TestGenerator : IIncrementalGenerator
             return null;
 
         var attr = symbol.GetAttributes()
-            .FirstOrDefault(a => a.AttributeClass?.Name.StartsWith("GeneratedTest") == true);
+            .FirstOrDefault(a => a.AttributeClass?.Name.StartsWith("GeneratedTest", StringComparison.Ordinal) == true);
         if (attr is null)
             return null;
 
         var sample = attr.ConstructorArguments[0].ToCSharpString();
         var input = attr.ConstructorArguments[1].ToCSharpString();
-        var isA = symbol.Name.StartsWith("RunA", StringComparison.OrdinalIgnoreCase);
+        var isA = symbol.Name.StartsWith("RunA", StringComparison.Ordinal);
         var ns = symbol.ContainingType.ContainingNamespace.IsGlobalNamespace
             ? string.Empty
             : symbol.ContainingType.ContainingNamespace.ToDisplayString();

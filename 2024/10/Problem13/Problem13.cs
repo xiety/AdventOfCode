@@ -56,13 +56,13 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^Button A: X\+(?<{nameof(ItemLine1.Ax)}>\d+), Y\+(?<{nameof(ItemLine1.Ay)}>\d+)$")]
     [MapTo<ItemLine1>]
-    public static partial Regex Line1();
+    public static partial Regex Line1 { get; }
 
     [GeneratedRegex(@$"^Button B: X\+(?<{nameof(ItemLine2.Bx)}>\d+), Y\+(?<{nameof(ItemLine2.By)}>\d+)$")]
     [MapTo<ItemLine2>]
-    public static partial Regex Line2();
+    public static partial Regex Line2 { get; }
 
     [GeneratedRegex(@$"^Prize: X=(?<{nameof(ItemLine3.X)}>\d+), Y=(?<{nameof(ItemLine3.Y)}>\d+)$")]
     [MapTo<ItemLine3>]
-    public static partial Regex Line3();
+    public static partial Regex Line3 { get; }
 }

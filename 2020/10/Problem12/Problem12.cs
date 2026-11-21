@@ -56,7 +56,7 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.Mode)}>.)(?<{nameof(Item.Value)}>\d+)$")]
     [MapTo<Item>]
-    public static partial Regex RegexItem();
+    public static partial Regex RegexItem { get; }
 }
 
 class ParseMode : IRegexParser<Mode>

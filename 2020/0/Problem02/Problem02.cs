@@ -37,5 +37,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.From)}>\d+)-(?<{nameof(Item.To)}>\d+)\s(?<{nameof(Item.Letter)}>.)\:\s(?<{nameof(Item.Text)}>.+)$")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

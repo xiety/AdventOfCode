@@ -39,5 +39,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^Card\s+(?<{nameof(Card.Number)}>\d+):(?:\s+(?<{nameof(Card.Left)}>\d+))+ \|(?:\s+(?<{nameof(Card.Right)}>\d+))+$")]
     [MapTo<Card>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

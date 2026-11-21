@@ -16,5 +16,5 @@ public static class Solver
             .SplitBy(string.Empty)
             .Sum(a => a.SelectMany(b => b)
                 .GroupBy(b => b)
-                .Count(b => b.Count() == a.Length));
+                .Count(b => b.Take(a.Length + 1).Count() == a.Length));
 }

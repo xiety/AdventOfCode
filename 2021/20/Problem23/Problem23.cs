@@ -75,7 +75,7 @@ public static class Solver
     }
 
     static string CreateKey(Unit[] units)
-        => String.Join("|", units.Select(a => $"{a.Type}-{a.Node.Name}"));
+        => String.Join('|', units.Select(a => $"{a.Type}-{a.Node.Name}"));
 
     static Situation CalcSituation(Unit[] units)
     {
@@ -144,7 +144,7 @@ public static class Solver
     static GraphConnection[] GetAllDestintations(Unit unit, Situation situation)
     {
         var starts = new List<GraphConnection> { new() { Target = unit.Node, Weight = 0 } };
-        var history = new List<GraphNode>();
+        var localHistory = new List<GraphNode>();
         var endings = new List<GraphConnection>();
         var newStarts = new List<GraphConnection>();
 
@@ -161,11 +161,11 @@ public static class Solver
 
                     var newConnection = new GraphConnection { Target = connection.Target, Weight = newWeight };
 
-                    if (!history.Contains(newConnection.Target))
+                    if (!localHistory.Contains(newConnection.Target))
                     {
                         newStarts.Add(newConnection);
                         endings.Add(newConnection);
-                        history.Add(newConnection.Target);
+                        localHistory.Add(newConnection.Target);
                     }
                 }
             }

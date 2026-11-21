@@ -57,7 +57,7 @@ public static class Solver
 
         return text
             .Split(Environment.NewLine + Environment.NewLine)
-            .ToArray(CompiledRegs.Regex().MapTo<Monkey<T>>);
+            .ToArray(CompiledRegs.Regex.MapTo<Monkey<T>>);
     }
 }
 
@@ -125,5 +125,5 @@ static partial class CompiledRegs
             If true: throw to monkey (?<{nameof(Monkey<>.IfTrue)}>.*)
             If false: throw to monkey (?<{nameof(Monkey<>.IfFalse)}>.*)
         """)]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

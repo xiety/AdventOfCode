@@ -10,7 +10,7 @@ public static class Solver
         char[] vowels = ['a', 'e', 'i', 'o', 'u'];
         string[] bads = ["ab", "cd", "pq", "xy"];
 
-        return lines.Count(line => line.Count(vowels.Contains) >= 3
+        return lines.Count(line => line.Where(vowels.Contains).Skip(2).Any()
                                 && line.Chain().Any(b => b.First == b.Second)
                                 && !bads.Any(line.Contains));
     }
@@ -22,18 +22,18 @@ public static class Solver
 
     [GeneratedTest<int>(2, 238)]
     public static int RunARegex(string[] lines)
-        => lines.Count(CompiledRegs.RegexA().IsMatch);
+        => lines.Count(CompiledRegs.RegexA.IsMatch);
 
     [GeneratedTest<int>(2, 69)]
     public static int RunBRegex(string[] lines)
-        => lines.Count(CompiledRegs.RegexB().IsMatch);
+        => lines.Count(CompiledRegs.RegexB.IsMatch);
 }
 
 static partial class CompiledRegs
 {
     [GeneratedRegex(@"^(?=.*(.)\1)(?=.*[aeiou].*[aeiou].*[aeiou])(?!.*(ab|cd|pq|xy))")]
-    public static partial Regex RegexA();
+    public static partial Regex RegexA { get; }
 
     [GeneratedRegex(@"^(?=.*(..).*\1)(?=.*(.).\2)")]
-    public static partial Regex RegexB();
+    public static partial Regex RegexB { get; }
 }

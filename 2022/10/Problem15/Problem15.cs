@@ -91,5 +91,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"Sensor at x=(?<{nameof(ParsedItem.SensorX)}>-?\d+), y=(?<{nameof(ParsedItem.SensorY)}>-?\d+): closest beacon is at x=(?<{nameof(ParsedItem.BeaconX)}>-?\d+), y=(?<{nameof(ParsedItem.BeaconY)}>-?\d+)")]
     [MapTo<ParsedItem>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

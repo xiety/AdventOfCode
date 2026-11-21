@@ -166,13 +166,13 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(ItemRaw1.Name)}>\w+)\{{((?<{nameof(ItemRaw1.Conditions)}>\w[\<\>]\d+\:\w+)\,)+(?<{nameof(ItemRaw1.LastCondition)}>\w+)\}}$")]
     [MapTo<ItemRaw1>]
-    public static partial Regex Regex1();
+    public static partial Regex Regex1 { get; }
 
     [GeneratedRegex(@$"^(?<{nameof(Item1Condition.Variable)}>\w)(?<{nameof(Item1Condition.Operation)}>[\<\>])(?<{nameof(Item1Condition.Number)}>\d+)\:(?<{nameof(Item1Condition.Output)}>\w+)$")]
     [MapTo<Item1Condition>]
-    public static partial Regex Regex2();
+    public static partial Regex Regex2 { get; }
 
     [GeneratedRegex(@$"^\{{((?<{nameof(Item2.Variables)}>\w)=(?<{nameof(Item2.Values)}>\d+)\,?)+\}}$")]
     [MapTo<Item2>]
-    public static partial Regex Regex3();
+    public static partial Regex Regex3 { get; }
 }

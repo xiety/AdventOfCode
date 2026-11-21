@@ -86,5 +86,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^target area: x=(?<{nameof(Item.FromX)}>-?\d+)\.\.(?<{nameof(Item.ToX)}>-?\d+), y=(?<{nameof(Item.FromY)}>-?\d+)\.\.(?<{nameof(Item.ToY)}>-?\d+)$")]
     [MapTo<Item>]
-    public static partial Regex MapRegex();
+    public static partial Regex MapRegex { get; }
 }

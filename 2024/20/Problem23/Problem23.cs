@@ -11,7 +11,7 @@ public static class Solver
                     from node in nodes
                     where node != connection.Item1
                        && node != connection.Item2
-                    where connections.Contains((connection.Item1, node))
+                       && connections.Contains((connection.Item1, node))
                        && connections.Contains((connection.Item2, node))
                     let array = (string[])[connection.Item1, connection.Item2, node]
                     where array.Any(a => a.StartsWith('t'))

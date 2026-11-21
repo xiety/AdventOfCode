@@ -29,5 +29,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^Blueprint (?<{nameof(Item.Number)}>\d+): Each ore robot costs (?<{nameof(Item.OreOreCost)}>\d+) ore. Each clay robot costs (?<{nameof(Item.ClayOreCost)}>\d+) ore. Each obsidian robot costs (?<{nameof(Item.ObsidianOreCost)}>\d+) ore and (?<{nameof(Item.ObsidianClayCost)}>\d+) clay. Each geode robot costs (?<{nameof(Item.GeodeOreCost)}>\d+) ore and (?<{nameof(Item.GeodeObsidianCost)}>\d+) obsidian.$")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

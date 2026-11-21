@@ -67,5 +67,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Connection.From)}>.+) to (?<{nameof(Connection.To)}>.+) = (?<{nameof(Connection.Distance)}>\d+)$")]
     [MapTo<Connection>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

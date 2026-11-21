@@ -7,7 +7,7 @@ public static class Solver
 {
     [GeneratedTest<int>(6, 119433)]
     public static int RunA(string[] lines)
-        => CompiledRegs.Regex().Matches(lines[0]).Sum(a => int.Parse(a.Value));
+        => CompiledRegs.Regex.Matches(lines[0]).Sum(a => int.Parse(a.Value));
 
     [GeneratedTest<int>(6, 119433)]
     public static int RunAJson(string[] lines)
@@ -52,5 +52,5 @@ public static class Solver
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"\-?[0-9]+")]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

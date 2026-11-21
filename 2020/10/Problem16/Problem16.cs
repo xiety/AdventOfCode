@@ -90,5 +90,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(ItemRegion.Name)}>.+)\: (?<{nameof(ItemRegion.From1)}>\d+)-(?<{nameof(ItemRegion.To1)}>\d+) or (?<{nameof(ItemRegion.From2)}>\d+)-(?<{nameof(ItemRegion.To2)}>\d+)$")]
     [MapTo<ItemRegion>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

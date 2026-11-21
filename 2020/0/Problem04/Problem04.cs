@@ -11,8 +11,7 @@ public static class Solver
     [GeneratedTest<int>(2, 184)]
     public static int RunB(string[] lines)
         => LoadData(lines)
-            .Where(ValidateRequired)
-            .Count(a => a.All(Validate));
+            .Count(a => ValidateRequired(a) && a.All(Validate));
 
     static bool ValidateRequired(Item[] items)
         => items
@@ -45,7 +44,7 @@ public static class Solver
         };
 
     static bool ValidateColor(string value)
-        => CompiledRegs.RegexColor().IsMatch(value);
+        => CompiledRegs.RegexColor.IsMatch(value);
 
     static bool ValidateEye(string value)
         => value.Inside("amb", "blu", "brn", "gry", "grn", "hzl", "oth");
@@ -66,12 +65,12 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.Key)}>.+)\:(?<{nameof(Item.Value)}>.+)$")]
     [MapTo<Item>]
-    public static partial Regex RegexItem();
+    public static partial Regex RegexItem { get; }
 
     [GeneratedRegex(@"^\#[0-9a-f]{6}$")]
-    public static partial Regex RegexColor();
+    public static partial Regex RegexColor { get; }
 
     [GeneratedRegex(@$"^(?<{nameof(Height.Value)}>\d+)(?<{nameof(Height.Unit)}>(in|cm))$")]
     [MapTo<Height>]
-    public static partial Regex RegexHeight();
+    public static partial Regex RegexHeight { get; }
 }

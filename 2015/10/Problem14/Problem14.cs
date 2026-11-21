@@ -44,5 +44,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^.+ can fly (?<{nameof(Item.Speed)}>\d+) km/s for (?<{nameof(Item.Time)}>\d+) seconds, but then must rest for (?<{nameof(Item.Rest)}>\d+) seconds.$")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

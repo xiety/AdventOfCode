@@ -82,5 +82,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Region.Width)}>\d+)x(?<{nameof(Region.Height)}>\d+)\:\s((?<{nameof(Region.Nums)}>\d+)\s?)+$")]
     [MapTo<Region>]
-    public static partial Regex RegionRegex();
+    public static partial Regex RegionRegex { get; }
 }

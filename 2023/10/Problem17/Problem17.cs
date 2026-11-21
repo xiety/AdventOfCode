@@ -72,7 +72,7 @@ public static class Solver
 
                         var starList = star.GetOrCreate(newKey, () => []);
 
-                        if (starList.Any(a => a.OffsetSteps == offsetSteps && a.Value <= newValue))
+                        if (starList.Exists(a => a.OffsetSteps == offsetSteps && a.Value <= newValue))
                             continue;
 
                         if (newPos == end)

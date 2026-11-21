@@ -41,5 +41,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^.+: capacity (?<{nameof(ItemRaw.Capacity)}>-?\d+), durability (?<{nameof(ItemRaw.Durability)}>-?\d+), flavor (?<{nameof(ItemRaw.Flavor)}>-?\d+), texture (?<{nameof(ItemRaw.Texture)}>-?\d+), calories (?<{nameof(ItemRaw.Calories)}>-?\d+)$")]
     [MapTo<ItemRaw>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

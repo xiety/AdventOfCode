@@ -18,7 +18,10 @@ public static class Solver
             (memo, seq, level) => num == level - 1
                 ? seq.Length
                 : FindOnMap(level == 0 ? mapPad : mapJoy, seq)
-                    .Min(a => a.Sum(b => memo(b, level + 1))));
+                    .Min(a => Sum(memo, level, a)));
+
+    static long Sum(Func<string, int, long> memo, int level, string[] array)
+        => array.Sum(b => memo(b, level + 1));
 
     static string[][] FindOnMap(char[,] panel, string sequence)
     {

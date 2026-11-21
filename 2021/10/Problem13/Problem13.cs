@@ -102,11 +102,11 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(MapItem.X)}>\d+),(?<{nameof(MapItem.Y)}>\d+)$")]
     [MapTo<MapItem>]
-    public static partial Regex MapRegex();
+    public static partial Regex MapRegex { get; }
 
     [GeneratedRegex(@$"^fold along (?<{nameof(FoldItem.Axis)}>\w)=(?<{nameof(FoldItem.Num)}>\d+)")]
     [MapTo<FoldItem>]
-    public static partial Regex FoldRegex();
+    public static partial Regex FoldRegex { get; }
 }
 
 static class ResultData

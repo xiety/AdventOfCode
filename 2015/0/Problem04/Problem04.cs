@@ -23,7 +23,7 @@ public static class Solver
             var input = text + n.ToString();
             var h = CalcMD5(input);
 
-            if (h.StartsWith(start))
+            if (h.StartsWith(start, StringComparison.Ordinal))
                 break;
 
             n++;
@@ -37,6 +37,6 @@ public static class Solver
     {
         var inputBytes = Encoding.UTF8.GetBytes(input);
         var hashBytes = System.Security.Cryptography.MD5.HashData(inputBytes);
-        return String.Concat(hashBytes.Select(a => a.ToString("x2")));
+        return Convert.ToHexStringLower(hashBytes);
     }
 }

@@ -24,5 +24,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"(?<{nameof(Item.From1)}>\d*)-(?<{nameof(Item.To1)}>\d*),(?<{nameof(Item.From2)}>\d*)-(?<{nameof(Item.To2)}>\d*)")]
     [MapTo<Item>]
-    public static partial Regex Line();
+    public static partial Regex Line { get; }
 }

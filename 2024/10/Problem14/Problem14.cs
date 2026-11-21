@@ -35,7 +35,7 @@ public static class Solver
 
             seconds++;
 
-            if (robots.DistinctBy(a => a.Pos).Count() == robots.Length)
+            if (robots.DistinctBy(a => a.Pos).Take(robots.Length + 1).Count() == robots.Length)
             {
                 var map = ToMap(robots, width, height);
 
@@ -109,7 +109,7 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^p=(?<{nameof(Item.Px)}>\-?\d+),(?<{nameof(Item.Py)}>\-?\d+) v=(?<{nameof(Item.Vx)}>\-?\d+),(?<{nameof(Item.Vy)}>\-?\d+)$")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }
 
 static class Data

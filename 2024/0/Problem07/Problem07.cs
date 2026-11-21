@@ -50,5 +50,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"(?<{nameof(Item.Result)}>\d+)\: (?<{nameof(Item.Values)}>\d+)( (?<{nameof(Item.Values)}>\d+))*")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

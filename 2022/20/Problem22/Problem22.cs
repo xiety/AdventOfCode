@@ -127,11 +127,11 @@ public static class Solver
     }
 
     static Base[] ParsePath(string pathText)
-        => CompiledRegs.RegexPath()
+        => CompiledRegs.RegexPath
            .Matches(pathText)
            .ToArray(a => a.Groups[nameof(Distance)].Success
-               ? (Base)new Distance(int.Parse(a.Groups[nameof(Distance)].Value))
-               : (Base)new Turn(a.Groups[nameof(Turn)].Value));
+               ? (Base)new Distance(int.Parse(a[nameof(Distance)]))
+               : (Base)new Turn(a[nameof(Turn)]));
 }
 
 record Base;
@@ -154,7 +154,7 @@ public sealed class Map(string[] data)
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"(?:(?<{nameof(Distance)}>\d+)|(?<{nameof(Turn)}>[RL]))")]
-    public static partial Regex RegexPath();
+    public static partial Regex RegexPath { get; }
 }
 
 enum Rotation

@@ -14,11 +14,11 @@ public static class Solver
 
     [GeneratedTest<long>(1227775554, 21898734247)]
     public static long RunARegex(string[] lines)
-        => Run(lines, a => !CompiledRegs.CheckA().IsMatch(a.ToString()));
+        => Run(lines, a => !CompiledRegs.CheckA.IsMatch(a.ToString()));
 
     [GeneratedTest<long>(4174379265, 28915664389)]
     public static long RunBRegex(string[] lines)
-        => Run(lines, a => !CompiledRegs.CheckB().IsMatch(a.ToString()));
+        => Run(lines, a => !CompiledRegs.CheckB.IsMatch(a.ToString()));
 
     static long Run(string[] lines, Func<long, bool> isValid)
         => LoadData(lines)
@@ -48,11 +48,11 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.From)}>\d+)\-(?<{nameof(Item.To)}>\d+)$")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 
     [GeneratedRegex(@$"^(\d+)\1$")]
-    public static partial Regex CheckA();
+    public static partial Regex CheckA { get; }
 
     [GeneratedRegex(@$"^(\d+)\1+$")]
-    public static partial Regex CheckB();
+    public static partial Regex CheckB { get; }
 }

@@ -51,6 +51,6 @@ public class ObjFile
             writer.WriteLine($"v {v[0]} {v[1]} {v[2]}");
 
         foreach (var f in fList)
-            writer.WriteLine($"f {String.Join(" ", f)}");
+            writer.WriteLine($"f {String.Join(' ', f)}");
     }
 }

@@ -12,7 +12,7 @@ public static class Solver
 
         return lines.Index()
             .SelectMany(a =>
-                CompiledRegs.Regex().Matches(a.Item)
+                CompiledRegs.Regex.Matches(a.Item)
                     .Where(m => Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.Index - 1, a.Index + 2))
                         .Select(b => (px: b[0], py: b[1]))
                         .Any(pos => pos.py >= 0 && pos.py < height && pos.px >= 0 && pos.px < width
@@ -31,15 +31,15 @@ public static class Solver
 
         return lines.Index()
             .SelectMany(a =>
-                CompiledRegs.Regex().Matches(a.Item)
+                CompiledRegs.Regex.Matches(a.Item)
                     .SelectMany(m =>
                         Fors.For((m.Index - 1, m.Index + m.Length + 1), (a.Index - 1, a.Index + 2))
                             .Select(b => (px: b[0], py: b[1]))
-                            .Where(pos => pos.py >= 0 && pos.py < height && pos.px >= 0 && pos.px < width)
-                            .Where(pos => lines[pos.py][pos.px] is '*')
+                            .Where(pos => pos.py >= 0 && pos.py < height && pos.px >= 0 && pos.px < width
+                                       && lines[pos.py][pos.px] is '*')
                             .Select(pos => (pos, value: int.Parse(m.Value)))))
             .GroupBy(a => a.pos)
-            .Where(a => a.Count() == 2)
+            .Where(a => a.Take(3).Count() == 2)
             .Sum(a => a.Mul(b => b.value));
     }
 
@@ -50,5 +50,5 @@ public static class Solver
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"\d+")]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

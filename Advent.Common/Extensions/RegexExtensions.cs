@@ -24,6 +24,12 @@ public static class RegexExtensions
 
     extension(Match match)
     {
+        public string this[string name]
+            => match.Groups[name].Value;
+
+        public string this[int index]
+            => match.Groups[index].Value;
+
         public T MapTo<T>()
         {
             if (!match.Success)
@@ -32,7 +38,7 @@ public static class RegexExtensions
             var type = typeof(T);
 
             if (type == typeof(string) || type == typeof(int))
-                return (T)Convert.ChangeType(match.Groups[1].Value, type);
+                return (T)Convert.ChangeType(match[1], type);
 
             var constructor = type.GetConstructors()[0];
             var parameters = constructor.GetParameters();
@@ -143,7 +149,7 @@ public static class RegexExtensions
 public sealed class RegexParserAttribute<T, TR> : Attribute
     where T : IRegexParser<TR>, new()
 {
-    public T CreateParser()
+    public T CreateParser() //called dynamically
         => new();
 }
 
@@ -152,5 +158,5 @@ public interface IRegexParser<out T>
     T Parse(string text);
 }
 
-[AttributeUsage(AttributeTargets.Method)]
+[AttributeUsage(AttributeTargets.Property)]
 public sealed class MapToAttribute<T> : Attribute;

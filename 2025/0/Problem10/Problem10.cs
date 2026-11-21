@@ -60,10 +60,10 @@ public static class Solver
     static Item[] LoadData(string[] lines)
         => lines.ToArray(a =>
         {
-            var m = CompiledRegs.Regex().Match(a);
-            var lights = m.Groups[nameof(Item.Lights)].Value;
+            var m = CompiledRegs.Regex.Match(a);
+            var lights = m[nameof(Item.Lights)];
             var buttons = m.Groups[nameof(Item.Buttons)].Captures.ToArray(b => b.Value.Split(",").ToArray(int.Parse));
-            var jolts = m.Groups[nameof(Item.Jolts)].Value.Split(",").ToArray(int.Parse);
+            var jolts = m[nameof(Item.Jolts)].Split(",").ToArray(int.Parse);
 
             return new Item(lights, buttons, jolts);
         });
@@ -74,5 +74,5 @@ record Item(string Lights, int[][] Buttons, int[] Jolts);
 static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^\[(?<{nameof(Item.Lights)}>.+?)\] (\((?<{nameof(Item.Buttons)}>.+?)\) )+\{{(?<{nameof(Item.Jolts)}>.+?)\}}$")]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

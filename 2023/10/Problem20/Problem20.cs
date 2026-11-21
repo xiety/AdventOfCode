@@ -64,7 +64,7 @@ public static class Solver
             if (Process(currentList, newList, dic, conjDic, true, buttonPress))
                 break;
         }
-        while (conjDic.Count(a => prev.Contains(a.Key)) != prev.Count
+        while (conjDic.Where(a => prev.Contains(a.Key)).Take(prev.Count + 1).Count() != prev.Count
             || !conjDic.Where(a => prev.Contains(a.Key)).All(a => a.Value.Count > 1));
 
         return Math.LCM(conjDic.Where(a => prev.Contains(a.Key))
@@ -270,5 +270,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.Name)}>.\w+|broadcaster) \-\> ((?<{nameof(Item.Outputs)}>\w+)(\, )?)+$")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

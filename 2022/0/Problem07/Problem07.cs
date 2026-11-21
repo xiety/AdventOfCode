@@ -121,13 +121,13 @@ public static class Solver
         const string prefix = "$ ";
         const string cdPrefix = "cd ";
 
-        foreach (var chunk in lines.SplitBy(a => a.StartsWith(prefix)))
+        foreach (var chunk in lines.SplitBy(a => a.StartsWith(prefix, StringComparison.Ordinal)))
         {
             if (chunk.ToArray() is [var input, .. var output])
             {
                 var command = input[prefix.Length..];
 
-                if (command.StartsWith(cdPrefix))
+                if (command.StartsWith(cdPrefix, StringComparison.Ordinal))
                     yield return new CommandCd(command[cdPrefix.Length..]);
                 else if (command == "ls")
                     yield return new CommandLs(output.ToArray(Parse));
@@ -139,7 +139,7 @@ public static class Solver
     {
         const string dirPrefix = "dir ";
 
-        if (line.StartsWith(dirPrefix))
+        if (line.StartsWith(dirPrefix, StringComparison.Ordinal))
             return new CommandLsDir(line[dirPrefix.Length..]);
 
         var n = line.IndexOf(' ');
@@ -158,10 +158,10 @@ public static class Solver
     }
 }
 
-abstract record Command;
+closed record Command;
 record CommandCd(string Dir) : Command;
 record CommandLs(CommandLsItem[] Output) : Command;
-abstract record CommandLsItem(string Name);
+closed record CommandLsItem(string Name);
 record CommandLsFile(string Name, long Size) : CommandLsItem(Name);
 record CommandLsDir(string Name) : CommandLsItem(Name);
 

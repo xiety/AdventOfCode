@@ -48,5 +48,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Item.From)}>.+)\:\s((?<{nameof(Item.To)}>[^\s]+)\s?)+$")]
     [MapTo<Item>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

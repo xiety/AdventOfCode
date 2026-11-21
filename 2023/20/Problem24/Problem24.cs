@@ -55,5 +55,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^(?<{nameof(Line.X)}>\d+),\s+(?<{nameof(Line.Y)}>\d+),\s+(?<{nameof(Line.Z)}>\d+)\s+@\s+(?<{nameof(Line.VX)}>-?\d+),\s+(?<{nameof(Line.VY)}>-?\d+),\s+(?<{nameof(Line.VZ)}>-?\d+)$")]
     [MapTo<Line>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }

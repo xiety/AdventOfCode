@@ -66,5 +66,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"move (?<{nameof(Item.Quantity)}>\d*) from (?<{nameof(Item.From)}>\d*) to (?<{nameof(Item.To)}>\d*)")]
     [MapTo<Item>]
-    public static partial Regex Line();
+    public static partial Regex Line { get; }
 }

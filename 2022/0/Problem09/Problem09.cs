@@ -109,5 +109,5 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"(?<{nameof(Item.Dir)}>\w) (?<{nameof(Item.Number)}>\d+)")]
     [MapTo<Item>]
-    public static partial Regex ItemRegex();
+    public static partial Regex ItemRegex { get; }
 }

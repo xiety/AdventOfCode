@@ -21,8 +21,8 @@ public static class Solver
 
         return points.EnumeratePairs()
             .Select(p => new Rect(p.First, p.Second))
-            .Where(rect => !edges.Any(rect.Intersects))
-            .Where(rect => IsInside(edges, rect.From))
+            .Where(rect => !edges.Any(rect.Intersects)
+                        && IsInside(edges, rect.From))
             .Max(a => a.Area);
     }
 

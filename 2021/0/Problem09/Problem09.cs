@@ -45,8 +45,8 @@ public static class Solver
             nextPositions = nextPositions
                 .SelectMany(nextPosition => data
                     .Offsetted(nextPosition)
-                    .Where(pos => data.Get(pos) < 9)
-                    .Where(pos => !list.Contains(pos)))
+                    .Where(pos => data.Get(pos) < 9
+                               && !list.Contains(pos)))
                 .ToArray();
 
             list.UnionWith(nextPositions);

@@ -63,9 +63,8 @@ static partial class CompiledRegs
 {
     [GeneratedRegex(@$"^mask = (.+)$")]
     [MapTo<string>]
-    public static partial Regex RegexMask();
-
+    public static partial Regex RegexMask { get; }
     [GeneratedRegex(@$"^mem\[(?<{nameof(ItemSet.Address)}>\d+)\] = (?<{nameof(ItemSet.Value)}>\d+)$")]
     [MapTo<ItemSet>]
-    public static partial Regex RegexSet();
+    public static partial Regex RegexSet { get; }
 }

@@ -16,7 +16,7 @@ public static class Solver
         return Enumerable.InfiniteSequence(0, 1)
             .TakeWhile(a => !limit || a < 1)
             .Select(_ => map.EnumeratePositionsOf(true)
-                .Where(a => map.Delted(a).Count(map.Get) < 4)
+                .Where(a => !map.Delted(a).Where(map.Get).Skip(3).Any())
                 .ToArray()
                 .Count(a => map.Set(a, false)))
             .TakeWhile(a => a > 0)

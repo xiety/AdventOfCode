@@ -68,7 +68,7 @@ record ItemRaw(int Number, string[] Names, int[] Values);
 
 static partial class CompiledRegs
 {
-    [GeneratedRegex(@$"^Sue (?<{nameof(ItemRaw.Number)}>\d+): ((?<{nameof(ItemRaw.Names)}>[^:]+): (?<{nameof(ItemRaw.Values)}>\d+)(,\s)?)*")]
+    [GeneratedRegex(@$"^Sue (?<{nameof(ItemRaw.Number)}>\d+): ((?<{nameof(ItemRaw.Names)}>[^:]+): (?<{nameof(ItemRaw.Values)}>\d+)(,\s)?)*$")]
     [MapTo<ItemRaw>]
-    public static partial Regex Regex();
+    public static partial Regex Regex { get; }
 }
