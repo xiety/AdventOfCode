@@ -133,7 +133,7 @@ public class TestGenerator : IIncrementalGenerator
                 try
                 {
                     var actual = {{(m.Symbol.IsStatic ? $"{className}.{m.Symbol.Name}" : $"solver.{m.Symbol.Name}")}}({{(hasBool ? $"lines, {sample.ToString().ToLower()}" : "lines")}});
-                    Assert.AreEqual({{(sample ? m.Sample : m.Input)}}, actual);
+                    Assert.AreEqual<{{m.Symbol.ReturnType.Name}}>({{(sample ? m.Sample : m.Input)}}, actual);
                 }
                 catch (NotImplementedException)
                 {

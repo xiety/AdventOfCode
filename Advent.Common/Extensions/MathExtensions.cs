@@ -39,24 +39,39 @@ public static class MathExtensions
             where T : INumber<T>
             => numbers.Aggregate(LCM);
 
-        public static T ModPow<T>(T value, T exponent, T modulus)
-            where T : INumber<T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, int, T>
+        public static T ModPow<T, TWide>(T value, T exponent, T modulus)
+            where T : IBinaryInteger<T>
+            where TWide : IBinaryInteger<TWide>
         {
-            var result = T.One;
+            if (modulus == T.One)
+                return T.Zero;
 
+            var result = T.One;
             value = Math.Mod(value, modulus);
 
             while (exponent > T.Zero)
             {
                 if ((exponent & T.One) == T.One)
-                    result = Math.Mod(result * value, modulus);
+                    result = MulMod<T, TWide>(result, value, modulus);
 
-                value = Math.Mod(value * value, modulus);
-
+                value = MulMod<T, TWide>(value, value, modulus);
                 exponent >>= 1;
             }
 
             return result;
+        }
+
+        public static T MulMod<T, TWide>(T a, T b, T mod)
+            where T : IBinaryInteger<T>
+            where TWide : IBinaryInteger<TWide>
+        {
+            var wa = TWide.CreateChecked(a);
+            var wb = TWide.CreateChecked(b);
+            var wmod = TWide.CreateChecked(mod);
+
+            var res = (wa * wb) % wmod;
+
+            return T.CreateChecked(res);
         }
     }
 
@@ -100,5 +115,14 @@ public static class MathExtensions
                 yield return array;
             }
         }
+    }
+
+    extension(ulong a)
+    {
+        public ulong MulMod(ulong b, ulong mod)
+            => Math.MulMod<ulong, UInt128>(a, b, mod);
+
+        public ulong ModPow(ulong b, ulong mod)
+            => Math.ModPow<ulong, UInt128>(a, b, mod);
     }
 }
